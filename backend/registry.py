@@ -83,6 +83,25 @@ def query_terms(query):
     return [normalise(t) for t in query.replace(",", " ").split() if t.strip()]
 
 
+EDGE_CHARS = " -.,;:'\"()"
+
+
+def strip_edges(text):
+    """Drop punctuation and padding from both ends of a string."""
+    return text.strip(EDGE_CHARS)
+
+
+def is_short_token(term):
+    """True for terms too short to match a field by substring.
+
+    A bare "A-" scores every address containing "A-3" or "A-4", which is
+    how a house number turns into a false blood group match. A token needs
+    real content before substring matching means anything, so anything
+    shorter than three characters is compared against whole values only.
+    """
+    return len(strip_edges(term)) < 3
+
+
 def match_score(record, terms, weights):
     """Score one record against the search terms.
 
@@ -104,10 +123,18 @@ def match_score(record, terms, weights):
         value = normalise(value)
 
         for term in terms:
-            if term in value:
-                score += weights.get(field, DEFAULT_WEIGHT)
-                matched_fields.append(field)
-                break
+            if term not in value:
+                continue
+
+            # A short token has to match the whole value rather than a
+            # slice of it, so "A-" hits a blood group of "A-" and never
+            # an address that begins "A-3".
+            if is_short_token(term) and strip_edges(value) != strip_edges(term):
+                continue
+
+            score += weights.get(field, DEFAULT_WEIGHT)
+            matched_fields.append(field)
+            break
 
     return score, matched_fields
 

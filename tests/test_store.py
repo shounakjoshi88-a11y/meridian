@@ -53,10 +53,13 @@ def test_next_id_increments():
     """next_id reads existing ids and returns the next free one."""
     with rollback():
         assert store.next_id("patients", "P-") == "P-0009", store.next_id("patients", "P-")
-        assert store.next_id("visits", "V-") == "V-0013"
+        assert store.next_id("visits", "V-") == "V-0021"
         assert store.next_id("medicines", "M-") == "M-0021"
-        assert store.next_id("stores", "S-") == "S-0007"
-    print("  ok  next_id returns P-0009, V-0013, M-0021, S-0007")
+        assert store.next_id("stores", "S-") == "S-0013"
+        assert store.next_id("hospitals", "H-") == "H-0011"
+        assert store.next_id("doctors", "D-") == "D-0013"
+    print("  ok  next_id returns P-0009, V-0021, M-0021, S-0013, "
+          "H-0011, D-0013")
 
 
 def test_next_id_after_delete_reuses_the_gap():
@@ -134,7 +137,7 @@ def test_read_all_reports_short_rows():
     with open(path, "r", newline="") as f:
         original = f.read()
 
-    # Ten columns declared, only eight supplied.
+    # Sixteen columns declared, only seven supplied.
     with open(path, "a", newline="") as f:
         f.write("P-9003,Short Row,30,male,9845012399,O+,Area\n")
 
@@ -163,8 +166,16 @@ def test_read_all_reports_malformed_rows():
     with open(path, "r", newline="") as f:
         original = f.read()
 
+    # Built from the field list rather than hand counted, so widening the
+    # schema cannot quietly turn this into a short-row test.
+    values = ["P-9002", "Bad Row", "30", "male", "123", "x@example.in",
+              "O+", "Somewhere", "Nagpur", "440001", "Nagpur",
+              "Maharashtra", "Kin", "9999999999", "2026-05-01", "note",
+              "EXTRA"]
+    assert len(values) == len(store.PATIENT_FIELDS) + 1, len(values)
+
     with open(path, "a", newline="") as f:
-        f.write("P-9002,Bad Row,30,male,123,O+,Area,City,2026-05-01,note,EXTRA\n")
+        f.write(",".join(values) + "\n")
 
     try:
         records, skipped = store.read_all("patients")
@@ -197,9 +208,10 @@ def test_visits_for_patient_sorted():
     """Visit history comes back in date order."""
     visits = store.visits_for("P-0003")
 
-    dates = [v["visit_date"] for v in visits]
+    dates = [v["scheduled_date"] for v in visits]
     assert dates == sorted(dates), dates
     assert len(visits) == 3, len(visits)
+    assert all(v["patient_id"] == "P-0003" for v in visits), visits
     print(f"  ok  P-0003 visit history sorted: {dates}")
 
 
@@ -273,9 +285,10 @@ def test_backup_copies_only_the_registries():
 
     names = sorted(os.path.basename(p) for p in written)
 
-    assert len(written) == 5, names
-    assert names == ["diseases.csv", "medicines.csv", "patients.csv",
-                     "stores.csv", "visits.csv"], names
+    assert len(written) == 7, names
+    assert names == ["diseases.csv", "doctors.csv", "hospitals.csv",
+                     "medicines.csv", "patients.csv", "stores.csv",
+                     "visits.csv"], names
 
     for path in written:
         assert os.path.exists(path), path
@@ -328,12 +341,24 @@ def test_patient_summary():
 
 def test_visit_symptom_set():
     """Visit.symptom_set splits pipes and normalises case."""
-    v = Visit("V-1", "P-1", "2026-01-01", " Fever | cough |FEVER")
+    v = Visit("V-1", "P-1", symptoms=" Fever | cough |FEVER")
 
     assert v.symptom_set() == {"fever", "cough"}, v.symptom_set()
-    assert Visit("V-2", "P-1", "2026-01-01", "").symptom_set() == set()
-    assert Visit("V-3", "P-1", "2026-01-01").symptom_set() == set()
+    assert Visit("V-2", "P-1", symptoms="").symptom_set() == set()
+    assert Visit("V-3", "P-1").symptom_set() == set()
     print("  ok  Visit.symptom_set normalises, de-duplicates, handles blanks")
+
+
+def test_visit_links_doctor_and_hospital():
+    """A visit carries the doctor and hospital it happened at."""
+    v = Visit("V-1", "P-1", doctor_id="D-02", hospital_id="H-01",
+              scheduled_date="2026-05-04", status="completed")
+
+    assert v.doctor_id == "D-02"
+    assert v.hospital_id == "H-01"
+    assert v.scheduled_date == "2026-05-04"
+    assert v.status == "completed"
+    print("  ok  Visit carries doctor_id, hospital_id and status")
 
 
 def test_model_row_order_matches_csv_header():
@@ -353,9 +378,32 @@ def test_count_records_matches_seeds():
     """Row counts are what the integrity checker expects."""
     counts = {t: store.count_records(t) for t in store.RECORDS}
 
-    assert counts == {"patients": 8, "visits": 12, "medicines": 20,
-                      "stores": 6, "diseases": 15}, counts
+    assert counts == {"patients": 8, "visits": 20, "medicines": 20,
+                      "stores": 12, "diseases": 15, "hospitals": 10,
+                      "doctors": 12}, counts
     print(f"  ok  seed row counts {counts}")
+
+
+def test_every_registry_ends_with_a_newline():
+    """A CSV without a trailing newline loses its last row on append.
+
+    Opening a file in append mode and writing starts at the current end
+    of file. If the last line has no newline, the new row is glued onto
+    the old one and both become a single malformed record. Four of the
+    seven registries were shipped this way before this test existed.
+    """
+    for record_type, (filename, _fields, _id_field) in store.RECORDS.items():
+        path = os.path.join(store.DATA_DIR, filename)
+
+        with open(path, "rb") as f:
+            raw = f.read()
+
+        assert raw != b"", f"{record_type} file is empty"
+        assert raw.endswith(b"\n"), (
+            f"{filename} has no trailing newline; the next append_row "
+            f"will corrupt {record_type}"
+        )
+    print(f"  ok  all {len(store.RECORDS)} registries end with a newline")
 
 
 def main():

@@ -137,26 +137,156 @@ def test_store_search_by_area():
     """Store search matches on area and city."""
     stores = load("stores")
 
-    results = registry.search_records(stores, "bengaluru", "stores")
+    results = registry.search_records(stores, "nagpur", "stores")
 
-    assert len(results) >= 2, results
+    assert len(results) >= 5, [r["name"] for r in results]
     for r in results:
-        assert r["city"] == "Bengaluru", r
-    print(f"  ok  store search 'bengaluru' -> {len(results)} matches")
+        assert r["city"] == "Nagpur", r
+    print(f"  ok  store search 'nagpur' -> {len(results)} matches")
+
+
+def test_store_search_by_nagpur_area():
+    """Searching a specific locality finds the stores on that street."""
+    stores = load("stores")
+
+    results = registry.search_records(stores, "dharangaon", "stores")
+    names = [r["name"] for r in results]
+
+    assert names, "expected a Dharangaon store"
+    for r in results:
+        assert "Dharangaon" in r["area"] or "Dharangaon" in r["name"], r
+    print(f"  ok  area search 'dharangaon' -> {len(results)} stores")
 
 
 def test_patient_search_tolerates_blank_blood_group():
-    """P-0006 has no blood group and must still be findable by name."""
+    """P-0006 has no blood group and must still be findable by name.
+
+    Searching a name that also appears in another patient's emergency
+    contact legitimately returns both, so the assertion checks that the
+    blank-blood-group patient is present and ranked first, rather than
+    being the only result.
+    """
     patients = load("patients")
 
     by_name = registry.search_records(patients, "sneha", "patients")
-    assert len(by_name) == 1, by_name
-    assert by_name[0]["patient_id"] == "P-0006", by_name[0]
-    assert by_name[0]["blood_group"] == "", repr(by_name[0]["blood_group"])
+
+    assert by_name, "expected at least one match"
+
+    top = by_name[0]
+    assert top["patient_id"] == "P-0006", top["patient_id"]
+    assert top["blood_group"] == "", repr(top["blood_group"])
+    assert "name" in top["matched_fields"], top["matched_fields"]
 
     by_bg = registry.search_records(patients, "A-", "patients")
     assert [r["patient_id"] for r in by_bg] == ["P-0007"], by_bg
-    print("  ok  patient with blank blood group searchable by name")
+    print(f"  ok  patient with a blank blood group searchable by name "
+          f"({len(by_name)} results, P-0006 first)")
+
+
+def test_patient_search_reaches_emergency_contact():
+    """A family member named in another patient's record is findable.
+
+    Searching "sneha" surfaces P-0003 too, because Sneha Mehta is his
+    emergency contact. That is intended, and the field carries a weight
+    so it never outranks a name match.
+    """
+    patients = load("patients")
+
+    results = registry.search_records(patients, "sneha", "patients")
+    ids = [r["patient_id"] for r in results]
+
+    assert "P-0006" in ids, ids
+    assert "P-0003" in ids, ids
+    assert ids[0] == "P-0006", "a name match must outrank an emergency contact"
+    print("  ok  emergency contact matches, but ranks below a name match")
+
+
+def test_hospital_search_by_speciality_area():
+    """Hospital search matches name, type and area."""
+    hospitals = load("hospitals")
+
+    results = registry.search_records(hospitals, "nagpur", "hospitals")
+    assert len(results) >= 5, [r["name"] for r in results]
+
+    by_type = registry.search_records(hospitals, "paediatric", "hospitals")
+    assert by_type, "expected the paediatric hospital to match on type"
+    assert "Paediatric" in by_type[0]["type"], by_type[0]
+
+    print(f"  ok  hospital search -> {len(results)} by city, "
+          f"{len(by_type)} by type")
+
+
+def test_doctor_search_ranks_specialisation_above_id():
+    """A doctor found by speciality must beat a bare id hit."""
+    doctors = load("doctors")
+
+    results = registry.search_records(doctors, "cardiology", "doctors")
+
+    assert results, "expected a cardiology match"
+    assert results[0]["specialisation"] == "Cardiology", results[0]
+    assert results[0]["doctor_id"] == "D-02", results[0]
+
+    # The hospital_id field is weighted 0 so it never contributes.
+    weighted = registry.FIELD_WEIGHTS["doctors"]["hospital_id"]
+    assert weighted == 0, weighted
+    print(f"  ok  doctor search 'cardiology' -> {results[0]['name']}")
+
+
+def test_doctor_validation_requires_real_hospital():
+    """A doctor cannot be attached to a hospital that does not exist."""
+    _, errors = registry.validate_record("doctors", {
+        "name": "Dr Test", "hospital_id": "H-99",
+    })
+
+    joined = " | ".join(errors)
+    assert "H-99" in joined, joined
+    assert "does not exist" in joined, joined
+
+    _, ok_errors = registry.validate_record("doctors", {
+        "name": "Dr Test", "hospital_id": "H-01",
+    })
+    assert ok_errors == [], ok_errors
+    print("  ok  doctor validation rejects an unknown hospital_id")
+
+
+def test_doctor_validation_checks_registration_format():
+    """Registration numbers must look like MMC-YYYY-NNNNNN."""
+    _, errors = registry.validate_record("doctors", {
+        "name": "Dr Test", "hospital_id": "H-01",
+        "registration_no": "ABC123",
+    })
+
+    assert any("MMC" in e for e in errors), errors
+
+    _, ok_errors = registry.validate_record("doctors", {
+        "name": "Dr Test", "hospital_id": "H-01",
+        "registration_no": "MMC-2004-118742",
+    })
+    assert ok_errors == [], ok_errors
+    print("  ok  registration_no format validated")
+
+
+def test_pincode_validation():
+    """A pincode must be exactly six digits."""
+    _, errors = registry.validate_record("hospitals", {
+        "name": "Test Hospital", "pincode": "44",
+    })
+    assert any("six digits" in e for e in errors), errors
+
+    _, ok_errors = registry.validate_record("hospitals", {
+        "name": "Test Hospital", "pincode": "440010",
+    })
+    assert ok_errors == [], ok_errors
+    print("  ok  pincode must be six digits")
+
+
+def test_negative_numbers_are_rejected():
+    """Beds and fees cannot be negative."""
+    _, errors = registry.validate_record("hospitals", {
+        "name": "Test Hospital", "beds": "-5",
+    })
+    assert any("negative" in e for e in errors), errors
+    print("  ok  negative numeric fields rejected")
 
 
 def test_stock_set_skips_blank():

@@ -177,8 +177,10 @@ def test_get_patient_with_visits():
     assert body["patient"]["name"] == "Rohan Mehta", body["patient"]
     assert body["visit_count"] == 3, body["visit_count"]
 
-    dates = [v["visit_date"] for v in body["visits"]]
+    dates = [v["scheduled_date"] for v in body["visits"]]
     assert dates == sorted(dates), dates
+    assert all(v["doctor_id"] for v in body["visits"]), body["visits"]
+    assert all(v["hospital_id"] for v in body["visits"]), body["visits"]
     print(f"  ok  GET /api/patients/P-0003 joins {body['visit_count']} visits")
 
 
@@ -370,8 +372,9 @@ def test_get_store_resolves_stock():
     """A store's stock ids resolve into medicine rows."""
     body = data(get("/api/stores/S-01"))
 
-    assert body["store"]["name"] == "MedPlus Central", body["store"]
+    assert body["store"]["name"] == "Apollo Pharmacy Dharangaon", body["store"]
     assert body["stock_count"] > 0, body
+    assert body["stock_count"] == len(body["medicines"]), body["stock_count"]
     for m in body["medicines"]:
         assert m["medicine_id"].startswith("M-"), m
     print(f"  ok  S-01 resolves {body['stock_count']} stocked medicines")
@@ -433,22 +436,28 @@ def test_search_medicines():
 
 
 def test_search_patients():
-    """Patient search works, including records with blank fields."""
+    """Patient search works, including records with blank fields.
+
+    "sneha" legitimately matches two people: Sneha Reddy by name and
+    Rohan Mehta by emergency contact. The name match must rank first.
+    """
     body = data(get("/api/search/patients", q="sneha"))
 
-    assert body["count"] == 1, body
+    assert body["count"] == 2, body
     assert body["results"][0]["patient_id"] == "P-0006", body["results"][0]
-    print("  ok  patient with a blank blood group is searchable by name")
+    assert body["results"][0]["blood_group"] == "", body["results"][0]
+    assert body["results"][0]["score"] > body["results"][1]["score"], body
+    print("  ok  blank blood group searchable, emergency contact ranks lower")
 
 
 def test_search_stores():
     """Store search matches on city."""
-    body = data(get("/api/search/stores", q="bengaluru"))
+    body = data(get("/api/search/stores", q="nagpur"))
 
-    assert body["count"] >= 2, body
+    assert body["count"] >= 5, body
     for r in body["results"]:
-        assert r["city"] == "Bengaluru", r
-    print(f"  ok  store search 'bengaluru' -> {body['count']} results")
+        assert r["city"] == "Nagpur", r
+    print(f"  ok  store search 'nagpur' -> {body['count']} results")
 
 
 def test_search_no_matches_is_200_not_404():
@@ -661,18 +670,19 @@ def test_missing_chart_is_404():
 # ----------------------------------------------------------------- backup
 
 def test_backup_route():
-    """Backup copies the five registries into a fresh folder."""
+    """Backup copies all seven registries into a fresh folder."""
     shutil.rmtree(store.BACKUP_DIR, ignore_errors=True)
 
     r = post("/api/backup")
     body = data(r)
 
     assert r.status_code == 200, r.status_code
-    assert body["count"] == 5, body
+    assert body["count"] == 7, body
 
     names = sorted(os.path.basename(p) for p in body["files"])
-    assert names == ["diseases.csv", "medicines.csv", "patients.csv",
-                     "stores.csv", "visits.csv"], names
+    assert names == ["diseases.csv", "doctors.csv", "hospitals.csv",
+                     "medicines.csv", "patients.csv", "stores.csv",
+                     "visits.csv"], names
 
     for path in body["files"]:
         assert os.path.exists(path), path
