@@ -1,0 +1,13 @@
+store_id,name,type,area,city,phone,hours,rating,stock_csv
+S-01,Apollo Pharmacy Dharangaon,Pharmacy,Dharangaon,Nagpur,07124851234,09:00-22:00,4.4,M-01|M-02|M-03|M-07|M-08|M-11|M-14|M-19|M-20
+S-02,MedPlus Sadar,Pharmacy,"Sadar, Central Avenue",Nagpur,07126641234,08:30-23:00,4.5,M-01|M-02|M-04|M-06|M-09|M-11|M-12|M-19|M-20
+S-03,CityCare Pharmacy Ramdaspeth,Pharmacy,Ramdaspeth,Nagpur,07123351234,09:00-21:00,3.9,M-01|M-03|M-05|M-07|M-11|M-13|M-20
+S-04,HealthFirst Medical Store Wardha Road,Medical Store,"Wardha Road, Near Std Colony",Nagpur,07122451234,10:00-20:30,4.1,M-02|M-04|M-08|M-10|M-14|M-17|M-19
+S-05,Wellness Pharmacy Sitabuldi,Pharmacy,Sitabuldi,Nagpur,07124561234,09:00-22:00,4.3,M-01|M-02|M-06|M-08|M-09|M-12|M-15|M-20
+S-06,City Medical Corner Manish Nagar,Pharmacy,"Manish Nagar, Ring Road",Nagpur,07127891234,09:00-21:00,3.6,
+S-07,LifeLine Pharmacy Chhatrapati Sambhajinagar,Pharmacy,"Chhatrapati Sambhajinagar, Plot No 12",Nagpur,07125671234,08:00-22:00,4.2,M-01|M-04|M-07|M-08|M-10|M-16|M-18|M-20
+S-08,Gandhi Medical Store Katol,Medical Store,"Katol, Nava Bazar",Nagpur,07126231234,09:30-20:00,3.7,M-02|M-13|M-14|M-17|M-19|M-20
+S-09,Matoshri Pharmacy Dharangaon,Pharmacy,"Dharangaon, Jewelry Line",Nagpur,07124231234,09:00-21:30,4.0,M-01|M-02|M-06|M-11|M-12|M-14|M-20
+S-10,Aapli Medicine Corner Bhopal,Pharmacy,"Bhopal Road, Near petrol pump",Nagpur,07127781234,10:00-20:00,3.4,M-01|M-05|M-11|M-15|M-20
+S-11,Balaji Medical Store Mumbai,Medical Store,"Andheri East",Mumbai,02228371234,09:00-22:00,4.4,M-02|M-04|M-08|M-10|M-14|M-17|M-19|M-20
+S-12,City Pharmacy Pune Camp,Pharmacy,"Pune Camp",Pune,02025561234,09:00-21:00,4.1,M-01|M-03|M-07|M-09|M-11|M-14|M-18|M-20

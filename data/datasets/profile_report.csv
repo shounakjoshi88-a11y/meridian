@@ -1,0 +1,5 @@
+file,rows,cols,numeric_cols,categorical_cols,missing_cells,missing_pct,target,numeric_names,passes,reason
+heart_disease.csv,303,14,13,0,6,0.14,target,"age, sex, cp, trestbps, chol, fbs",PASS,meets all criteria
+mammographic_masses.csv,961,7,6,0,1123,16.69,malignancy,"biopsy, age, density, parenchymal_sparsity, texture, shape",FAIL,16.69% missing (max 20.0%)
+parkinsons.csv,195,24,22,1,0,0.0,status,"fo_hz, fhi_hz, flo_hz, jitter_pct, jitter_abs, rap",PASS,meets all criteria
+pima_diabetes.csv,768,9,8,0,0,0.0,Outcome,"Pregnancies, Glucose, BloodPressure, SkinThickness, Insulin, BMI",PASS,meets all criteria

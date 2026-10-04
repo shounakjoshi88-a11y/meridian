@@ -1,0 +1,348 @@
+"""CSV persistence for Meridian.
+
+Taught concepts: open() in modes r/w/a/x, the with statement, readline,
+readlines, write, DictReader, DictWriter, seek, and the os module
+(listdir, walk, makedirs, path.exists, rename).
+
+Spec sections 4.1, 4.2 and 9. Every read returns (records, skipped) so a
+malformed row is reported rather than silently dropped.
+"""
+
+import csv
+import os
+import shutil
+from datetime import datetime
+
+DATA_DIR = "data"
+BACKUP_DIR = os.path.join(DATA_DIR, "backups")
+
+PATIENT_FIELDS = [
+    "patient_id", "name", "age", "gender", "phone", "email", "blood_group",
+    "address_line", "area", "pincode", "city", "state",
+    "emergency_contact", "emergency_phone", "registered_on", "notes",
+]
+
+VISIT_FIELDS = [
+    "visit_id", "patient_id", "doctor_id", "hospital_id",
+    "scheduled_date", "scheduled_time", "checked_in_at", "duration_minutes",
+    "reason", "symptoms", "diagnosis", "severity",
+    "vitals_bp", "vitals_pulse", "vitals_temp", "vitals_spo2",
+    "vitals_weight", "vitals_height", "follow_up_days", "status", "notes",
+]
+
+MEDICINE_FIELDS = [
+    "medicine_id", "name", "generic", "category", "form", "strength",
+    "otc", "rx_required", "storage", "price", "manufacturer",
+]
+
+STORE_FIELDS = [
+    "store_id", "name", "type", "area", "city", "phone", "hours",
+    "rating", "stock_csv",
+]
+
+DISEASE_FIELDS = [
+    "disease_id", "name", "severity", "symptoms", "medication",
+    "dosage", "age_range", "contraindications",
+]
+
+HOSPITAL_FIELDS = [
+    "hospital_id", "name", "type", "address_line", "area", "city", "state",
+    "pincode", "phone", "beds", "established_year", "accreditation",
+]
+
+DOCTOR_FIELDS = [
+    "doctor_id", "name", "qualification", "specialisation",
+    "registration_no", "hospital_id", "department", "room_no", "phone",
+    "consultation_fee", "experience_years", "languages", "availability",
+]
+
+RECORDS = {
+    "patients": ("patients.csv", PATIENT_FIELDS, "patient_id"),
+    "visits": ("visits.csv", VISIT_FIELDS, "visit_id"),
+    "medicines": ("medicines.csv", MEDICINE_FIELDS, "medicine_id"),
+    "stores": ("stores.csv", STORE_FIELDS, "store_id"),
+    "diseases": ("diseases.csv", DISEASE_FIELDS, "disease_id"),
+    "hospitals": ("hospitals.csv", HOSPITAL_FIELDS, "hospital_id"),
+    "doctors": ("doctors.csv", DOCTOR_FIELDS, "doctor_id"),
+}
+
+
+def path_for(record_type):
+    """Return the CSV path for a record type."""
+    return os.path.join(DATA_DIR, RECORDS[record_type][0])
+
+
+def fields_for(record_type):
+    """Return the column order for a record type."""
+    return RECORDS[record_type][1]
+
+
+def ensure_csv(record_type):
+    """Create the CSV with a header row if it is not there yet.
+
+    Uses mode 'x' first, then falls back to 'a' when the file already
+    exists. Mode 'x' raises FileExistsError, which is how we detect it.
+    """
+    path = path_for(record_type)
+    fields = fields_for(record_type)
+
+    try:
+        with open(path, "x", newline="") as f:
+            csv.DictWriter(f, fieldnames=fields).writeheader()
+        print(f"created {path}")
+        return True
+
+    except FileExistsError:
+        return False
+
+
+def read_all(record_type):
+    """Read a CSV into (records, skipped).
+
+    records  list of dicts, one per well-formed row
+    skipped  list of {"line": int, "reason": str} for rows we could not use
+
+    A row is skipped when it has too many fields, too few, or when the
+    header does not match the expected columns. This happens if someone
+    edits the file in a spreadsheet and leaves a stray comma. Spec
+    section 9 requires this to be visible, not silent.
+
+    Note that DictReader pads a short row with None values instead of
+    omitting the keys, so too-few and too-many both need checking.
+    """
+    path = path_for(record_type)
+    fields = fields_for(record_type)
+
+    if not os.path.exists(path):
+        ensure_csv(record_type)
+        return [], []
+
+    records = []
+    skipped = []
+
+    with open(path, "r", newline="") as f:
+        reader = csv.DictReader(f)
+        line = 1
+
+        for row in reader:
+            line += 1
+
+            # A None key holds the fields that were present but not
+            # declared in the header, so the row has too many.
+            if None in row:
+                skipped.append({
+                    "line": line,
+                    "reason": f"too many fields, expected {len(fields)}",
+                })
+                continue
+
+            missing = [k for k in fields if k not in row]
+            if missing:
+                skipped.append({
+                    "line": line,
+                    "reason": f"header mismatch, missing fields: "
+                              f"{', '.join(missing)}",
+                })
+                continue
+
+            # DictReader pads a short row with None rather than leaving the
+            # key out, so the checks above cannot see it. A None value here
+            # means the row ended early. Caught explicitly, because the
+            # (row[k] or "") below would otherwise blank the field and the
+            # record would look valid with data quietly lost.
+            padded = [k for k in fields if row[k] is None]
+            if padded:
+                skipped.append({
+                    "line": line,
+                    "reason": f"too few fields, missing values for: "
+                              f"{', '.join(padded)}",
+                })
+                continue
+
+            records.append({k: (row[k] or "").strip() for k in fields})
+
+    return records, skipped
+
+
+def append_row(record_type, row):
+    """Append one row to a CSV and return the stored dict.
+
+    Before appending we check the file ends with a newline. If it does
+    not, the previous row has no line terminator and our new row would be
+    joined onto it, producing one corrupt line instead of two valid ones.
+    That failure is silent, so we guard against it explicitly.
+    """
+    path = path_for(record_type)
+    fields = fields_for(record_type)
+
+    if not os.path.exists(path):
+        ensure_csv(record_type)
+
+    needs_newline = os.path.getsize(path) > 0
+    if needs_newline:
+        with open(path, "rb") as f:
+            f.seek(-1, 2)                      # seek to the last byte
+            needs_newline = f.read(1) != b"\n"
+
+    clean = {k: ("" if row.get(k) is None else str(row.get(k, "")).strip())
+             for k in fields}
+
+    with open(path, "a", newline="") as f:
+        if needs_newline:
+            f.write("\n")
+        csv.DictWriter(f, fieldnames=fields).writerow(clean)
+
+    return clean
+
+
+def get_by_id(record_type, target):
+    """Return the record whose id matches, or None."""
+    id_field = RECORDS[record_type][2]
+    records, _ = read_all(record_type)
+
+    for record in records:
+        if record[id_field] == target:
+            return record
+
+    return None
+
+
+def next_id(record_type, prefix):
+    """Return the next free id, zero padded to 4 digits.
+
+    Reads existing ids, takes the largest numeric suffix and adds one.
+    Zero padding keeps ids in lexicographic order, so P-0009 sorts before
+    P-0010 rather than after it.
+    """
+    id_field = RECORDS[record_type][2]
+    records, _ = read_all(record_type)
+
+    highest = 0
+
+    for record in records:
+        raw = record[id_field]
+        if not raw.startswith(prefix):
+            continue
+        suffix = raw[len(prefix):]
+        if suffix.isdigit():
+            highest = max(highest, int(suffix))
+
+    return f"{prefix}{highest + 1:04d}"
+
+
+def visits_for(patient_id):
+    """Return every consultation for one patient, oldest first."""
+    records, _ = read_all("visits")
+    mine = [r for r in records if r["patient_id"] == patient_id]
+    mine.sort(key=lambda r: (r["scheduled_date"], r["scheduled_time"]))
+    return mine
+
+
+def doctors_at(hospital_id):
+    """Return the doctors practising at one hospital."""
+    records, _ = read_all("doctors")
+    return [d for d in records if d["hospital_id"] == hospital_id]
+
+
+def visits_for_doctor(doctor_id):
+    """Return every consultation for one doctor, newest first."""
+    records, _ = read_all("visits")
+    mine = [v for v in records if v["doctor_id"] == doctor_id]
+    mine.sort(key=lambda r: (r["scheduled_date"], r["scheduled_time"]),
+              reverse=True)
+    return mine
+
+
+def update_row(record_type, id_field, target, updates):
+    """Rewrite one row with some fields changed.
+
+    CSV has no update mode, so this reads everything, changes the matching
+    row, then rewrites the file using mode 'w'. This is the merge-and-
+    overwrite pattern from the Lab 4 file-handling practical.
+    """
+    path = path_for(record_type)
+    fields = fields_for(record_type)
+
+    records, _ = read_all(record_type)
+    changed = None
+
+    for record in records:
+        if record[id_field] == target:
+            for key, value in updates.items():
+                if key in fields and key != id_field:
+                    record[key] = value
+            changed = record
+            break
+
+    if changed is None:
+        return None
+
+    with open(path, "w", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=fields)
+        writer.writeheader()
+        for record in records:
+            writer.writerow(record)
+
+    return changed
+
+
+def delete_row(record_type, id_field, target):
+    """Delete one row by rewriting the file without it. Returns True/False."""
+    path = path_for(record_type)
+    fields = fields_for(record_type)
+
+    records, _ = read_all(record_type)
+    kept = [r for r in records if r[id_field] != target]
+
+    if len(kept) == len(records):
+        return False
+
+    with open(path, "w", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=fields)
+        writer.writeheader()
+        for record in kept:
+            writer.writerow(record)
+
+    return True
+
+
+def backup_all():
+    """Copy the five registry CSVs into a timestamped backup folder.
+
+    Scope is deliberately limited to the registries. data/datasets/ holds
+    downloaded research data that never changes at runtime, and it contains
+    filenames that collide with the registry files once flattened into a
+    single folder, so including it would silently overwrite one with the
+    other.
+
+    Returns the list of destination paths written.
+    """
+    if not os.path.exists(DATA_DIR):
+        return []
+
+    stamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
+    destination = os.path.join(BACKUP_DIR, stamp)
+
+    if not os.path.exists(destination):
+        os.makedirs(destination)
+
+    written = []
+
+    for record_type in RECORDS:
+        filename = RECORDS[record_type][0]
+        source = os.path.join(DATA_DIR, filename)
+
+        if not os.path.exists(source):
+            continue
+
+        target = os.path.join(destination, filename)
+        shutil.copyfile(source, target)
+        written.append(target)
+
+    return written
+
+
+def count_records(record_type):
+    """Return how many rows a CSV holds."""
+    records, _ = read_all(record_type)
+    return len(records)

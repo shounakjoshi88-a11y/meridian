@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Generated charts, rebuilt by scripts/fetch_datasets.py
+backend/static/charts/
+static/charts/
+
+# Backups written by the /api/backup route
+data/backups/
+
+# Editor and OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Screenshots taken during UI review
+crit-*.png
+.playwright-mcp/

@@ -1,0 +1,16 @@
+disease_id,name,severity,symptoms,medication,dosage,age_range,contraindications
+D-01,Common Cold,low,"runny nose|sore throat|sneezing|cough|mild fatigue|chills",Paracetamol,500mg every 6 hours,0-70,
+D-02,Influenza,moderate,"fever|body ache|headache|cough|fatigue|chills|sore throat",Oseltamivir,75mg twice daily for 5 days,0-70,
+D-03,Type 2 Diabetes,high,"frequent urination|excessive thirst|increased hunger|fatigue|blurred vision|weight loss|slow healing wounds",Metformin,500mg twice daily with meals,30-70,"pregnancy|kidney disease"
+D-04,Type 1 Diabetes,severe,"frequent urination|excessive thirst|weight loss|fatigue|blurred vision|nausea|breath with fruity smell",Insulin,as prescribed by endocrinologist,5-40,"pregnancy|kidney disease"
+D-05,Dengue Fever,severe,"high fever|severe body ache|joint pain|rash|headache|nausea|bleeding gums",Paracetamol,500mg every 6 hours,0-60,"liver disease|kidney disease|pregnancy"
+D-06,Malaria,severe,"fever|chills|sweating|headache|body ache|nausea|fatigue|muscle pain",Artemisinin-based combination,as directed by clinician,0-60,"pregnancy|liver disease"
+D-07,Hypertension,moderate,"headache|dizziness|blurred vision|chest pain|shortness of breath|irregular heartbeat",Amlodipine,5mg once daily,30-80,"pregnancy|heart failure"
+D-08,Hypothyroidism,moderate,"fatigue|weight gain|cold intolerance|dry skin|hair loss|constipation|depression",Levothyroxine,75micrograms once daily,20-70,"pregnancy"
+D-09,Asthma,moderate,"shortness of breath|wheezing|cough|chest tightness|fatigue",Salbutamol inhaler,2 puffs as needed,5-60,
+D-10,Gastroenteritis,moderate,"diarrhoea|vomiting|abdominal pain|nausea|fever|dehydration",ORS plus Zinc,as directed by clinician,0-70,"kidney disease"
+D-11,Urinary Tract Infection,moderate,"burning urination|frequent urination|lower abdominal pain|cloudy urine|fever",Nitrofurantoin,100mg twice daily for 7 days,18-70,"pregnancy|kidney disease"
+D-12,Iron Deficiency Anaemia,moderate,"fatigue|pale skin|shortness of breath|dizziness|headache|fast heartbeat",Ferrous Sulphate,325mg once daily,15-70,"pregnancy"
+D-13,Migraine,moderate,"severe headache|nausea|sensitivity to light|sensitivity to sound|visual disturbance",Sumatriptan,50mg at onset of migraine,15-60,"heart disease|pregnancy"
+D-14,Anxiety Disorder,moderate,"persistent worry|restlessness|irritability|difficulty concentrating|sleep disturbance|palpitations",Sertraline,25mg once daily,18-65,"pregnancy"
+D-15,COVID-19,moderate,"fever|cough|fatigue|shortness of breath|loss of taste|loss of smell|sore throat",Paracetamol,500mg every 6 hours,0-70,

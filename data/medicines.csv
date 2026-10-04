@@ -1,0 +1,21 @@
+medicine_id,name,generic,category,form,strength,otc,rx_required,storage,price,manufacturer
+M-01,Paracetamol 500mg,Paracetamol,Analgesic,Tablet,500mg,yes,no,cool and dry,3.50,Cadila
+M-02,Paracetamol 650mg,Paracetamol,Analgesic,Tablet,650mg,yes,no,cool and dry,5.00,Cadila
+M-03,Metformin 500mg,Metformin,Antidiabetic,Tablet,500mg,no,yes,cool and dry,34.50,Ranbaxy
+M-04,Metformin Extended 1000mg,Metformin,Antidiabetic,Tablet,1000mg,no,yes,cool and dry,58.00,Sun Pharma
+M-05,Oseltamivir 75mg,Oseltamivir,Antiviral,Capsule,75mg,no,yes,cool and dry,145.00,Cipla
+M-06,Ambroxol Syrup,Ambroxol,Expectorant,Syrup,30mg per 5ml,no,yes,cool and dry,48.00,Himaja
+M-07,Losartan 50mg,Losartan,Antihypertensive,Tablet,50mg,no,yes,cool and dry,62.00,Torrent
+M-08,Amlodipine 5mg,Amlodipine,Antihypertensive,Tablet,5mg,no,yes,cool and dry,38.50,Alembic
+M-09,Levothyroxine 75mcg,Levothyroxine,Thyroid hormone,Tablet,75mcg,no,yes,cool and dry,94.00,GSK
+M-10,Salbutamol Inhaler,Salbutamol,Bronchodilator,Inhaler,100mcg per puff,no,yes,keep away from heat,210.00,Cipla
+M-11,ORS Sachet,Oral Rehydration Salts,Rehydration,Sachet,per sachet,yes,no,cool and dry,15.00,FDC
+M-12,Zinc 20mg,Zinc sulphate,Supplement,Tablet,20mg,yes,no,cool and dry,22.00,Sun Pharma
+M-13,Nitrofurantoin 100mg,Nitrofurantoin,Antibiotic,Tablet,100mg,no,yes,cool and dry,88.00,Ranbaxy
+M-14,Ferrous Sulphate 325mg,Ferrous Sulphate,Supplement,Tablet,325mg,no,yes,cool and dry,26.00,Abbott
+M-15,Sumtriptan 50mg,Sumatriptan,Triptan,Tablet,50mg,no,yes,cool and dry,118.00,Cipla
+M-16,Sertraline 25mg,Sertraline,Antidepressant,Tablet,25mg,no,yes,cool and dry,76.00,Lupin
+M-17,Insulin Glargine,Insulin glargine,Antidiabetic,Injection,100 units per ml,no,yes,refrigerated do not freeze,1450.00,Sanofi
+M-18,Artemisinin Combination,Artemether-Lumefantrine,Antimalarial,Tablet,20mg-120mg,no,yes,cool and dry,135.00,Cipla
+M-19,Glucometer Blood Kit,Glucose meter,Diagnostic,Device,one unit,yes,no,cool and dry,1250.00,Roche
+M-20,Digital Thermometer,Thermometer,Diagnostic,Device,one unit,yes,no,cool and dry,180.00,Omron

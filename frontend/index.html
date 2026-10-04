@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Meridian</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+
+<header class="header">
+  <div class="header__inner">
+    <span class="brand">Meridian</span>
+    <nav class="nav" aria-label="Sections">
+      <a class="nav__link" href="#triage" data-view="triage">Triage</a>
+      <a class="nav__link" href="#patients" data-view="patients">Patients</a>
+      <a class="nav__link" href="#medicines" data-view="medicines">Medicines</a>
+      <a class="nav__link" href="#stores" data-view="stores">Stores</a>
+      <a class="nav__link" href="#analytics" data-view="analytics">Cohorts</a>
+    </nav>
+  </div>
+</header>
+
+<main class="page">
+
+  <!-- ------------------------------------------------------- triage -->
+  <section id="view-triage" hidden>
+    <div class="page__head">
+      <h1 class="page__title">Triage</h1>
+      <p class="page__lead">
+        Rank candidate conditions from reported symptoms. Matching is set
+        algebra over the knowledge base, not a diagnosis.
+      </p>
+    </div>
+
+    <div class="split split--triage">
+      <div class="panel">
+        <form id="triage-form" novalidate>
+          <div class="field">
+            <label class="field__label" for="triage-symptoms">Reported symptoms</label>
+            <textarea class="input" id="triage-symptoms"
+                      placeholder="fever, headache, joint pain"
+                      autocomplete="off"></textarea>
+            <p class="field__hint">Separate with commas or pipes.</p>
+          </div>
+
+          <div class="field">
+            <label class="field__label" for="triage-conditions">Existing conditions</label>
+            <input class="input" id="triage-conditions"
+                   placeholder="kidney disease" autocomplete="off">
+            <p class="field__hint">Optional. Used to check contraindications.</p>
+          </div>
+
+          <button class="btn btn--primary" type="submit" id="triage-submit">
+            Rank conditions
+          </button>
+        </form>
+      </div>
+
+      <div id="triage-results" aria-live="polite">
+        <div class="state">
+          <svg class="empty-art" viewBox="0 0 96 72" width="104" height="78"
+               aria-hidden="true">
+            <path class="draw" pathLength="1" d="M24 14h30M24 26h30M24 38h22"/>
+            <path class="draw draw--2" pathLength="1" d="M62 14h10M62 26h10M62 38h10"/>
+            <path class="draw draw--3" pathLength="1"
+                  d="M18 52h60M18 52l8 8M78 52l-8 8" stroke="var(--accent)"/>
+          </svg>
+          <h2 class="state__title">No symptoms entered</h2>
+          <p class="state__body">
+            List the symptoms a patient reports and the knowledge base will
+            be ranked by how much each condition explains them.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ----------------------------------------------------- patients -->
+  <section id="view-patients" hidden>
+    <div class="page__head">
+      <h1 class="page__title">Patients</h1>
+      <p class="page__lead">
+        Records held in <code>data/patients.csv</code>. Search tolerates
+        incomplete entries and returns a ranked list.
+      </p>
+    </div>
+
+    <div class="field" style="max-width: 420px;">
+      <label class="field__label" for="patient-search">Search patients</label>
+      <input class="input" id="patient-search" placeholder="name, area, blood group"
+             autocomplete="off">
+    </div>
+
+    <div id="patient-results" aria-live="polite"></div>
+  </section>
+
+  <!-- ---------------------------------------------------- medicines -->
+  <section id="view-medicines" hidden>
+    <div class="page__head">
+      <h1 class="page__title">Medicines</h1>
+      <p class="page__lead">
+        The catalogue in <code>data/medicines.csv</code>. Each medicine lists
+        which medical stores hold it.
+      </p>
+    </div>
+
+    <div class="field" style="max-width: 420px;">
+      <label class="field__label" for="medicine-search">Search medicines</label>
+      <input class="input" id="medicine-search" placeholder="name, generic, category"
+             autocomplete="off">
+    </div>
+
+    <div id="medicine-results" aria-live="polite"></div>
+  </section>
+
+  <!-- ------------------------------------------------------- stores -->
+  <section id="view-stores" hidden>
+    <div class="page__head">
+      <h1 class="page__title">Stores</h1>
+      <p class="page__lead">
+        Medical stores and what they hold. A store with no recorded stock
+        shows as empty rather than being treated as stocking nothing.
+      </p>
+    </div>
+
+    <div class="field" style="max-width: 420px;">
+      <label class="field__label" for="store-search">Search stores</label>
+      <input class="input" id="store-search" placeholder="name, city, area"
+             autocomplete="off">
+    </div>
+
+    <div id="store-results" aria-live="polite"></div>
+  </section>
+
+  <!-- ---------------------------------------------------- analytics -->
+  <section id="view-analytics" hidden>
+    <div class="page__head">
+      <h1 class="page__title">Cohorts</h1>
+      <p class="page__lead">
+        Public clinical datasets profiled with pandas. Only datasets that
+        met every selection criterion are served.
+      </p>
+    </div>
+
+    <div class="tabs" role="tablist" id="dataset-tabs" aria-label="Dataset"></div>
+
+    <div id="analytics-body" aria-live="polite"></div>
+  </section>
+
+</main>
+
+<div id="toast" class="toast" hidden role="status"></div>
+
+<script src="app.js"></script>
+</body>
+</html>

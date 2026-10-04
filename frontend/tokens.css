@@ -1,0 +1,116 @@
+/* Meridian design tokens.
+ *
+ * Every value a component uses is declared here. No component hardcodes
+ * a colour, a size or a duration.
+ *
+ * Attitude: clinical, exacting, quiet. A cool neutral canvas, one deep
+ * petrol accent, and two warm colours that appear only when something
+ * needs action.
+ */
+
+:root {
+  /* --- neutral structure --------------------------------------- */
+  --bg: hsl(210 24% 97%);
+  --surface: hsl(200 30% 99.4%);
+  --surface-sunken: hsl(210 22% 94.5%);
+  --surface-hover: hsl(210 24% 95.5%);
+
+  --text: hsl(215 32% 12%);
+  --text-2: hsl(215 16% 34%);
+  --text-muted: hsl(215 14% 40%);
+
+  --border: hsl(214 18% 88%);
+  --border-strong: hsl(214 16% 54%);
+
+  /* --- the single accent ---------------------------------------- */
+  --accent: hsl(174 64% 22%);
+  --accent-hover: hsl(174 66% 18%);
+  --accent-soft: hsl(172 42% 94%);
+  --accent-border: hsl(172 36% 74%);
+  --on-accent: hsl(170 30% 98%);
+
+  /* --- semantics: reserved for meaning, never decoration -------- */
+  /* Severity is ordered data. low and moderate get no colour at all,
+   * because nothing needs doing for them. Only the two tiers that
+   * demand action are coloured. The severity word is always present,
+   * so colour is never the only carrier of the level. */
+  --caution: hsl(28 72% 34%);
+  --caution-soft: hsl(36 84% 95%);
+  --alarm: hsl(6 68% 42%);
+  --alarm-soft: hsl(8 78% 96%);
+  --ok: hsl(166 50% 27%);
+  --ok-soft: hsl(166 42% 94%);
+
+  /* --- type ------------------------------------------------------ */
+  /* Plex Sans carries the interface. Plex Mono appears only where
+   * real data lives: record ids, dosages, numeric columns. */
+  --font-ui: "IBM Plex Sans", ui-sans-serif, system-ui, -apple-system,
+             "Segoe UI", Roboto, sans-serif;
+  --font-data: "IBM Plex Mono", ui-monospace, "SF Mono", Consolas, monospace;
+
+  --fs-xs: 0.75rem;    /* 12px, metadata only */
+  --fs-sm: 0.8125rem;  /* 13px, dense body */
+  --fs-md: 0.9375rem;  /* 15px, body */
+  --fs-lg: 1.125rem;   /* 18px */
+  --fs-xl: 1.375rem;   /* 22px, section title */
+  --fs-display: 2.5rem; /* 40px, the one focal number */
+
+  --lh-tight: 1.18;
+  --lh-body: 1.55;
+
+  /* --- space: 4px base ------------------------------------------ */
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 24px;
+  --s-6: 32px;
+  --s-7: 48px;
+  --s-8: 64px;
+
+  /* --- radius, varied by role ------------------------------------ */
+  --r-sm: 5px;
+  --r-md: 9px;
+  --r-lg: 14px;
+
+  /* --- motion ----------------------------------------------------- */
+  --dur-fast: 130ms;
+  --dur-base: 220ms;
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  --header-h: 60px;
+  --page-max: 1120px;
+}
+
+/* Dark mode is designed rather than inverted. The canvas is a dark
+ * neutral, never pure black. Surfaces get lighter as they rise, so
+ * elevation reads as lightness instead of shadow. The accent
+ * desaturates and lightens so it does not vibrate against the dark. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: hsl(215 28% 8.5%);
+    --surface: hsl(215 24% 12.5%);
+    --surface-sunken: hsl(215 22% 10.5%);
+    --surface-hover: hsl(215 22% 16%);
+
+    --text: hsl(210 20% 93%);
+    --text-2: hsl(213 14% 70%);
+    --text-muted: hsl(213 12% 57%);
+
+    --border: hsl(214 16% 22%);
+    --border-strong: hsl(214 12% 52%);
+
+    --accent: hsl(172 44% 52%);
+    --accent-hover: hsl(172 48% 60%);
+    --accent-soft: hsl(174 32% 16%);
+    --accent-border: hsl(174 26% 30%);
+    --on-accent: hsl(200 40% 7%);
+
+    --caution: hsl(36 74% 60%);
+    --caution-soft: hsl(36 38% 15%);
+    --alarm: hsl(8 76% 63%);
+    --alarm-soft: hsl(8 34% 16%);
+    --ok: hsl(166 44% 54%);
+    --ok-soft: hsl(166 30% 15%);
+  }
+}

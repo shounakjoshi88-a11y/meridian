@@ -1,0 +1,9 @@
+patient_id,name,age,gender,phone,email,blood_group,address_line,area,pincode,city,state,emergency_contact,emergency_phone,registered_on,notes
+P-0001,Aarav Sharma,34,male,9822013401,aarav.sharma@example.in,O+,"Flat 302, Sai Residency, Plot 18",Dharangaon,440001,Nagpur,Maharashtra,Meera Sharma,9822013499,2026-01-12,Hypertension follow-up
+P-0002,Diya Patel,28,female,9822013402,diya.patel@example.in,A+,"Shree Ganesh Colony, House 7",Jayanagar,440002,Nagpur,Maharashtra,Rohan Patel,9822013498,2026-01-18,
+P-0003,Rohan Mehta,45,male,9822013403,rohan.mehta@example.in,B+,"204, Dhanashree Apartments, Wardha Road",Wardha Road,440010,Nagpur,Maharashtra,Sneha Mehta,9822013497,2026-02-02,Type 2 diabetes since 2021
+P-0004,Ananya Iyer,52,female,9822013404,ananya.iyer@example.in,AB+,"Plot 22, Sitabuldi Main Road",Sitabuldi,440012,Nagpur,Maharashtra,Ramesh Iyer,9822013496,2026-02-14,
+P-0005,Kabir Singh,8,male,9822013405,,O-,"A-3, Green Park Colony, Manish Nagar",Manish Nagar,440017,Nagpur,Maharashtra,Harpreet Singh,9822013495,2026-03-01,Paediatric patient
+P-0006,Sneha Reddy,39,female,9822013406,sneha.reddy@example.in,,"H.No 44, Ring Road, Behind Petrol Pump",Manish Nagar,440017,Nagpur,Maharashtra,Pradeep Reddy,9822013494,2026-03-09,Blood group not recorded
+P-0007,Vikram Rao,61,male,9822013407,vikram.rao@example.in,A-,"Plot 9, Shivaji Nagar, Near Bus Stand",Dharangaon,440001,Nagpur,Maharashtra,Kavita Rao,9822013493,2026-03-15,Cardiac history
+P-0008,Priya Nair,26,female,9822013408,priya.nair@example.in,O+,"Flat 11, Sanghvi Park, Ramdaspeth",Ramdaspeth,440010,Nagpur,Maharashtra,Deepak Nair,9822013492,2026-04-02,
