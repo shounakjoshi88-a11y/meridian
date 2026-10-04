@@ -1,0 +1,21 @@
+visit_id,patient_id,doctor_id,hospital_id,scheduled_date,scheduled_time,checked_in_at,duration_minutes,reason,symptoms,diagnosis,severity,vitals_bp,vitals_pulse,vitals_temp,vitals_spo2,vitals_weight,vitals_height,follow_up_days,status,notes
+V-0001,P-0001,D-0001,H-0002,2026-01-12,09:30,09:12,18,Routine blood pressure review,headache|dizziness|blurred vision,Essential (primary) hypertension,moderate,152/96,78,36.8,97,78,174,90,Staged,
+V-0002,P-0003,D-0003,H-0001,2026-02-02,10:00,09:48,22,Excessive thirst and frequent urination,frequent urination|excessive thirst|fatigue,Type 2 diabetes mellitus,high,138/88,84,37.0,98,84,172,30,Active,Likely needs urinalysis
+V-0003,P-0002,D-0008,H-0006,2026-01-18,18:00,17:52,12,Sore throat and runny nose,runny nose|sore throat|sneezing,Acute nasopharyngitis [common cold],low,118/76,72,37.2,99,54,162,14,Resolved,No antibiotics indicated
+V-0004,P-0004,D-0003,H-0001,2026-02-14,11:00,10:41,25,Cold intolerance and weight gain,fatigue|weight gain|cold intolerance|dry skin,Other hypothyroidism,moderate,124/80,68,36.3,98,66,160,90,Active,TSH ordered
+V-0005,P-0005,D-0004,H-0004,2026-03-01,10:30,10:22,15,Cough with wheezing since last night,cough|wheezing|shortness of breath,Asthma,moderate,106/68,96,36.9,95,22,118,30,Active,Inhaler for school
+V-0006,P-0006,D-0008,H-0006,2026-03-09,19:00,18:47,14,Vomiting and loose motions,diarrhoea|vomiting|abdominal pain,"Infectious gastroenteritis and colitis, unspecified",moderate,112/70,88,37.3,97,58,161,7,Resolved,ORS advised
+V-0007,P-0007,D-0002,H-0001,2026-02-20,10:00,09:55,30,Chest pain on exertion,chest pain|shortness of breath,Essential (primary) hypertension,high,166/102,104,36.7,94,80,170,,Staged,ECG normal
+V-0008,P-0008,D-0007,H-0003,2026-04-02,12:00,11:38,18,Recurring headache with light sensitivity,severe headache|nausea|sensitivity to light,Migraine,moderate,114/74,76,36.8,99,52,163,,Active,Triptan advised
+V-0009,P-0003,D-0003,H-0001,2026-03-02,10:00,09:52,20,Three month diabetes review,excessive thirst|fatigue,Type 2 diabetes mellitus,high,142/90,86,36.9,98,82,172,90,Active,Improving on metformin
+V-0010,P-0001,D-0001,H-0002,2026-02-09,09:30,09:26,16,Persistent dizziness,headache|dizziness,Essential (primary) hypertension,moderate,148/94,80,36.9,97,78,174,90,Resolved,Blood pressure improving
+V-0011,P-0004,D-0003,H-0001,2026-03-20,11:00,10:44,18,Six week thyroid review,fatigue|cold intolerance,Other hypothyroidism,moderate,122/78,70,36.2,98,65,160,90,Active,Dose unchanged
+V-0012,P-0007,D-0010,H-0001,2026-03-15,10:00,09:44,35,Reduced urine output and ankle swelling,fatigue|swelling in ankles|shortness of breath,Essential (primary) hypertension,high,158/98,92,36.6,96,82,170,14,Staged,Creatinine raised
+V-0013,P-0005,D-0004,H-0004,2026-04-11,10:30,10:26,12,Sports day wheeze review,cough|wheezing,Asthma,low,104/66,92,36.8,96,23,119,180,Active,Triggered by dust
+V-0014,P-0002,D-0004,H-0004,2026-04-18,11:00,10:51,13,Ankle sprain,ankle pain|swelling in ankle,Ankle Sprain,low,120/78,74,36.9,99,55,161,7,Resolved,Rest and ice advised
+V-0015,P-0003,D-0003,H-0001,2026-04-10,10:00,09:57,24,Blurred vision and weight loss,frequent urination|blurred vision|weight loss,Type 2 diabetes mellitus,high,140/86,88,37.0,97,80,172,30,Active,Retinopathy screening due
+V-0016,P-0008,D-0007,H-0003,2026-05-02,12:00,11:47,15,Itchy rash on forearm,rash|itching,Dermatitis,low,116/74,80,37.1,99,52,163,14,Active,Topical steroid advised
+V-0017,P-0006,D-0005,H-0008,2026-05-09,11:00,11:12,22,Irregular periods and fatigue,irregular periods|fatigue,Menstrual Irregularity,moderate,118/74,76,36.9,99,56,160,,Pending,Thyroid panel ordered
+V-0018,P-0001,D-0001,H-0002,2026-04-18,09:30,09:28,14,Stable review,headache,Essential (primary) hypertension,low,138/86,76,36.8,97,77,174,180,Active,Blood pressure controlled
+V-0019,P-0004,D-0009,H-0009,2026-05-16,09:30,09:24,16,Blurred vision near work,blurred vision,Refractive Error,low,122/78,70,36.8,99,66,160,,Resolved,Spectacles prescribed
+V-0020,P-0007,D-0002,H-0001,2026-05-23,11:00,10:49,28,Follow-up cardiac review,chest pain|palpitations,Essential (primary) hypertension,high,150/94,96,36.6,95,81,170,30,Active,Holter advised

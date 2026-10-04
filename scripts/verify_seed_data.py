@@ -6,8 +6,16 @@ Run this after editing any file in data/.
 
 import csv
 import os
+import sys
 
 DATA = "data"
+
+# The age bounds on a diagnosis are the triage engine's, imported rather
+# than restated, so this check and the generator cannot disagree about the
+# format of an age_range.
+sys.path.insert(0, os.path.join("backend"))
+
+from triage import parse_age_range  # noqa: E402
 
 EXPECTED = {
     "diseases.csv": ["disease_id", "icd10_code", "name", "severity", "symptoms",
@@ -162,11 +170,31 @@ def check_visits_refer_to_patients():
                     f"visits {v['visit_id']}: doctor works at "
                     f"{doctor_hospital[v['doctor_id']]} but visit says {v['hospital_id']}")
 
-    for p in patients:
-        if p["patient_id"] not in seen:
-            problems.append(f"patients {p['patient_id']}: has no visits")
+    # A patient with no visits is not a data error. They registered and
+    # never came back, which is a real and common state. Reported by
+    # check_never_attended rather than failing here, because this check is
+    # about visits pointing at entities that exist.
 
     return problems
+
+
+def check_never_attended():
+    """Report, without failing, how many registered patients have no visit.
+
+    Useful as a fact about the panel rather than a correctness check: a
+    register where everybody has been seen is fine, and so is one where a
+    few registered and never arrived.
+    """
+    visits = load("visits.csv")
+    seen = {v["patient_id"] for v in visits}
+    patients = load("patients.csv")
+
+    never = [p["patient_id"] for p in patients if p["patient_id"] not in seen]
+
+    print(f"[note] {len(never)} of {len(patients)} registered patients "
+          f"have no consultation on file")
+
+    return []
 
 
 def check_doctors_refer_to_hospitals():
@@ -182,7 +210,14 @@ def check_doctors_refer_to_hospitals():
 
 
 def check_vitals_are_plausible():
-    """Vitals must fall inside ranges a living person could have."""
+    """Vitals must fall inside ranges a living person could have.
+
+    Temperature is Celsius, not Fahrenheit. The seed data used to hold
+    Fahrenheit, 98.2 and 98.6, which is right for neither an Indian clinic
+    nor any other except a small number of countries. Every regenerated
+    record is Celsius and this range was changed to match, so the two
+    cannot be confused.
+    """
     problems = []
 
     for v in load("visits.csv"):
@@ -217,7 +252,7 @@ def check_vitals_are_plausible():
                         f"visits {vid}: diastolic {diastolic} >= systolic {systolic}")
 
         num("vitals_pulse", 30, 220, "pulse")
-        num("vitals_temp", 90, 110, "temperature")
+        num("vitals_temp", 33, 43, "temperature")
         num("vitals_spo2", 70, 100, "spo2")
         num("vitals_weight", 1.5, 250, "weight")
         num("vitals_height", 30, 250, "height")
@@ -228,17 +263,48 @@ def check_vitals_are_plausible():
 
 
 def check_pin_codes():
-    """Nagpur pin codes are six digits starting 440."""
+    """PIN codes must be six digits in their own district's real range.
+
+    The registry spans an empanelled network across Maharashtra rather than
+    one city, so the check reads the expected prefix from
+    data/reference/districts.csv, the same table the generator uses. The
+    two cannot disagree, and no PIN is checked against a hardcoded 440.
+    """
     problems = []
+
+    prefixes = {}
+    district_rows = load(os.path.join("reference", "districts.csv"))
+
+    for row in district_rows:
+        for field in ("pin_prefix", "city_label", "district"):
+            if field in row:
+                prefixes.setdefault(field, []).append(row)
+
+    # city label -> real three digit PIN prefix
+    city_prefix = {r["city_label"]: r["pin_prefix"] for r in district_rows}
+    known_prefixes = {r["pin_prefix"] for r in district_rows}
 
     for filename in ("patients.csv", "hospitals.csv"):
         for row in load(filename):
             pin = row["pincode"]
             label = row.get("name", "")
+            city = row.get("city", "")
+
             if not pin.isdigit() or len(pin) != 6:
                 problems.append(f"{filename} {label}: bad pincode {pin!r}")
-            elif not pin.startswith("440"):
-                problems.append(f"{filename} {label}: pincode {pin} outside Nagpur range")
+                continue
+
+            if city in city_prefix:
+                expected = city_prefix[city]
+
+                if not pin.startswith(expected):
+                    problems.append(
+                        f"{filename} {label}: pincode {pin} does not match "
+                        f"{city}, whose range begins {expected}")
+            elif pin[:3] not in known_prefixes:
+                problems.append(
+                    f"{filename} {label}: pincode {pin} is outside every "
+                    f"known district range")
 
     return problems
 
@@ -280,9 +346,19 @@ def check_visit_dates_and_times():
 
 def check_diagnoses_refer_to_diseases():
     """Visit diagnoses should name a known condition or be a legitimate
-    clinical note that is not in the triage knowledge base."""
+    clinical note that is not in the triage knowledge base.
+
+    A diagnosis must also suit the patient's age. diseases.csv carries an
+    age_range for every condition and a toddler being recorded with angina
+    is a data error, not a rounding difference.
+    """
     problems = []
-    names = {d["name"].casefold() for d in load("diseases.csv")}
+
+    diseases = load("diseases.csv")
+    by_name = {d["name"].casefold(): d for d in diseases}
+
+    age_of = {p["patient_id"]: p["age"]
+              for p in load("patients.csv")}
 
     # Diagnoses that appear in visits but are not triage candidates. They
     # are still valid clinical findings, just outside the symptom
@@ -295,8 +371,22 @@ def check_diagnoses_refer_to_diseases():
     for v in load("visits.csv"):
         diagnosis = v["diagnosis"].casefold()
 
-        if diagnosis and diagnosis not in names and diagnosis not in outside:
+        if diagnosis and diagnosis not in by_name and diagnosis not in outside:
             problems.append(f"visits {v['visit_id']}: unknown diagnosis {v['diagnosis']!r}")
+
+        disease = by_name.get(diagnosis)
+
+        if disease is not None:
+            raw_age = age_of.get(v["patient_id"], "")
+
+            if raw_age.isdigit():
+                bounds = parse_age_range(disease["age_range"])
+
+                if bounds is not None and not bounds[0] <= int(raw_age) <= bounds[1]:
+                    problems.append(
+                        f"visits {v['visit_id']}: patient aged {raw_age} "
+                        f"diagnosed with {disease['name']}, usual range "
+                        f"{disease['age_range']}")
 
         if v["severity"] not in SEVERITIES:
             problems.append(f"visits {v['visit_id']}: bad severity {v['severity']!r}")
@@ -412,6 +502,7 @@ def main():
         ("store -> medicine", check_stores_refer_to_medicines),
         ("doctor -> hospital", check_doctors_refer_to_hospitals),
         ("visit -> patient/doctor/hospital", check_visits_refer_to_patients),
+        ("never attended", check_never_attended),
         ("visit -> disease", check_diagnoses_refer_to_diseases),
         ("vitals plausible", check_vitals_are_plausible),
         ("pin codes", check_pin_codes),

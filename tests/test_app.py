@@ -240,7 +240,10 @@ def test_update_patient():
         assert patched.status_code == 200, body
         assert body["updated"]["city"] == "Nagpur", body["updated"]
         assert body["updated"]["name"] == "Patch Target", "name was clobbered"
-        assert store.get_by_id("patients", pid)["city"] == "Nagpur"
+
+        stored = store.get_by_id("patients", pid)
+        assert stored is not None, "patched row vanished from the CSV"
+        assert stored["city"] == "Nagpur", stored
 
     print("  ok  PATCH updates one field without clobbering others")
 
@@ -370,19 +373,19 @@ def test_unknown_medicine_is_404():
 
 def test_get_store_resolves_stock():
     """A store's stock ids resolve into medicine rows."""
-    body = data(get("/api/stores/S-01"))
+    body = data(get("/api/stores/S-0001"))
 
     assert body["store"]["name"] == "Apollo Pharmacy Dharangaon", body["store"]
     assert body["stock_count"] > 0, body
     assert body["stock_count"] == len(body["medicines"]), body["stock_count"]
     for m in body["medicines"]:
         assert m["medicine_id"].startswith("M-"), m
-    print(f"  ok  S-01 resolves {body['stock_count']} stocked medicines")
+    print(f"  ok  S-0001 resolves {body['stock_count']} stocked medicines")
 
 
 def test_store_with_blank_stock_is_not_an_error():
-    """S-06 has no recorded stock, which must read as zero, not fail."""
-    body = data(get("/api/stores/S-06"))
+    """S-0006 has no recorded stock, which must read as zero, not fail."""
+    body = data(get("/api/stores/S-0006"))
 
     assert body["store"]["stock_csv"] == "", body["store"]
     assert body["stock_count"] == 0, body
@@ -438,16 +441,38 @@ def test_search_medicines():
 def test_search_patients():
     """Patient search works, including records with blank fields.
 
-    "sneha" legitimately matches two people: Sneha Reddy by name and
-    Rohan Mehta by emergency contact. The name match must rank first.
+    "sneha" matches Sneha Reddy by name and Rohan Mehta by emergency
+    contact. The name match must rank first. How many people the query
+    returns is not asserted: patients.csv is generated, so an exact count
+    would only break on the next rebuild. What matters is the ordering.
     """
     body = data(get("/api/search/patients", q="sneha"))
 
-    assert body["count"] == 2, body
+    assert body["count"] >= 2, body
     assert body["results"][0]["patient_id"] == "P-0006", body["results"][0]
     assert body["results"][0]["blood_group"] == "", body["results"][0]
-    assert body["results"][0]["score"] > body["results"][1]["score"], body
-    print("  ok  blank blood group searchable, emergency contact ranks lower")
+    assert "name" in body["results"][0]["matched_fields"], body["results"][0]
+
+    # Every returned row must genuinely mention sneha somewhere.
+    for r in body["results"]:
+        haystack = " ".join(str(v) for v in r.values()).casefold()
+        assert "sneha" in haystack, r
+
+    # The invariant that matters is that a name match never ranks below a
+    # match on someone else's emergency contact. Comparing adjacent rows
+    # instead would break whenever two people share a forename, which they
+    # now legitimately do.
+    by_name = [r for r in body["results"] if "name" in r["matched_fields"]]
+    by_contact = [r for r in body["results"]
+                  if r["matched_fields"] == ["emergency_contact"]]
+
+    assert by_name, body
+    assert by_contact, body
+    assert min(r["score"] for r in by_name) > \
+        max(r["score"] for r in by_contact), body
+
+    print(f"  ok  blank blood group searchable, {len(by_name)} name matches "
+          f"all outrank {len(by_contact)} emergency-contact matches")
 
 
 def test_search_stores():
@@ -793,7 +818,7 @@ def test_every_response_is_strict_json():
         ("/api/medicines/M-03", None),
         ("/api/medicines/M-03/stores", None),
         ("/api/stores", None),
-        ("/api/stores/S-01", None),
+        ("/api/stores/S-0001", None),
         ("/api/search/medicines", {"q": "metformin"}),
         ("/api/search/patients", {"q": "aarav"}),
         ("/api/search/stores", {"q": "bengaluru"}),

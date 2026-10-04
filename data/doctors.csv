@@ -1,13 +1,541 @@
 doctor_id,name,qualification,specialisation,registration_no,hospital_id,department,room_no,phone,consultation_fee,experience_years,languages,availability
-D-01,Dr Meera Deshmukh,MBBS MD,General Medicine,MMC-2004-118742,H-02,Internal Medicine,204,+91 9822012345,600,21,"Marathi, Hindi, English",Mon-Sat 09:00-13:00
-D-02,Dr Anil Kulkarni,MBBS DNB,Cardiology,MMC-2008-203416,H-01,Cardiology,311,+91 9822012346,900,17,"Marathi, Hindi, English",Mon-Fri 10:00-16:00
-D-03,Dr Sneha Bawane,MBBS MD,Endocrinology,MMC-2011-287104,H-01,Endocrinology,208,+91 9822012347,800,14,"Marathi, Hindi, English",Tue-Sat 09:30-14:00
-D-04,Dr Rajesh Gupta,MBBS DCH,Paediatrics,MMC-2006-164920,H-04,Paediatrics,106,+91 9822012348,500,19,"Marathi, Hindi, English",Mon-Sat 10:00-15:00
-D-05,Dr Prachi Joshi,MBBS MD,Obstetrics and Gynaecology,MMC-2013-311258,H-08,Obstetrics and Gynaecology,402,+91 9822012349,900,12,"Marathi, Hindi, English",Mon-Fri 11:00-16:00
-D-06,Dr Sanjay Pawar,MBBS MS,Orthopaedics,MMC-2003-097531,H-10,Orthopaedics,115,+91 9822012350,750,22,"Marathi, Hindi, English",Mon-Sat 09:00-13:00
-D-07,Dr Kavita Rao,MBBS MD,Dermatology,MMC-2015-338744,H-03,Dermatology,12,+91 9822012351,650,10,"Marathi, Hindi, English",Tue-Sat 10:00-15:00
-D-08,Dr Imran Shaikh,MBBS DNB,General Medicine,MMC-2010-246813,H-06,General Medicine,5,+91 9822012352,350,15,"Marathi, Hindi, Urdu, Hindi, English",Mon-Sat 17:00-21:00
-D-09,Dr Nandini Shastri,MBBS MS,Ophthalmology,MMC-2007-152368,H-09,Ophthalmology,21,+91 9822012353,600,18,"Marathi, Hindi, English",Mon-Fri 09:00-13:00
-D-10,Dr Vivek Thakur,MBBS MD,Nephrology,MMC-2014-357219,H-01,Nephrology,312,+91 9822012354,1000,11,"Marathi, Hindi, English",Wed-Sat 10:00-16:00
-D-11,Dr Ashwin Kale,MBBS DNB,Psychiatry,MMC-2012-298630,H-08,Psychiatry,405,+91 9822012355,850,13,"Marathi, Hindi, English",Mon-Thu 11:00-17:00
-D-12,Dr Rohini Patil,MBBS DGO,Obstetrics and Gynaecology,MMC-2016-372015,H-03,Gynaecology,14,+91 9822012356,550,9,"Marathi, Hindi, English",Mon-Sat 09:00-14:00
+D-0001,Dr Meera Deshmukh,MBBS MD,General Medicine,MMC-2004-118742,H-0002,Internal Medicine,204,+91 9822012345,600,21,"Marathi, Hindi, English",Mon-Sat 09:00-13:00
+D-0002,Dr Anil Kulkarni,MBBS DNB,Cardiology,MMC-2008-203416,H-0001,Cardiology,311,+91 9822012346,900,17,"Marathi, Hindi, English",Mon-Fri 10:00-16:00
+D-0003,Dr Sneha Bawane,MBBS MD,Endocrinology,MMC-2011-287104,H-0001,Endocrinology,208,+91 9822012347,800,14,"Marathi, Hindi, English",Tue-Sat 09:30-14:00
+D-0004,Dr Rajesh Gupta,MBBS DCH,Paediatrics,MMC-2006-164920,H-0004,Paediatrics,106,+91 9822012348,500,19,"Marathi, Hindi, English",Mon-Sat 10:00-15:00
+D-0005,Dr Prachi Joshi,MBBS MD,Obstetrics and Gynaecology,MMC-2013-311258,H-0008,Obstetrics and Gynaecology,402,+91 9822012349,900,12,"Marathi, Hindi, English",Mon-Fri 11:00-16:00
+D-0006,Dr Sanjay Pawar,MBBS MS,Orthopaedics,MMC-2003-097531,H-0010,Orthopaedics,115,+91 9822012350,750,22,"Marathi, Hindi, English",Mon-Sat 09:00-13:00
+D-0007,Dr Kavita Rao,MBBS MD,Dermatology,MMC-2015-338744,H-0003,Dermatology,12,+91 9822012351,650,10,"Marathi, Hindi, English",Tue-Sat 10:00-15:00
+D-0008,Dr Imran Shaikh,MBBS DNB,General Medicine,MMC-2010-246813,H-0006,General Medicine,5,+91 9822012352,350,15,"Marathi, Hindi, Urdu, Hindi, English",Mon-Sat 17:00-21:00
+D-0009,Dr Nandini Shastri,MBBS MS,Ophthalmology,MMC-2007-152368,H-0009,Ophthalmology,21,+91 9822012353,600,18,"Marathi, Hindi, English",Mon-Fri 09:00-13:00
+D-0010,Dr Vivek Thakur,MBBS MD,Nephrology,MMC-2014-357219,H-0001,Nephrology,312,+91 9822012354,1000,11,"Marathi, Hindi, English",Wed-Sat 10:00-16:00
+D-0011,Dr Ashwin Kale,MBBS DNB,Psychiatry,MMC-2012-298630,H-0008,Psychiatry,405,+91 9822012355,850,13,"Marathi, Hindi, English",Mon-Thu 11:00-17:00
+D-0012,Dr Rohini Patil,MBBS DGO,Obstetrics and Gynaecology,MMC-2016-372015,H-0003,Gynaecology,14,+91 9822012356,550,9,"Marathi, Hindi, English",Mon-Sat 09:00-14:00
+D-0013,Dr Asha Rao,MBBS MD Anaesthesia,Anaesthesiology,MMC-2000-737669,H-0246,Anaesthesiology,495,9247167041,500,23,"Marathi, Hindi, English",Mon-Sat 18:00-21:00
+D-0014,Dr Asha Chauhan,MBBS MS ENT,ENT,MMC-2018-787898,H-0150,ENT,234,9964847589,650,5,"Marathi, Hindi, English",Mon-Fri 10:00-16:00
+D-0015,Dr Sneha Nair,MBBS MS ENT,ENT,MMC-2003-854559,H-0404,ENT,203,7035989377,700,22,"Marathi, Hindi, English",Mon-Fri 10:00-16:00
+D-0016,Dr Aditi Khan,MBBS MD DM,Endocrinology,MMC-2020-317493,H-0228,Endocrinology,268,9657594509,800,2,"Hindi, English",Wed-Sun 10:00-18:00
+D-0017,Dr Prashant Ghosh,MBBS MD Psychiatry,Psychiatry,MMC-2010-780053,H-0307,Psychiatry,245,9793577313,850,16,"Marathi, Hindi",Mon-Fri 08:00-12:00
+D-0018,Dr Nikita Menon,MBBS MD Dermatology,Dermatology,MMC-2004-290011,H-0142,Dermatology,127,9749589767,650,19,"Hindi, English",Tue-Sat 09:30-14:00
+D-0019,Dr Chitra Thakur,MBBS MD Psychiatry,Psychiatry,MMC-1998-996785,H-0161,Psychiatry,243,7794828953,800,27,"Marathi, Hindi",Wed-Sun 10:00-18:00
+D-0020,Dr Divya Yadav,MBBS MS Urology,Urology,MMC-2019-324193,H-0440,Urology,370,8586048815,700,3,"Marathi, Hindi, English, Gujarati",Mon-Sat 09:00-17:00
+D-0021,Dr Pooja Joshi,MBBS MD Paediatrics,Paediatrics,MMC-1991-548405,H-0213,Paediatrics,374,8730500965,550,34,"Marathi, Hindi",Tue-Sat 09:30-14:00
+D-0022,Dr Suresh Desai,MBBS MD Paediatrics,Paediatrics,MMC-2015-543147,H-0117,Paediatrics,222,9709564778,600,10,"Marathi, Hindi, English",Mon-Sat 18:00-21:00
+D-0023,Dr Neha Rao,MBBS MS Urology,Urology,MMC-1987-249311,H-0220,Urology,223,8107706359,850,35,"Hindi, English",Mon-Fri 08:00-12:00
+D-0024,Dr Sameer Desai,MBBS MD DM,Nephrology,MMC-2010-992510,H-0325,Nephrology,217,9106831072,1300,15,"Hindi, English",Wed-Sun 10:00-18:00
+D-0025,Dr Sagar Rao,MBBS MD DM,Endocrinology,MMC-1993-374014,H-0048,Endocrinology,400,9004940993,1200,31,"Marathi, Hindi",Mon-Fri 08:00-12:00
+D-0026,Dr Ola Pawar,MBBS MS,Orthopaedics,MMC-1999-424500,H-0251,Orthopaedics,361,7002853244,850,26,"Hindi, English",Mon-Sat 09:00-17:00
+D-0027,Dr Kavita Ghosh,MBBS MS,Orthopaedics,MMC-2001-393128,H-0327,Orthopaedics,192,9029252252,700,22,"Marathi, Hindi",Mon-Sat 18:00-21:00
+D-0028,Dr Abhishek Chauhan,MBBS MS,Orthopaedics,MMC-1997-100538,H-0381,Orthopaedics,375,8205498325,700,27,"Marathi, Hindi, English, Gujarati",Mon-Sat 18:00-21:00
+D-0029,Dr Falguni Waghmare,MBBS MS Ophthalmology,Ophthalmology,MMC-2009-602171,H-0506,Ophthalmology,474,7944915900,750,17,"Hindi, English",Mon-Sat 09:00-17:00
+D-0030,Dr Ira Joshi,MBBS MS ENT,ENT,MMC-2024-250676,H-0207,ENT,456,9935593904,500,0,"Marathi, Hindi, English",Wed-Sun 10:00-18:00
+D-0031,Dr Priya Yadav,MBBS,General Medicine,MMC-1993-940239,H-0383,General Medicine,469,9901673489,500,31,"Hindi, English",Mon-Sat 09:00-17:00
+D-0032,Dr Dinesh Yadav,MBBS MS ENT,ENT,MMC-2024-994364,H-0388,ENT,218,9844832591,550,2,"Hindi, English",Tue-Sat 09:30-14:00
+D-0033,Dr Bhavana Kulkarni,MBBS MS OBG,Obstetrics and Gynaecology,MMC-2011-478427,H-0009,Obstetrics and Gynaecology,169,7984567329,650,12,"Marathi, Hindi, English, Gujarati",Tue-Sat 09:30-14:00
+D-0034,Dr Neha Mehta,MBBS MD Psychiatry,Psychiatry,MMC-1986-721932,H-0008,Psychiatry,153,7349571533,600,40,"Hindi, English",Tue-Sat 09:30-14:00
+D-0035,Dr Zoya Waghmare,MBBS MD DM,Cardiology,MMC-2007-834049,H-0450,Cardiology,284,7297824297,1150,18,"Marathi, Hindi, English",Mon-Fri 08:00-12:00
+D-0036,Dr Amit Deshmukh,MBBS MS OBG,Obstetrics and Gynaecology,MMC-1987-714608,H-0393,Obstetrics and Gynaecology,362,9761084556,650,36,"Marathi, Hindi, English, Gujarati",Mon-Fri 10:00-16:00
+D-0037,Dr Abhishek Waghmare,MBBS MS OBG,Obstetrics and Gynaecology,MMC-2021-308264,H-0388,Obstetrics and Gynaecology,169,9804061470,750,1,"Marathi, Hindi",Mon-Fri 08:00-12:00
+D-0038,Dr Kavita Gupta,MBBS MD DM,Endocrinology,MMC-2023-811020,H-0255,Endocrinology,451,7705736198,1050,0,"Hindi, English",Mon-Fri 10:00-16:00
+D-0039,Dr Chitra Pawar,MBBS MD Paediatrics,Paediatrics,MMC-2021-123075,H-0419,Paediatrics,274,7051656909,650,5,"Marathi, Hindi, English, Gujarati",Mon-Sat 18:00-21:00
+D-0040,Dr Deepak Waghmare,MBBS MD DM,Pulmonology,MMC-1994-292208,H-0273,Pulmonology,196,9844502434,600,29,"Marathi, Hindi, English, Gujarati",Mon-Sat 18:00-21:00
+D-0041,Dr Bhavana Deshmukh,MBBS MS,Orthopaedics,MMC-2023-629941,H-0457,Orthopaedics,381,7723958258,550,2,"Marathi, Hindi, English",Tue-Sat 09:30-14:00
+D-0042,Dr Piyush Ghosh,MBBS MD Psychiatry,Psychiatry,MMC-1992-250068,H-0407,Psychiatry,496,9415711711,800,34,"Marathi, Hindi",Mon-Sat 18:00-21:00
+D-0043,Dr Siddharth Mane,MBBS MD Dermatology,Dermatology,MMC-1999-969781,H-0150,Dermatology,126,7897938540,500,26,"Marathi, Hindi, English",Tue-Sat 09:30-14:00
+D-0044,Dr Tarun Rao,MBBS MD Dermatology,Dermatology,MMC-2017-327109,H-0172,Dermatology,428,8923167649,750,6,"Hindi, English",Mon-Sat 18:00-21:00
+D-0045,Dr Vaishali Deshmukh,MBBS MD DM,Endocrinology,MMC-2012-809726,H-0362,Endocrinology,174,9591753475,1050,10,"Marathi, Hindi, English, Gujarati",Mon-Sat 09:00-17:00
+D-0046,Dr Kiran Joshi,MBBS MD Paediatrics,Paediatrics,MMC-1991-535060,H-0441,Paediatrics,129,9352160076,700,34,"Marathi, Hindi",Tue-Sat 09:30-14:00
+D-0047,Dr Tarun Pawar,MBBS MS Ophthalmology,Ophthalmology,MMC-1999-989696,H-0190,Ophthalmology,204,8290931205,600,25,"Marathi, Hindi, English, Gujarati",Wed-Sun 10:00-18:00
+D-0048,Dr Nitin Khan,MBBS MS ENT,ENT,MMC-2009-744407,H-0323,ENT,360,9289370610,800,13,"Hindi, English",Mon-Fri 10:00-16:00
+D-0049,Dr Mukesh Rane,MBBS MS Urology,Urology,MMC-2021-810022,H-0063,Urology,156,8087682655,1000,2,"Marathi, Hindi",Mon-Fri 08:00-12:00
+D-0050,Dr Ashish Verma,MBBS MS OBG,Obstetrics and Gynaecology,MMC-1990-165064,H-0342,Obstetrics and Gynaecology,347,8707629512,700,33,"Marathi, Hindi, English",Mon-Fri 10:00-16:00
+D-0051,Dr Rajesh Dixit,MBBS MD DM,Nephrology,MMC-2016-281107,H-0267,Nephrology,316,8073097406,1350,10,"Marathi, Hindi",Mon-Fri 08:00-12:00
+D-0052,Dr Sumit Gaikwad,MBBS MD DM,Pulmonology,MMC-2023-991899,H-0037,Pulmonology,297,8969501906,750,0,"Hindi, English",Mon-Sat 18:00-21:00
+D-0053,Dr Usha Sharma,MBBS MD Paediatrics,Paediatrics,MMC-2018-673427,H-0493,Paediatrics,335,7431105850,400,6,"Marathi, Hindi",Mon-Fri 08:00-12:00
+D-0054,Dr Nandini Mehta,MBBS,General Medicine,MMC-2009-250168,H-0295,General Medicine,486,7614513812,400,15,"Marathi, Hindi, English",Mon-Sat 18:00-21:00
+D-0055,Dr Asha Yadav,MBBS,General Medicine,MMC-2015-824195,H-0147,General Medicine,315,7784672425,300,7,"Marathi, Hindi, English",Mon-Sat 18:00-21:00
+D-0056,Dr Rahul Iyer,MBBS MD Psychiatry,Psychiatry,MMC-1995-559668,H-0128,Psychiatry,450,8129950926,1100,31,"Marathi, Hindi, English",Mon-Sat 09:00-17:00
+D-0057,Dr Asha Rao,MBBS MD Dermatology,Dermatology,MMC-2007-578329,H-0451,Dermatology,191,8468140306,700,17,"Marathi, Hindi",Mon-Fri 10:00-16:00
+D-0058,Dr Mukesh Khan,MBBS MD DM,Cardiology,MMC-2016-160430,H-0488,Cardiology,240,9905152486,750,9,"Marathi, Hindi",Mon-Sat 18:00-21:00
+D-0059,Dr Piyush Mane,MBBS MD DM,Neurology,MMC-2002-919575,H-0429,Neurology,420,7395368727,1300,21,"Marathi, Hindi, English, Gujarati",Mon-Sat 09:00-17:00
+D-0060,Dr Rahul Bhagat,MBBS MS Urology,Urology,MMC-2013-650743,H-0377,Urology,279,8928702532,650,11,"Marathi, Hindi, English",Mon-Fri 10:00-16:00
+D-0061,Dr Lata Kulkarni,MBBS MD DM,Gastroenterology,MMC-1987-589489,H-0313,Gastroenterology,415,7180779677,700,37,"Marathi, Hindi",Mon-Fri 10:00-16:00
+D-0062,Dr Kavita Thakur,MBBS MD Paediatrics,Paediatrics,MMC-1993-451871,H-0309,Paediatrics,234,7954454555,550,29,"Marathi, Hindi",Wed-Sun 10:00-18:00
+D-0063,Dr Abhishek Ghosh,MBBS,General Medicine,MMC-2013-687953,H-0105,General Medicine,185,8734926902,400,13,"Marathi, Hindi",Tue-Sat 09:30-14:00
+D-0064,Dr Piyush Shah,MBBS MD DM,Neurology,MMC-1998-288972,H-0251,Neurology,227,9967083544,1300,24,"Hindi, English",Mon-Sat 18:00-21:00
+D-0065,Dr Nitin Joshi,MBBS MS Urology,Urology,MMC-1990-357390,H-0175,Urology,104,7821153214,800,36,"Marathi, Hindi",Mon-Fri 10:00-16:00
+D-0066,Dr Nikita Waghmare,MBBS MD Paediatrics,Paediatrics,MMC-2024-486459,H-0501,Paediatrics,428,7760848545,600,0,"Hindi, English",Wed-Sun 10:00-18:00
+D-0067,Dr Ritu Nair,MBBS MD DM,Neurology,MMC-1996-648418,H-0492,Neurology,470,8337609912,1200,29,"Marathi, Hindi, English",Mon-Fri 08:00-12:00
+D-0068,Dr Abhishek Rane,MBBS MS Ophthalmology,Ophthalmology,MMC-1985-195441,H-0326,Ophthalmology,356,7127982773,700,37,"Marathi, Hindi, English",Wed-Sun 10:00-18:00
+D-0069,Dr Priya Kulkarni,MBBS MS ENT,ENT,MMC-1998-543294,H-0383,ENT,438,9597738382,450,27,"Marathi, Hindi",Mon-Sat 09:00-17:00
+D-0070,Dr Nitin Chavan,MBBS MD DM,Endocrinology,MMC-1991-136243,H-0040,Endocrinology,268,7988340909,1000,34,"Marathi, Hindi, English, Gujarati",Mon-Sat 09:00-17:00
+D-0071,Dr Zoya Yadav,MBBS MD Dermatology,Dermatology,MMC-2002-728748,H-0229,Dermatology,262,7183617210,750,23,"Marathi, Hindi, English, Gujarati",Mon-Sat 18:00-21:00
+D-0072,Dr Nikhil Patel,MBBS MD DM,Pulmonology,MMC-1990-737510,H-0163,Pulmonology,327,9615232534,900,34,"Marathi, Hindi, English, Gujarati",Mon-Fri 08:00-12:00
+D-0073,Dr Prachi Kamble,MBBS MS ENT,ENT,MMC-2008-837044,H-0401,ENT,434,9545598464,450,14,"Marathi, Hindi, English",Tue-Sat 09:30-14:00
+D-0074,Dr Vijay Patil,MBBS MD DM,Cardiology,MMC-2020-689574,H-0008,Cardiology,310,8717012319,700,2,"Marathi, Hindi, English",Mon-Fri 10:00-16:00
+D-0075,Dr Trupti Waghmare,MBBS MD Anaesthesia,Anaesthesiology,MMC-1996-687000,H-0379,Anaesthesiology,137,8044985989,550,27,"Marathi, Hindi, English",Wed-Sun 10:00-18:00
+D-0076,Dr Nikhil Mehta,MBBS MD DM,Pulmonology,MMC-1999-679956,H-0488,Pulmonology,264,8918631179,850,25,"Hindi, English",Wed-Sun 10:00-18:00
+D-0077,Dr Ranjana Rao,MBBS MD Psychiatry,Psychiatry,MMC-2000-272095,H-0245,Psychiatry,205,7156418701,950,24,"Hindi, English",Mon-Sat 18:00-21:00
+D-0078,Dr Harsh Menon,MBBS MD Paediatrics,Paediatrics,MMC-2012-991258,H-0233,Paediatrics,383,9388867224,400,12,"Hindi, English",Mon-Fri 08:00-12:00
+D-0079,Dr Nilesh Patil,MBBS MD Anaesthesia,Anaesthesiology,MMC-1990-929666,H-0273,Anaesthesiology,117,7334945891,800,35,"Marathi, Hindi, English",Wed-Sun 10:00-18:00
+D-0080,Dr Jatin Menon,MBBS MS,Orthopaedics,MMC-1996-347031,H-0452,Orthopaedics,276,9984157487,550,29,"Marathi, Hindi, English, Gujarati",Tue-Sat 09:30-14:00
+D-0081,Dr Lata Shah,MBBS MS Urology,Urology,MMC-1997-606460,H-0208,Urology,280,9510648062,850,26,"Marathi, Hindi",Mon-Sat 09:00-17:00
+D-0082,Dr Rakesh Gupta,MBBS MS Urology,Urology,MMC-2010-159813,H-0148,Urology,400,9145311144,850,16,"Marathi, Hindi, English, Gujarati",Mon-Sat 09:00-17:00
+D-0083,Dr Rakesh Patil,MBBS,General Medicine,MMC-2014-492533,H-0130,General Medicine,357,8591486366,500,10,"Marathi, Hindi, English, Gujarati",Mon-Fri 08:00-12:00
+D-0084,Dr Alok Mehta,MBBS MS Urology,Urology,MMC-2012-794783,H-0253,Urology,171,7859656543,850,11,"Hindi, English",Mon-Sat 18:00-21:00
+D-0085,Dr Prakash Gupta,MBBS MS ENT,ENT,MMC-2002-201342,H-0008,ENT,226,8758817414,500,24,"Marathi, Hindi, English",Mon-Fri 08:00-12:00
+D-0086,Dr Chitra Ghosh,MBBS,General Medicine,MMC-2013-896678,H-0447,General Medicine,291,8438502549,500,11,"Marathi, Hindi",Tue-Sat 09:30-14:00
+D-0087,Dr Zoya Mehta,MBBS MS Ophthalmology,Ophthalmology,MMC-2016-841738,H-0193,Ophthalmology,189,9054188322,650,9,"Marathi, Hindi",Mon-Sat 09:00-17:00
+D-0088,Dr Sumit Bhagat,MBBS MD DM,Nephrology,MMC-2018-958594,H-0327,Nephrology,167,9370443522,1250,5,"Marathi, Hindi, English, Gujarati",Mon-Fri 10:00-16:00
+D-0089,Dr Rahul Ghosh,MBBS MD DM,Endocrinology,MMC-2009-624092,H-0450,Endocrinology,125,8367976240,1050,15,"Marathi, Hindi, English, Gujarati",Mon-Sat 09:00-17:00
+D-0090,Dr Alok Gupta,MBBS MS Urology,Urology,MMC-2012-675575,H-0447,Urology,222,7738108205,700,12,"Hindi, English",Tue-Sat 09:30-14:00
+D-0091,Dr Gayatri Mane,MBBS MS,Orthopaedics,MMC-2024-758288,H-0218,Orthopaedics,222,7896645768,550,0,"Marathi, Hindi",Mon-Sat 18:00-21:00
+D-0092,Dr Sachin Mane,MBBS MS ENT,ENT,MMC-2011-611259,H-0271,ENT,109,8065124848,650,15,"Marathi, Hindi, English, Gujarati",Mon-Sat 09:00-17:00
+D-0093,Dr Sumit Thakur,MBBS MD DM,Cardiology,MMC-2003-558005,H-0185,Cardiology,213,8122501211,850,20,"Marathi, Hindi",Mon-Sat 18:00-21:00
+D-0094,Dr Vivek Patel,MBBS MD DM,Endocrinology,MMC-2008-303156,H-0399,Endocrinology,308,7421772880,850,15,"Hindi, English",Wed-Sun 10:00-18:00
+D-0095,Dr Gayatri Patil,MBBS MS Ophthalmology,Ophthalmology,MMC-1999-876968,H-0396,Ophthalmology,198,9953467931,700,27,"Marathi, Hindi",Mon-Fri 10:00-16:00
+D-0096,Dr Mahesh Rane,MBBS MD Psychiatry,Psychiatry,MMC-1989-769770,H-0239,Psychiatry,497,8374902042,750,34,"Hindi, English",Mon-Sat 09:00-17:00
+D-0097,Dr Jayesh Bhosale,MBBS MD DM,Neurology,MMC-1999-924907,H-0101,Neurology,158,8274083056,1100,25,"Hindi, English",Tue-Sat 09:30-14:00
+D-0098,Dr Alok Dixit,MBBS MD DM,Pulmonology,MMC-2013-862591,H-0044,Pulmonology,227,9585911520,750,10,"Marathi, Hindi",Mon-Fri 10:00-16:00
+D-0099,Dr Sachin Reddy,MBBS MS OBG,Obstetrics and Gynaecology,MMC-2008-399150,H-0252,Obstetrics and Gynaecology,150,8515791327,750,15,"Marathi, Hindi, English",Wed-Sun 10:00-18:00
+D-0100,Dr Rakesh Joshi,MBBS MS ENT,ENT,MMC-2012-117550,H-0129,ENT,110,8965845567,450,11,"Marathi, Hindi, English, Gujarati",Wed-Sun 10:00-18:00
+D-0101,Dr Santosh Salunke,MBBS MD DM,Nephrology,MMC-1997-414318,H-0214,Nephrology,433,9739343969,1000,27,"Marathi, Hindi, English, Gujarati",Mon-Sat 09:00-17:00
+D-0102,Dr Kavita Singh,MBBS MD DM,Nephrology,MMC-2012-603861,H-0502,Nephrology,360,7983834648,1150,12,"Hindi, English",Mon-Fri 10:00-16:00
+D-0103,Dr Usha Chauhan,MBBS MS Ophthalmology,Ophthalmology,MMC-2004-348130,H-0041,Ophthalmology,447,7570850788,550,21,"Marathi, Hindi, English, Gujarati",Tue-Sat 09:30-14:00
+D-0104,Dr Ankita Jadhav,MBBS MS Ophthalmology,Ophthalmology,MMC-1994-517632,H-0327,Ophthalmology,165,7501514117,600,29,"Hindi, English",Wed-Sun 10:00-18:00
+D-0105,Dr Yogita Kulkarni,MBBS MD Anaesthesia,Anaesthesiology,MMC-2006-861033,H-0156,Anaesthesiology,380,8289852121,850,19,"Hindi, English",Tue-Sat 09:30-14:00
+D-0106,Dr Sachin Joshi,MBBS MD DM,Nephrology,MMC-1986-355307,H-0317,Nephrology,272,9126621837,1200,37,"Marathi, Hindi",Mon-Sat 18:00-21:00
+D-0107,Dr Nikhil Waghmare,MBBS MS OBG,Obstetrics and Gynaecology,MMC-1995-833348,H-0451,Obstetrics and Gynaecology,126,8156268530,900,31,"Marathi, Hindi",Mon-Sat 09:00-17:00
+D-0108,Dr Santosh Rane,MBBS MD Paediatrics,Paediatrics,MMC-1999-940418,H-0419,Paediatrics,193,9637980187,550,25,"Hindi, English",Mon-Sat 09:00-17:00
+D-0109,Dr Bhagyashree Sharma,MBBS MD DM,Pulmonology,MMC-2018-610760,H-0239,Pulmonology,178,7964372164,750,5,"Marathi, Hindi",Mon-Sat 09:00-17:00
+D-0110,Dr Santosh Gupta,MBBS MD DM,Cardiology,MMC-1991-122165,H-0418,Cardiology,259,7461923656,850,33,"Marathi, Hindi",Mon-Sat 18:00-21:00
+D-0111,Dr Zoya Pawar,MBBS MD DM,Pulmonology,MMC-2016-327046,H-0477,Pulmonology,324,8692130434,800,7,"Marathi, Hindi",Wed-Sun 10:00-18:00
+D-0112,Dr Swati Kamble,MBBS MD DM,Pulmonology,MMC-1986-716747,H-0302,Pulmonology,438,7109163709,650,37,"Hindi, English",Mon-Sat 09:00-17:00
+D-0113,Dr Piyush Salunke,MBBS MD Dermatology,Dermatology,MMC-2016-454477,H-0247,Dermatology,310,7759799197,750,6,"Hindi, English",Mon-Fri 10:00-16:00
+D-0114,Dr Kunal Bhagat,MBBS MS OBG,Obstetrics and Gynaecology,MMC-2022-445703,H-0011,Obstetrics and Gynaecology,321,9596456711,850,4,"Marathi, Hindi, English",Mon-Sat 09:00-17:00
+D-0115,Dr Tarun Jadhav,MBBS MS Ophthalmology,Ophthalmology,MMC-1996-329813,H-0284,Ophthalmology,280,8668257888,700,26,"Marathi, Hindi, English, Gujarati",Mon-Sat 18:00-21:00
+D-0116,Dr Manjula Kulkarni,MBBS MS ENT,ENT,MMC-1988-468409,H-0191,ENT,189,7233709748,700,34,"Marathi, Hindi, English",Mon-Sat 18:00-21:00
+D-0117,Dr Lata Mehta,MBBS MD DM,Gastroenterology,MMC-2005-518289,H-0349,Gastroenterology,237,7002947714,950,21,"Marathi, Hindi, English",Mon-Sat 18:00-21:00
+D-0118,Dr Umesh Deshmukh,MBBS,General Medicine,MMC-2019-303080,H-0063,General Medicine,384,7167116470,250,7,"Marathi, Hindi",Mon-Fri 10:00-16:00
+D-0119,Dr Ekta Joshi,MBBS MD DM,Endocrinology,MMC-2022-965333,H-0333,Endocrinology,170,7438943555,1200,2,"Marathi, Hindi, English",Mon-Fri 10:00-16:00
+D-0120,Dr Swati Iyer,MBBS MD Psychiatry,Psychiatry,MMC-1986-659124,H-0302,Psychiatry,189,9101604363,750,36,"Hindi, English",Tue-Sat 09:30-14:00
+D-0121,Dr Rakesh Gupta,MBBS MD DM,Pulmonology,MMC-2022-556671,H-0211,Pulmonology,418,7077324624,650,3,"Marathi, Hindi, English",Tue-Sat 09:30-14:00
+D-0122,Dr Aarav Ghosh,MBBS MD DM,Neurology,MMC-2023-373189,H-0298,Neurology,451,7917023444,1000,1,"Hindi, English",Mon-Fri 10:00-16:00
+D-0123,Dr Tejaswini Chavan,MBBS MD DM,Cardiology,MMC-2023-244588,H-0160,Cardiology,178,9749946513,900,0,"Marathi, Hindi, English",Mon-Fri 10:00-16:00
+D-0124,Dr Zoya Chauhan,MBBS MD Psychiatry,Psychiatry,MMC-1993-456250,H-0056,Psychiatry,498,8918480871,700,33,"Marathi, Hindi, English, Gujarati",Wed-Sun 10:00-18:00
+D-0125,Dr Pooja Shah,MBBS MS OBG,Obstetrics and Gynaecology,MMC-2010-975656,H-0091,Obstetrics and Gynaecology,406,9051964061,700,14,"Hindi, English",Mon-Fri 10:00-16:00
+D-0126,Dr Amol Bhosale,MBBS MS OBG,Obstetrics and Gynaecology,MMC-1999-424693,H-0203,Obstetrics and Gynaecology,462,9177632647,950,27,"Marathi, Hindi",Mon-Fri 08:00-12:00
+D-0127,Dr Priya Rane,MBBS MS ENT,ENT,MMC-2023-861070,H-0182,ENT,249,8175990338,800,0,"Marathi, Hindi",Mon-Sat 09:00-17:00
+D-0128,Dr Neha Iyer,MBBS MS OBG,Obstetrics and Gynaecology,MMC-2017-634673,H-0100,Obstetrics and Gynaecology,376,8933919735,700,7,"Marathi, Hindi, English, Gujarati",Mon-Fri 08:00-12:00
+D-0129,Dr Usha Iyer,MBBS MD Paediatrics,Paediatrics,MMC-2007-292127,H-0235,Paediatrics,404,9621657435,450,17,"Marathi, Hindi, English, Gujarati",Tue-Sat 09:30-14:00
+D-0130,Dr Amol Ghosh,MBBS MD Anaesthesia,Anaesthesiology,MMC-2013-700472,H-0196,Anaesthesiology,206,9626291239,650,13,"Marathi, Hindi, English",Tue-Sat 09:30-14:00
+D-0131,Dr Sachin Verma,MBBS MD DM,Cardiology,MMC-2015-987726,H-0032,Cardiology,252,8475652506,950,9,"Marathi, Hindi, English, Gujarati",Wed-Sun 10:00-18:00
+D-0132,Dr Vikram Sharma,MBBS MD DM,Cardiology,MMC-2008-955692,H-0015,Cardiology,222,9115933388,700,18,"Marathi, Hindi",Mon-Sat 18:00-21:00
+D-0133,Dr Prashant Bhosale,MBBS MD Anaesthesia,Anaesthesiology,MMC-2015-393078,H-0439,Anaesthesiology,144,9095048407,500,9,"Hindi, English",Mon-Fri 10:00-16:00
+D-0134,Dr Neha Pawar,MBBS MD Paediatrics,Paediatrics,MMC-2003-311639,H-0233,Paediatrics,388,9673114443,450,20,"Marathi, Hindi, English",Mon-Fri 10:00-16:00
+D-0135,Dr Swati Mane,MBBS MS ENT,ENT,MMC-2010-637795,H-0158,ENT,206,7877402260,800,12,"Marathi, Hindi",Wed-Sun 10:00-18:00
+D-0136,Dr Swati Sharma,MBBS MD Psychiatry,Psychiatry,MMC-1989-627010,H-0480,Psychiatry,109,8552556154,600,35,"Marathi, Hindi, English",Mon-Fri 08:00-12:00
+D-0137,Dr Sameer Gaikwad,MBBS MD DM,Neurology,MMC-2000-233439,H-0145,Neurology,194,7582763435,950,26,"Marathi, Hindi",Mon-Sat 09:00-17:00
+D-0138,Dr Prashant Rao,MBBS MD Dermatology,Dermatology,MMC-1995-968462,H-0289,Dermatology,207,8339212160,800,27,"Hindi, English",Mon-Fri 08:00-12:00
+D-0139,Dr Neha Rane,MBBS MD Anaesthesia,Anaesthesiology,MMC-2004-505911,H-0006,Anaesthesiology,134,9685829506,900,18,"Hindi, English",Mon-Fri 10:00-16:00
+D-0140,Dr Vaishali Thakur,MBBS MD Anaesthesia,Anaesthesiology,MMC-2001-934484,H-0327,Anaesthesiology,481,9020841553,900,25,"Marathi, Hindi, English, Gujarati",Wed-Sun 10:00-18:00
+D-0141,Dr Kiran Ghosh,MBBS MD DM,Neurology,MMC-1987-264140,H-0054,Neurology,180,7745465132,1300,37,"Marathi, Hindi, English",Wed-Sun 10:00-18:00
+D-0142,Dr Mukesh Gaikwad,MBBS MD Paediatrics,Paediatrics,MMC-1994-820874,H-0015,Paediatrics,486,7695874610,650,31,"Marathi, Hindi, English",Mon-Fri 10:00-16:00
+D-0143,Dr Chitra Rao,MBBS MD DM,Neurology,MMC-1995-733928,H-0447,Neurology,284,9688438832,950,30,"Marathi, Hindi, English",Mon-Fri 10:00-16:00
+D-0144,Dr Vivek Patil,MBBS MD DM,Cardiology,MMC-2020-110319,H-0450,Cardiology,304,9603701847,1000,6,"Marathi, Hindi, English, Gujarati",Mon-Fri 10:00-16:00
+D-0145,Dr Prashant Patil,MBBS MS Ophthalmology,Ophthalmology,MMC-2017-852682,H-0312,Ophthalmology,145,8290680798,550,8,"Marathi, Hindi, English, Gujarati",Mon-Sat 09:00-17:00
+D-0146,Dr Vikram Deshmukh,MBBS,General Medicine,MMC-2012-249019,H-0273,General Medicine,300,8381224799,350,13,"Hindi, English",Wed-Sun 10:00-18:00
+D-0147,Dr Ashish Verma,MBBS MD DM,Endocrinology,MMC-1991-553276,H-0268,Endocrinology,241,8011496924,800,32,"Hindi, English",Mon-Fri 10:00-16:00
+D-0148,Dr Kiran Menon,MBBS MS,Orthopaedics,MMC-1993-570249,H-0060,Orthopaedics,243,9220307594,800,33,"Hindi, English",Mon-Fri 10:00-16:00
+D-0149,Dr Nilesh Bhagat,MBBS MS Ophthalmology,Ophthalmology,MMC-2017-529667,H-0024,Ophthalmology,153,7280249443,600,7,"Marathi, Hindi",Tue-Sat 09:30-14:00
+D-0150,Dr Gayatri Chavan,MBBS MS OBG,Obstetrics and Gynaecology,MMC-1998-173848,H-0101,Obstetrics and Gynaecology,460,7973850876,650,24,"Hindi, English",Tue-Sat 09:30-14:00
+D-0151,Dr Harsh Sharma,MBBS MD DM,Pulmonology,MMC-1986-105292,H-0163,Pulmonology,314,8051696086,850,38,"Marathi, Hindi, English",Tue-Sat 09:30-14:00
+D-0152,Dr Prakash Waghmare,MBBS MS OBG,Obstetrics and Gynaecology,MMC-1989-871348,H-0111,Obstetrics and Gynaecology,247,9400330692,850,33,"Marathi, Hindi, English, Gujarati",Wed-Sun 10:00-18:00
+D-0153,Dr Aditi Verma,MBBS MS Urology,Urology,MMC-2013-261342,H-0042,Urology,223,8621650199,750,13,"Marathi, Hindi, English, Gujarati",Mon-Sat 18:00-21:00
+D-0154,Dr Priya Patel,MBBS MD DM,Pulmonology,MMC-2004-986360,H-0339,Pulmonology,487,7660379043,650,21,"Marathi, Hindi",Mon-Sat 18:00-21:00
+D-0155,Dr Naresh Joshi,MBBS MD DM,Gastroenterology,MMC-2013-490252,H-0482,Gastroenterology,147,8065604131,1150,9,"Marathi, Hindi",Tue-Sat 09:30-14:00
+D-0156,Dr Ekta Deshmukh,MBBS MS Urology,Urology,MMC-2000-339529,H-0509,Urology,401,7356996799,950,23,"Hindi, English",Wed-Sun 10:00-18:00
+D-0157,Dr Sneha Chauhan,MBBS MD Psychiatry,Psychiatry,MMC-2004-452113,H-0514,Psychiatry,346,9228787358,1100,20,"Marathi, Hindi",Mon-Fri 10:00-16:00
+D-0158,Dr Ashish Deshmukh,MBBS,General Medicine,MMC-2009-159710,H-0085,General Medicine,130,9283862980,250,15,"Hindi, English",Mon-Sat 09:00-17:00
+D-0159,Dr Tejaswini Jadhav,MBBS MD Anaesthesia,Anaesthesiology,MMC-2011-369161,H-0490,Anaesthesiology,198,8544200628,900,15,"Hindi, English",Mon-Fri 10:00-16:00
+D-0160,Dr Satish Chavan,MBBS MD DM,Endocrinology,MMC-2009-757558,H-0429,Endocrinology,363,7272523418,1000,15,"Marathi, Hindi, English",Tue-Sat 09:30-14:00
+D-0161,Dr Usha Desai,MBBS MD Psychiatry,Psychiatry,MMC-2022-246523,H-0364,Psychiatry,355,8845854849,1100,4,"Marathi, Hindi, English",Wed-Sun 10:00-18:00
+D-0162,Dr Tejaswini Waghmare,MBBS MD Dermatology,Dermatology,MMC-1992-457949,H-0128,Dermatology,348,7869582808,800,33,"Marathi, Hindi, English",Mon-Fri 08:00-12:00
+D-0163,Dr Tejaswini Gupta,MBBS MS Ophthalmology,Ophthalmology,MMC-2010-981129,H-0329,Ophthalmology,415,8950186220,700,13,"Hindi, English",Tue-Sat 09:30-14:00
+D-0164,Dr Manjula Joshi,MBBS MS Ophthalmology,Ophthalmology,MMC-2018-564241,H-0505,Ophthalmology,299,9351619617,500,8,"Marathi, Hindi, English",Mon-Fri 08:00-12:00
+D-0165,Dr Anjali Kulkarni,MBBS,General Medicine,MMC-2010-871670,H-0138,General Medicine,179,7479678127,250,14,"Marathi, Hindi, English, Gujarati",Mon-Fri 10:00-16:00
+D-0166,Dr Harsh Menon,MBBS MD Paediatrics,Paediatrics,MMC-2019-447302,H-0236,Paediatrics,221,7350418431,500,3,"Marathi, Hindi, English",Wed-Sun 10:00-18:00
+D-0167,Dr Rakesh Joshi,MBBS MD Paediatrics,Paediatrics,MMC-1988-637707,H-0351,Paediatrics,224,7860241170,500,37,"Hindi, English",Mon-Fri 08:00-12:00
+D-0168,Dr Rohan Waghmare,MBBS MD DM,Gastroenterology,MMC-2009-545466,H-0474,Gastroenterology,332,9469585514,750,14,"Hindi, English",Mon-Fri 10:00-16:00
+D-0169,Dr Yogita Desai,MBBS MS OBG,Obstetrics and Gynaecology,MMC-1987-546971,H-0446,Obstetrics and Gynaecology,376,8930008523,700,38,"Hindi, English",Mon-Fri 08:00-12:00
+D-0170,Dr Kiran Kulkarni,MBBS MD DM,Endocrinology,MMC-1993-235266,H-0054,Endocrinology,294,8411479444,850,30,"Hindi, English",Mon-Fri 08:00-12:00
+D-0171,Dr Yogita Pawar,MBBS MD DM,Neurology,MMC-1998-853089,H-0027,Neurology,201,7676042103,1100,25,"Marathi, Hindi",Wed-Sun 10:00-18:00
+D-0172,Dr Nitin Gaikwad,MBBS MD Anaesthesia,Anaesthesiology,MMC-1994-573432,H-0275,Anaesthesiology,300,9841723787,500,32,"Marathi, Hindi, English, Gujarati",Tue-Sat 09:30-14:00
+D-0173,Dr Usha Sharma,MBBS MD Anaesthesia,Anaesthesiology,MMC-2010-481633,H-0217,Anaesthesiology,440,9343710350,600,12,"Marathi, Hindi",Mon-Sat 09:00-17:00
+D-0174,Dr Ashish Kulkarni,MBBS MS ENT,ENT,MMC-1988-248976,H-0263,ENT,321,7309926236,550,35,"Marathi, Hindi, English, Gujarati",Mon-Sat 09:00-17:00
+D-0175,Dr Kiran Pawar,MBBS MS,Orthopaedics,MMC-2004-929007,H-0115,Orthopaedics,306,7859899117,800,20,"Marathi, Hindi, English",Mon-Fri 10:00-16:00
+D-0176,Dr Tarun Patel,MBBS MS OBG,Obstetrics and Gynaecology,MMC-2007-547797,H-0059,Obstetrics and Gynaecology,245,9287658041,950,17,"Marathi, Hindi, English, Gujarati",Mon-Sat 18:00-21:00
+D-0177,Dr Divya Joshi,MBBS MS Ophthalmology,Ophthalmology,MMC-1985-694130,H-0187,Ophthalmology,104,9036366997,650,41,"Marathi, Hindi, English, Gujarati",Tue-Sat 09:30-14:00
+D-0178,Dr Swati Gupta,MBBS MD DM,Gastroenterology,MMC-1993-382841,H-0289,Gastroenterology,456,7337056749,1050,31,"Marathi, Hindi, English, Gujarati",Mon-Sat 18:00-21:00
+D-0179,Dr Sumit Nair,MBBS MD Paediatrics,Paediatrics,MMC-2012-983033,H-0144,Paediatrics,390,7582203136,400,11,"Marathi, Hindi, English, Gujarati",Wed-Sun 10:00-18:00
+D-0180,Dr Mahesh Mane,MBBS MD Dermatology,Dermatology,MMC-2005-896396,H-0503,Dermatology,471,7076864379,800,17,"Marathi, Hindi, English",Mon-Fri 10:00-16:00
+D-0181,Dr Sachin Joshi,MBBS,General Medicine,MMC-2021-381991,H-0304,General Medicine,450,8501279134,500,5,"Hindi, English",Mon-Fri 10:00-16:00
+D-0182,Dr Prachi Thakur,MBBS MD Psychiatry,Psychiatry,MMC-2018-456564,H-0321,Psychiatry,156,9083746649,600,6,"Marathi, Hindi, English, Gujarati",Mon-Sat 09:00-17:00
+D-0183,Dr Jaya Waghmare,MBBS MD Psychiatry,Psychiatry,MMC-2017-663003,H-0094,Psychiatry,233,8048339132,1050,8,"Marathi, Hindi, English, Gujarati",Wed-Sun 10:00-18:00
+D-0184,Dr Rajesh Chavan,MBBS MD Psychiatry,Psychiatry,MMC-1988-950450,H-0085,Psychiatry,259,9065940463,750,38,"Marathi, Hindi, English",Mon-Fri 10:00-16:00
+D-0185,Dr Bhavana Jadhav,MBBS MD Psychiatry,Psychiatry,MMC-1998-915907,H-0376,Psychiatry,449,9402214878,1000,25,"Marathi, Hindi, English",Mon-Sat 09:00-17:00
+D-0186,Dr Ganesh Ghosh,MBBS MD DM,Cardiology,MMC-1996-872020,H-0277,Cardiology,127,9213554477,700,27,"Marathi, Hindi, English",Mon-Fri 10:00-16:00
+D-0187,Dr Sumit Gupta,MBBS MD DM,Gastroenterology,MMC-1995-213591,H-0029,Gastroenterology,303,7933634385,850,30,"Hindi, English",Mon-Fri 10:00-16:00
+D-0188,Dr Divya Shah,MBBS MD Psychiatry,Psychiatry,MMC-2000-562117,H-0357,Psychiatry,302,8041621554,850,23,"Hindi, English",Tue-Sat 09:30-14:00
+D-0189,Dr Harsh Gupta,MBBS MD DM,Neurology,MMC-1997-693281,H-0492,Neurology,286,9005497630,800,25,"Hindi, English",Mon-Fri 08:00-12:00
+D-0190,Dr Dinesh Chavan,MBBS MS,Orthopaedics,MMC-2008-267918,H-0455,Orthopaedics,414,9564736764,850,16,"Marathi, Hindi",Tue-Sat 09:30-14:00
+D-0191,Dr Nikhil Gaikwad,MBBS MS OBG,Obstetrics and Gynaecology,MMC-1995-778013,H-0237,Obstetrics and Gynaecology,176,7369912715,800,28,"Hindi, English",Tue-Sat 09:30-14:00
+D-0192,Dr Nitin Yadav,MBBS MD DM,Nephrology,MMC-1996-251936,H-0384,Nephrology,263,9063314155,850,28,"Marathi, Hindi, English, Gujarati",Wed-Sun 10:00-18:00
+D-0193,Dr Manjula Chauhan,MBBS MS Urology,Urology,MMC-2010-248967,H-0418,Urology,133,9318344401,750,14,"Hindi, English",Mon-Sat 18:00-21:00
+D-0194,Dr Ritu Shah,MBBS MD DM,Pulmonology,MMC-2012-137642,H-0034,Pulmonology,396,8659999616,750,12,"Hindi, English",Mon-Sat 18:00-21:00
+D-0195,Dr Prakash Rane,MBBS MD DM,Neurology,MMC-2023-428523,H-0196,Neurology,424,9837932395,1100,1,"Marathi, Hindi, English, Gujarati",Wed-Sun 10:00-18:00
+D-0196,Dr Deepak Rane,MBBS MS ENT,ENT,MMC-1994-242467,H-0209,ENT,453,7112457141,600,30,"Marathi, Hindi",Wed-Sun 10:00-18:00
+D-0197,Dr Bhavana Joshi,MBBS MS OBG,Obstetrics and Gynaecology,MMC-2017-705882,H-0463,Obstetrics and Gynaecology,247,8843811509,950,8,"Marathi, Hindi",Mon-Sat 18:00-21:00
+D-0198,Dr Ekta Khan,MBBS MD Dermatology,Dermatology,MMC-1990-608399,H-0102,Dermatology,118,7542317026,800,32,"Marathi, Hindi, English, Gujarati",Mon-Fri 08:00-12:00
+D-0199,Dr Ritu Bhosale,MBBS MD Paediatrics,Paediatrics,MMC-2004-319698,H-0063,Paediatrics,217,9391067947,450,21,"Marathi, Hindi, English",Mon-Sat 18:00-21:00
+D-0200,Dr Manjula Waghmare,MBBS MD DM,Neurology,MMC-2010-561258,H-0465,Neurology,337,9629933886,1200,14,"Marathi, Hindi, English",Mon-Sat 18:00-21:00
+D-0201,Dr Gaurav Bhagat,MBBS MS,Orthopaedics,MMC-2014-314274,H-0354,Orthopaedics,370,7178852828,800,12,"Marathi, Hindi, English",Mon-Fri 08:00-12:00
+D-0202,Dr Neha Singh,MBBS MD DM,Endocrinology,MMC-2012-770854,H-0314,Endocrinology,271,7043773006,1200,10,"Marathi, Hindi, English",Mon-Sat 18:00-21:00
+D-0203,Dr Bhavana Waghmare,MBBS MS,Orthopaedics,MMC-1997-653485,H-0022,Orthopaedics,141,7336422996,800,26,"Marathi, Hindi",Mon-Sat 09:00-17:00
+D-0204,Dr Ola Chauhan,MBBS MS Ophthalmology,Ophthalmology,MMC-2012-364295,H-0259,Ophthalmology,409,8072618459,550,12,"Marathi, Hindi",Mon-Sat 18:00-21:00
+D-0205,Dr Shreya Patel,MBBS MD Paediatrics,Paediatrics,MMC-2005-930784,H-0268,Paediatrics,116,7721822420,650,20,"Marathi, Hindi",Mon-Fri 10:00-16:00
+D-0206,Dr Divya Ghosh,MBBS MD Paediatrics,Paediatrics,MMC-2008-507397,H-0125,Paediatrics,320,9551320631,400,17,"Marathi, Hindi, English, Gujarati",Mon-Fri 08:00-12:00
+D-0207,Dr Meera Iyer,MBBS MS,Orthopaedics,MMC-1998-435627,H-0359,Orthopaedics,481,7380505240,900,27,"Marathi, Hindi, English, Gujarati",Tue-Sat 09:30-14:00
+D-0208,Dr Nikita Bhagat,MBBS MD Psychiatry,Psychiatry,MMC-1993-959273,H-0403,Psychiatry,303,7637624118,1000,30,"Hindi, English",Mon-Fri 10:00-16:00
+D-0209,Dr Mukesh Nair,MBBS MS Ophthalmology,Ophthalmology,MMC-2003-468464,H-0161,Ophthalmology,437,9365441909,650,21,"Hindi, English",Mon-Fri 08:00-12:00
+D-0210,Dr Ankita Verma,MBBS MD DM,Cardiology,MMC-2005-302130,H-0219,Cardiology,150,7558844609,1100,18,"Marathi, Hindi",Mon-Fri 10:00-16:00
+D-0211,Dr Jatin Verma,MBBS MS Urology,Urology,MMC-1998-995952,H-0136,Urology,279,8558815309,700,26,"Marathi, Hindi, English",Mon-Fri 10:00-16:00
+D-0212,Dr Ekta Pawar,MBBS,General Medicine,MMC-2021-222274,H-0218,General Medicine,360,8699939157,450,4,"Marathi, Hindi",Mon-Sat 09:00-17:00
+D-0213,Dr Rajesh Gupta,MBBS MS Urology,Urology,MMC-2014-437813,H-0287,Urology,102,8643737263,700,12,"Marathi, Hindi, English",Mon-Fri 10:00-16:00
+D-0214,Dr Tejaswini Verma,MBBS MS OBG,Obstetrics and Gynaecology,MMC-2024-174170,H-0192,Obstetrics and Gynaecology,115,9875006958,900,1,"Marathi, Hindi, English",Mon-Fri 10:00-16:00
+D-0215,Dr Shreya Waghmare,MBBS MD Paediatrics,Paediatrics,MMC-1990-487252,H-0394,Paediatrics,202,9154705720,450,34,"Marathi, Hindi, English",Tue-Sat 09:30-14:00
+D-0216,Dr Gayatri Mane,MBBS,General Medicine,MMC-1991-100897,H-0205,General Medicine,196,9844353479,400,32,"Hindi, English",Wed-Sun 10:00-18:00
+D-0217,Dr Priya Nair,MBBS MD DM,Cardiology,MMC-1992-617047,H-0110,Cardiology,126,8844854287,950,31,"Marathi, Hindi, English",Mon-Sat 18:00-21:00
+D-0218,Dr Falguni Gupta,MBBS MD Paediatrics,Paediatrics,MMC-2008-379399,H-0420,Paediatrics,175,8737868238,500,15,"Marathi, Hindi",Mon-Fri 08:00-12:00
+D-0219,Dr Vivek Mehta,MBBS,General Medicine,MMC-1988-896158,H-0327,General Medicine,277,7093400054,500,36,"Hindi, English",Mon-Fri 08:00-12:00
+D-0220,Dr Ashish Joshi,MBBS MS OBG,Obstetrics and Gynaecology,MMC-1994-264950,H-0126,Obstetrics and Gynaecology,401,8618593436,1000,28,"Hindi, English",Mon-Sat 18:00-21:00
+D-0221,Dr Bhagyashree Waghmare,MBBS MD Paediatrics,Paediatrics,MMC-1993-226925,H-0025,Paediatrics,354,8420148229,400,33,"Hindi, English",Mon-Sat 18:00-21:00
+D-0222,Dr Sonal Jadhav,MBBS MS OBG,Obstetrics and Gynaecology,MMC-2006-797338,H-0277,Obstetrics and Gynaecology,105,8537354976,800,18,"Hindi, English",Mon-Sat 18:00-21:00
+D-0223,Dr Vandana Rao,MBBS MS OBG,Obstetrics and Gynaecology,MMC-2018-762361,H-0298,Obstetrics and Gynaecology,128,7498610347,900,7,"Hindi, English",Mon-Sat 18:00-21:00
+D-0224,Dr Umesh Yadav,MBBS,General Medicine,MMC-2019-753174,H-0011,General Medicine,358,7073622990,250,6,"Marathi, Hindi",Wed-Sun 10:00-18:00
+D-0225,Dr Asha Verma,MBBS MD Dermatology,Dermatology,MMC-1987-490331,H-0286,Dermatology,123,8654783709,600,35,"Marathi, Hindi",Tue-Sat 09:30-14:00
+D-0226,Dr Ankita Rao,MBBS MS ENT,ENT,MMC-2015-562710,H-0227,ENT,476,7342477889,700,10,"Marathi, Hindi, English, Gujarati",Mon-Fri 10:00-16:00
+D-0227,Dr Yogita Joshi,MBBS MS Urology,Urology,MMC-1987-289942,H-0205,Urology,404,8867464262,950,35,"Hindi, English",Wed-Sun 10:00-18:00
+D-0228,Dr Pankaj Thakur,MBBS MD DM,Gastroenterology,MMC-2015-480371,H-0031,Gastroenterology,169,7192091522,1150,10,"Marathi, Hindi, English, Gujarati",Mon-Sat 09:00-17:00
+D-0229,Dr Asha Ghosh,MBBS MS,Orthopaedics,MMC-2023-330504,H-0513,Orthopaedics,460,8101539542,500,2,"Hindi, English",Mon-Fri 08:00-12:00
+D-0230,Dr Ganesh Joshi,MBBS MD Paediatrics,Paediatrics,MMC-2008-717078,H-0421,Paediatrics,262,7768613592,600,15,"Marathi, Hindi",Mon-Fri 08:00-12:00
+D-0231,Dr Kiran Salunke,MBBS MD DM,Cardiology,MMC-2022-748065,H-0284,Cardiology,111,7065258868,1050,3,"Marathi, Hindi, English",Mon-Sat 18:00-21:00
+D-0232,Dr Santosh Chavan,MBBS MS,Orthopaedics,MMC-2015-740396,H-0323,Orthopaedics,153,8829953491,750,10,"Hindi, English",Tue-Sat 09:30-14:00
+D-0233,Dr Sameer Bhagat,MBBS MS Urology,Urology,MMC-2024-290118,H-0385,Urology,481,7913633476,600,0,"Hindi, English",Mon-Sat 18:00-21:00
+D-0234,Dr Yogita Rao,MBBS MS OBG,Obstetrics and Gynaecology,MMC-1991-806858,H-0315,Obstetrics and Gynaecology,269,7247681006,1000,33,"Marathi, Hindi, English",Mon-Sat 09:00-17:00
+D-0235,Dr Rakesh Dixit,MBBS MD Psychiatry,Psychiatry,MMC-1996-565074,H-0479,Psychiatry,283,9540611604,800,27,"Marathi, Hindi",Tue-Sat 09:30-14:00
+D-0236,Dr Tejaswini Mehta,MBBS MS ENT,ENT,MMC-1990-354515,H-0165,ENT,132,9354022966,700,35,"Marathi, Hindi",Tue-Sat 09:30-14:00
+D-0237,Dr Ola Iyer,MBBS MD DM,Pulmonology,MMC-1985-597100,H-0117,Pulmonology,180,9565549913,700,39,"Marathi, Hindi, English, Gujarati",Mon-Fri 10:00-16:00
+D-0238,Dr Siddharth Ghosh,MBBS MD Psychiatry,Psychiatry,MMC-2006-238467,H-0030,Psychiatry,344,8371784901,700,18,"Marathi, Hindi",Mon-Fri 08:00-12:00
+D-0239,Dr Jayesh Singh,MBBS MS OBG,Obstetrics and Gynaecology,MMC-1999-538135,H-0217,Obstetrics and Gynaecology,378,8711266791,850,24,"Marathi, Hindi, English",Mon-Sat 09:00-17:00
+D-0240,Dr Ganesh Mane,MBBS MD DM,Cardiology,MMC-1998-895014,H-0503,Cardiology,258,7109914662,850,26,"Marathi, Hindi",Mon-Sat 18:00-21:00
+D-0241,Dr Deepa Iyer,MBBS MD Dermatology,Dermatology,MMC-2017-633440,H-0514,Dermatology,302,8413051849,700,7,"Marathi, Hindi",Mon-Sat 09:00-17:00
+D-0242,Dr Siddharth Chavan,MBBS MD DM,Neurology,MMC-1988-491887,H-0187,Neurology,366,9376911257,1300,37,"Hindi, English",Mon-Sat 09:00-17:00
+D-0243,Dr Suresh Gupta,MBBS MS Ophthalmology,Ophthalmology,MMC-2003-866365,H-0169,Ophthalmology,352,9620155743,600,23,"Hindi, English",Mon-Fri 10:00-16:00
+D-0244,Dr Nikhil Chavan,MBBS MS,Orthopaedics,MMC-2019-569479,H-0127,Orthopaedics,199,7635713849,750,6,"Marathi, Hindi, English, Gujarati",Mon-Fri 08:00-12:00
+D-0245,Dr Ekta Chauhan,MBBS MD Anaesthesia,Anaesthesiology,MMC-1991-101392,H-0475,Anaesthesiology,254,9952234900,800,31,"Marathi, Hindi, English, Gujarati",Mon-Sat 18:00-21:00
+D-0246,Dr Pooja Menon,MBBS MS OBG,Obstetrics and Gynaecology,MMC-2010-858900,H-0151,Obstetrics and Gynaecology,412,8227261768,700,13,"Marathi, Hindi",Mon-Fri 08:00-12:00
+D-0247,Dr Vandana Kamble,MBBS MS OBG,Obstetrics and Gynaecology,MMC-2016-398286,H-0019,Obstetrics and Gynaecology,314,8839989740,1000,10,"Hindi, English",Mon-Sat 09:00-17:00
+D-0248,Dr Mukesh Gaikwad,MBBS MD Dermatology,Dermatology,MMC-2000-431332,H-0129,Dermatology,433,8241441898,500,24,"Marathi, Hindi, English",Wed-Sun 10:00-18:00
+D-0249,Dr Lalit Kulkarni,MBBS,General Medicine,MMC-2021-782523,H-0373,General Medicine,333,7814507364,500,5,"Marathi, Hindi",Mon-Sat 18:00-21:00
+D-0250,Dr Kunal Pawar,MBBS MS,Orthopaedics,MMC-1986-151267,H-0093,Orthopaedics,344,8070342900,850,37,"Marathi, Hindi, English, Gujarati",Mon-Sat 09:00-17:00
+D-0251,Dr Piyush Iyer,MBBS MD Dermatology,Dermatology,MMC-2007-471094,H-0174,Dermatology,269,8767635534,600,15,"Marathi, Hindi",Mon-Fri 10:00-16:00
+D-0252,Dr Vandana Waghmare,MBBS MD DM,Endocrinology,MMC-2024-679225,H-0233,Endocrinology,369,7818840437,950,0,"Marathi, Hindi, English",Mon-Sat 18:00-21:00
+D-0253,Dr Gayatri Deshmukh,MBBS MD Dermatology,Dermatology,MMC-2016-786240,H-0038,Dermatology,164,9196894716,800,9,"Marathi, Hindi, English",Mon-Fri 10:00-16:00
+D-0254,Dr Rahul Menon,MBBS MS Ophthalmology,Ophthalmology,MMC-2011-807389,H-0505,Ophthalmology,129,7639556164,700,13,"Marathi, Hindi, English, Gujarati",Mon-Sat 18:00-21:00
+D-0255,Dr Rajesh Shah,MBBS,General Medicine,MMC-2001-448442,H-0228,General Medicine,304,7623319582,350,22,"Marathi, Hindi",Mon-Fri 10:00-16:00
+D-0256,Dr Sonal Joshi,MBBS MD Anaesthesia,Anaesthesiology,MMC-2009-425475,H-0436,Anaesthesiology,199,7883070220,700,14,"Marathi, Hindi",Mon-Fri 08:00-12:00
+D-0257,Dr Ranjana Chauhan,MBBS MD DM,Cardiology,MMC-2000-115816,H-0130,Cardiology,156,8416326418,1050,24,"Marathi, Hindi, English",Mon-Sat 18:00-21:00
+D-0258,Dr Kiran Patil,MBBS MD DM,Neurology,MMC-2010-510675,H-0090,Neurology,494,9492728502,850,14,"Marathi, Hindi",Mon-Sat 18:00-21:00
+D-0259,Dr Priya Joshi,MBBS MD DM,Pulmonology,MMC-1994-304795,H-0478,Pulmonology,205,7460629949,700,31,"Marathi, Hindi",Mon-Sat 18:00-21:00
+D-0260,Dr Bhavana Mane,MBBS MD DM,Endocrinology,MMC-1993-559647,H-0217,Endocrinology,126,8117774532,950,31,"Marathi, Hindi, English, Gujarati",Tue-Sat 09:30-14:00
+D-0261,Dr Abhishek Yadav,MBBS MD DM,Cardiology,MMC-2018-889771,H-0253,Cardiology,237,8708975380,900,6,"Marathi, Hindi, English",Mon-Fri 08:00-12:00
+D-0262,Dr Bhagyashree Gupta,MBBS MD DM,Gastroenterology,MMC-1985-831733,H-0388,Gastroenterology,462,9454819750,1200,37,"Marathi, Hindi, English",Tue-Sat 09:30-14:00
+D-0263,Dr Piyush Singh,MBBS MD Psychiatry,Psychiatry,MMC-2008-713938,H-0306,Psychiatry,429,9627066295,650,15,"Hindi, English",Mon-Fri 10:00-16:00
+D-0264,Dr Nikita Bhagat,MBBS MS ENT,ENT,MMC-2017-465131,H-0057,ENT,185,7505638233,750,7,"Marathi, Hindi",Mon-Sat 18:00-21:00
+D-0265,Dr Sachin Kamble,MBBS MD Dermatology,Dermatology,MMC-2016-671074,H-0154,Dermatology,176,7422850792,500,9,"Hindi, English",Mon-Sat 09:00-17:00
+D-0266,Dr Kiran Chavan,MBBS MS Ophthalmology,Ophthalmology,MMC-2005-117314,H-0416,Ophthalmology,333,9846204093,550,20,"Marathi, Hindi, English",Mon-Fri 10:00-16:00
+D-0267,Dr Swati Thakur,MBBS MD Dermatology,Dermatology,MMC-1993-772803,H-0197,Dermatology,266,8009895973,500,32,"Marathi, Hindi, English, Gujarati",Wed-Sun 10:00-18:00
+D-0268,Dr Ekta Khan,MBBS MD Psychiatry,Psychiatry,MMC-1994-445238,H-0461,Psychiatry,225,9361542898,1100,31,"Marathi, Hindi",Mon-Fri 10:00-16:00
+D-0269,Dr Amol Waghmare,MBBS MS ENT,ENT,MMC-1995-506898,H-0467,ENT,443,8583494334,650,27,"Marathi, Hindi, English",Mon-Sat 18:00-21:00
+D-0270,Dr Hemangi Desai,MBBS MD DM,Neurology,MMC-2014-113850,H-0112,Neurology,444,9043251931,1300,9,"Hindi, English",Mon-Fri 10:00-16:00
+D-0271,Dr Sneha Singh,MBBS MD Dermatology,Dermatology,MMC-1997-487443,H-0510,Dermatology,113,7462807613,750,25,"Marathi, Hindi, English",Tue-Sat 09:30-14:00
+D-0272,Dr Kiran Joshi,MBBS MS OBG,Obstetrics and Gynaecology,MMC-2014-907747,H-0417,Obstetrics and Gynaecology,418,7554064595,700,8,"Marathi, Hindi",Tue-Sat 09:30-14:00
+D-0273,Dr Lalit Deshmukh,MBBS MS,Orthopaedics,MMC-2005-793071,H-0129,Orthopaedics,440,7180011816,650,18,"Marathi, Hindi, English",Tue-Sat 09:30-14:00
+D-0274,Dr Pooja Reddy,MBBS MD Anaesthesia,Anaesthesiology,MMC-1987-172894,H-0518,Anaesthesiology,481,7930562594,650,35,"Marathi, Hindi, English",Wed-Sun 10:00-18:00
+D-0275,Dr Nilesh Shah,MBBS MD Psychiatry,Psychiatry,MMC-2002-194027,H-0439,Psychiatry,413,7495376226,950,22,"Hindi, English",Mon-Fri 10:00-16:00
+D-0276,Dr Ritu Bhosale,MBBS MS Ophthalmology,Ophthalmology,MMC-1992-223593,H-0148,Ophthalmology,335,8341042293,650,32,"Marathi, Hindi, English",Tue-Sat 09:30-14:00
+D-0277,Dr Nitin Chauhan,MBBS,General Medicine,MMC-2018-831721,H-0230,General Medicine,444,7017312913,400,5,"Marathi, Hindi, English",Tue-Sat 09:30-14:00
+D-0278,Dr Swati Jadhav,MBBS MS ENT,ENT,MMC-2017-498085,H-0055,ENT,412,9866457352,550,6,"Marathi, Hindi, English, Gujarati",Wed-Sun 10:00-18:00
+D-0279,Dr Bhagyashree Menon,MBBS MS,Orthopaedics,MMC-2023-654495,H-0238,Orthopaedics,402,7032731528,500,0,"Marathi, Hindi, English, Gujarati",Mon-Fri 08:00-12:00
+D-0280,Dr Yogesh Mehta,MBBS MD DM,Nephrology,MMC-2007-963384,H-0027,Nephrology,467,7561159396,1350,18,"Marathi, Hindi",Mon-Fri 08:00-12:00
+D-0281,Dr Deepak Kamble,MBBS MD DM,Neurology,MMC-2023-444887,H-0276,Neurology,369,7878306657,950,3,"Marathi, Hindi, English",Tue-Sat 09:30-14:00
+D-0282,Dr Meera Kulkarni,MBBS MD DM,Gastroenterology,MMC-2016-280861,H-0010,Gastroenterology,413,7498794742,1150,10,"Marathi, Hindi, English, Gujarati",Mon-Fri 10:00-16:00
+D-0283,Dr Harsh Joshi,MBBS MD Anaesthesia,Anaesthesiology,MMC-2007-302711,H-0172,Anaesthesiology,240,9269452476,800,16,"Marathi, Hindi, English",Mon-Sat 09:00-17:00
+D-0284,Dr Rahul Salunke,MBBS MD Psychiatry,Psychiatry,MMC-1998-412476,H-0095,Psychiatry,231,9285343188,1050,24,"Hindi, English",Mon-Sat 09:00-17:00
+D-0285,Dr Rahul Bhosale,MBBS MD Psychiatry,Psychiatry,MMC-2004-183778,H-0513,Psychiatry,389,8351460698,1100,22,"Marathi, Hindi, English",Mon-Sat 09:00-17:00
+D-0286,Dr Sneha Patel,MBBS MD DM,Endocrinology,MMC-2023-382100,H-0495,Endocrinology,482,8858153917,1050,1,"Hindi, English",Tue-Sat 09:30-14:00
+D-0287,Dr Deepak Waghmare,MBBS MD Paediatrics,Paediatrics,MMC-2017-365315,H-0079,Paediatrics,435,8125951019,700,5,"Marathi, Hindi, English, Gujarati",Mon-Fri 10:00-16:00
+D-0288,Dr Pooja Thakur,MBBS MS OBG,Obstetrics and Gynaecology,MMC-2008-420920,H-0192,Obstetrics and Gynaecology,484,8775085196,900,14,"Marathi, Hindi, English",Mon-Fri 08:00-12:00
+D-0289,Dr Yogesh Mehta,MBBS,General Medicine,MMC-1990-192524,H-0383,General Medicine,467,8402964696,300,35,"Hindi, English",Tue-Sat 09:30-14:00
+D-0290,Dr Priya Bhosale,MBBS MD DM,Endocrinology,MMC-1991-311349,H-0025,Endocrinology,113,8539869585,1150,34,"Marathi, Hindi, English",Mon-Fri 10:00-16:00
+D-0291,Dr Sagar Gupta,MBBS,General Medicine,MMC-2017-847615,H-0379,General Medicine,162,8711656001,400,6,"Marathi, Hindi, English",Mon-Sat 18:00-21:00
+D-0292,Dr Gaurav Joshi,MBBS MD DM,Gastroenterology,MMC-1997-966200,H-0437,Gastroenterology,162,8282217303,1050,28,"Marathi, Hindi, English, Gujarati",Tue-Sat 09:30-14:00
+D-0293,Dr Nikita Dixit,MBBS MD DM,Neurology,MMC-1994-865978,H-0203,Neurology,209,8832220205,1150,31,"Marathi, Hindi",Mon-Sat 09:00-17:00
+D-0294,Dr Rahul Ghosh,MBBS MD Anaesthesia,Anaesthesiology,MMC-1993-873206,H-0395,Anaesthesiology,380,9969722268,750,32,"Marathi, Hindi, English, Gujarati",Wed-Sun 10:00-18:00
+D-0295,Dr Sagar Jadhav,MBBS MS OBG,Obstetrics and Gynaecology,MMC-1991-513788,H-0354,Obstetrics and Gynaecology,370,9506018016,650,31,"Hindi, English",Tue-Sat 09:30-14:00
+D-0296,Dr Manjula Bhagat,MBBS MS Urology,Urology,MMC-2012-210841,H-0292,Urology,106,7688028733,850,12,"Marathi, Hindi",Mon-Fri 10:00-16:00
+D-0297,Dr Nilesh Kulkarni,MBBS MS Urology,Urology,MMC-2014-158383,H-0442,Urology,169,7027456898,1000,8,"Marathi, Hindi",Mon-Fri 10:00-16:00
+D-0298,Dr Satish Khan,MBBS MD Paediatrics,Paediatrics,MMC-1997-535296,H-0056,Paediatrics,102,7548574913,700,27,"Hindi, English",Mon-Fri 08:00-12:00
+D-0299,Dr Abhishek Chauhan,MBBS MS,Orthopaedics,MMC-2013-819571,H-0119,Orthopaedics,274,8968648135,900,9,"Marathi, Hindi, English",Wed-Sun 10:00-18:00
+D-0300,Dr Siddharth Singh,MBBS MD Anaesthesia,Anaesthesiology,MMC-2008-980160,H-0381,Anaesthesiology,487,9317023883,850,18,"Marathi, Hindi, English, Gujarati",Mon-Sat 09:00-17:00
+D-0301,Dr Tarun Deshmukh,MBBS MD DM,Nephrology,MMC-2004-676607,H-0029,Nephrology,103,7613908863,1250,18,"Marathi, Hindi",Mon-Sat 09:00-17:00
+D-0302,Dr Lalit Rane,MBBS MD DM,Nephrology,MMC-2018-176849,H-0013,Nephrology,436,9125292044,900,7,"Marathi, Hindi",Wed-Sun 10:00-18:00
+D-0303,Dr Rohan Joshi,MBBS MD Paediatrics,Paediatrics,MMC-2016-310403,H-0498,Paediatrics,317,8495069733,500,9,"Hindi, English",Mon-Fri 08:00-12:00
+D-0304,Dr Lata Mane,MBBS MD Psychiatry,Psychiatry,MMC-1991-119250,H-0196,Psychiatry,137,8138643862,700,31,"Hindi, English",Wed-Sun 10:00-18:00
+D-0305,Dr Vivek Singh,MBBS MD DM,Pulmonology,MMC-2010-396119,H-0463,Pulmonology,475,7996393172,600,16,"Marathi, Hindi, English",Mon-Sat 18:00-21:00
+D-0306,Dr Asha Iyer,MBBS MD DM,Gastroenterology,MMC-1993-641259,H-0358,Gastroenterology,178,8398049765,1100,31,"Hindi, English",Tue-Sat 09:30-14:00
+D-0307,Dr Anil Deshmukh,MBBS MD DM,Neurology,MMC-2006-472755,H-0334,Neurology,102,8769502275,1250,16,"Marathi, Hindi",Mon-Fri 08:00-12:00
+D-0308,Dr Prashant Yadav,MBBS MS Ophthalmology,Ophthalmology,MMC-1998-182924,H-0246,Ophthalmology,221,8874797878,650,27,"Marathi, Hindi",Tue-Sat 09:30-14:00
+D-0309,Dr Deepa Joshi,MBBS MS Ophthalmology,Ophthalmology,MMC-1986-538492,H-0273,Ophthalmology,156,9323259933,450,36,"Marathi, Hindi, English, Gujarati",Mon-Sat 09:00-17:00
+D-0310,Dr Swati Bhosale,MBBS MD DM,Nephrology,MMC-1995-343609,H-0178,Nephrology,201,8672538522,1350,30,"Marathi, Hindi, English",Mon-Sat 18:00-21:00
+D-0311,Dr Ritu Iyer,MBBS MS,Orthopaedics,MMC-2008-828723,H-0389,Orthopaedics,166,9822083254,650,14,"Marathi, Hindi, English, Gujarati",Mon-Sat 09:00-17:00
+D-0312,Dr Ganesh Khan,MBBS MS,Orthopaedics,MMC-1992-130168,H-0157,Orthopaedics,172,9912961511,850,34,"Marathi, Hindi",Mon-Fri 10:00-16:00
+D-0313,Dr Hemangi Kamble,MBBS MD DM,Endocrinology,MMC-2010-879537,H-0504,Endocrinology,300,7366313407,1100,13,"Marathi, Hindi",Mon-Fri 10:00-16:00
+D-0314,Dr Mukesh Gaikwad,MBBS MD DM,Cardiology,MMC-2008-747424,H-0136,Cardiology,211,8400616714,1150,17,"Marathi, Hindi, English, Gujarati",Wed-Sun 10:00-18:00
+D-0315,Dr Divya Bhagat,MBBS MD Psychiatry,Psychiatry,MMC-2006-644068,H-0123,Psychiatry,154,9078540052,900,16,"Marathi, Hindi, English",Mon-Sat 18:00-21:00
+D-0316,Dr Alok Joshi,MBBS MD DM,Neurology,MMC-1998-544159,H-0086,Neurology,141,8647878032,1200,27,"Marathi, Hindi",Mon-Sat 09:00-17:00
+D-0317,Dr Mukesh Mane,MBBS MD Anaesthesia,Anaesthesiology,MMC-1988-442659,H-0505,Anaesthesiology,475,8205439854,600,36,"Marathi, Hindi",Wed-Sun 10:00-18:00
+D-0318,Dr Yogita Joshi,MBBS MS,Orthopaedics,MMC-1988-868255,H-0239,Orthopaedics,155,7108196116,850,37,"Marathi, Hindi, English, Gujarati",Mon-Sat 09:00-17:00
+D-0319,Dr Gayatri Joshi,MBBS MD DM,Endocrinology,MMC-2009-396650,H-0169,Endocrinology,124,7904588469,800,14,"Marathi, Hindi",Mon-Sat 18:00-21:00
+D-0320,Dr Usha Kamble,MBBS MS,Orthopaedics,MMC-1993-806989,H-0258,Orthopaedics,137,8995673087,900,29,"Marathi, Hindi, English",Wed-Sun 10:00-18:00
+D-0321,Dr Sumit Kulkarni,MBBS MS Urology,Urology,MMC-2008-900995,H-0030,Urology,326,7977011151,950,17,"Hindi, English",Mon-Fri 08:00-12:00
+D-0322,Dr Ola Rao,MBBS MS ENT,ENT,MMC-2008-867718,H-0146,ENT,313,9858777896,700,16,"Marathi, Hindi, English",Mon-Fri 10:00-16:00
+D-0323,Dr Swati Yadav,MBBS MS Urology,Urology,MMC-2006-964925,H-0356,Urology,196,8382965161,850,18,"Marathi, Hindi, English, Gujarati",Wed-Sun 10:00-18:00
+D-0324,Dr Rajesh Yadav,MBBS MD DM,Endocrinology,MMC-1989-817790,H-0242,Endocrinology,200,8480612100,900,33,"Marathi, Hindi, English, Gujarati",Tue-Sat 09:30-14:00
+D-0325,Dr Gayatri Singh,MBBS MD DM,Gastroenterology,MMC-1993-911081,H-0368,Gastroenterology,283,8611877523,1150,29,"Marathi, Hindi",Mon-Sat 09:00-17:00
+D-0326,Dr Sneha Rane,MBBS MD DM,Nephrology,MMC-1990-601334,H-0297,Nephrology,413,9079567688,1000,34,"Marathi, Hindi, English, Gujarati",Mon-Fri 10:00-16:00
+D-0327,Dr Pankaj Waghmare,MBBS MS,Orthopaedics,MMC-2001-912977,H-0078,Orthopaedics,350,7174198781,800,24,"Marathi, Hindi, English",Mon-Fri 08:00-12:00
+D-0328,Dr Rahul Patil,MBBS MD DM,Gastroenterology,MMC-2004-117282,H-0371,Gastroenterology,329,8310310951,1150,18,"Marathi, Hindi, English, Gujarati",Mon-Fri 10:00-16:00
+D-0329,Dr Kunal Kamble,MBBS MD Anaesthesia,Anaesthesiology,MMC-2014-459633,H-0487,Anaesthesiology,315,8303481268,700,10,"Marathi, Hindi, English",Wed-Sun 10:00-18:00
+D-0330,Dr Manoj Deshmukh,MBBS MS,Orthopaedics,MMC-2013-730855,H-0102,Orthopaedics,307,7522223593,550,11,"Hindi, English",Mon-Fri 10:00-16:00
+D-0331,Dr Jatin Bhagat,MBBS MS OBG,Obstetrics and Gynaecology,MMC-1986-899088,H-0437,Obstetrics and Gynaecology,253,7455004758,950,39,"Marathi, Hindi, English",Mon-Sat 18:00-21:00
+D-0332,Dr Ranjana Iyer,MBBS MD Anaesthesia,Anaesthesiology,MMC-2015-662468,H-0335,Anaesthesiology,330,8372463125,500,9,"Hindi, English",Wed-Sun 10:00-18:00
+D-0333,Dr Dinesh Mane,MBBS MD DM,Gastroenterology,MMC-1997-710545,H-0509,Gastroenterology,221,9434859577,950,29,"Marathi, Hindi, English, Gujarati",Wed-Sun 10:00-18:00
+D-0334,Dr Suresh Kamble,MBBS MD DM,Nephrology,MMC-1992-271435,H-0270,Nephrology,362,9332130137,1350,32,"Marathi, Hindi, English, Gujarati",Tue-Sat 09:30-14:00
+D-0335,Dr Prachi Desai,MBBS MS,Orthopaedics,MMC-2002-765541,H-0150,Orthopaedics,107,9122112086,500,24,"Marathi, Hindi, English, Gujarati",Tue-Sat 09:30-14:00
+D-0336,Dr Amit Nair,MBBS MS ENT,ENT,MMC-2017-116776,H-0230,ENT,205,7094541277,550,5,"Marathi, Hindi, English, Gujarati",Mon-Sat 09:00-17:00
+D-0337,Dr Rakesh Nair,MBBS MD DM,Endocrinology,MMC-1999-225149,H-0492,Endocrinology,329,7414268216,900,26,"Hindi, English",Mon-Sat 09:00-17:00
+D-0338,Dr Abhishek Gupta,MBBS MD Psychiatry,Psychiatry,MMC-2003-801954,H-0038,Psychiatry,212,9856452637,1050,20,"Marathi, Hindi, English, Gujarati",Tue-Sat 09:30-14:00
+D-0339,Dr Mukesh Joshi,MBBS MS OBG,Obstetrics and Gynaecology,MMC-1986-384147,H-0041,Obstetrics and Gynaecology,145,9686640998,900,36,"Marathi, Hindi",Mon-Fri 10:00-16:00
+D-0340,Dr Priya Pawar,MBBS MD DM,Pulmonology,MMC-2016-948638,H-0081,Pulmonology,421,8855180009,1000,8,"Hindi, English",Tue-Sat 09:30-14:00
+D-0341,Dr Sneha Joshi,MBBS MD DM,Neurology,MMC-1995-152570,H-0467,Neurology,318,7521988887,950,29,"Marathi, Hindi, English, Gujarati",Mon-Fri 08:00-12:00
+D-0342,Dr Tejaswini Khan,MBBS MS Ophthalmology,Ophthalmology,MMC-2013-154731,H-0331,Ophthalmology,410,7355471362,500,11,"Marathi, Hindi, English, Gujarati",Mon-Sat 18:00-21:00
+D-0343,Dr Falguni Gupta,MBBS MS OBG,Obstetrics and Gynaecology,MMC-2019-659096,H-0259,Obstetrics and Gynaecology,355,8718534733,750,6,"Marathi, Hindi, English, Gujarati",Wed-Sun 10:00-18:00
+D-0344,Dr Ankita Rao,MBBS MS ENT,ENT,MMC-1985-604296,H-0481,ENT,121,7727744680,500,39,"Marathi, Hindi, English",Mon-Fri 08:00-12:00
+D-0345,Dr Sonal Mane,MBBS,General Medicine,MMC-1986-491397,H-0421,General Medicine,113,7355360754,300,39,"Hindi, English",Mon-Sat 18:00-21:00
+D-0346,Dr Ekta Pawar,MBBS MD DM,Gastroenterology,MMC-2016-160042,H-0060,Gastroenterology,188,8419916752,1100,7,"Marathi, Hindi, English, Gujarati",Wed-Sun 10:00-18:00
+D-0347,Dr Asha Joshi,MBBS MD Paediatrics,Paediatrics,MMC-1998-668257,H-0329,Paediatrics,150,7560251814,550,24,"Marathi, Hindi",Mon-Sat 09:00-17:00
+D-0348,Dr Shreya Shah,MBBS MD Dermatology,Dermatology,MMC-1990-451914,H-0178,Dermatology,334,7761258310,650,34,"Marathi, Hindi, English",Mon-Fri 10:00-16:00
+D-0349,Dr Neha Salunke,MBBS MS OBG,Obstetrics and Gynaecology,MMC-2013-699724,H-0442,Obstetrics and Gynaecology,353,8488007306,850,10,"Marathi, Hindi, English, Gujarati",Tue-Sat 09:30-14:00
+D-0350,Dr Prakash Kulkarni,MBBS MD Anaesthesia,Anaesthesiology,MMC-2008-180056,H-0454,Anaesthesiology,464,7373696396,700,18,"Hindi, English",Mon-Sat 09:00-17:00
+D-0351,Dr Rahul Deshmukh,MBBS MS ENT,ENT,MMC-2010-968740,H-0519,ENT,475,9935248259,800,14,"Marathi, Hindi, English, Gujarati",Wed-Sun 10:00-18:00
+D-0352,Dr Piyush Menon,MBBS MD Anaesthesia,Anaesthesiology,MMC-2013-280939,H-0509,Anaesthesiology,404,9778802821,700,9,"Marathi, Hindi",Tue-Sat 09:30-14:00
+D-0353,Dr Aditi Gaikwad,MBBS MD Psychiatry,Psychiatry,MMC-1985-532603,H-0213,Psychiatry,495,9046374902,900,39,"Marathi, Hindi",Mon-Fri 08:00-12:00
+D-0354,Dr Prakash Chauhan,MBBS MD DM,Neurology,MMC-2012-865720,H-0154,Neurology,213,9552951468,850,10,"Marathi, Hindi, English",Tue-Sat 09:30-14:00
+D-0355,Dr Sachin Rao,MBBS MD Paediatrics,Paediatrics,MMC-1987-764539,H-0494,Paediatrics,202,8021615103,500,36,"Hindi, English",Mon-Fri 08:00-12:00
+D-0356,Dr Kiran Patil,MBBS MS Urology,Urology,MMC-2016-270472,H-0139,Urology,498,8390823270,600,6,"Marathi, Hindi, English",Mon-Sat 18:00-21:00
+D-0357,Dr Satish Yadav,MBBS MS ENT,ENT,MMC-2021-577295,H-0057,ENT,169,8806883591,500,2,"Marathi, Hindi, English, Gujarati",Mon-Fri 08:00-12:00
+D-0358,Dr Pooja Nair,MBBS MD DM,Neurology,MMC-2021-124115,H-0397,Neurology,255,7293647832,950,3,"Hindi, English",Mon-Sat 09:00-17:00
+D-0359,Dr Bhagyashree Iyer,MBBS,General Medicine,MMC-1996-161533,H-0030,General Medicine,439,8186457145,300,28,"Marathi, Hindi, English, Gujarati",Mon-Sat 18:00-21:00
+D-0360,Dr Nikhil Gupta,MBBS MD Psychiatry,Psychiatry,MMC-2000-321270,H-0504,Psychiatry,170,9641272002,700,22,"Marathi, Hindi",Mon-Fri 10:00-16:00
+D-0361,Dr Kunal Bhagat,MBBS MS OBG,Obstetrics and Gynaecology,MMC-2005-999994,H-0505,Obstetrics and Gynaecology,345,9099857942,750,17,"Marathi, Hindi",Mon-Fri 08:00-12:00
+D-0362,Dr Ekta Bhagat,MBBS MD DM,Cardiology,MMC-2009-270502,H-0374,Cardiology,291,7244999395,1150,15,"Marathi, Hindi, English, Gujarati",Mon-Fri 10:00-16:00
+D-0363,Dr Vijay Shah,MBBS MD DM,Nephrology,MMC-2019-278429,H-0473,Nephrology,415,9424531847,800,6,"Hindi, English",Mon-Fri 08:00-12:00
+D-0364,Dr Bhagyashree Menon,MBBS MD Psychiatry,Psychiatry,MMC-2017-494669,H-0292,Psychiatry,418,9425908619,800,8,"Marathi, Hindi, English",Mon-Sat 09:00-17:00
+D-0365,Dr Prashant Yadav,MBBS MS ENT,ENT,MMC-2024-867655,H-0042,ENT,489,7014023004,450,0,"Marathi, Hindi, English",Wed-Sun 10:00-18:00
+D-0366,Dr Shreya Joshi,MBBS MS OBG,Obstetrics and Gynaecology,MMC-2019-345550,H-0037,Obstetrics and Gynaecology,429,8434669373,750,3,"Marathi, Hindi",Tue-Sat 09:30-14:00
+D-0367,Dr Naresh Bhosale,MBBS MS OBG,Obstetrics and Gynaecology,MMC-2019-362144,H-0301,Obstetrics and Gynaecology,426,7564640372,750,3,"Marathi, Hindi, English, Gujarati",Mon-Sat 18:00-21:00
+D-0368,Dr Deepa Kulkarni,MBBS MD Paediatrics,Paediatrics,MMC-2012-385655,H-0407,Paediatrics,133,7474815364,700,12,"Marathi, Hindi, English, Gujarati",Mon-Fri 10:00-16:00
+D-0369,Dr Jayesh Khan,MBBS MS ENT,ENT,MMC-1994-857058,H-0157,ENT,328,7493947845,600,32,"Marathi, Hindi",Mon-Fri 08:00-12:00
+D-0370,Dr Pooja Menon,MBBS MD DM,Neurology,MMC-1998-421218,H-0338,Neurology,261,8575458533,1150,28,"Marathi, Hindi",Mon-Sat 18:00-21:00
+D-0371,Dr Chitra Kamble,MBBS MS OBG,Obstetrics and Gynaecology,MMC-2006-940629,H-0216,Obstetrics and Gynaecology,390,9799031047,600,16,"Hindi, English",Mon-Sat 09:00-17:00
+D-0372,Dr Meera Verma,MBBS MS,Orthopaedics,MMC-2011-374282,H-0520,Orthopaedics,212,7502267575,500,12,"Marathi, Hindi, English, Gujarati",Mon-Sat 18:00-21:00
+D-0373,Dr Anjali Bhosale,MBBS MD Anaesthesia,Anaesthesiology,MMC-1991-139095,H-0512,Anaesthesiology,413,8075899751,800,32,"Marathi, Hindi",Mon-Fri 08:00-12:00
+D-0374,Dr Jaya Patil,MBBS MD Dermatology,Dermatology,MMC-1985-531622,H-0186,Dermatology,295,8375606799,500,38,"Hindi, English",Mon-Sat 09:00-17:00
+D-0375,Dr Rajesh Gaikwad,MBBS MD DM,Nephrology,MMC-2018-207003,H-0171,Nephrology,391,7487844974,1200,7,"Marathi, Hindi",Wed-Sun 10:00-18:00
+D-0376,Dr Lata Deshmukh,MBBS MD DM,Nephrology,MMC-2018-581537,H-0011,Nephrology,404,7845741333,1200,6,"Marathi, Hindi, English",Mon-Fri 08:00-12:00
+D-0377,Dr Jaya Joshi,MBBS,General Medicine,MMC-2007-890456,H-0188,General Medicine,493,9002302870,400,16,"Marathi, Hindi, English",Mon-Fri 10:00-16:00
+D-0378,Dr Trupti Mane,MBBS MD Dermatology,Dermatology,MMC-2013-376007,H-0213,Dermatology,259,7223111012,500,12,"Marathi, Hindi, English, Gujarati",Wed-Sun 10:00-18:00
+D-0379,Dr Sameer Deshmukh,MBBS MD DM,Pulmonology,MMC-2021-183509,H-0199,Pulmonology,363,8040529919,850,3,"Marathi, Hindi, English, Gujarati",Mon-Sat 09:00-17:00
+D-0380,Dr Kiran Kulkarni,MBBS MD DM,Pulmonology,MMC-2010-813220,H-0007,Pulmonology,136,7072268876,700,14,"Hindi, English",Mon-Fri 08:00-12:00
+D-0381,Dr Prakash Gupta,MBBS MS,Orthopaedics,MMC-1985-320225,H-0081,Orthopaedics,161,8297370002,500,41,"Marathi, Hindi, English, Gujarati",Mon-Sat 18:00-21:00
+D-0382,Dr Vaishali Bhosale,MBBS MS ENT,ENT,MMC-2001-728186,H-0038,ENT,186,8674118202,700,24,"Hindi, English",Mon-Fri 08:00-12:00
+D-0383,Dr Ranjana Deshmukh,MBBS MS OBG,Obstetrics and Gynaecology,MMC-1996-411925,H-0439,Obstetrics and Gynaecology,205,8083369701,950,30,"Hindi, English",Wed-Sun 10:00-18:00
+D-0384,Dr Hemangi Bhagat,MBBS MD DM,Nephrology,MMC-2022-699512,H-0354,Nephrology,301,7374071974,1050,3,"Marathi, Hindi",Mon-Sat 18:00-21:00
+D-0385,Dr Dinesh Chauhan,MBBS MD DM,Cardiology,MMC-1999-308847,H-0067,Cardiology,423,7609633559,800,24,"Hindi, English",Tue-Sat 09:30-14:00
+D-0386,Dr Kiran Menon,MBBS MS OBG,Obstetrics and Gynaecology,MMC-2000-112136,H-0275,Obstetrics and Gynaecology,209,8154398382,950,24,"Marathi, Hindi, English",Tue-Sat 09:30-14:00
+D-0387,Dr Deepa Rao,MBBS,General Medicine,MMC-2003-445582,H-0095,General Medicine,446,7004269738,500,22,"Hindi, English",Mon-Sat 18:00-21:00
+D-0388,Dr Nitin Singh,MBBS MD DM,Gastroenterology,MMC-2012-151801,H-0108,Gastroenterology,176,8118973538,750,14,"Hindi, English",Wed-Sun 10:00-18:00
+D-0389,Dr Lata Ghosh,MBBS MD Paediatrics,Paediatrics,MMC-2000-551556,H-0054,Paediatrics,191,8419041082,700,25,"Marathi, Hindi, English, Gujarati",Mon-Fri 10:00-16:00
+D-0390,Dr Deepak Pawar,MBBS MS ENT,ENT,MMC-1997-326100,H-0251,ENT,280,7780661308,550,25,"Hindi, English",Tue-Sat 09:30-14:00
+D-0391,Dr Nitin Shah,MBBS MD DM,Neurology,MMC-2009-791853,H-0200,Neurology,304,8502322666,1250,14,"Marathi, Hindi",Mon-Fri 10:00-16:00
+D-0392,Dr Vandana Patel,MBBS MS Ophthalmology,Ophthalmology,MMC-1990-431024,H-0081,Ophthalmology,425,7636462814,700,36,"Marathi, Hindi, English, Gujarati",Mon-Sat 09:00-17:00
+D-0393,Dr Pooja Salunke,MBBS MD DM,Endocrinology,MMC-2003-344594,H-0484,Endocrinology,155,9788733492,1000,21,"Marathi, Hindi, English",Mon-Sat 18:00-21:00
+D-0394,Dr Nikhil Jadhav,MBBS MD Dermatology,Dermatology,MMC-1989-311987,H-0409,Dermatology,118,7635434878,550,37,"Marathi, Hindi, English, Gujarati",Mon-Fri 10:00-16:00
+D-0395,Dr Shreya Bhosale,MBBS MD Anaesthesia,Anaesthesiology,MMC-1987-719778,H-0064,Anaesthesiology,387,7709699754,800,35,"Marathi, Hindi",Mon-Fri 08:00-12:00
+D-0396,Dr Ritu Deshmukh,MBBS MS,Orthopaedics,MMC-1996-823688,H-0048,Orthopaedics,158,9133972212,500,30,"Marathi, Hindi",Wed-Sun 10:00-18:00
+D-0397,Dr Neha Singh,MBBS MS Urology,Urology,MMC-2020-625654,H-0323,Urology,159,8673447131,600,4,"Hindi, English",Mon-Sat 18:00-21:00
+D-0398,Dr Sagar Verma,MBBS MS,Orthopaedics,MMC-2022-814251,H-0432,Orthopaedics,124,8294314548,500,0,"Marathi, Hindi, English",Mon-Sat 18:00-21:00
+D-0399,Dr Asha Bhagat,MBBS MD Dermatology,Dermatology,MMC-1995-626451,H-0300,Dermatology,304,8821552207,650,29,"Marathi, Hindi, English, Gujarati",Mon-Sat 09:00-17:00
+D-0400,Dr Falguni Sharma,MBBS MD Dermatology,Dermatology,MMC-2002-139038,H-0488,Dermatology,135,8658238913,550,23,"Marathi, Hindi, English",Wed-Sun 10:00-18:00
+D-0401,Dr Swati Verma,MBBS MD Psychiatry,Psychiatry,MMC-2006-334527,H-0076,Psychiatry,155,9365827864,1100,16,"Hindi, English",Mon-Fri 10:00-16:00
+D-0402,Dr Ekta Pawar,MBBS MS Ophthalmology,Ophthalmology,MMC-1986-233136,H-0189,Ophthalmology,470,8646632074,650,39,"Marathi, Hindi",Mon-Sat 18:00-21:00
+D-0403,Dr Jaya Khan,MBBS MD DM,Endocrinology,MMC-1993-998625,H-0063,Endocrinology,160,9960547976,800,29,"Hindi, English",Tue-Sat 09:30-14:00
+D-0404,Dr Chitra Kulkarni,MBBS MD DM,Nephrology,MMC-2008-796505,H-0107,Nephrology,444,7712939181,1150,16,"Marathi, Hindi, English",Mon-Sat 09:00-17:00
+D-0405,Dr Hemangi Thakur,MBBS MD Dermatology,Dermatology,MMC-1989-784642,H-0019,Dermatology,190,8175374355,500,35,"Marathi, Hindi, English",Tue-Sat 09:30-14:00
+D-0406,Dr Harsh Patel,MBBS,General Medicine,MMC-2014-799542,H-0423,General Medicine,148,9407144069,500,11,"Marathi, Hindi, English",Tue-Sat 09:30-14:00
+D-0407,Dr Ashish Singh,MBBS MS Ophthalmology,Ophthalmology,MMC-2010-900790,H-0184,Ophthalmology,372,7279531055,600,16,"Marathi, Hindi",Mon-Fri 10:00-16:00
+D-0408,Dr Vikram Shah,MBBS,General Medicine,MMC-2020-112920,H-0113,General Medicine,323,9866878847,450,3,"Marathi, Hindi",Mon-Sat 09:00-17:00
+D-0409,Dr Mahesh Thakur,MBBS MD Paediatrics,Paediatrics,MMC-2023-300662,H-0433,Paediatrics,337,8172368466,550,1,"Marathi, Hindi",Wed-Sun 10:00-18:00
+D-0410,Dr Kiran Singh,MBBS MS,Orthopaedics,MMC-2011-620542,H-0494,Orthopaedics,493,8049755900,650,13,"Marathi, Hindi, English",Mon-Sat 09:00-17:00
+D-0411,Dr Vandana Dixit,MBBS MS OBG,Obstetrics and Gynaecology,MMC-2017-458853,H-0093,Obstetrics and Gynaecology,382,9008320086,600,6,"Marathi, Hindi",Wed-Sun 10:00-18:00
+D-0412,Dr Asha Mane,MBBS MD Anaesthesia,Anaesthesiology,MMC-1997-423757,H-0246,Anaesthesiology,329,7405315432,650,29,"Marathi, Hindi, English",Mon-Fri 10:00-16:00
+D-0413,Dr Ekta Bhagat,MBBS MS Urology,Urology,MMC-2004-500164,H-0124,Urology,415,9766560819,750,20,"Marathi, Hindi, English",Mon-Sat 09:00-17:00
+D-0414,Dr Siddharth Salunke,MBBS MS ENT,ENT,MMC-2008-145247,H-0200,ENT,126,8314904754,550,17,"Hindi, English",Wed-Sun 10:00-18:00
+D-0415,Dr Kiran Bhagat,MBBS MS OBG,Obstetrics and Gynaecology,MMC-2005-595481,H-0062,Obstetrics and Gynaecology,246,8531694444,700,19,"Marathi, Hindi, English",Tue-Sat 09:30-14:00
+D-0416,Dr Shreya Deshmukh,MBBS MD DM,Pulmonology,MMC-2024-957305,H-0054,Pulmonology,283,8117490251,750,0,"Marathi, Hindi, English, Gujarati",Mon-Sat 18:00-21:00
+D-0417,Dr Siddharth Nair,MBBS MS,Orthopaedics,MMC-2010-257985,H-0442,Orthopaedics,273,8215311575,600,15,"Marathi, Hindi, English, Gujarati",Mon-Fri 10:00-16:00
+D-0418,Dr Nitin Jadhav,MBBS MD Dermatology,Dermatology,MMC-1998-659724,H-0090,Dermatology,282,7570351647,700,28,"Marathi, Hindi",Mon-Sat 09:00-17:00
+D-0419,Dr Jatin Mane,MBBS MD Anaesthesia,Anaesthesiology,MMC-2014-857085,H-0366,Anaesthesiology,435,9706989489,750,12,"Marathi, Hindi, English",Mon-Sat 09:00-17:00
+D-0420,Dr Amol Gaikwad,MBBS MD Anaesthesia,Anaesthesiology,MMC-2005-871095,H-0386,Anaesthesiology,194,9864372614,800,21,"Marathi, Hindi, English, Gujarati",Mon-Sat 09:00-17:00
+D-0421,Dr Sagar Salunke,MBBS MD Psychiatry,Psychiatry,MMC-2008-934957,H-0373,Psychiatry,201,7804929891,1050,16,"Marathi, Hindi",Tue-Sat 09:30-14:00
+D-0422,Dr Divya Kamble,MBBS MD DM,Neurology,MMC-1999-952332,H-0471,Neurology,237,8369490056,850,25,"Hindi, English",Mon-Sat 09:00-17:00
+D-0423,Dr Rahul Mane,MBBS MD DM,Neurology,MMC-1987-226614,H-0235,Neurology,428,9019412510,1200,37,"Hindi, English",Mon-Fri 10:00-16:00
+D-0424,Dr Rakesh Mane,MBBS MS ENT,ENT,MMC-2014-590415,H-0402,ENT,385,9439705619,500,11,"Hindi, English",Mon-Sat 18:00-21:00
+D-0425,Dr Sneha Rane,MBBS MD DM,Gastroenterology,MMC-2013-194547,H-0383,Gastroenterology,455,9758586286,1100,10,"Marathi, Hindi",Mon-Fri 10:00-16:00
+D-0426,Dr Rahul Khan,MBBS MD Paediatrics,Paediatrics,MMC-1988-557563,H-0034,Paediatrics,193,9961549551,600,35,"Marathi, Hindi",Wed-Sun 10:00-18:00
+D-0427,Dr Jatin Jadhav,MBBS MS Urology,Urology,MMC-1994-150615,H-0419,Urology,452,9308775334,1000,29,"Marathi, Hindi, English, Gujarati",Mon-Fri 10:00-16:00
+D-0428,Dr Usha Bhagat,MBBS MD DM,Cardiology,MMC-2022-356502,H-0388,Cardiology,407,7881254782,1100,0,"Marathi, Hindi",Mon-Fri 08:00-12:00
+D-0429,Dr Deepak Menon,MBBS,General Medicine,MMC-2012-760935,H-0395,General Medicine,177,9935393573,300,12,"Marathi, Hindi, English, Gujarati",Tue-Sat 09:30-14:00
+D-0430,Dr Swati Joshi,MBBS MD Anaesthesia,Anaesthesiology,MMC-2022-758794,H-0277,Anaesthesiology,136,7417216021,900,3,"Marathi, Hindi, English",Wed-Sun 10:00-18:00
+D-0431,Dr Piyush Shah,MBBS MD DM,Nephrology,MMC-2023-832593,H-0178,Nephrology,454,9911649085,800,3,"Marathi, Hindi, English, Gujarati",Wed-Sun 10:00-18:00
+D-0432,Dr Anil Chauhan,MBBS MD DM,Neurology,MMC-1998-223324,H-0108,Neurology,115,9269264198,1300,24,"Marathi, Hindi, English",Wed-Sun 10:00-18:00
+D-0433,Dr Dinesh Gaikwad,MBBS MS,Orthopaedics,MMC-1997-713596,H-0192,Orthopaedics,144,9216557915,750,26,"Hindi, English",Tue-Sat 09:30-14:00
+D-0434,Dr Neha Nair,MBBS MS Ophthalmology,Ophthalmology,MMC-2021-577337,H-0004,Ophthalmology,219,9476696495,650,5,"Marathi, Hindi, English, Gujarati",Mon-Fri 08:00-12:00
+D-0435,Dr Bhavana Waghmare,MBBS MD Anaesthesia,Anaesthesiology,MMC-2016-179772,H-0024,Anaesthesiology,396,9161811866,550,9,"Marathi, Hindi, English, Gujarati",Mon-Fri 10:00-16:00
+D-0436,Dr Mahesh Gupta,MBBS MS OBG,Obstetrics and Gynaecology,MMC-2009-598335,H-0232,Obstetrics and Gynaecology,164,8437944742,800,15,"Marathi, Hindi, English, Gujarati",Tue-Sat 09:30-14:00
+D-0437,Dr Ganesh Kulkarni,MBBS MD DM,Nephrology,MMC-2015-410400,H-0331,Nephrology,425,8709136326,950,10,"Marathi, Hindi, English, Gujarati",Mon-Fri 10:00-16:00
+D-0438,Dr Anil Reddy,MBBS MD DM,Nephrology,MMC-2016-994995,H-0205,Nephrology,214,7356611177,1350,9,"Marathi, Hindi, English, Gujarati",Mon-Fri 08:00-12:00
+D-0439,Dr Rakesh Verma,MBBS,General Medicine,MMC-1988-224146,H-0088,General Medicine,314,7066712337,500,34,"Marathi, Hindi, English",Mon-Sat 09:00-17:00
+D-0440,Dr Shreya Reddy,MBBS MD Paediatrics,Paediatrics,MMC-2014-313006,H-0143,Paediatrics,284,8016448389,650,12,"Marathi, Hindi, English",Mon-Fri 10:00-16:00
+D-0441,Dr Gaurav Rane,MBBS MD Paediatrics,Paediatrics,MMC-2004-870070,H-0018,Paediatrics,431,8649001929,500,18,"Marathi, Hindi, English",Wed-Sun 10:00-18:00
+D-0442,Dr Sachin Verma,MBBS MS ENT,ENT,MMC-1999-643063,H-0134,ENT,150,8463326572,800,26,"Marathi, Hindi, English, Gujarati",Mon-Sat 09:00-17:00
+D-0443,Dr Hemangi Salunke,MBBS MD DM,Neurology,MMC-1999-926186,H-0225,Neurology,478,7827107462,1050,23,"Hindi, English",Mon-Sat 18:00-21:00
+D-0444,Dr Vijay Desai,MBBS MD DM,Endocrinology,MMC-2012-443481,H-0194,Endocrinology,423,9431674261,850,12,"Marathi, Hindi, English, Gujarati",Mon-Sat 18:00-21:00
+D-0445,Dr Ankita Khan,MBBS MD DM,Cardiology,MMC-2018-208385,H-0381,Cardiology,160,8754835781,1150,4,"Marathi, Hindi",Mon-Fri 08:00-12:00
+D-0446,Dr Rahul Jadhav,MBBS,General Medicine,MMC-1986-670883,H-0062,General Medicine,439,9654420958,250,36,"Marathi, Hindi, English",Tue-Sat 09:30-14:00
+D-0447,Dr Alok Yadav,MBBS MD Psychiatry,Psychiatry,MMC-1999-771882,H-0198,Psychiatry,408,7386683572,1050,26,"Marathi, Hindi, English",Tue-Sat 09:30-14:00
+D-0448,Dr Shreya Nair,MBBS MD Psychiatry,Psychiatry,MMC-2009-719907,H-0335,Psychiatry,294,7082873234,650,15,"Marathi, Hindi, English",Mon-Sat 18:00-21:00
+D-0449,Dr Sonal Rane,MBBS MD DM,Endocrinology,MMC-2010-789862,H-0249,Endocrinology,327,7876521434,1050,16,"Marathi, Hindi",Mon-Sat 09:00-17:00
+D-0450,Dr Aarav Jadhav,MBBS MD DM,Neurology,MMC-1987-284489,H-0303,Neurology,466,7765287179,850,36,"Marathi, Hindi, English",Mon-Sat 09:00-17:00
+D-0451,Dr Ekta Salunke,MBBS MS,Orthopaedics,MMC-2000-460110,H-0176,Orthopaedics,322,7139939463,900,24,"Hindi, English",Mon-Sat 18:00-21:00
+D-0452,Dr Amit Chavan,MBBS MS Urology,Urology,MMC-1987-538408,H-0022,Urology,182,9436237705,900,38,"Hindi, English",Tue-Sat 09:30-14:00
+D-0453,Dr Ashish Dixit,MBBS MD DM,Neurology,MMC-2013-410014,H-0258,Neurology,145,9714157993,900,10,"Hindi, English",Wed-Sun 10:00-18:00
+D-0454,Dr Santosh Nair,MBBS MD Psychiatry,Psychiatry,MMC-1989-506675,H-0341,Psychiatry,126,9140911382,850,35,"Hindi, English",Mon-Sat 09:00-17:00
+D-0455,Dr Prashant Rao,MBBS MD Anaesthesia,Anaesthesiology,MMC-1986-325816,H-0256,Anaesthesiology,424,7677642596,600,39,"Marathi, Hindi, English, Gujarati",Mon-Fri 10:00-16:00
+D-0456,Dr Rajesh Mane,MBBS MS Ophthalmology,Ophthalmology,MMC-1992-169396,H-0264,Ophthalmology,157,7147235662,550,30,"Hindi, English",Tue-Sat 09:30-14:00
+D-0457,Dr Deepak Kulkarni,MBBS MS OBG,Obstetrics and Gynaecology,MMC-1985-352894,H-0272,Obstetrics and Gynaecology,157,7350409056,850,41,"Marathi, Hindi, English, Gujarati",Mon-Sat 18:00-21:00
+D-0458,Dr Pankaj Salunke,MBBS MD DM,Neurology,MMC-2012-131089,H-0499,Neurology,180,9454346261,1000,10,"Marathi, Hindi, English, Gujarati",Wed-Sun 10:00-18:00
+D-0459,Dr Prachi Deshmukh,MBBS MD Dermatology,Dermatology,MMC-1990-740519,H-0072,Dermatology,315,9971273831,750,35,"Marathi, Hindi",Mon-Sat 09:00-17:00
+D-0460,Dr Priya Chavan,MBBS MS ENT,ENT,MMC-1998-575131,H-0361,ENT,364,7320731725,700,24,"Hindi, English",Mon-Fri 10:00-16:00
+D-0461,Dr Jaya Pawar,MBBS MS,Orthopaedics,MMC-2021-340323,H-0003,Orthopaedics,405,7640851723,900,4,"Marathi, Hindi, English, Gujarati",Wed-Sun 10:00-18:00
+D-0462,Dr Ashish Ghosh,MBBS MD Dermatology,Dermatology,MMC-2018-396211,H-0403,Dermatology,457,8757650697,650,6,"Marathi, Hindi",Mon-Fri 10:00-16:00
+D-0463,Dr Lata Khan,MBBS MS Urology,Urology,MMC-1993-422955,H-0299,Urology,435,7706626575,700,33,"Hindi, English",Mon-Fri 10:00-16:00
+D-0464,Dr Falguni Singh,MBBS MD DM,Neurology,MMC-2000-524070,H-0214,Neurology,309,8865339418,1100,26,"Marathi, Hindi, English, Gujarati",Wed-Sun 10:00-18:00
+D-0465,Dr Ankita Nair,MBBS,General Medicine,MMC-1999-223252,H-0477,General Medicine,278,8998694694,350,25,"Hindi, English",Tue-Sat 09:30-14:00
+D-0466,Dr Sagar Nair,MBBS MD Dermatology,Dermatology,MMC-2018-133720,H-0457,Dermatology,189,9888513472,550,5,"Marathi, Hindi, English, Gujarati",Mon-Sat 18:00-21:00
+D-0467,Dr Siddharth Patel,MBBS MD DM,Neurology,MMC-1994-797824,H-0135,Neurology,443,9401689453,1000,29,"Marathi, Hindi, English, Gujarati",Mon-Fri 08:00-12:00
+D-0468,Dr Gayatri Waghmare,MBBS MD DM,Cardiology,MMC-2019-935201,H-0341,Cardiology,257,9238834094,850,3,"Marathi, Hindi, English",Wed-Sun 10:00-18:00
+D-0469,Dr Naresh Gupta,MBBS MD DM,Gastroenterology,MMC-2017-701961,H-0176,Gastroenterology,480,8466317075,700,8,"Marathi, Hindi, English, Gujarati",Mon-Sat 18:00-21:00
+D-0470,Dr Jaya Deshmukh,MBBS MS,Orthopaedics,MMC-1996-200485,H-0147,Orthopaedics,262,8326894121,750,30,"Hindi, English",Mon-Sat 18:00-21:00
+D-0471,Dr Prachi Deshmukh,MBBS MD DM,Nephrology,MMC-2012-117946,H-0482,Nephrology,286,7259051773,1100,10,"Marathi, Hindi, English",Mon-Sat 18:00-21:00
+D-0472,Dr Nikhil Rao,MBBS MD Paediatrics,Paediatrics,MMC-2005-598091,H-0301,Paediatrics,148,8063058488,450,21,"Marathi, Hindi, English",Mon-Sat 09:00-17:00
+D-0473,Dr Asha Iyer,MBBS MD Dermatology,Dermatology,MMC-2010-756071,H-0245,Dermatology,157,7163231285,500,15,"Hindi, English",Mon-Fri 08:00-12:00
+D-0474,Dr Manjula Yadav,MBBS MD DM,Endocrinology,MMC-1985-366524,H-0170,Endocrinology,139,7501550472,1100,40,"Marathi, Hindi, English",Mon-Fri 08:00-12:00
+D-0475,Dr Rahul Iyer,MBBS MD Paediatrics,Paediatrics,MMC-2003-451870,H-0479,Paediatrics,316,8658982152,500,21,"Marathi, Hindi",Mon-Fri 10:00-16:00
+D-0476,Dr Hemangi Chavan,MBBS MS ENT,ENT,MMC-1999-153528,H-0279,ENT,157,9869849395,450,26,"Marathi, Hindi",Tue-Sat 09:30-14:00
+D-0477,Dr Vikram Sharma,MBBS MD DM,Neurology,MMC-1995-261677,H-0168,Neurology,276,8755733668,1000,27,"Hindi, English",Mon-Fri 08:00-12:00
+D-0478,Dr Sagar Gupta,MBBS MS Urology,Urology,MMC-1988-147678,H-0378,Urology,462,9192905362,950,34,"Marathi, Hindi",Mon-Sat 09:00-17:00
+D-0479,Dr Anjali Jadhav,MBBS MD Paediatrics,Paediatrics,MMC-1987-702746,H-0072,Paediatrics,463,9004665555,600,38,"Hindi, English",Wed-Sun 10:00-18:00
+D-0480,Dr Ritu Mane,MBBS MS Ophthalmology,Ophthalmology,MMC-2018-430165,H-0387,Ophthalmology,344,8474161082,650,4,"Marathi, Hindi, English, Gujarati",Tue-Sat 09:30-14:00
+D-0481,Dr Deepak Yadav,MBBS MD Anaesthesia,Anaesthesiology,MMC-1994-407032,H-0428,Anaesthesiology,113,7487146718,750,32,"Hindi, English",Wed-Sun 10:00-18:00
+D-0482,Dr Abhishek Gaikwad,MBBS MD DM,Endocrinology,MMC-1986-329218,H-0068,Endocrinology,419,8793282578,1100,39,"Hindi, English",Tue-Sat 09:30-14:00
+D-0483,Dr Harsh Waghmare,MBBS MS OBG,Obstetrics and Gynaecology,MMC-1995-946910,H-0187,Obstetrics and Gynaecology,157,9656776313,1000,28,"Marathi, Hindi, English, Gujarati",Mon-Fri 08:00-12:00
+D-0484,Dr Manjula Ghosh,MBBS MS OBG,Obstetrics and Gynaecology,MMC-1985-469439,H-0224,Obstetrics and Gynaecology,190,9671073583,950,40,"Marathi, Hindi",Mon-Fri 10:00-16:00
+D-0485,Dr Abhishek Pawar,MBBS MD Dermatology,Dermatology,MMC-1998-629089,H-0123,Dermatology,164,8663229830,650,24,"Marathi, Hindi, English",Mon-Sat 09:00-17:00
+D-0486,Dr Anjali Shah,MBBS MD DM,Gastroenterology,MMC-2013-446470,H-0362,Gastroenterology,293,9394487333,750,13,"Marathi, Hindi",Mon-Sat 09:00-17:00
+D-0487,Dr Rajesh Sharma,MBBS MS OBG,Obstetrics and Gynaecology,MMC-2010-935510,H-0431,Obstetrics and Gynaecology,497,8802134770,900,14,"Marathi, Hindi, English",Tue-Sat 09:30-14:00
+D-0488,Dr Rahul Deshmukh,MBBS MD DM,Nephrology,MMC-2017-882880,H-0094,Nephrology,271,9467544653,1300,6,"Hindi, English",Mon-Fri 10:00-16:00
+D-0489,Dr Santosh Salunke,MBBS MD DM,Cardiology,MMC-1993-258804,H-0240,Cardiology,187,7139529671,750,32,"Marathi, Hindi, English, Gujarati",Mon-Fri 10:00-16:00
+D-0490,Dr Usha Rao,MBBS MS,Orthopaedics,MMC-2013-768841,H-0171,Orthopaedics,385,7215306245,600,10,"Hindi, English",Tue-Sat 09:30-14:00
+D-0491,Dr Pankaj Yadav,MBBS MD DM,Pulmonology,MMC-1999-557510,H-0338,Pulmonology,441,9706167176,650,27,"Hindi, English",Tue-Sat 09:30-14:00
+D-0492,Dr Jaya Joshi,MBBS MS Urology,Urology,MMC-1991-434149,H-0054,Urology,190,8117557978,800,33,"Marathi, Hindi, English",Mon-Sat 18:00-21:00
+D-0493,Dr Kiran Kamble,MBBS MS,Orthopaedics,MMC-1991-151634,H-0500,Orthopaedics,364,7482258761,800,34,"Marathi, Hindi",Mon-Sat 18:00-21:00
+D-0494,Dr Lalit Iyer,MBBS MD Anaesthesia,Anaesthesiology,MMC-1986-393094,H-0290,Anaesthesiology,377,8732898657,750,40,"Marathi, Hindi, English, Gujarati",Mon-Sat 18:00-21:00
+D-0495,Dr Pooja Pawar,MBBS MD Paediatrics,Paediatrics,MMC-1997-714332,H-0510,Paediatrics,183,8542816246,500,29,"Marathi, Hindi, English",Mon-Fri 10:00-16:00
+D-0496,Dr Pooja Singh,MBBS MD Dermatology,Dermatology,MMC-2016-431286,H-0305,Dermatology,352,9115132228,600,6,"Marathi, Hindi, English, Gujarati",Mon-Fri 08:00-12:00
+D-0497,Dr Manoj Iyer,MBBS MD DM,Cardiology,MMC-2006-410849,H-0417,Cardiology,467,7663268761,950,20,"Marathi, Hindi, English",Mon-Fri 10:00-16:00
+D-0498,Dr Sameer Kulkarni,MBBS MD DM,Pulmonology,MMC-1999-275412,H-0330,Pulmonology,137,8426874835,600,24,"Hindi, English",Mon-Fri 08:00-12:00
+D-0499,Dr Divya Dixit,MBBS MD DM,Pulmonology,MMC-2001-691525,H-0347,Pulmonology,473,7843822736,850,21,"Marathi, Hindi, English, Gujarati",Mon-Fri 10:00-16:00
+D-0500,Dr Aarav Yadav,MBBS MS,Orthopaedics,MMC-2009-829065,H-0456,Orthopaedics,132,7646240850,700,13,"Marathi, Hindi, English",Mon-Fri 08:00-12:00
+D-0501,Dr Vandana Joshi,MBBS MD DM,Gastroenterology,MMC-2021-251202,H-0065,Gastroenterology,107,9430852828,800,3,"Marathi, Hindi",Mon-Fri 08:00-12:00
+D-0502,Dr Naresh Pawar,MBBS MD DM,Gastroenterology,MMC-1986-781529,H-0444,Gastroenterology,288,7725781502,1000,36,"Marathi, Hindi",Wed-Sun 10:00-18:00
+D-0503,Dr Ranjana Kamble,MBBS MD Anaesthesia,Anaesthesiology,MMC-1992-870528,H-0483,Anaesthesiology,499,8402109417,600,34,"Marathi, Hindi, English, Gujarati",Mon-Sat 09:00-17:00
+D-0504,Dr Jatin Chavan,MBBS MD DM,Cardiology,MMC-2013-928177,H-0226,Cardiology,220,7421291661,700,9,"Marathi, Hindi, English, Gujarati",Tue-Sat 09:30-14:00
+D-0505,Dr Nilesh Verma,MBBS MD Anaesthesia,Anaesthesiology,MMC-2010-861740,H-0233,Anaesthesiology,103,7495604583,550,14,"Marathi, Hindi",Wed-Sun 10:00-18:00
+D-0506,Dr Swati Nair,MBBS MD DM,Cardiology,MMC-2004-118285,H-0500,Cardiology,492,7057627709,800,22,"Marathi, Hindi",Tue-Sat 09:30-14:00
+D-0507,Dr Ankita Khan,MBBS MD DM,Gastroenterology,MMC-1994-401361,H-0015,Gastroenterology,252,7057161081,1100,29,"Marathi, Hindi",Tue-Sat 09:30-14:00
+D-0508,Dr Manjula Chavan,MBBS MD DM,Nephrology,MMC-1997-583654,H-0514,Nephrology,124,9568710636,1150,25,"Marathi, Hindi, English",Mon-Sat 09:00-17:00
+D-0509,Dr Tarun Mane,MBBS MD Paediatrics,Paediatrics,MMC-2024-886247,H-0362,Paediatrics,230,8336783905,500,0,"Hindi, English",Tue-Sat 09:30-14:00
+D-0510,Dr Anjali Dixit,MBBS MS Ophthalmology,Ophthalmology,MMC-2007-662461,H-0192,Ophthalmology,292,7630480291,650,17,"Marathi, Hindi, English",Mon-Sat 18:00-21:00
+D-0511,Dr Falguni Joshi,MBBS MS,Orthopaedics,MMC-2000-344575,H-0230,Orthopaedics,440,8946396489,800,24,"Hindi, English",Mon-Sat 18:00-21:00
+D-0512,Dr Pooja Reddy,MBBS MD DM,Cardiology,MMC-2018-181765,H-0410,Cardiology,397,7672697325,1200,4,"Marathi, Hindi, English",Tue-Sat 09:30-14:00
+D-0513,Dr Bhavana Mane,MBBS MS ENT,ENT,MMC-1997-440672,H-0302,ENT,481,7902868852,500,27,"Marathi, Hindi, English, Gujarati",Mon-Sat 18:00-21:00
+D-0514,Dr Jaya Jadhav,MBBS MS Ophthalmology,Ophthalmology,MMC-2018-374448,H-0131,Ophthalmology,163,8412387777,550,8,"Marathi, Hindi",Mon-Fri 10:00-16:00
+D-0515,Dr Aarav Salunke,MBBS MS ENT,ENT,MMC-2006-146680,H-0098,ENT,152,7923678109,650,19,"Marathi, Hindi",Mon-Fri 10:00-16:00
+D-0516,Dr Kiran Yadav,MBBS MS ENT,ENT,MMC-1993-399254,H-0426,ENT,306,9335490642,600,31,"Marathi, Hindi",Mon-Fri 08:00-12:00
+D-0517,Dr Vivek Rane,MBBS MS Ophthalmology,Ophthalmology,MMC-2008-493651,H-0034,Ophthalmology,205,8433529472,650,14,"Hindi, English",Tue-Sat 09:30-14:00
+D-0518,Dr Mahesh Iyer,MBBS MD DM,Cardiology,MMC-2014-389261,H-0424,Cardiology,124,8097992908,750,12,"Marathi, Hindi, English",Mon-Fri 10:00-16:00
+D-0519,Dr Ola Joshi,MBBS MS,Orthopaedics,MMC-2001-360908,H-0268,Orthopaedics,116,8999277641,600,24,"Marathi, Hindi, English, Gujarati",Mon-Fri 08:00-12:00
+D-0520,Dr Swati Salunke,MBBS MD DM,Endocrinology,MMC-2018-843505,H-0352,Endocrinology,384,8754856101,1200,7,"Marathi, Hindi",Wed-Sun 10:00-18:00
+D-0521,Dr Bhagyashree Pawar,MBBS MD Anaesthesia,Anaesthesiology,MMC-1996-528691,H-0136,Anaesthesiology,475,7715189430,900,29,"Marathi, Hindi",Mon-Sat 09:00-17:00
+D-0522,Dr Satish Gaikwad,MBBS MD DM,Nephrology,MMC-2024-605067,H-0463,Nephrology,317,8060235092,950,0,"Hindi, English",Mon-Sat 09:00-17:00
+D-0523,Dr Vivek Gupta,MBBS MD DM,Cardiology,MMC-2010-141885,H-0386,Cardiology,267,7058156594,900,15,"Marathi, Hindi, English, Gujarati",Wed-Sun 10:00-18:00
+D-0524,Dr Sonal Kamble,MBBS MD DM,Neurology,MMC-1995-772901,H-0256,Neurology,171,8930938975,1000,28,"Hindi, English",Wed-Sun 10:00-18:00
+D-0525,Dr Harsh Patel,MBBS MD DM,Nephrology,MMC-2022-970460,H-0444,Nephrology,129,8301184205,800,0,"Marathi, Hindi",Tue-Sat 09:30-14:00
+D-0526,Dr Gaurav Pawar,MBBS MD DM,Nephrology,MMC-1993-855893,H-0341,Nephrology,318,8238207450,1200,30,"Marathi, Hindi, English",Mon-Fri 08:00-12:00
+D-0527,Dr Siddharth Chavan,MBBS MS Urology,Urology,MMC-2009-689216,H-0149,Urology,367,9183774852,650,16,"Marathi, Hindi, English",Mon-Fri 08:00-12:00
+D-0528,Dr Ashish Waghmare,MBBS MD DM,Endocrinology,MMC-2015-454940,H-0332,Endocrinology,488,7909334087,1100,11,"Marathi, Hindi, English",Wed-Sun 10:00-18:00
+D-0529,Dr Falguni Dixit,MBBS,General Medicine,MMC-2005-693984,H-0008,General Medicine,124,7548513481,450,21,"Marathi, Hindi",Tue-Sat 09:30-14:00
+D-0530,Dr Manjula Ghosh,MBBS MD DM,Pulmonology,MMC-1993-544376,H-0051,Pulmonology,452,7620858016,700,29,"Marathi, Hindi, English",Mon-Fri 08:00-12:00
+D-0531,Dr Kavita Gaikwad,MBBS MS Ophthalmology,Ophthalmology,MMC-1989-806564,H-0002,Ophthalmology,177,7397757960,500,35,"Marathi, Hindi, English",Mon-Sat 18:00-21:00
+D-0532,Dr Nitin Verma,MBBS MD DM,Cardiology,MMC-2004-968681,H-0103,Cardiology,496,7740188891,1100,22,"Marathi, Hindi, English, Gujarati",Mon-Sat 18:00-21:00
+D-0533,Dr Anjali Patel,MBBS MD DM,Neurology,MMC-2019-476122,H-0449,Neurology,160,7527333581,1200,6,"Marathi, Hindi, English",Tue-Sat 09:30-14:00
+D-0534,Dr Ira Thakur,MBBS MS Urology,Urology,MMC-2005-385296,H-0478,Urology,367,7914546142,1000,18,"Hindi, English",Mon-Sat 09:00-17:00
+D-0535,Dr Vikram Deshmukh,MBBS MD Paediatrics,Paediatrics,MMC-1991-711407,H-0086,Paediatrics,127,8939701667,700,31,"Marathi, Hindi, English",Mon-Fri 08:00-12:00
+D-0536,Dr Nilesh Joshi,MBBS MD DM,Gastroenterology,MMC-2008-796606,H-0193,Gastroenterology,357,9788025235,1200,17,"Hindi, English",Wed-Sun 10:00-18:00
+D-0537,Dr Meera Chauhan,MBBS MS ENT,ENT,MMC-2013-286918,H-0377,ENT,191,9443396486,650,9,"Hindi, English",Mon-Fri 08:00-12:00
+D-0538,Dr Santosh Singh,MBBS MD DM,Gastroenterology,MMC-1987-502366,H-0165,Gastroenterology,247,9127365283,1150,35,"Marathi, Hindi, English, Gujarati",Wed-Sun 10:00-18:00
+D-0539,Dr Aarav Joshi,MBBS MS Urology,Urology,MMC-2018-839292,H-0384,Urology,421,9961663096,950,5,"Hindi, English",Mon-Sat 18:00-21:00
+D-0540,Dr Kiran Bhosale,MBBS MD Dermatology,Dermatology,MMC-1995-282043,H-0369,Dermatology,301,7261868591,500,31,"Marathi, Hindi",Wed-Sun 10:00-18:00

@@ -13,9 +13,10 @@ BACKEND = "backend"
 SCRIPTS = "scripts"
 DOCS = os.path.join("docs", "concepts")
 
-# Standard library modules. csv, shutil and zipfile are documented
-# because the labs did not cover them; the rest need no explainer.
-STDLIB_NEEDS_DOC = {"csv", "shutil", "zipfile"}
+# Standard library modules. csv, shutil, zipfile, random and math are
+# documented because the labs did not cover them; the rest need no
+# explainer.
+STDLIB_NEEDS_DOC = {"csv", "shutil", "zipfile", "random", "math"}
 
 # Documented by a file in docs/concepts/. Keys are imported module names.
 # Values are file stems. A module may map to several docs when one library
@@ -26,6 +27,8 @@ DOCUMENTED = {
     "csv": ["csv-module"],
     "shutil": ["shutil-and-zipfile"],
     "zipfile": ["shutil-and-zipfile"],
+    "random": ["random-and-math"],
+    "math": ["random-and-math"],
     "matplotlib": ["matplotlib-basics"],
     "pyplot": ["matplotlib-basics"],
     "requests": ["requests"],

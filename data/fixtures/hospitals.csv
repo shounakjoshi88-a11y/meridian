@@ -1,0 +1,11 @@
+hospital_id,name,type,address_line,area,city,state,pincode,phone,beds,established_year,accreditation
+H-0001,Sahyadri Multispeciality Hospital,Multispeciality,"Plot 12, Wardha Road",Wardha Road,Nagpur,Maharashtra,440010,07122240101,180,2009,nabh
+H-0002,Deshmukh Memorial Hospital,Multispeciality,"44, Dharangaon Main Road",Dharangaon,Nagpur,Maharashtra,440001,07122440112,120,1998,none
+H-0003,Grace Diagnostics and Clinic,Diagnostic Clinic,"8, Ramdaspeth Square",Ramdaspeth,Nagpur,Maharashtra,440010,07126640123,30,2015,none
+H-0004,Anand Childrens Hospital,Paediatric,"21, Manish Nagar",Manish Nagar,Nagpur,Maharashtra,440017,07127840134,45,2011,none
+H-0005,Shastri Surgical Institute,Surgical,"3, Gandhibagh Road",Gandhibagh,Nagpur,Maharashtra,440009,07125540145,90,2005,none
+H-0006,City Care Family Clinic,General Practice,"57, Sitabuldi Main Road",Sitabuldi,Nagpur,Maharashtra,440012,07124540156,18,2019,none
+H-0007,Naiya Life Sciences Diagnostics,Diagnostic Lab,"102, Dharangaon",Dharangaon,Nagpur,Maharashtra,440001,07124240167,12,2021,none
+H-0008,Dr Patil Superspecialty Centre,Multispeciality,"9, Chhatrapati Sambhajinagar",Chhatrapati Sambhajinagar,Nagpur,Maharashtra,440022,07125640178,75,2014,none
+H-0009,Sudarshan Eye and ENT Clinic,Specialist,"31, Katol Nava Bazar",Katol,Nagpur,Maharashtra,440013,07126240189,20,2017,none
+H-0010,Balaji Orthopaedic Centre,Orthopaedic,"Bhopal Road, Near Petrol Pump",Bhopal Road,Nagpur,Maharashtra,440026,07127740190,60,2007,none

@@ -1,0 +1,13 @@
+doctor_id,name,qualification,specialisation,registration_no,hospital_id,department,room_no,phone,consultation_fee,experience_years,languages,availability
+D-0001,Dr Meera Deshmukh,MBBS MD,General Medicine,MMC-2004-118742,H-0002,Internal Medicine,204,+91 9822012345,600,21,"Marathi, Hindi, English",Mon-Sat 09:00-13:00
+D-0002,Dr Anil Kulkarni,MBBS DNB,Cardiology,MMC-2008-203416,H-0001,Cardiology,311,+91 9822012346,900,17,"Marathi, Hindi, English",Mon-Fri 10:00-16:00
+D-0003,Dr Sneha Bawane,MBBS MD,Endocrinology,MMC-2011-287104,H-0001,Endocrinology,208,+91 9822012347,800,14,"Marathi, Hindi, English",Tue-Sat 09:30-14:00
+D-0004,Dr Rajesh Gupta,MBBS DCH,Paediatrics,MMC-2006-164920,H-0004,Paediatrics,106,+91 9822012348,500,19,"Marathi, Hindi, English",Mon-Sat 10:00-15:00
+D-0005,Dr Prachi Joshi,MBBS MD,Obstetrics and Gynaecology,MMC-2013-311258,H-0008,Obstetrics and Gynaecology,402,+91 9822012349,900,12,"Marathi, Hindi, English",Mon-Fri 11:00-16:00
+D-0006,Dr Sanjay Pawar,MBBS MS,Orthopaedics,MMC-2003-097531,H-0010,Orthopaedics,115,+91 9822012350,750,22,"Marathi, Hindi, English",Mon-Sat 09:00-13:00
+D-0007,Dr Kavita Rao,MBBS MD,Dermatology,MMC-2015-338744,H-0003,Dermatology,12,+91 9822012351,650,10,"Marathi, Hindi, English",Tue-Sat 10:00-15:00
+D-0008,Dr Imran Shaikh,MBBS DNB,General Medicine,MMC-2010-246813,H-0006,General Medicine,5,+91 9822012352,350,15,"Marathi, Hindi, Urdu, Hindi, English",Mon-Sat 17:00-21:00
+D-0009,Dr Nandini Shastri,MBBS MS,Ophthalmology,MMC-2007-152368,H-0009,Ophthalmology,21,+91 9822012353,600,18,"Marathi, Hindi, English",Mon-Fri 09:00-13:00
+D-0010,Dr Vivek Thakur,MBBS MD,Nephrology,MMC-2014-357219,H-0001,Nephrology,312,+91 9822012354,1000,11,"Marathi, Hindi, English",Wed-Sat 10:00-16:00
+D-0011,Dr Ashwin Kale,MBBS DNB,Psychiatry,MMC-2012-298630,H-0008,Psychiatry,405,+91 9822012355,850,13,"Marathi, Hindi, English",Mon-Thu 11:00-17:00
+D-0012,Dr Rohini Patil,MBBS DGO,Obstetrics and Gynaecology,MMC-2016-372015,H-0003,Gynaecology,14,+91 9822012356,550,9,"Marathi, Hindi, English",Mon-Sat 09:00-14:00

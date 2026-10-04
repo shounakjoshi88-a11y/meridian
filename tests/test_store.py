@@ -50,28 +50,58 @@ def test_ensure_csv_does_not_clobber():
     print("  ok  ensure_csv leaves an existing file alone")
 
 
+def highest_id(record_type, id_field, prefix):
+    """The largest numeric id suffix currently in a registry.
+
+    next_id is expected to be this plus one. Derived rather than written
+    down, because the registries are generated: the answer moves whenever
+    scripts/build_synthetic_registries.py is re-run, and a pinned literal
+    would only prove the fixture had not been regenerated.
+    """
+    _filename, _fields, _id_field = store.RECORDS[record_type]
+    best = 0
+
+    for row in store.read_all(record_type)[0]:
+        digits = row[id_field].partition(prefix)[2]
+
+        if digits.isdigit():
+            best = max(best, int(digits))
+
+    return best
+
+
 def test_next_id_increments():
     """next_id reads existing ids and returns the next free one."""
     with rollback():
-        assert store.next_id("patients", "P-") == "P-0009", store.next_id("patients", "P-")
-        assert store.next_id("visits", "V-") == "V-0021"
-        assert store.next_id("medicines", "M-") == "M-0021"
-        assert store.next_id("stores", "S-") == "S-0013"
-        assert store.next_id("hospitals", "H-") == "H-0011"
-        assert store.next_id("doctors", "D-") == "D-0013"
-    print("  ok  next_id returns P-0009, V-0021, M-0021, S-0013, "
-          "H-0011, D-0013")
+        for record_type, prefix in (("patients", "P-"), ("visits", "V-"),
+                                    ("medicines", "M-"), ("stores", "S-"),
+                                    ("hospitals", "H-"), ("doctors", "D-")):
+            id_field = store.RECORDS[record_type][2]
+            highest = highest_id(record_type, id_field, prefix)
+
+            got = store.next_id(record_type, prefix)
+
+            assert got.startswith(prefix), f"{record_type}: {got} lost its prefix"
+            assert int(got.partition(prefix)[2]) == highest + 1, (
+                f"{record_type}: next_id is {got}, expected one past "
+                f"{highest}")
+
+    print("  ok  next_id is one past the highest id in every registry")
 
 
 def test_next_id_after_delete_reuses_the_gap():
     """Deleting the highest row means the id is handed out again."""
     with rollback():
-        new_id = store.next_id("patients", "P-")
-        store.append_row("patients", {"patient_id": new_id, "name": "Temp"})
+        first = store.next_id("patients", "P-")
+        store.append_row("patients", {"patient_id": first, "name": "Temp"})
 
-        assert store.next_id("patients", "P-") == "P-0010"
-        store.delete_row("patients", "patient_id", new_id)
-        assert store.next_id("patients", "P-") == new_id
+        after_append = store.next_id("patients", "P-")
+        assert after_append != first, "next_id did not move past the new row"
+        assert int(after_append.partition("P-")[2]) == \
+            int(first.partition("P-")[2]) + 1, (first, after_append)
+
+        store.delete_row("patients", "patient_id", first)
+        assert store.next_id("patients", "P-") == first
     print("  ok  next_id tracks the highest id, not a row count")
 
 
@@ -107,6 +137,8 @@ def test_append_handles_missing_trailing_newline():
     with open(path, "wb") as f:
         f.write(stripped)
 
+    baseline = store.count_records("patients")
+
     try:
         with rollback():
             new_id = store.next_id("patients", "P-")
@@ -118,7 +150,7 @@ def test_append_handles_missing_trailing_newline():
 
             records, skipped = store.read_all("patients")
             assert skipped == [], f"malformed rows appeared: {skipped}"
-            assert len(records) == 9, len(records)
+            assert len(records) == baseline + 1, (len(records), baseline)
     finally:
         with open(path, "wb") as f:
             f.write(original)
@@ -138,6 +170,8 @@ def test_read_all_reports_short_rows():
     with open(path, "r", newline="") as f:
         original = f.read()
 
+    baseline = store.count_records("patients")
+
     # Sixteen columns declared, only seven supplied.
     with open(path, "a", newline="") as f:
         f.write("P-9003,Short Row,30,male,9845012399,O+,Area\n")
@@ -152,7 +186,7 @@ def test_read_all_reports_short_rows():
 
         assert all(r["patient_id"] != "P-9003" for r in records), \
             "short row was accepted"
-        assert len(records) == 8, len(records)
+        assert len(records) == baseline, (len(records), baseline)
     finally:
         with open(path, "w", newline="") as f:
             f.write(original)
@@ -223,12 +257,14 @@ def test_visits_for_unknown_patient_is_empty():
 
 def test_get_by_id_returns_none_when_missing():
     assert store.get_by_id("patients", "P-9999") is None
-    assert store.get_by_id("diseases", "D-99") is None
+    assert store.get_by_id("diseases", "D-9999") is None
     print("  ok  get_by_id returns None for a missing id")
 
 
 def test_update_row_changes_only_named_fields():
     """update_row rewrites the file but leaves other fields untouched."""
+    baseline = store.count_records("patients")
+
     with rollback():
         updated = store.update_row("patients", "patient_id", "P-0001",
                                    {"city": "Chennai"})
@@ -240,9 +276,10 @@ def test_update_row_changes_only_named_fields():
 
         again = store.update_row("patients", "patient_id", "P-0001",
                                  {"city": "Pune"})
+        assert again is not None, "second update failed"
         assert again["city"] == "Pune", "second update failed"
-        assert store.count_records("patients") == 8, "row count changed"
-    print("  ok  update_row changes one field, row count stays 8")
+        assert store.count_records("patients") == baseline, "row count changed"
+    print(f"  ok  update_row changes one field, row count stays {baseline}")
 
 
 def test_update_row_rejects_id_change():
@@ -251,6 +288,7 @@ def test_update_row_rejects_id_change():
         result = store.update_row("patients", "patient_id", "P-0001",
                                   {"patient_id": "P-7777", "city": "Pune"})
 
+        assert result is not None, "update returned nothing"
         assert result["patient_id"] == "P-0001", "id was changed"
     print("  ok  update_row refuses to change the id field")
 
@@ -263,12 +301,14 @@ def test_update_row_unknown_returns_none():
 
 def test_delete_row_reports_whether_it_removed_anything():
     """Deleting twice must not silently succeed the second time."""
+    baseline = store.count_records("patients")
+
     with rollback():
         assert store.delete_row("patients", "patient_id", "P-9999") is False
-        assert store.count_records("patients") == 8
+        assert store.count_records("patients") == baseline
 
         assert store.delete_row("patients", "patient_id", "P-0008") is True
-        assert store.count_records("patients") == 7
+        assert store.count_records("patients") == baseline - 1
         assert store.delete_row("patients", "patient_id", "P-0008") is False
     print("  ok  delete_row returns True then False for a repeat delete")
 
@@ -356,11 +396,11 @@ def test_visit_symptom_set():
 
 def test_visit_links_doctor_and_hospital():
     """A visit carries the doctor and hospital it happened at."""
-    v = Visit("V-1", "P-1", doctor_id="D-02", hospital_id="H-01",
+    v = Visit("V-1", "P-1", doctor_id="D-0002", hospital_id="H-0001",
               scheduled_date="2026-05-04", status="completed")
 
-    assert v.doctor_id == "D-02"
-    assert v.hospital_id == "H-01"
+    assert v.doctor_id == "D-0002"
+    assert v.hospital_id == "H-0001"
     assert v.scheduled_date == "2026-05-04"
     assert v.status == "completed"
     print("  ok  Visit carries doctor_id, hospital_id and status")
@@ -382,19 +422,26 @@ def test_model_row_order_matches_csv_header():
 def test_count_records_matches_seeds():
     """Row counts are what the integrity checker expects.
 
-    The HPO derived registries are checked against a floor rather than an
-    exact number, because they are generated from an upstream release
-    that grows: pinning 11,655 would mean editing this test every time
-    the Human Phenotype Ontology publishes.
+    Generated registries are checked against a floor rather than an exact
+    number, because they are rebuilt from a seed by
+    scripts/build_synthetic_registries.py and the totals move whenever
+    that seed or a target changes. Pinning 600 would mean editing this
+    test on every regeneration for no extra safety: the generator states
+    its own totals, and the floor still catches a registry that has been
+    emptied or truncated by accident.
+
+    medicines.csv is the exception. It is written by hand and not
+    generated, so an exact count is the honest assertion.
     """
     counts = {t: store.count_records(t) for t in store.RECORDS}
 
-    assert counts["patients"] == 8, counts
-    assert counts["visits"] == 20, counts
+    # Hand-written, so exact.
     assert counts["medicines"] == 20, counts
-    assert counts["stores"] == 12, counts
-    assert counts["hospitals"] == 10, counts
-    assert counts["doctors"] == 12, counts
+
+    # Generated by scripts/build_synthetic_registries.py, so floors.
+    for record_type in ("patients", "visits", "stores", "hospitals",
+                        "doctors"):
+        assert counts[record_type] >= 500, counts
 
     # The triage knowledge base, generated from ICD-10-CM.
     assert counts["diseases"] >= 90, counts

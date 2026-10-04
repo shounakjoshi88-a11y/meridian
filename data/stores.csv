@@ -1,13 +1,521 @@
 store_id,name,type,area,city,phone,hours,rating,stock_csv
-S-01,Apollo Pharmacy Dharangaon,Pharmacy,Dharangaon,Nagpur,07124851234,09:00-22:00,4.4,M-01|M-02|M-03|M-07|M-08|M-11|M-14|M-19|M-20
-S-02,MedPlus Sadar,Pharmacy,"Sadar, Central Avenue",Nagpur,07126641234,08:30-23:00,4.5,M-01|M-02|M-04|M-06|M-09|M-11|M-12|M-19|M-20
-S-03,CityCare Pharmacy Ramdaspeth,Pharmacy,Ramdaspeth,Nagpur,07123351234,09:00-21:00,3.9,M-01|M-03|M-05|M-07|M-11|M-13|M-20
-S-04,HealthFirst Medical Store Wardha Road,Medical Store,"Wardha Road, Near Std Colony",Nagpur,07122451234,10:00-20:30,4.1,M-02|M-04|M-08|M-10|M-14|M-17|M-19
-S-05,Wellness Pharmacy Sitabuldi,Pharmacy,Sitabuldi,Nagpur,07124561234,09:00-22:00,4.3,M-01|M-02|M-06|M-08|M-09|M-12|M-15|M-20
-S-06,City Medical Corner Manish Nagar,Pharmacy,"Manish Nagar, Ring Road",Nagpur,07127891234,09:00-21:00,3.6,
-S-07,LifeLine Pharmacy Chhatrapati Sambhajinagar,Pharmacy,"Chhatrapati Sambhajinagar, Plot No 12",Nagpur,07125671234,08:00-22:00,4.2,M-01|M-04|M-07|M-08|M-10|M-16|M-18|M-20
-S-08,Gandhi Medical Store Katol,Medical Store,"Katol, Nava Bazar",Nagpur,07126231234,09:30-20:00,3.7,M-02|M-13|M-14|M-17|M-19|M-20
-S-09,Matoshri Pharmacy Dharangaon,Pharmacy,"Dharangaon, Jewelry Line",Nagpur,07124231234,09:00-21:30,4.0,M-01|M-02|M-06|M-11|M-12|M-14|M-20
-S-10,Aapli Medicine Corner Bhopal,Pharmacy,"Bhopal Road, Near petrol pump",Nagpur,07127781234,10:00-20:00,3.4,M-01|M-05|M-11|M-15|M-20
-S-11,Balaji Medical Store Mumbai,Medical Store,"Andheri East",Mumbai,02228371234,09:00-22:00,4.4,M-02|M-04|M-08|M-10|M-14|M-17|M-19|M-20
-S-12,City Pharmacy Pune Camp,Pharmacy,"Pune Camp",Pune,02025561234,09:00-21:00,4.1,M-01|M-03|M-07|M-09|M-11|M-14|M-18|M-20
+S-0001,Apollo Pharmacy Dharangaon,Pharmacy,Dharangaon,Nagpur,07124851234,09:00-22:00,4.4,M-01|M-02|M-03|M-07|M-08|M-11|M-14|M-19|M-20
+S-0002,MedPlus Sadar,Pharmacy,"Sadar, Central Avenue",Nagpur,07126641234,08:30-23:00,4.5,M-01|M-02|M-04|M-06|M-09|M-11|M-12|M-19|M-20
+S-0003,CityCare Pharmacy Ramdaspeth,Pharmacy,Ramdaspeth,Nagpur,07123351234,09:00-21:00,3.9,M-01|M-03|M-05|M-07|M-11|M-13|M-20
+S-0004,HealthFirst Medical Store Wardha Road,Medical Store,"Wardha Road, Near Std Colony",Nagpur,07122451234,10:00-20:30,4.1,M-02|M-04|M-08|M-10|M-14|M-17|M-19
+S-0005,Wellness Pharmacy Sitabuldi,Pharmacy,Sitabuldi,Nagpur,07124561234,09:00-22:00,4.3,M-01|M-02|M-06|M-08|M-09|M-12|M-15|M-20
+S-0006,City Medical Corner Manish Nagar,Pharmacy,"Manish Nagar, Ring Road",Nagpur,07127891234,09:00-21:00,3.6,
+S-0007,LifeLine Pharmacy Chhatrapati Sambhajinagar,Pharmacy,"Chhatrapati Sambhajinagar, Plot No 12",Nagpur,07125671234,08:00-22:00,4.2,M-01|M-04|M-07|M-08|M-10|M-16|M-18|M-20
+S-0008,Gandhi Medical Store Katol,Medical Store,"Katol, Nava Bazar",Nagpur,07126231234,09:30-20:00,3.7,M-02|M-13|M-14|M-17|M-19|M-20
+S-0009,Matoshri Pharmacy Dharangaon,Pharmacy,"Dharangaon, Jewelry Line",Nagpur,07124231234,09:00-21:30,4.0,M-01|M-02|M-06|M-11|M-12|M-14|M-20
+S-0010,Aapli Medicine Corner Bhopal,Pharmacy,"Bhopal Road, Near petrol pump",Nagpur,07127781234,10:00-20:00,3.4,M-01|M-05|M-11|M-15|M-20
+S-0011,Balaji Medical Store Mumbai,Medical Store,Andheri East,Mumbai,02228371234,09:00-22:00,4.4,M-02|M-04|M-08|M-10|M-14|M-17|M-19|M-20
+S-0012,City Pharmacy Pune Camp,Pharmacy,Pune Camp,Pune,02025561234,09:00-21:00,4.1,M-01|M-03|M-07|M-09|M-11|M-14|M-18|M-20
+S-0013,Rao Pharmacy Station Road,Pharmacy,Station Road,Nashik,02523973614,10:00-20:00,3.3,
+S-0014,Chauhan Pharmacy College Road,Pharmacy,College Road,Mumbai,0222510472,11:00-23:00,3.9,M-19|M-08|M-03|M-14|M-05|M-15|M-11|M-16|M-17
+S-0015,Rao Clinic Chemist MIDC Road,Clinic Chemist,MIDC Road,Chandrapur,071724611449,08:00-22:00,3.4,M-11|M-19|M-09|M-18
+S-0016,Ghosh Pharmacy Sadar Bazar,Pharmacy,Sadar Bazar,Nagpur,07126983811,10:00-22:00,4.3,M-01|M-10|M-02|M-04|M-09|M-13|M-08|M-15|M-17|M-06|M-20|M-12|M-14|M-05|M-16|M-19|M-07
+S-0017,Sharma Pharmacy College Road,Pharmacy,College Road,Bhandara,071847826077,10:00-19:00,4.5,M-11|M-01|M-09|M-04|M-02
+S-0018,Reddy Pharmacy Panchsheel Nagar,Pharmacy,Panchsheel Nagar,Nagpur,07122304004,10:00-22:00,3.2,M-19|M-06|M-20|M-09|M-17
+S-0019,Shah Pharmacy Civil Lines,Pharmacy,Civil Lines,Jalgaon,02575560097,08:00-20:00,4.2,M-10|M-18|M-09|M-05|M-07|M-11|M-02|M-03|M-15|M-19|M-01|M-04|M-13|M-12|M-20|M-06|M-08|M-17|M-14|M-16
+S-0020,Singh Clinic Chemist Sai Nagar,Clinic Chemist,Sai Nagar,Mumbai,0223902742,10:00-20:00,4.5,M-17|M-08|M-06|M-18|M-03|M-09|M-15
+S-0021,Mehta Pharmacy Mankapur,Pharmacy,Mankapur,Nagpur,07123540670,08:00-21:00,4.3,M-13|M-17|M-07|M-04|M-16|M-06|M-19|M-11|M-12|M-14|M-18|M-15|M-01|M-09
+S-0022,Shah Pharmacy Officers Colony,Pharmacy,Officers Colony,Amravati,072628480113,09:00-20:00,4.7,M-17|M-19|M-11|M-12|M-15|M-10|M-20|M-18|M-02|M-03|M-07|M-05|M-09|M-14|M-01|M-16|M-13|M-06|M-08
+S-0023,Bhosale Pharmacy Kamthi,Pharmacy,Kamthi,Kamthi,07123579067,10:00-20:00,3.2,M-12|M-08|M-06|M-14|M-13|M-01|M-03|M-18
+S-0024,Gaikwad Medical Store BESA Road,Medical Store,BESA Road,Nagpur,07126960716,10:00-22:00,3.7,M-16|M-06|M-04|M-17|M-03|M-15|M-18|M-08|M-14|M-05|M-07|M-10|M-01|M-13|M-11|M-19|M-09|M-12|M-02|M-20
+S-0025,Gupta Medical Store Laxmi Nagar,Medical Store,Laxmi Nagar,Nagpur,07128096636,08:00-19:00,4.0,M-13|M-06|M-03|M-15|M-09|M-10|M-04|M-11|M-18|M-05|M-19|M-20|M-02|M-16|M-08|M-17|M-12|M-14|M-01|M-07
+S-0026,Verma Pharmacy Mankapur,Pharmacy,Mankapur,Nagpur,07127299280,11:00-23:00,4.3,M-02|M-03|M-17|M-11|M-18|M-16|M-07|M-20|M-13|M-08|M-01|M-14|M-12
+S-0027,Rane Pharmacy Sai Nagar,Pharmacy,Sai Nagar,Nashik,02526788940,09:00-21:00,4.1,M-08|M-11|M-02|M-19|M-14
+S-0028,Chauhan Pharmacy Seminary Hills,Pharmacy,Seminary Hills,Nagpur,07125168332,10:00-21:00,4.2,M-08|M-12|M-15|M-11|M-14|M-19|M-10|M-06|M-20|M-18|M-16|M-07|M-13
+S-0029,Joshi Medical Store Umred,Medical Store,Umred,Umred,07125693162,10:00-19:00,4.3,M-06|M-02|M-12|M-16|M-18|M-20|M-08|M-09|M-14|M-19|M-05
+S-0030,Desai Pharmacy Bezonbagh,Pharmacy,Bezonbagh,Nagpur,07125933929,09:00-21:00,3.4,M-16|M-18|M-01|M-14|M-06|M-20|M-19|M-15|M-10|M-13|M-04|M-17
+S-0031,Sharma Pharmacy Ring Road,Pharmacy,Ring Road,Chandrapur,071725396543,11:00-22:00,4.6,M-20|M-03|M-18|M-06|M-11
+S-0032,Rao Medical Store Gandhi Marg,Medical Store,Gandhi Marg,Pune,0206112417,11:00-22:00,3.8,M-04|M-05|M-03|M-06|M-18|M-10
+S-0033,Singh Pharmacy Panchsheel Nagar,Pharmacy,Panchsheel Nagar,Nagpur,07125675884,11:00-20:00,4.9,M-04|M-14|M-19|M-11|M-17|M-10|M-07|M-02|M-15|M-03
+S-0034,Sharma Pharmacy Station Road,Pharmacy,Station Road,Nashik,02525371891,10:00-19:00,3.7,M-06|M-07|M-16|M-14
+S-0035,Mane Pharmacy Gandhi Marg,Pharmacy,Gandhi Marg,Pune,0203876599,08:00-19:00,4.3,M-09|M-08|M-17|M-02|M-14|M-18|M-03|M-13|M-10|M-01|M-11|M-06|M-05|M-20|M-19|M-16|M-07|M-12|M-04|M-15
+S-0036,Yadav Medical Store Market Yard,Medical Store,Market Yard,Aurangabad,02406850661,10:00-19:00,4.6,M-15|M-17|M-06|M-16|M-09|M-08|M-01|M-19|M-18|M-07|M-10|M-11|M-03|M-13
+S-0037,Joshi Pharmacy Officers Colony,Pharmacy,Officers Colony,Amravati,072627163251,09:00-23:00,4.7,M-13|M-06|M-18|M-20|M-02|M-09|M-03|M-08|M-05|M-07|M-12|M-01|M-14|M-17
+S-0038,Mane Pharmacy MIDC Road,Pharmacy,MIDC Road,Aurangabad,02404043469,08:00-22:00,3.1,M-09|M-07|M-01|M-04|M-19|M-05|M-11|M-03|M-02|M-08|M-15|M-20|M-06|M-17|M-12|M-13
+S-0039,Yadav Pharmacy Airport Road,Pharmacy,Airport Road,Nagpur,07124343521,10:00-19:00,3.3,M-11|M-04|M-07|M-18|M-01|M-20|M-19
+S-0040,Mehta Pharmacy Civil Lines,Pharmacy,Civil Lines,Amravati,072623688330,10:00-23:00,4.8,M-04|M-02|M-07|M-12|M-20|M-14|M-09|M-16|M-17|M-01|M-10|M-18|M-15|M-19|M-11|M-06|M-13|M-05|M-03|M-08
+S-0041,Rao Pharmacy Sai Nagar,Pharmacy,Sai Nagar,Aurangabad,02403028410,09:00-21:00,4.9,M-02|M-14|M-16|M-12|M-15|M-11|M-05|M-13|M-01|M-07|M-20|M-17
+S-0042,Rao Medical Store Sai Nagar,Medical Store,Sai Nagar,Nashik,02524130262,10:00-20:00,4.9,
+S-0043,Rane Pharmacy Nehru Nagar,Pharmacy,Nehru Nagar,Bhandara,071845713421,10:00-19:00,4.8,M-05|M-16|M-12|M-19|M-20|M-14|M-02|M-06|M-01|M-15|M-17
+S-0044,Yadav Pharmacy Katol,Pharmacy,Katol,Katol,07128383585,11:00-23:00,3.5,M-08|M-15|M-13|M-09
+S-0045,Nair Pharmacy Krishna Nagar,Pharmacy,Krishna Nagar,Nashik,02523929621,09:00-20:00,4.1,M-06|M-05|M-17|M-07|M-04|M-16|M-19|M-18|M-03|M-01|M-11
+S-0046,Nair Pharmacy Pipla,Pharmacy,Pipla,Nagpur,07127669504,11:00-22:00,3.6,M-13|M-08|M-09|M-15|M-06|M-10|M-14
+S-0047,Deshmukh Medical Store Officers Colony,Medical Store,Officers Colony,Mumbai,0228403426,11:00-23:00,3.8,M-18|M-16|M-07|M-20|M-11|M-03|M-12|M-14|M-13|M-02|M-17|M-15|M-19|M-08|M-01
+S-0048,Kamble Pharmacy Main Road,Pharmacy,Main Road,Nashik,02524145796,08:00-21:00,3.8,M-06|M-09|M-11|M-15|M-02|M-17|M-19|M-10|M-12|M-16|M-13
+S-0049,Yadav Medical Store Bezonbagh,Medical Store,Bezonbagh,Nagpur,07128854877,08:00-23:00,4.6,M-14|M-20|M-12|M-07|M-18|M-02|M-16|M-10|M-03|M-13|M-01|M-08|M-06|M-17|M-05
+S-0050,Reddy Pharmacy Officers Colony,Pharmacy,Officers Colony,Pune,0202975758,11:00-21:00,3.6,M-05|M-12|M-17|M-03|M-06|M-01|M-20|M-19|M-15|M-02|M-04|M-14|M-07|M-18|M-16|M-11|M-13|M-10|M-08|M-09
+S-0051,Reddy Pharmacy Station Road,Pharmacy,Station Road,Mumbai,0226506867,10:00-22:00,4.5,M-15|M-04|M-07|M-17|M-18|M-06
+S-0052,Reddy Medical Store Koradi,Medical Store,Koradi,Koradi,07125319115,11:00-22:00,4.0,M-15|M-12|M-07|M-08|M-01
+S-0053,Desai Medical Store College Road,Medical Store,College Road,Nashik,02522817923,09:00-21:00,4.9,M-03|M-13|M-02|M-10|M-01|M-04|M-16|M-17|M-19|M-08|M-11|M-09
+S-0054,Nair Medical Store Temple Street,Medical Store,Temple Street,Mumbai,0225651654,08:00-22:00,3.3,M-13|M-09|M-14|M-15|M-10|M-03|M-18|M-05|M-11|M-02|M-16|M-17|M-04|M-08|M-20|M-01
+S-0055,Desai Pharmacy Shankar Nagar,Pharmacy,Shankar Nagar,Nagpur,07128942828,11:00-22:00,3.9,M-10|M-05|M-07|M-04|M-08|M-13|M-18|M-06
+S-0056,Rane Medical Store Model Colony,Medical Store,Model Colony,Mumbai,0223479752,10:00-19:00,3.2,M-19|M-08|M-10|M-20|M-13|M-16|M-17|M-14|M-02|M-03|M-05|M-15|M-11|M-07|M-09|M-06|M-01|M-18
+S-0057,Menon Pharmacy Bagadganj,Pharmacy,Bagadganj,Nagpur,07122292043,11:00-19:00,4.7,M-12|M-02|M-08|M-17|M-06|M-01|M-15|M-05|M-14|M-09|M-03|M-13|M-16|M-04|M-18|M-07|M-20
+S-0058,Salunke Pharmacy Panchsheel Nagar,Pharmacy,Panchsheel Nagar,Nagpur,07128667902,08:00-21:00,3.4,M-03|M-16|M-06|M-15|M-20|M-04|M-07|M-09|M-08|M-12
+S-0059,Bhagat Pharmacy Vayusena Nagar,Pharmacy,Vayusena Nagar,Nagpur,07124533659,09:00-19:00,3.2,M-19|M-14|M-07|M-03|M-12|M-04|M-10|M-05|M-16|M-09|M-11
+S-0060,Reddy Pharmacy Airport Road,Pharmacy,Airport Road,Nagpur,07126969498,09:00-21:00,4.7,M-02|M-09|M-04|M-16|M-18|M-10
+S-0061,Ghosh Pharmacy Gandhi Marg,Pharmacy,Gandhi Marg,Kolhapur,02315831392,11:00-20:00,4.1,M-20|M-01|M-11|M-19|M-06|M-12|M-16|M-05|M-09
+S-0062,Menon Medical Store Katol,Medical Store,Katol,Katol,07125403050,10:00-19:00,3.9,M-04|M-14|M-13|M-09|M-17|M-06|M-07
+S-0063,Thakur Pharmacy Civil Lines,Pharmacy,Civil Lines,Jalgaon,02573450530,10:00-20:00,3.3,M-12|M-03|M-01|M-08|M-10|M-15|M-02|M-05|M-20|M-09|M-06
+S-0064,Singh Medical Store Sai Nagar,Medical Store,Sai Nagar,Jalgaon,02575580084,11:00-19:00,4.6,M-11|M-05|M-16|M-01|M-03
+S-0065,Deshmukh Pharmacy Sai Nagar,Pharmacy,Sai Nagar,Chandrapur,071725631319,09:00-21:00,4.8,M-05|M-12|M-13|M-06|M-19|M-03|M-20|M-14|M-09|M-07
+S-0066,Yadav Pharmacy Model Colony,Pharmacy,Model Colony,Amravati,072624625722,10:00-19:00,3.2,M-08|M-19|M-01|M-14|M-06|M-13|M-10|M-16|M-11|M-03|M-04|M-07|M-02|M-15|M-18|M-09
+S-0067,Dixit Pharmacy Ring Road,Pharmacy,Ring Road,Nashik,02527688039,11:00-21:00,3.6,M-13|M-12|M-14|M-04|M-10|M-19|M-09|M-05|M-06|M-03
+S-0068,Patil Medical Store Uppalwadi,Medical Store,Uppalwadi,Nagpur,07123553756,11:00-22:00,3.4,M-20|M-10|M-01|M-17|M-09|M-19|M-03|M-06|M-18|M-11|M-13|M-08|M-05|M-14|M-02|M-15|M-04|M-12
+S-0069,Gupta Clinic Chemist Temple Street,Clinic Chemist,Temple Street,Pune,0207436793,10:00-22:00,3.7,M-07|M-15|M-11|M-06|M-20|M-01|M-14|M-09|M-05|M-02|M-03|M-08|M-16|M-04|M-12|M-18|M-19|M-17
+S-0070,Yadav Medical Store Gandhi Marg,Medical Store,Gandhi Marg,Kolhapur,02313646043,10:00-22:00,4.9,M-01|M-19|M-03|M-12|M-11|M-16|M-02|M-18|M-06|M-09|M-14|M-15|M-17|M-10|M-08|M-07|M-05|M-04|M-20
+S-0071,Singh Clinic Chemist Market Yard,Clinic Chemist,Market Yard,Solapur,02178114360,09:00-19:00,3.1,
+S-0072,Patil Pharmacy Shivaji Nagar,Pharmacy,Shivaji Nagar,Nashik,02522843432,09:00-23:00,3.4,M-19|M-10|M-02|M-08|M-17|M-11
+S-0073,Ghosh Pharmacy Nehru Nagar,Pharmacy,Nehru Nagar,Pune,0207590243,09:00-20:00,3.6,M-08|M-06|M-15|M-04|M-18
+S-0074,Kulkarni Pharmacy Temple Street,Pharmacy,Temple Street,Aurangabad,02405424978,11:00-19:00,4.6,M-14|M-04|M-09|M-10|M-12|M-11|M-18|M-06|M-16|M-02|M-15|M-13|M-03|M-17
+S-0075,Bhosale Pharmacy College Road,Pharmacy,College Road,Bhandara,071842415503,10:00-21:00,3.2,M-04|M-15|M-09|M-20|M-02|M-16|M-12|M-10|M-17|M-01|M-11|M-06|M-13|M-07|M-18|M-19
+S-0076,Kamble Medical Store Sai Nagar,Medical Store,Sai Nagar,Pune,0208449158,11:00-22:00,3.8,M-05|M-08|M-02|M-18|M-03|M-20|M-17|M-12|M-15|M-16|M-19|M-10|M-01|M-13|M-11|M-14|M-04|M-07|M-06
+S-0077,Sharma Pharmacy Main Road,Pharmacy,Main Road,Solapur,02172418529,11:00-21:00,3.3,M-15|M-08|M-16|M-01|M-12|M-13|M-11|M-07
+S-0078,Shah Medical Store Uppalwadi,Medical Store,Uppalwadi,Nagpur,07126630369,08:00-19:00,4.0,M-11|M-15|M-03|M-12|M-07|M-14|M-01|M-02
+S-0079,Patel Pharmacy Imamwada,Pharmacy,Imamwada,Nagpur,07124513625,09:00-23:00,3.8,M-03|M-05|M-19|M-12|M-20|M-18|M-13|M-04|M-08|M-14|M-06|M-01|M-10|M-15
+S-0080,Salunke Pharmacy Nehru Nagar,Pharmacy,Nehru Nagar,Mumbai,0223239669,09:00-21:00,4.8,M-02|M-20|M-10|M-15|M-07|M-17|M-13|M-06|M-19|M-01
+S-0081,Kulkarni Pharmacy Shankar Nagar,Pharmacy,Shankar Nagar,Nagpur,07128537485,11:00-20:00,4.7,M-13|M-04|M-15|M-08|M-12|M-16|M-19|M-14|M-11|M-18|M-17|M-10|M-05|M-07|M-09|M-01
+S-0082,Verma Pharmacy Nehru Nagar,Pharmacy,Nehru Nagar,Bhandara,071848221205,10:00-22:00,3.6,M-08|M-13|M-05|M-04|M-11|M-02|M-16|M-10|M-18
+S-0083,Rao Pharmacy Krishna Nagar,Pharmacy,Krishna Nagar,Pune,0206108525,09:00-23:00,3.8,M-04|M-05|M-07|M-11|M-15|M-03|M-01|M-09|M-17|M-14|M-02|M-18|M-19|M-13
+S-0084,Yadav Pharmacy Officers Colony,Pharmacy,Officers Colony,Mumbai,0226280591,10:00-21:00,3.4,M-01|M-14|M-18|M-16|M-20|M-13
+S-0085,Waghmare Pharmacy Khamla,Pharmacy,Khamla,Nagpur,07124534683,09:00-22:00,3.4,M-07|M-02|M-14|M-08|M-17|M-13|M-06|M-18|M-19
+S-0086,Patil Pharmacy Mahal,Pharmacy,Mahal,Nagpur,07127778370,08:00-22:00,4.1,M-06|M-15|M-01|M-19|M-04|M-03|M-18|M-17|M-14
+S-0087,Gupta Pharmacy Ring Road,Pharmacy,Ring Road,Mumbai,0228563372,10:00-20:00,4.0,M-03|M-05|M-14|M-19|M-11|M-09|M-07|M-04|M-12|M-10|M-13|M-08|M-06|M-16|M-02|M-18|M-15|M-01
+S-0088,Singh Medical Store Market Yard,Medical Store,Market Yard,Mumbai,0224336629,11:00-19:00,4.3,M-07|M-18|M-03|M-04|M-02|M-08|M-12|M-06
+S-0089,Patil Pharmacy Sai Nagar,Pharmacy,Sai Nagar,Jalgaon,02578783862,10:00-19:00,3.2,M-02|M-16|M-06|M-15|M-20|M-12|M-13|M-14|M-01|M-18|M-05|M-07|M-19|M-04|M-08
+S-0090,Kulkarni Pharmacy Khamla,Pharmacy,Khamla,Nagpur,07122748237,10:00-23:00,3.8,M-17|M-10|M-03|M-11|M-02|M-04|M-16|M-13|M-06
+S-0091,Jadhav Medical Store College Road,Medical Store,College Road,Mumbai,0227485716,09:00-22:00,3.3,M-15|M-11|M-12|M-18|M-16|M-03|M-05|M-14|M-07|M-01
+S-0092,Patil Pharmacy Nehru Nagar,Pharmacy,Nehru Nagar,Kolhapur,02317558576,08:00-22:00,3.3,M-19|M-09|M-06|M-15|M-02|M-17|M-20|M-04|M-03|M-01|M-11|M-13|M-08|M-05|M-12|M-10|M-07|M-14|M-18
+S-0093,Patil Medical Store Sitabuldi,Medical Store,Sitabuldi,Nagpur,07124292223,09:00-20:00,4.3,M-16|M-19|M-20|M-09|M-07|M-02|M-04|M-06|M-03|M-05|M-01
+S-0094,Dixit Pharmacy Khamla,Pharmacy,Khamla,Nagpur,07126164691,09:00-19:00,4.7,M-13|M-11|M-17|M-06|M-19|M-20|M-07|M-18|M-01|M-08|M-14
+S-0095,Desai Pharmacy Nehru Nagar,Pharmacy,Nehru Nagar,Pune,0205103122,08:00-22:00,3.2,M-16|M-14|M-03|M-18|M-07|M-13|M-12|M-20|M-09
+S-0096,Chavan Pharmacy Main Road,Pharmacy,Main Road,Jalgaon,02576141117,09:00-21:00,4.2,M-20|M-06|M-10|M-19|M-01|M-09|M-08
+S-0097,Waghmare Pharmacy Shivaji Nagar,Pharmacy,Shivaji Nagar,Bhandara,071847357782,09:00-22:00,3.2,M-03|M-05|M-04|M-02|M-14|M-06|M-09|M-13|M-17|M-07|M-19
+S-0098,Khan Pharmacy Ring Road,Pharmacy,Ring Road,Bhandara,071843507771,11:00-23:00,3.7,M-14|M-09|M-19|M-02|M-15|M-16|M-03|M-12|M-01|M-13|M-07|M-08|M-10|M-11
+S-0099,Deshmukh Medical Store Panchsheel Nagar,Medical Store,Panchsheel Nagar,Nagpur,07122834202,09:00-23:00,3.2,M-09|M-12|M-17|M-08|M-05|M-13|M-14|M-10|M-06|M-03|M-16
+S-0100,Mane Pharmacy Ganjipeth,Pharmacy,Ganjipeth,Nagpur,07127070334,09:00-20:00,3.3,
+S-0101,Thakur Pharmacy Sitabuldi,Pharmacy,Sitabuldi,Nagpur,07123637095,08:00-23:00,4.2,M-06|M-03|M-14|M-15|M-01|M-05|M-18|M-13|M-10|M-16
+S-0102,Nair Medical Store Gandhi Marg,Medical Store,Gandhi Marg,Mumbai,0226906067,08:00-21:00,3.8,M-16|M-14|M-20|M-04|M-09|M-02|M-01|M-15|M-03|M-07
+S-0103,Shah Pharmacy Gandhi Marg,Pharmacy,Gandhi Marg,Mumbai,0222694276,11:00-22:00,4.7,M-03|M-07|M-12|M-17|M-06|M-14
+S-0104,Pawar Medical Store Sai Nagar,Medical Store,Sai Nagar,Aurangabad,02407132612,11:00-19:00,4.6,M-13|M-17|M-10|M-05|M-04|M-20|M-19|M-14|M-06|M-07|M-09|M-01|M-12|M-18|M-02
+S-0105,Khan Pharmacy Airport Road,Pharmacy,Airport Road,Nagpur,07123764285,09:00-22:00,3.3,M-10|M-16|M-14|M-04|M-09|M-18|M-07|M-08|M-01|M-15|M-17|M-03
+S-0106,Salunke Pharmacy Krishna Nagar,Pharmacy,Krishna Nagar,Solapur,02177044971,08:00-20:00,4.4,M-20|M-12|M-18|M-13|M-09|M-15|M-07|M-04|M-10|M-05|M-08|M-06|M-01|M-17|M-19|M-11|M-14|M-16
+S-0107,Shah Medical Store Gandhi Marg,Medical Store,Gandhi Marg,Solapur,02176167543,08:00-20:00,4.8,M-19|M-03|M-15|M-02|M-04|M-05|M-16|M-09|M-18|M-13|M-17|M-12|M-14|M-08|M-10|M-11|M-20
+S-0108,Shah Medical Store Officers Colony,Medical Store,Officers Colony,Mumbai,0225718195,10:00-20:00,4.4,M-14|M-04|M-11|M-16
+S-0109,Yadav Medical Store Borgaon Road,Medical Store,Borgaon Road,Nagpur,07127961298,09:00-20:00,3.4,M-07|M-12|M-14|M-18|M-08|M-16|M-10|M-09|M-19|M-03|M-04|M-17|M-06|M-02|M-05|M-01|M-20|M-11
+S-0110,Reddy Pharmacy Civil Lines,Pharmacy,Civil Lines,Kolhapur,02314284655,10:00-21:00,3.6,M-02|M-16|M-18|M-08|M-09|M-03|M-01|M-15|M-19
+S-0111,Salunke Medical Store Ramtek,Medical Store,Ramtek,Ramtek,07128286220,09:00-19:00,4.1,M-15|M-16|M-01|M-08|M-19|M-14|M-20|M-04|M-12|M-11|M-02|M-05|M-10|M-09|M-13
+S-0112,Patel Pharmacy Hingna,Pharmacy,Hingna,Hingna,07126209155,10:00-19:00,4.6,M-03|M-18|M-10|M-04|M-05|M-13|M-12|M-01|M-09|M-07|M-14|M-16|M-19|M-20|M-02|M-08
+S-0113,Dixit Medical Store Market Yard,Medical Store,Market Yard,Solapur,02175661419,09:00-23:00,4.0,M-17|M-15|M-16|M-07|M-14|M-10|M-19|M-11
+S-0114,Shah Pharmacy Dattawadi,Pharmacy,Dattawadi,Nagpur,07124172552,09:00-22:00,4.5,M-15|M-09|M-08|M-18
+S-0115,Salunke Pharmacy Narendra Nagar,Pharmacy,Narendra Nagar,Nagpur,07122634235,11:00-21:00,3.7,M-18|M-05|M-08|M-06|M-16|M-12|M-04
+S-0116,Chavan Pharmacy Ring Road,Pharmacy,Ring Road,Pune,0205429004,10:00-20:00,4.8,M-17|M-07|M-13|M-11|M-10|M-20|M-18|M-19|M-15
+S-0117,Kulkarni Pharmacy Bagadganj,Pharmacy,Bagadganj,Nagpur,07124954414,11:00-21:00,3.3,M-05|M-11|M-04|M-13|M-14|M-17|M-19|M-10|M-16|M-09
+S-0118,Kamble Pharmacy Panchsheel Nagar,Pharmacy,Panchsheel Nagar,Nagpur,07127921310,10:00-21:00,3.8,M-15|M-07|M-14|M-11|M-06|M-08|M-01|M-16|M-19|M-04
+S-0119,Menon Pharmacy Laxmi Nagar,Pharmacy,Laxmi Nagar,Nagpur,07122942776,11:00-21:00,3.8,M-19|M-10|M-05|M-15|M-14|M-07|M-20|M-04|M-03|M-17|M-18|M-11|M-09|M-08|M-12|M-02
+S-0120,Waghmare Pharmacy Model Colony,Pharmacy,Model Colony,Mumbai,0226649546,10:00-22:00,3.3,M-19|M-13|M-03|M-11|M-02|M-14|M-05|M-09|M-10
+S-0121,Singh Pharmacy Sai Nagar,Pharmacy,Sai Nagar,Bhandara,071848196776,09:00-23:00,4.6,M-05|M-19|M-10|M-01|M-02|M-11|M-14|M-06|M-04|M-17|M-15|M-09|M-08|M-16
+S-0122,Shah Pharmacy Sai Nagar,Pharmacy,Sai Nagar,Kolhapur,02316606195,11:00-22:00,3.4,M-17|M-13|M-06|M-15|M-05|M-19|M-02|M-08|M-18|M-14|M-07|M-04|M-12|M-16|M-09|M-03|M-11|M-10|M-01|M-20
+S-0123,Kulkarni Pharmacy Sai Nagar,Pharmacy,Sai Nagar,Kolhapur,02318407505,09:00-19:00,4.8,M-03|M-06|M-10|M-02|M-01|M-09|M-18|M-04|M-08|M-12|M-11|M-07|M-20|M-17|M-05|M-19
+S-0124,Salunke Medical Store Gandhi Marg,Medical Store,Gandhi Marg,Nashik,02523477388,08:00-21:00,4.6,M-18|M-01|M-06|M-04|M-17|M-03|M-13|M-19
+S-0125,Verma Medical Store Civil Lines,Medical Store,Civil Lines,Aurangabad,02406814125,09:00-20:00,4.9,M-01|M-07|M-06|M-13|M-20|M-03|M-02|M-14|M-16|M-11|M-09|M-18|M-04|M-12|M-17|M-19|M-05|M-08|M-10
+S-0126,Rao Pharmacy Gandhi Marg,Pharmacy,Gandhi Marg,Kolhapur,02312017062,10:00-20:00,3.6,M-18|M-08|M-17|M-09
+S-0127,Singh Medical Store MIDC Road,Medical Store,MIDC Road,Jalgaon,02577518867,09:00-19:00,4.9,M-01|M-14|M-04|M-06|M-13|M-09|M-20|M-11|M-10|M-16|M-19|M-18|M-12|M-03|M-02|M-05
+S-0128,Joshi Pharmacy Jaitala,Pharmacy,Jaitala,Nagpur,07124710830,09:00-21:00,4.3,M-04|M-05|M-13|M-12|M-10
+S-0129,Rao Medical Store Civil Lines,Medical Store,Civil Lines,Amravati,072628352428,10:00-20:00,4.7,
+S-0130,Pawar Pharmacy Shivaji Nagar,Pharmacy,Shivaji Nagar,Aurangabad,02404014818,09:00-22:00,4.7,M-17|M-06|M-02|M-09|M-05|M-13|M-08|M-12|M-15|M-16
+S-0131,Desai Pharmacy Ramtek,Pharmacy,Ramtek,Ramtek,07122760228,08:00-20:00,4.0,M-19|M-16|M-05|M-03|M-01|M-02|M-14|M-08|M-04|M-07|M-09|M-18|M-17
+S-0132,Jadhav Pharmacy Airport Road,Pharmacy,Airport Road,Nagpur,07122775173,09:00-19:00,3.7,M-07|M-19|M-09|M-06|M-13|M-20|M-10|M-01
+S-0133,Mehta Pharmacy Laxmi Nagar,Pharmacy,Laxmi Nagar,Nagpur,07124449992,11:00-22:00,4.6,M-03|M-05|M-19|M-20|M-11|M-15
+S-0134,Desai Pharmacy Temple Street,Pharmacy,Temple Street,Pune,0202052257,10:00-19:00,4.3,M-12|M-07|M-11|M-20|M-03|M-13|M-02|M-19|M-16|M-17|M-05|M-04|M-09|M-15|M-08|M-06|M-14|M-01|M-10
+S-0135,Joshi Clinic Chemist Nehru Nagar,Clinic Chemist,Nehru Nagar,Solapur,02178606462,10:00-19:00,3.5,M-13|M-01|M-19|M-02|M-12|M-15|M-06|M-16|M-07|M-04|M-05|M-08|M-20|M-11|M-03|M-09|M-17|M-18|M-10|M-14
+S-0136,Joshi Pharmacy Shivaji Nagar,Pharmacy,Shivaji Nagar,Aurangabad,02402220757,10:00-21:00,4.5,M-19|M-15|M-10|M-11|M-07|M-17|M-04|M-08|M-20|M-06|M-09|M-12|M-03|M-01|M-05|M-18
+S-0137,Jadhav Pharmacy Nayapura,Pharmacy,Nayapura,Nagpur,07124820966,10:00-23:00,4.5,M-19|M-08|M-04|M-13|M-09|M-01|M-14|M-20|M-11|M-10|M-05|M-06|M-07|M-17|M-18|M-16
+S-0138,Desai Medical Store Model Colony,Medical Store,Model Colony,Amravati,072623950043,11:00-22:00,3.3,M-08|M-02|M-13|M-12|M-06|M-20|M-10
+S-0139,Sharma Pharmacy Temple Street,Pharmacy,Temple Street,Bhandara,071844184294,11:00-23:00,3.8,M-06|M-16|M-07|M-01|M-09
+S-0140,Dixit Pharmacy Shivaji Nagar,Pharmacy,Shivaji Nagar,Pune,0204904626,10:00-20:00,3.3,M-19|M-20|M-15|M-05|M-11|M-06|M-14|M-04|M-07|M-08|M-03|M-16|M-02|M-18
+S-0141,Kamble Medical Store Imamwada,Medical Store,Imamwada,Nagpur,07122997352,09:00-23:00,4.6,M-05|M-11|M-12|M-13|M-08|M-01|M-18
+S-0142,Waghmare Medical Store Shivaji Nagar,Medical Store,Shivaji Nagar,Amravati,072625951449,09:00-22:00,4.1,M-13|M-20|M-01|M-11|M-19|M-17|M-04|M-16|M-09|M-05|M-08|M-18|M-10|M-15|M-03
+S-0143,Iyer Medical Store Main Road,Medical Store,Main Road,Pune,0202522244,09:00-20:00,4.1,M-01|M-14|M-05|M-18|M-15|M-03|M-13|M-12|M-09|M-20|M-06|M-11|M-17|M-07
+S-0144,Reddy Medical Store Officers Colony,Medical Store,Officers Colony,Nashik,02528581719,09:00-23:00,4.4,M-03|M-08|M-04|M-11|M-05|M-14|M-16|M-01
+S-0145,Rao Clinic Chemist Temple Street,Clinic Chemist,Temple Street,Pune,0202083955,08:00-22:00,4.4,M-06|M-13|M-17|M-20|M-04|M-12|M-07|M-02|M-19
+S-0146,Desai Pharmacy Gandhi Marg,Pharmacy,Gandhi Marg,Jalgaon,02575618452,11:00-22:00,3.2,M-11|M-05|M-16|M-17|M-04|M-03|M-09|M-06
+S-0147,Sharma Pharmacy BESA Road,Pharmacy,BESA Road,Nagpur,07127283297,09:00-20:00,4.0,M-16|M-15|M-07|M-20|M-05|M-04|M-11|M-19|M-13|M-18
+S-0148,Dixit Medical Store Bagadganj,Medical Store,Bagadganj,Nagpur,07126537189,11:00-22:00,3.4,M-11|M-08|M-05|M-09|M-01|M-04|M-14|M-12|M-13|M-19|M-20|M-15|M-10|M-16|M-07|M-06|M-17|M-18|M-03
+S-0149,Reddy Pharmacy College Road,Pharmacy,College Road,Pune,0204136749,10:00-23:00,4.3,M-07|M-09|M-02|M-14|M-13|M-19|M-17|M-05|M-20|M-06|M-16|M-10|M-18
+S-0150,Thakur Pharmacy MIDC Road,Pharmacy,MIDC Road,Mumbai,0227044207,11:00-23:00,4.1,M-16|M-17|M-01|M-07|M-13|M-05|M-20|M-18|M-06|M-12|M-11
+S-0151,Bhagat Medical Store Laxmi Nagar,Medical Store,Laxmi Nagar,Nagpur,07122655608,09:00-22:00,3.5,M-02|M-15|M-20|M-18|M-09|M-17|M-10|M-11|M-08|M-06|M-07
+S-0152,Verma Pharmacy Shivaji Nagar,Pharmacy,Shivaji Nagar,Solapur,02172222477,10:00-21:00,3.4,M-14|M-01|M-09|M-18|M-05|M-19|M-04|M-13|M-06|M-12|M-16
+S-0153,Thakur Medical Store Gandhi Marg,Medical Store,Gandhi Marg,Nashik,02524321083,10:00-23:00,4.7,M-05|M-10|M-01|M-13|M-09|M-12|M-17|M-07|M-16|M-06|M-03|M-18|M-19|M-14|M-04|M-15|M-20|M-02|M-11
+S-0154,Menon Pharmacy Market Yard,Pharmacy,Market Yard,Jalgaon,02576320003,11:00-19:00,4.5,M-01|M-06|M-11|M-18|M-19|M-12|M-02|M-14|M-03|M-20
+S-0155,Patil Medical Store Vayusena Nagar,Medical Store,Vayusena Nagar,Nagpur,07122970842,08:00-21:00,4.6,M-04|M-03|M-08|M-17|M-07|M-14|M-12
+S-0156,Deshmukh Pharmacy MIDC Road,Pharmacy,MIDC Road,Pune,0205836997,11:00-20:00,4.2,M-04|M-10|M-02|M-11|M-09
+S-0157,Deshmukh Pharmacy Main Road,Pharmacy,Main Road,Nashik,02525380961,08:00-19:00,4.7,M-05|M-16|M-14|M-18
+S-0158,Singh Pharmacy Temple Street,Pharmacy,Temple Street,Mumbai,0226869573,09:00-20:00,3.8,
+S-0159,Khan Pharmacy Officers Colony,Pharmacy,Officers Colony,Pune,0207290570,09:00-21:00,3.2,M-13|M-08|M-16|M-15|M-03|M-09
+S-0160,Pawar Pharmacy University Campus,Pharmacy,University Campus,Nagpur,07125217798,10:00-23:00,3.8,M-09|M-13|M-17|M-02|M-08|M-16|M-01|M-14|M-12
+S-0161,Joshi Pharmacy CRPF Nagar,Pharmacy,CRPF Nagar,Nagpur,07127362150,10:00-22:00,4.8,M-19|M-09|M-06|M-03|M-15
+S-0162,Joshi Pharmacy Krishna Nagar,Pharmacy,Krishna Nagar,Mumbai,0226544302,10:00-19:00,4.4,M-08|M-14|M-02|M-01|M-18|M-09|M-19|M-17|M-03|M-06|M-07|M-10|M-04|M-11|M-12|M-16|M-15|M-05
+S-0163,Sharma Pharmacy BESA Road,Pharmacy,BESA Road,Nagpur,07128418637,08:00-22:00,4.8,M-04|M-09|M-07|M-01|M-12
+S-0164,Singh Pharmacy Parvati Nagar,Pharmacy,Parvati Nagar,Nagpur,07125571017,08:00-22:00,3.3,M-01|M-12|M-13|M-11|M-10|M-16|M-06|M-05
+S-0165,Deshmukh Medical Store Seminary Hills,Medical Store,Seminary Hills,Nagpur,07125603214,09:00-23:00,3.3,M-11|M-12|M-08|M-06|M-04|M-16|M-07|M-20|M-01|M-02
+S-0166,Waghmare Pharmacy Jaitala,Pharmacy,Jaitala,Nagpur,07122490121,10:00-22:00,3.8,M-14|M-19|M-20|M-04|M-11|M-01|M-13|M-17|M-15|M-09|M-12|M-10|M-16|M-18|M-02|M-08
+S-0167,Thakur Pharmacy Shankar Nagar,Pharmacy,Shankar Nagar,Nagpur,07122805757,09:00-22:00,4.1,M-13|M-10|M-17|M-02|M-06|M-08|M-14|M-11
+S-0168,Menon Pharmacy Pipla,Pharmacy,Pipla,Nagpur,07126113384,08:00-23:00,4.6,M-17|M-14|M-10|M-20|M-01|M-07|M-18|M-05|M-08|M-04|M-11|M-13|M-19|M-12|M-06|M-15|M-03|M-09
+S-0169,Gaikwad Pharmacy Vayusena Nagar,Pharmacy,Vayusena Nagar,Nagpur,07128805429,09:00-23:00,4.4,M-13|M-17|M-14|M-02|M-15|M-03|M-20|M-09|M-19|M-10|M-18
+S-0170,Yadav Pharmacy Manewada Road,Pharmacy,Manewada Road,Nagpur,07124044635,08:00-19:00,4.3,M-01|M-13|M-14|M-16|M-02|M-17|M-11|M-05|M-09|M-18|M-12|M-07|M-19|M-08|M-06|M-04|M-10|M-15
+S-0171,Ghosh Pharmacy Jaitala,Pharmacy,Jaitala,Nagpur,07128030486,10:00-19:00,3.7,M-07|M-05|M-18|M-15|M-14
+S-0172,Jadhav Pharmacy College Road,Pharmacy,College Road,Mumbai,0228888557,11:00-22:00,3.3,M-04|M-10|M-16|M-06|M-12|M-14|M-18|M-17|M-19|M-01|M-13|M-02|M-11|M-07|M-03
+S-0173,Patel Pharmacy Airport Road,Pharmacy,Airport Road,Nagpur,07123738318,08:00-22:00,3.6,M-05|M-08|M-10|M-13|M-16|M-14|M-02|M-06|M-19|M-20|M-03|M-01|M-17|M-04|M-15|M-09|M-11|M-07
+S-0174,Bhagat Pharmacy Ring Road,Pharmacy,Ring Road,Chandrapur,071726675908,09:00-21:00,4.0,M-17|M-04|M-10|M-19|M-05|M-08|M-12|M-09|M-13|M-20|M-07|M-03|M-11|M-01|M-18|M-15|M-06|M-16|M-14
+S-0175,Nair Pharmacy Bezonbagh,Pharmacy,Bezonbagh,Nagpur,07126168100,10:00-23:00,3.3,M-11|M-08|M-12|M-02|M-07|M-18|M-17|M-09
+S-0176,Mane Pharmacy Manewada Road,Pharmacy,Manewada Road,Nagpur,07123638931,08:00-20:00,3.8,M-18|M-13|M-06|M-17|M-19|M-11|M-10|M-05|M-09|M-02|M-15|M-04|M-14|M-03|M-08|M-12|M-20
+S-0177,Chavan Pharmacy Officers Colony,Pharmacy,Officers Colony,Pune,0207072877,10:00-20:00,4.2,M-18|M-04|M-10|M-07|M-11|M-06|M-05|M-14|M-15|M-03|M-20
+S-0178,Menon Pharmacy Nehru Nagar,Pharmacy,Nehru Nagar,Jalgaon,02575395267,08:00-21:00,3.5,M-14|M-12|M-11|M-10|M-19|M-07|M-01|M-08|M-18|M-15|M-02|M-04|M-09|M-05|M-06|M-13|M-17|M-16|M-20
+S-0179,Thakur Medical Store Temple Street,Medical Store,Temple Street,Kolhapur,02314072650,09:00-23:00,4.7,M-03|M-17|M-06|M-15|M-13|M-02|M-07|M-05|M-12|M-19|M-09|M-10
+S-0180,Verma Pharmacy Mahal,Pharmacy,Mahal,Nagpur,07122376481,11:00-20:00,4.1,M-01|M-08|M-11|M-02|M-10|M-12|M-07|M-14|M-17|M-18|M-13|M-16|M-20|M-03|M-19|M-04|M-05|M-15|M-06|M-09
+S-0181,Rao Pharmacy Civil Lines,Pharmacy,Civil Lines,Amravati,072622052163,09:00-19:00,3.8,M-13|M-18|M-01|M-11|M-07|M-04|M-15|M-17|M-12|M-10|M-14|M-02|M-03|M-09|M-08|M-20|M-19|M-05
+S-0182,Deshmukh Pharmacy Sadar Bazar,Pharmacy,Sadar Bazar,Nagpur,07126444740,11:00-22:00,3.7,M-06|M-04|M-05|M-14|M-10|M-17|M-19|M-08|M-11|M-03|M-07|M-18|M-02|M-20|M-01
+S-0183,Joshi Pharmacy Krishna Nagar,Pharmacy,Krishna Nagar,Nashik,02525330456,08:00-22:00,3.6,M-05|M-06|M-20|M-11|M-09|M-08|M-13|M-17|M-04|M-14|M-01|M-03|M-18
+S-0184,Iyer Pharmacy Uppalwadi,Pharmacy,Uppalwadi,Nagpur,07125399577,09:00-22:00,3.4,M-18|M-15|M-06|M-02|M-08|M-03|M-12
+S-0185,Bhagat Pharmacy Temple Street,Pharmacy,Temple Street,Pune,0203438179,10:00-23:00,3.8,M-01|M-03|M-20|M-05|M-11|M-15|M-12|M-10|M-18|M-19|M-02|M-04
+S-0186,Bhosale Clinic Chemist Nehru Nagar,Clinic Chemist,Nehru Nagar,Amravati,072624397556,11:00-22:00,4.7,M-11|M-14|M-02|M-20|M-18|M-01
+S-0187,Joshi Pharmacy Civil Lines,Pharmacy,Civil Lines,Mumbai,0222280804,10:00-20:00,3.9,
+S-0188,Mane Medical Store Sadar Bazar,Medical Store,Sadar Bazar,Nagpur,07122852109,10:00-19:00,3.6,M-18|M-17|M-12|M-06
+S-0189,Reddy Pharmacy Civil Lines,Pharmacy,Civil Lines,Aurangabad,02403744196,10:00-21:00,4.6,M-15|M-06|M-12|M-18|M-16|M-02|M-07|M-05|M-20|M-17|M-03|M-19|M-11|M-13|M-04|M-09|M-08|M-14|M-01
+S-0190,Patel Pharmacy Market Yard,Pharmacy,Market Yard,Pune,0202692296,08:00-20:00,3.5,M-01|M-09|M-19|M-18|M-02|M-11|M-12|M-05|M-17|M-04|M-03|M-14|M-07|M-20|M-06|M-08|M-15|M-16
+S-0191,Ghosh Pharmacy Civil Lines,Pharmacy,Civil Lines,Pune,0202326355,10:00-21:00,4.4,M-15|M-13|M-17|M-19|M-18|M-10|M-14|M-09|M-01
+S-0192,Nair Pharmacy Imamwada,Pharmacy,Imamwada,Nagpur,07125058271,09:00-20:00,3.8,M-15|M-08|M-10|M-20|M-19|M-01|M-07|M-04|M-03|M-16|M-12|M-09|M-17|M-11|M-06
+S-0193,Joshi Pharmacy Civil Lines,Pharmacy,Civil Lines,Aurangabad,02406098171,10:00-21:00,4.7,M-19|M-03|M-07|M-16|M-12|M-08|M-17|M-18|M-01|M-20|M-11|M-10|M-06|M-14|M-09|M-05|M-15|M-02
+S-0194,Desai Medical Store Shivaji Nagar,Medical Store,Shivaji Nagar,Pune,0208592268,08:00-20:00,3.5,M-14|M-17|M-08|M-05|M-20|M-10|M-02|M-04|M-11|M-09|M-03|M-16|M-06|M-01|M-12|M-15|M-13|M-07|M-19
+S-0195,Pawar Pharmacy Ramtek,Pharmacy,Ramtek,Ramtek,07123244374,09:00-19:00,4.2,M-12|M-16|M-11|M-08|M-18|M-20|M-13|M-14|M-02|M-09|M-04|M-07
+S-0196,Sharma Pharmacy Ring Road,Pharmacy,Ring Road,Bhandara,071846307429,10:00-21:00,4.7,M-08|M-20|M-04|M-16
+S-0197,Kulkarni Pharmacy Market Yard,Pharmacy,Market Yard,Nashik,02528861274,09:00-19:00,4.1,M-17|M-03|M-18|M-19|M-20|M-06|M-04|M-07|M-08|M-12|M-10|M-02|M-13|M-15|M-11|M-16|M-14|M-09
+S-0198,Patel Pharmacy Officers Colony,Pharmacy,Officers Colony,Pune,0202376732,11:00-21:00,3.3,M-03|M-01|M-11|M-15|M-19|M-12|M-16|M-02|M-08|M-10|M-17|M-04|M-06|M-20|M-05|M-07
+S-0199,Desai Pharmacy Shivaji Nagar,Pharmacy,Shivaji Nagar,Pune,0202734393,10:00-22:00,3.1,M-20|M-03|M-07|M-05|M-10|M-12|M-18|M-14|M-17|M-09|M-01|M-15|M-13|M-19|M-06
+S-0200,Dixit Pharmacy Airport Road,Pharmacy,Airport Road,Nagpur,07128677612,11:00-23:00,3.6,M-14|M-10|M-03|M-15|M-18|M-05|M-07|M-17|M-13|M-12|M-20|M-19|M-11|M-04|M-16|M-09
+S-0201,Iyer Pharmacy Ring Road,Pharmacy,Ring Road,Pune,0206606830,11:00-22:00,3.1,M-16|M-20|M-13|M-10|M-02|M-03|M-17|M-04|M-07|M-08|M-14|M-15|M-12
+S-0202,Patel Pharmacy Model Colony,Pharmacy,Model Colony,Mumbai,0223980082,10:00-22:00,4.8,M-09|M-17|M-20|M-04|M-03|M-05|M-16|M-06|M-11|M-10|M-14
+S-0203,Waghmare Medical Store Dattawadi,Medical Store,Dattawadi,Nagpur,07125508659,08:00-21:00,3.9,M-11|M-15|M-14|M-03|M-16|M-02|M-01|M-13|M-10|M-07|M-17|M-18
+S-0204,Mehta Medical Store Station Road,Medical Store,Station Road,Mumbai,0223722904,10:00-20:00,4.3,M-19|M-04|M-02|M-05
+S-0205,Patel Pharmacy Ganjipeth,Pharmacy,Ganjipeth,Nagpur,07128619479,11:00-23:00,4.3,M-14|M-18|M-06|M-17|M-10|M-16|M-01|M-09|M-07|M-05|M-02|M-08|M-12|M-04|M-11|M-13|M-20|M-19|M-15|M-03
+S-0206,Chauhan Clinic Chemist Main Road,Clinic Chemist,Main Road,Mumbai,0226370931,08:00-21:00,4.8,M-15|M-17|M-19|M-14
+S-0207,Deshmukh Pharmacy Station Road,Pharmacy,Station Road,Nashik,02522210586,11:00-22:00,3.4,M-05|M-06|M-01|M-12|M-10|M-04
+S-0208,Sharma Pharmacy Koradi,Pharmacy,Koradi,Koradi,07127919791,10:00-21:00,4.9,M-19|M-12|M-04|M-20|M-01|M-17|M-08|M-11|M-14|M-03|M-09|M-16|M-13|M-15|M-18|M-10|M-05|M-07|M-02|M-06
+S-0209,Nair Pharmacy MIDC Road,Pharmacy,MIDC Road,Amravati,072624053417,09:00-20:00,4.6,M-01|M-02|M-12|M-17|M-14|M-08|M-11|M-03|M-06|M-10|M-13|M-18|M-04|M-16|M-15
+S-0210,Nair Pharmacy Kuhi,Pharmacy,Kuhi,Kuhi,07124051849,09:00-21:00,3.4,M-11|M-06|M-13|M-17|M-19|M-14|M-09|M-10|M-02|M-01|M-16|M-18|M-08|M-04|M-03|M-12|M-20|M-15|M-07
+S-0211,Yadav Pharmacy Officers Colony,Pharmacy,Officers Colony,Mumbai,0228804901,10:00-21:00,4.8,M-14|M-09|M-05|M-15|M-20|M-10
+S-0212,Gaikwad Pharmacy Model Colony,Pharmacy,Model Colony,Solapur,02172308979,09:00-23:00,3.9,M-12|M-16|M-09|M-17|M-02|M-08|M-06|M-07|M-03|M-04|M-18|M-01|M-20|M-11|M-05|M-14|M-15|M-19|M-13|M-10
+S-0213,Reddy Medical Store MIDC Road,Medical Store,MIDC Road,Aurangabad,02407965917,09:00-23:00,3.8,M-20|M-07|M-19|M-11|M-09|M-05|M-01|M-10
+S-0214,Pawar Medical Store Market Yard,Medical Store,Market Yard,Kolhapur,02316701189,11:00-20:00,3.7,M-15|M-19|M-14|M-20|M-05
+S-0215,Nair Medical Store Civil Lines,Medical Store,Civil Lines,Amravati,072625783699,10:00-19:00,3.5,M-10|M-11|M-08|M-12|M-01|M-17|M-15|M-09|M-04|M-03|M-16|M-07|M-05|M-18|M-13
+S-0216,Rane Clinic Chemist Model Colony,Clinic Chemist,Model Colony,Kolhapur,02313301608,11:00-22:00,3.4,
+S-0217,Bhagat Pharmacy Model Colony,Pharmacy,Model Colony,Kolhapur,02315559062,09:00-21:00,4.0,M-11|M-10|M-15|M-07|M-19|M-06|M-01|M-17
+S-0218,Sharma Medical Store Katol,Medical Store,Katol,Katol,07127771723,11:00-23:00,4.0,M-03|M-02|M-15|M-10|M-07|M-13|M-12|M-17|M-16|M-09|M-11|M-05|M-19
+S-0219,Joshi Pharmacy Pipla,Pharmacy,Pipla,Nagpur,07125551090,11:00-19:00,4.1,M-04|M-10|M-07|M-09|M-14|M-18|M-08|M-12|M-11|M-01
+S-0220,Patel Medical Store Parvati Nagar,Medical Store,Parvati Nagar,Nagpur,07128831574,11:00-23:00,4.1,M-03|M-11|M-05|M-04|M-06|M-19|M-15|M-10|M-08
+S-0221,Gupta Medical Store Shivaji Nagar,Medical Store,Shivaji Nagar,Mumbai,0223972946,10:00-20:00,3.8,M-17|M-16|M-18|M-12|M-02|M-19|M-20|M-15|M-07|M-01|M-13|M-14|M-09|M-10|M-06|M-05|M-11|M-08
+S-0222,Pawar Pharmacy Imamwada,Pharmacy,Imamwada,Nagpur,07127963321,10:00-20:00,3.5,M-04|M-08|M-19|M-12|M-13|M-10|M-06|M-01|M-07|M-14|M-02|M-16|M-15|M-11|M-09|M-20|M-05|M-03|M-18|M-17
+S-0223,Patil Pharmacy College Road,Pharmacy,College Road,Chandrapur,071727054315,08:00-23:00,3.7,M-03|M-09|M-10|M-02|M-04|M-08|M-14|M-17|M-20|M-11|M-12|M-05|M-15|M-07|M-19|M-16|M-13|M-18|M-06
+S-0224,Patel Pharmacy Station Road,Pharmacy,Station Road,Kolhapur,02312667585,10:00-20:00,4.9,M-07|M-15|M-20|M-11|M-03|M-06|M-08|M-12|M-18|M-10|M-09|M-17|M-14|M-19|M-13|M-02|M-04|M-05|M-01
+S-0225,Dixit Pharmacy Mahal,Pharmacy,Mahal,Nagpur,07125054091,10:00-22:00,4.1,M-07|M-16|M-05|M-10|M-11|M-08|M-03|M-12|M-13|M-06|M-19|M-04
+S-0226,Kamble Pharmacy Main Road,Pharmacy,Main Road,Mumbai,0222826362,10:00-19:00,4.2,M-06|M-05|M-01|M-03|M-04|M-20|M-11|M-16|M-13|M-18|M-10|M-15|M-07|M-02|M-19|M-08|M-17
+S-0227,Dixit Medical Store Main Road,Medical Store,Main Road,Amravati,072625709416,10:00-19:00,4.2,M-04|M-07|M-20|M-18|M-16|M-15|M-19|M-06|M-17|M-13|M-12|M-11|M-02|M-01|M-08|M-10
+S-0228,Iyer Pharmacy Officers Colony,Pharmacy,Officers Colony,Nashik,02522321046,10:00-20:00,3.3,M-18|M-09|M-12|M-03|M-15|M-16|M-13|M-01|M-02|M-04|M-17|M-08|M-19|M-11|M-07|M-20|M-14
+S-0229,Joshi Pharmacy Ganjipeth,Pharmacy,Ganjipeth,Nagpur,07126692704,09:00-22:00,3.6,M-02|M-09|M-06|M-08|M-01|M-18|M-20|M-12|M-10|M-05|M-13|M-07|M-04
+S-0230,Khan Pharmacy MIDC Road,Pharmacy,MIDC Road,Amravati,072623726384,09:00-23:00,4.5,M-08|M-09|M-14|M-04|M-12|M-15|M-17|M-06|M-05|M-20|M-13|M-18|M-19|M-11|M-03|M-07|M-01|M-02|M-16|M-10
+S-0231,Dixit Pharmacy Narendra Nagar,Pharmacy,Narendra Nagar,Nagpur,07123597599,09:00-20:00,3.9,M-20|M-12|M-18|M-02|M-01|M-14|M-05|M-19
+S-0232,Mehta Pharmacy Main Road,Pharmacy,Main Road,Amravati,072624773237,11:00-19:00,4.8,M-10|M-05|M-03|M-17|M-13|M-09
+S-0233,Nair Pharmacy Shivaji Nagar,Pharmacy,Shivaji Nagar,Pune,0208770002,08:00-19:00,3.3,M-02|M-01|M-18|M-07|M-14|M-20|M-12|M-08
+S-0234,Sharma Pharmacy Dattawadi,Pharmacy,Dattawadi,Nagpur,07123593061,11:00-19:00,4.0,M-16|M-06|M-12|M-01|M-17|M-05|M-13
+S-0235,Bhagat Pharmacy Model Colony,Pharmacy,Model Colony,Aurangabad,02405463886,08:00-23:00,4.3,M-04|M-08|M-19|M-06|M-20|M-05|M-13|M-17
+S-0236,Bhagat Clinic Chemist Sitabuldi,Clinic Chemist,Sitabuldi,Nagpur,07127355461,09:00-20:00,4.5,M-02|M-08|M-06|M-03|M-07|M-14|M-05
+S-0237,Sharma Medical Store Airport Road,Medical Store,Airport Road,Nagpur,07125932298,08:00-22:00,3.6,M-03|M-05|M-10|M-16|M-08|M-17|M-12|M-01|M-11|M-07|M-02|M-19|M-06|M-20|M-14|M-18|M-13|M-15|M-09
+S-0238,Salunke Pharmacy Mankapur,Pharmacy,Mankapur,Nagpur,07126058462,09:00-22:00,4.6,M-06|M-09|M-04|M-19|M-11|M-02|M-08|M-12|M-10|M-13|M-15|M-16|M-18|M-14|M-20|M-01|M-03|M-05|M-07
+S-0239,Menon Clinic Chemist Kuhi,Clinic Chemist,Kuhi,Kuhi,07122540990,11:00-19:00,3.7,M-10|M-02|M-19|M-20|M-08|M-01|M-13|M-16|M-14|M-15|M-07|M-03|M-06|M-12|M-18|M-11|M-09|M-04|M-05|M-17
+S-0240,Jadhav Pharmacy Sadar Bazar,Pharmacy,Sadar Bazar,Nagpur,07125084541,08:00-21:00,4.1,M-08|M-10|M-13|M-02|M-04|M-19|M-03|M-01|M-14|M-16
+S-0241,Salunke Pharmacy Bezonbagh,Pharmacy,Bezonbagh,Nagpur,07123306254,08:00-22:00,4.1,M-03|M-06|M-16|M-17|M-14
+S-0242,Khan Pharmacy BESA Road,Pharmacy,BESA Road,Nagpur,07125244536,11:00-19:00,4.3,M-02|M-11|M-18|M-19|M-17|M-01|M-05|M-09
+S-0243,Pawar Pharmacy Nehru Nagar,Pharmacy,Nehru Nagar,Amravati,072625911806,09:00-23:00,4.5,M-05|M-15|M-04|M-14|M-12|M-20|M-18|M-07|M-09|M-19|M-02|M-01|M-13|M-03|M-10|M-17|M-08|M-06
+S-0244,Dixit Medical Store College Road,Medical Store,College Road,Amravati,072623898497,09:00-23:00,4.2,M-19|M-16|M-05|M-01|M-07|M-11|M-09|M-15|M-12|M-02|M-13|M-14|M-06
+S-0245,Waghmare Pharmacy Saoner,Pharmacy,Saoner,Saoner,07126416419,10:00-19:00,3.6,
+S-0246,Jadhav Pharmacy Mahal,Pharmacy,Mahal,Nagpur,07125043802,11:00-20:00,4.3,M-18|M-15|M-06|M-03|M-14|M-05|M-17|M-07|M-04|M-01|M-13|M-11|M-20|M-10|M-19|M-09|M-02|M-16|M-12
+S-0247,Patil Pharmacy MIDC Area,Pharmacy,MIDC Area,Nagpur,07125299903,11:00-22:00,4.7,M-18|M-19|M-16|M-06|M-15
+S-0248,Thakur Medical Store Airport Road,Medical Store,Airport Road,Nagpur,07126692935,10:00-22:00,4.8,M-19|M-15|M-10|M-12|M-07|M-01|M-08|M-04|M-02|M-03|M-18|M-11|M-16|M-09|M-06|M-13|M-05|M-17
+S-0249,Bhosale Pharmacy Sai Nagar,Pharmacy,Sai Nagar,Pune,0203195312,08:00-22:00,4.4,M-15|M-08|M-04|M-01|M-13|M-20|M-10|M-11|M-09|M-18|M-17|M-14|M-02|M-19|M-12|M-16
+S-0250,Chauhan Pharmacy Nehru Nagar,Pharmacy,Nehru Nagar,Jalgaon,02574788030,11:00-23:00,4.1,M-06|M-17|M-20|M-05|M-02
+S-0251,Jadhav Pharmacy College Road,Pharmacy,College Road,Nashik,02522880112,10:00-20:00,4.6,M-18|M-12|M-11|M-05|M-06|M-10|M-03|M-14|M-15|M-07|M-04|M-16|M-08
+S-0252,Jadhav Pharmacy Station Road,Pharmacy,Station Road,Mumbai,0226411786,10:00-19:00,4.8,M-03|M-05|M-10|M-12|M-13|M-19|M-04|M-18|M-06|M-20|M-01|M-07|M-15|M-14|M-11|M-08|M-09
+S-0253,Desai Pharmacy Shivaji Nagar,Pharmacy,Shivaji Nagar,Kolhapur,02315980567,09:00-21:00,3.4,M-05|M-13|M-18|M-19
+S-0254,Ghosh Clinic Chemist Officers Colony,Clinic Chemist,Officers Colony,Nashik,02526594030,08:00-21:00,3.6,M-18|M-09|M-07|M-10|M-12|M-15|M-11|M-13|M-05|M-16|M-06|M-20|M-04|M-19
+S-0255,Rane Pharmacy Temple Street,Pharmacy,Temple Street,Aurangabad,02404662642,10:00-19:00,3.4,M-17|M-01|M-10|M-03|M-14|M-18|M-07|M-08|M-02|M-13|M-11|M-19|M-04|M-15|M-12|M-06|M-09|M-16|M-05
+S-0256,Kamble Pharmacy MIDC Road,Pharmacy,MIDC Road,Jalgaon,02572352644,10:00-21:00,4.3,M-01|M-20|M-09|M-13|M-04|M-02
+S-0257,Shah Pharmacy Ramtek,Pharmacy,Ramtek,Ramtek,07126964317,08:00-23:00,3.2,M-15|M-20|M-14|M-11|M-16|M-07
+S-0258,Rao Pharmacy University Campus,Pharmacy,University Campus,Nagpur,07125159085,09:00-21:00,3.2,M-11|M-12|M-06|M-15|M-05|M-19|M-08
+S-0259,Joshi Pharmacy Sitabuldi,Pharmacy,Sitabuldi,Nagpur,07122879731,09:00-20:00,3.4,M-03|M-07|M-19|M-15|M-18|M-06|M-05|M-10|M-14|M-04|M-08|M-16|M-12|M-17
+S-0260,Chauhan Pharmacy Sai Nagar,Pharmacy,Sai Nagar,Pune,0205050337,09:00-20:00,3.4,M-06|M-08|M-04|M-12|M-01|M-13|M-17|M-16|M-10|M-03|M-18|M-09|M-02|M-07|M-19|M-11|M-05
+S-0261,Jadhav Pharmacy Shivaji Nagar,Pharmacy,Shivaji Nagar,Mumbai,0227873852,11:00-23:00,3.3,M-09|M-20|M-14|M-16|M-18|M-11|M-17|M-13|M-02|M-15
+S-0262,Joshi Pharmacy Katol,Pharmacy,Katol,Katol,07128038205,08:00-23:00,4.0,M-02|M-20|M-18|M-08|M-04|M-17|M-09|M-11|M-19
+S-0263,Thakur Medical Store Khamla,Medical Store,Khamla,Nagpur,07124427575,08:00-23:00,3.2,M-20|M-17|M-13|M-16|M-12|M-01|M-07|M-09
+S-0264,Pawar Pharmacy Manewada Road,Pharmacy,Manewada Road,Nagpur,07122527396,10:00-19:00,4.8,M-04|M-14|M-10|M-03|M-08|M-11|M-17|M-12|M-20
+S-0265,Salunke Medical Store Main Road,Medical Store,Main Road,Pune,0203629070,11:00-19:00,4.8,M-11|M-19|M-03|M-04|M-17|M-14|M-12|M-07|M-18|M-06|M-08|M-20|M-16|M-09|M-02|M-10
+S-0266,Rao Pharmacy Officers Colony,Pharmacy,Officers Colony,Jalgaon,02576378520,10:00-23:00,4.0,M-11|M-13|M-03|M-01|M-12|M-19|M-06|M-09|M-15
+S-0267,Waghmare Medical Store Temple Street,Medical Store,Temple Street,Bhandara,071844879926,10:00-20:00,4.4,M-07|M-18|M-14|M-06|M-09|M-20|M-19
+S-0268,Rao Pharmacy Civil Lines,Pharmacy,Civil Lines,Solapur,02176329972,09:00-20:00,4.0,M-06|M-11|M-02|M-17
+S-0269,Iyer Pharmacy Station Road,Pharmacy,Station Road,Amravati,072627358076,09:00-21:00,3.8,M-14|M-07|M-20|M-06|M-09|M-16|M-01|M-04|M-17|M-13|M-18|M-03|M-15|M-19|M-05|M-02|M-08
+S-0270,Nair Pharmacy Nehru Nagar,Pharmacy,Nehru Nagar,Pune,0205234982,09:00-22:00,4.4,M-02|M-09|M-03|M-20|M-19|M-14|M-07|M-01|M-10|M-13|M-12|M-05|M-17|M-04|M-06
+S-0271,Jadhav Pharmacy Pipla,Pharmacy,Pipla,Nagpur,07122071053,08:00-23:00,4.5,M-04|M-17|M-13|M-14|M-16|M-02|M-20|M-18|M-11|M-07|M-10|M-06
+S-0272,Thakur Pharmacy Market Yard,Pharmacy,Market Yard,Pune,0205131769,11:00-20:00,3.3,M-06|M-15|M-07|M-11|M-01|M-12|M-02|M-14|M-17|M-08|M-19|M-03|M-10|M-09|M-13|M-18|M-04|M-20|M-05
+S-0273,Mane Medical Store Sai Nagar,Medical Store,Sai Nagar,Nashik,02527064551,09:00-21:00,4.9,M-06|M-03|M-09|M-01|M-12|M-07|M-20|M-02|M-10|M-11|M-04|M-18|M-14|M-13|M-08
+S-0274,Mane Pharmacy Temple Street,Pharmacy,Temple Street,Mumbai,0227626432,09:00-19:00,4.1,
+S-0275,Mehta Pharmacy Ramtek,Pharmacy,Ramtek,Ramtek,07122983618,08:00-19:00,4.1,M-15|M-01|M-14|M-13|M-18|M-02|M-08|M-07|M-19|M-20|M-12|M-11|M-10|M-06|M-17|M-05|M-16|M-03
+S-0276,Shah Medical Store Shankar Nagar,Medical Store,Shankar Nagar,Nagpur,07123007948,08:00-20:00,4.2,M-10|M-20|M-11|M-04|M-17|M-14|M-09
+S-0277,Desai Clinic Chemist Sai Nagar,Clinic Chemist,Sai Nagar,Pune,0205424431,11:00-20:00,4.6,M-19|M-18|M-20|M-03|M-08|M-14|M-10|M-17|M-15
+S-0278,Jadhav Medical Store MIDC Area,Medical Store,MIDC Area,Nagpur,07124020240,10:00-19:00,4.2,M-10|M-07|M-14|M-12|M-13|M-09|M-06|M-02|M-03|M-17|M-01|M-15|M-20|M-04
+S-0279,Chavan Pharmacy Shivaji Nagar,Pharmacy,Shivaji Nagar,Aurangabad,02403506053,11:00-23:00,4.7,M-13|M-03|M-05|M-19|M-07|M-15|M-04|M-12|M-16|M-06|M-11|M-20|M-10|M-17
+S-0280,Yadav Pharmacy Shivaji Nagar,Pharmacy,Shivaji Nagar,Nashik,02527697845,09:00-21:00,3.5,M-13|M-18|M-05|M-03|M-15|M-04
+S-0281,Rao Pharmacy Civil Lines,Pharmacy,Civil Lines,Jalgaon,02578975662,08:00-21:00,4.1,M-11|M-18|M-20|M-08|M-14|M-05|M-04
+S-0282,Dixit Pharmacy Main Road,Pharmacy,Main Road,Chandrapur,071727367650,08:00-21:00,4.2,M-01|M-13|M-16|M-19
+S-0283,Chauhan Pharmacy Krishna Nagar,Pharmacy,Krishna Nagar,Pune,0205917655,08:00-21:00,4.5,M-16|M-19|M-18|M-05|M-20|M-15
+S-0284,Sharma Pharmacy Nehru Nagar,Pharmacy,Nehru Nagar,Aurangabad,02405364759,10:00-20:00,3.9,M-17|M-05|M-01|M-10|M-16|M-15|M-14|M-08|M-04
+S-0285,Sharma Pharmacy Umred,Pharmacy,Umred,Umred,07127351324,08:00-23:00,4.8,M-06|M-11|M-02|M-07|M-08|M-15|M-12|M-10|M-19|M-13
+S-0286,Waghmare Pharmacy Bezonbagh,Pharmacy,Bezonbagh,Nagpur,07125907508,11:00-21:00,3.8,M-02|M-10|M-04|M-07|M-09|M-11|M-15|M-06|M-19|M-03|M-08|M-01|M-14|M-18|M-13|M-16|M-17|M-20|M-05
+S-0287,Joshi Pharmacy Uppalwadi,Pharmacy,Uppalwadi,Nagpur,07128072088,10:00-22:00,3.1,M-04|M-11|M-14|M-20|M-13|M-08|M-18|M-06|M-02|M-01|M-09|M-07
+S-0288,Salunke Pharmacy Temple Street,Pharmacy,Temple Street,Amravati,072626960478,10:00-19:00,4.3,M-13|M-17|M-16|M-14|M-05|M-02|M-15|M-20|M-08|M-18|M-11|M-09|M-12|M-19|M-07|M-06|M-03|M-10|M-04|M-01
+S-0289,Chauhan Pharmacy Umred,Pharmacy,Umred,Umred,07127865186,10:00-19:00,4.7,M-08|M-16|M-15|M-04|M-03|M-10|M-20|M-06|M-09|M-13|M-05|M-17|M-14|M-19|M-01|M-07|M-02
+S-0290,Bhagat Pharmacy Krishna Nagar,Pharmacy,Krishna Nagar,Chandrapur,071723032054,10:00-23:00,3.6,M-16|M-12|M-03|M-07|M-14|M-04
+S-0291,Joshi Pharmacy Main Road,Pharmacy,Main Road,Nashik,02525561091,11:00-20:00,4.1,M-18|M-12|M-02|M-13
+S-0292,Reddy Pharmacy Station Road,Pharmacy,Station Road,Nashik,02523989332,09:00-23:00,3.8,M-03|M-20|M-11|M-06|M-16|M-02|M-07|M-19|M-08|M-05|M-18
+S-0293,Chavan Pharmacy Civil Lines,Pharmacy,Civil Lines,Nashik,02528566026,10:00-22:00,3.6,M-14|M-15|M-17|M-08|M-10|M-09|M-19|M-07|M-13|M-06|M-03|M-20|M-01|M-16
+S-0294,Menon Clinic Chemist Airport Road,Clinic Chemist,Airport Road,Nagpur,07123859267,08:00-22:00,3.5,M-18|M-01|M-19|M-03|M-20|M-07|M-15|M-13
+S-0295,Salunke Pharmacy Krishna Nagar,Pharmacy,Krishna Nagar,Jalgaon,02573158149,08:00-23:00,3.5,M-02|M-14|M-06|M-05|M-09|M-20|M-07|M-08|M-01|M-15
+S-0296,Joshi Pharmacy Bagadganj,Pharmacy,Bagadganj,Nagpur,07124590047,09:00-20:00,4.6,M-02|M-19|M-07|M-04|M-15|M-14|M-13|M-03|M-05|M-17|M-12|M-08|M-10
+S-0297,Nair Pharmacy Station Road,Pharmacy,Station Road,Aurangabad,02404062743,09:00-21:00,4.0,M-04|M-19|M-14|M-01|M-10|M-17|M-11|M-05|M-20|M-12
+S-0298,Rane Pharmacy Bezonbagh,Pharmacy,Bezonbagh,Nagpur,07128365301,11:00-22:00,4.2,M-07|M-10|M-18|M-11|M-16|M-05|M-06|M-04|M-02
+S-0299,Kulkarni Medical Store Shivaji Nagar,Medical Store,Shivaji Nagar,Nashik,02527509107,10:00-19:00,4.4,M-12|M-18|M-05|M-04|M-06|M-03|M-08|M-20|M-01|M-15|M-02|M-07|M-14|M-10|M-19|M-11|M-09|M-16|M-13|M-17
+S-0300,Bhagat Pharmacy Officers Colony,Pharmacy,Officers Colony,Amravati,072625490910,10:00-19:00,3.4,M-05|M-08|M-03|M-06|M-07|M-12|M-19|M-11|M-17|M-04|M-20|M-18|M-01|M-15|M-02|M-14|M-10|M-16
+S-0301,Ghosh Pharmacy Khamla,Pharmacy,Khamla,Nagpur,07124151262,10:00-23:00,4.0,M-02|M-15|M-07|M-16|M-17|M-20|M-01|M-10|M-03|M-05|M-12|M-19|M-06|M-11|M-08|M-04|M-18
+S-0302,Jadhav Pharmacy College Road,Pharmacy,College Road,Bhandara,071846872573,10:00-20:00,4.1,M-04|M-18|M-20|M-15|M-02|M-03|M-12|M-16|M-06|M-01|M-14
+S-0303,Chauhan Medical Store Parvati Nagar,Medical Store,Parvati Nagar,Nagpur,07127739526,08:00-22:00,4.3,
+S-0304,Gupta Medical Store Sai Nagar,Medical Store,Sai Nagar,Jalgaon,02577261185,11:00-23:00,4.0,M-18|M-20|M-09|M-17|M-08|M-03|M-13|M-01|M-05|M-12|M-10|M-06|M-07|M-02|M-04|M-11
+S-0305,Ghosh Clinic Chemist MIDC Road,Clinic Chemist,MIDC Road,Kolhapur,02317973435,08:00-20:00,4.9,M-12|M-03|M-19|M-10|M-08|M-11|M-13|M-20|M-09|M-18|M-14|M-16|M-06|M-01|M-04|M-02
+S-0306,Gaikwad Pharmacy Uppalwadi,Pharmacy,Uppalwadi,Nagpur,07124141761,10:00-23:00,4.9,M-03|M-02|M-11|M-19|M-07
+S-0307,Reddy Pharmacy Laxmi Nagar,Pharmacy,Laxmi Nagar,Nagpur,07123245088,10:00-21:00,3.3,M-05|M-12|M-18|M-11|M-06|M-17|M-04|M-01|M-20|M-09|M-07|M-19|M-13|M-08
+S-0308,Chavan Pharmacy Narendra Nagar,Pharmacy,Narendra Nagar,Nagpur,07128521803,08:00-19:00,4.8,M-13|M-20|M-10|M-19|M-02|M-15|M-14|M-12|M-04|M-06|M-05|M-18|M-07|M-16|M-03|M-08|M-09
+S-0309,Thakur Medical Store Station Road,Medical Store,Station Road,Nashik,02524607883,11:00-20:00,4.7,M-18|M-12|M-04|M-19|M-17
+S-0310,Rane Pharmacy Koradi,Pharmacy,Koradi,Koradi,07122847362,10:00-19:00,4.1,M-06|M-11|M-19|M-02|M-18|M-12|M-16|M-03|M-15|M-10|M-04|M-07|M-08|M-01|M-14|M-17|M-13|M-05|M-20|M-09
+S-0311,Thakur Pharmacy Gandhi Marg,Pharmacy,Gandhi Marg,Mumbai,0224590895,09:00-22:00,4.4,M-20|M-05|M-16|M-04|M-06|M-09|M-17
+S-0312,Pawar Pharmacy CRPF Nagar,Pharmacy,CRPF Nagar,Nagpur,07125415481,08:00-20:00,3.8,M-15|M-10|M-04|M-05|M-07|M-09|M-12|M-13|M-14|M-20|M-08|M-17|M-01|M-03|M-06|M-18|M-19
+S-0313,Patel Pharmacy Station Road,Pharmacy,Station Road,Aurangabad,02405190161,09:00-23:00,3.4,M-05|M-08|M-17|M-11|M-13|M-10|M-16|M-20|M-02|M-07|M-14|M-12|M-15|M-06|M-04
+S-0314,Sharma Pharmacy College Road,Pharmacy,College Road,Pune,0203601178,09:00-19:00,4.4,M-05|M-06|M-01|M-20
+S-0315,Desai Pharmacy Station Road,Pharmacy,Station Road,Jalgaon,02572203266,10:00-19:00,3.1,M-11|M-16|M-15|M-18|M-14|M-03|M-04
+S-0316,Mane Pharmacy Civil Lines,Pharmacy,Civil Lines,Amravati,072624025178,10:00-23:00,3.2,M-13|M-08|M-16|M-14|M-04|M-15|M-05|M-03|M-10|M-07|M-12|M-02|M-20|M-17|M-01
+S-0317,Yadav Pharmacy Ring Road,Pharmacy,Ring Road,Amravati,072622274098,09:00-23:00,3.2,M-07|M-10|M-11|M-19|M-04|M-09|M-18
+S-0318,Rao Pharmacy Gandhi Marg,Pharmacy,Gandhi Marg,Chandrapur,071723722748,09:00-22:00,3.4,M-02|M-07|M-17|M-19|M-08|M-12|M-09|M-10|M-18|M-11|M-03|M-04|M-15
+S-0319,Jadhav Pharmacy BESA Road,Pharmacy,BESA Road,Nagpur,07123507093,10:00-21:00,4.0,M-10|M-13|M-07|M-14|M-05|M-20|M-08|M-03|M-18|M-16|M-19|M-09|M-06|M-12
+S-0320,Mane Pharmacy Vayusena Nagar,Pharmacy,Vayusena Nagar,Nagpur,07126157442,11:00-22:00,3.6,M-07|M-02|M-18|M-05|M-08|M-15|M-16|M-12|M-03|M-17|M-09|M-04|M-20
+S-0321,Joshi Pharmacy Krishna Nagar,Pharmacy,Krishna Nagar,Jalgaon,02575591172,09:00-19:00,3.7,M-11|M-10|M-15|M-13|M-16|M-07|M-20|M-05|M-08|M-19|M-02|M-12|M-01|M-04|M-17|M-06|M-18
+S-0322,Gaikwad Pharmacy Pipla,Pharmacy,Pipla,Nagpur,07127498202,10:00-20:00,4.4,M-19|M-04|M-12|M-09|M-05|M-06|M-17|M-08|M-02|M-10|M-15|M-14|M-18|M-20
+S-0323,Singh Pharmacy Imamwada,Pharmacy,Imamwada,Nagpur,07124422218,08:00-22:00,4.7,M-14|M-12|M-04|M-18|M-16|M-09|M-19|M-08
+S-0324,Dixit Pharmacy Sai Nagar,Pharmacy,Sai Nagar,Nashik,02524244146,10:00-22:00,3.4,M-02|M-11|M-06|M-08|M-05|M-18|M-12|M-16
+S-0325,Joshi Pharmacy University Campus,Pharmacy,University Campus,Nagpur,07123526744,09:00-21:00,4.0,M-08|M-12|M-17|M-06|M-09|M-02|M-01|M-03|M-05|M-20|M-13|M-07|M-14
+S-0326,Mehta Pharmacy BESA Road,Pharmacy,BESA Road,Nagpur,07127484655,10:00-22:00,4.3,M-16|M-19|M-15|M-03|M-11|M-12|M-20|M-13|M-09|M-05|M-18|M-17|M-10
+S-0327,Kulkarni Pharmacy Civil Lines,Pharmacy,Civil Lines,Nashik,02527032613,08:00-21:00,3.7,M-19|M-17|M-20|M-13|M-03|M-05|M-04|M-11|M-07|M-12|M-14|M-06
+S-0328,Rao Pharmacy Shivaji Nagar,Pharmacy,Shivaji Nagar,Pune,0204523668,10:00-19:00,4.4,M-04|M-08|M-14|M-02|M-16|M-11|M-15|M-13|M-06|M-10
+S-0329,Rane Pharmacy Ganjipeth,Pharmacy,Ganjipeth,Nagpur,07127418637,10:00-23:00,3.4,M-01|M-11|M-04|M-20|M-05
+S-0330,Khan Pharmacy Main Road,Pharmacy,Main Road,Solapur,02174137268,10:00-22:00,4.4,M-04|M-11|M-14|M-10|M-06|M-19|M-16|M-13|M-02|M-17|M-09|M-18|M-05|M-20
+S-0331,Menon Medical Store University Campus,Medical Store,University Campus,Nagpur,07123691161,10:00-22:00,4.5,M-09|M-13|M-08|M-19
+S-0332,Khan Pharmacy Sitabuldi,Pharmacy,Sitabuldi,Nagpur,07128862834,10:00-23:00,3.9,
+S-0333,Gaikwad Pharmacy BESA Road,Pharmacy,BESA Road,Nagpur,07128057693,09:00-20:00,4.2,M-12|M-19|M-01|M-06|M-07|M-14|M-17|M-11|M-02|M-13|M-09|M-16|M-08|M-05
+S-0334,Deshmukh Pharmacy Market Yard,Pharmacy,Market Yard,Chandrapur,071728226283,09:00-19:00,3.9,M-02|M-13|M-17|M-11|M-06|M-16|M-20|M-01|M-08|M-09|M-14|M-03
+S-0335,Kulkarni Pharmacy Civil Lines,Pharmacy,Civil Lines,Chandrapur,071722332556,08:00-21:00,3.4,M-01|M-06|M-17|M-15|M-07|M-14|M-04|M-13
+S-0336,Singh Pharmacy Ring Road,Pharmacy,Ring Road,Aurangabad,02406222792,08:00-21:00,4.4,M-03|M-20|M-15|M-02|M-14|M-04|M-16|M-13|M-19|M-05|M-01|M-11|M-10|M-08|M-06|M-18|M-07
+S-0337,Thakur Medical Store Koradi,Medical Store,Koradi,Koradi,07128256268,09:00-20:00,4.4,M-14|M-17|M-16|M-08|M-03|M-07|M-02|M-20|M-11|M-10|M-15|M-12|M-09|M-06
+S-0338,Joshi Pharmacy Imamwada,Pharmacy,Imamwada,Nagpur,07122428884,10:00-22:00,3.5,M-05|M-10|M-04|M-13|M-06
+S-0339,Joshi Clinic Chemist Laxmi Nagar,Clinic Chemist,Laxmi Nagar,Nagpur,07123768254,09:00-22:00,4.8,M-04|M-14|M-07|M-08|M-12|M-03|M-16|M-10|M-02|M-18
+S-0340,Waghmare Pharmacy Ganjipeth,Pharmacy,Ganjipeth,Nagpur,07122621578,09:00-22:00,3.7,M-14|M-06|M-04|M-07|M-02|M-01|M-19
+S-0341,Rao Clinic Chemist Shivaji Nagar,Clinic Chemist,Shivaji Nagar,Solapur,02172836421,11:00-19:00,4.6,M-01|M-02|M-04|M-09|M-20|M-10|M-16|M-07|M-06|M-19|M-03|M-18|M-17|M-13|M-11|M-14|M-12|M-08|M-05
+S-0342,Kulkarni Pharmacy Ring Road,Pharmacy,Ring Road,Nashik,02527123305,10:00-22:00,3.6,M-11|M-17|M-19|M-15|M-18|M-20|M-01|M-07|M-02|M-05|M-12|M-09
+S-0343,Patil Pharmacy Sai Nagar,Pharmacy,Sai Nagar,Bhandara,071843665492,08:00-23:00,3.8,M-10|M-18|M-01|M-07|M-02|M-15|M-12
+S-0344,Singh Pharmacy Parvati Nagar,Pharmacy,Parvati Nagar,Nagpur,07126640368,10:00-23:00,3.3,M-01|M-06|M-16|M-13|M-08|M-19|M-12
+S-0345,Mehta Pharmacy Nehru Nagar,Pharmacy,Nehru Nagar,Nashik,02525554177,11:00-22:00,4.0,M-07|M-08|M-12|M-16|M-14|M-05|M-10|M-01|M-19|M-15|M-09|M-11|M-20|M-02|M-03|M-13|M-04|M-18|M-17|M-06
+S-0346,Jadhav Pharmacy Station Road,Pharmacy,Station Road,Pune,0208773086,08:00-20:00,3.4,M-19|M-17|M-11|M-07|M-02|M-18|M-03|M-06|M-14|M-20|M-04|M-15
+S-0347,Patil Pharmacy Shivaji Nagar,Pharmacy,Shivaji Nagar,Solapur,02177689235,09:00-19:00,3.4,M-13|M-04|M-06|M-12
+S-0348,Sharma Medical Store Officers Colony,Medical Store,Officers Colony,Mumbai,0227257438,11:00-21:00,3.6,M-04|M-13|M-06|M-15|M-20|M-18|M-08|M-01|M-05|M-02|M-03|M-09|M-12|M-11
+S-0349,Mehta Pharmacy Shivaji Nagar,Pharmacy,Shivaji Nagar,Amravati,072623103900,08:00-19:00,4.2,M-05|M-08|M-10|M-17|M-06|M-20|M-14|M-16|M-01|M-02|M-07|M-09|M-03|M-11
+S-0350,Joshi Pharmacy Uppalwadi,Pharmacy,Uppalwadi,Nagpur,07122195726,08:00-22:00,4.1,M-02|M-18|M-17|M-03|M-04|M-14|M-09|M-07|M-08|M-10
+S-0351,Khan Pharmacy Model Colony,Pharmacy,Model Colony,Solapur,02176101397,09:00-19:00,3.7,M-11|M-12|M-06|M-14|M-16|M-08|M-18|M-03|M-19|M-17|M-09|M-20|M-10|M-04|M-15
+S-0352,Bhagat Pharmacy Sai Nagar,Pharmacy,Sai Nagar,Aurangabad,02408351963,09:00-20:00,3.1,M-06|M-04|M-05|M-08|M-11|M-14|M-19|M-02|M-12|M-20|M-01|M-18|M-09
+S-0353,Pawar Pharmacy Market Yard,Pharmacy,Market Yard,Pune,0205935803,10:00-22:00,4.1,M-05|M-17|M-03|M-20|M-18|M-08|M-15
+S-0354,Gupta Pharmacy Manewada Road,Pharmacy,Manewada Road,Nagpur,07127134761,10:00-22:00,4.6,M-10|M-20|M-09|M-04|M-15|M-07|M-12|M-11|M-02|M-16|M-13|M-08|M-17|M-06|M-05|M-18|M-01|M-03
+S-0355,Pawar Pharmacy CRPF Nagar,Pharmacy,CRPF Nagar,Nagpur,07128249118,10:00-22:00,3.8,M-04|M-10|M-20|M-06|M-01
+S-0356,Menon Pharmacy Pipla,Pharmacy,Pipla,Nagpur,07123824529,09:00-19:00,4.9,M-15|M-20|M-10|M-14|M-05|M-19
+S-0357,Nair Pharmacy Kamthi,Pharmacy,Kamthi,Kamthi,07125707310,10:00-20:00,4.3,M-20|M-16|M-13|M-12|M-10|M-09|M-14|M-03|M-01|M-19|M-07
+S-0358,Yadav Medical Store Khamla,Medical Store,Khamla,Nagpur,07126707623,10:00-23:00,3.6,M-10|M-18|M-19|M-12|M-03|M-20|M-14|M-02|M-15|M-05
+S-0359,Ghosh Pharmacy Market Yard,Pharmacy,Market Yard,Nashik,02522274500,08:00-19:00,3.4,M-14|M-02|M-01|M-03|M-11|M-06|M-10|M-08|M-09|M-04|M-13|M-19|M-07|M-18|M-05|M-20|M-17|M-15|M-12
+S-0360,Bhagat Medical Store Civil Lines,Medical Store,Civil Lines,Mumbai,0226332442,11:00-21:00,3.6,M-16|M-04|M-17|M-14|M-06|M-05|M-15|M-03|M-18|M-08|M-07|M-02|M-20
+S-0361,Waghmare Pharmacy Model Colony,Pharmacy,Model Colony,Mumbai,0224036461,10:00-22:00,4.4,
+S-0362,Thakur Pharmacy College Road,Pharmacy,College Road,Chandrapur,071726921165,09:00-23:00,4.5,M-19|M-06|M-16|M-01|M-02|M-14|M-10
+S-0363,Deshmukh Pharmacy Civil Lines,Pharmacy,Civil Lines,Chandrapur,071724783834,11:00-23:00,4.0,M-01|M-13|M-05|M-10|M-02|M-07|M-08|M-16|M-19|M-09|M-14|M-18|M-17|M-20|M-06|M-04|M-03|M-12|M-11|M-15
+S-0364,Bhosale Pharmacy Shankar Nagar,Pharmacy,Shankar Nagar,Nagpur,07122983644,10:00-22:00,3.7,M-10|M-03|M-09|M-18|M-19|M-08|M-16|M-20|M-05
+S-0365,Ghosh Medical Store Jaitala,Medical Store,Jaitala,Nagpur,07125684412,10:00-22:00,3.4,M-09|M-15|M-03|M-08|M-19|M-01|M-06|M-04|M-13|M-16|M-12|M-20
+S-0366,Waghmare Medical Store Officers Colony,Medical Store,Officers Colony,Solapur,02176923957,11:00-23:00,4.0,M-09|M-16|M-07|M-19|M-01|M-11|M-15|M-12|M-10|M-13|M-18|M-06|M-17|M-02|M-14
+S-0367,Pawar Pharmacy Sitabuldi,Pharmacy,Sitabuldi,Nagpur,07122676752,08:00-21:00,4.4,M-20|M-03|M-09|M-13|M-01|M-10
+S-0368,Sharma Medical Store Uppalwadi,Medical Store,Uppalwadi,Nagpur,07125643299,09:00-22:00,4.0,M-05|M-09|M-07|M-20|M-11
+S-0369,Shah Medical Store Civil Lines,Medical Store,Civil Lines,Pune,0206598149,11:00-21:00,3.6,M-19|M-17|M-07|M-05|M-20|M-18|M-02
+S-0370,Mane Pharmacy Krishna Nagar,Pharmacy,Krishna Nagar,Kolhapur,02313460887,11:00-23:00,3.7,M-16|M-09|M-08|M-01|M-15|M-13|M-07|M-04|M-03|M-14|M-20|M-17|M-12|M-05|M-06|M-19|M-18|M-10|M-11|M-02
+S-0371,Waghmare Pharmacy Uppalwadi,Pharmacy,Uppalwadi,Nagpur,07122238883,11:00-20:00,4.8,M-06|M-04|M-01|M-05|M-17|M-09|M-13|M-18|M-02|M-03|M-19|M-11|M-16|M-14|M-08|M-20
+S-0372,Yadav Pharmacy University Campus,Pharmacy,University Campus,Nagpur,07126835075,11:00-21:00,3.7,M-08|M-02|M-10|M-17|M-01
+S-0373,Patil Pharmacy Imamwada,Pharmacy,Imamwada,Nagpur,07128448347,10:00-21:00,4.5,M-05|M-18|M-16|M-12|M-04|M-14|M-11|M-19|M-07|M-06|M-13|M-02|M-08|M-15
+S-0374,Nair Pharmacy Shankar Nagar,Pharmacy,Shankar Nagar,Nagpur,07128375861,11:00-22:00,4.6,M-09|M-06|M-18|M-13|M-11|M-02|M-10|M-03|M-08|M-20
+S-0375,Menon Pharmacy Gandhi Marg,Pharmacy,Gandhi Marg,Pune,0202221601,10:00-21:00,4.3,M-19|M-08|M-10|M-02|M-16|M-06|M-04|M-03|M-11|M-20|M-12|M-14
+S-0376,Yadav Pharmacy Civil Lines,Pharmacy,Civil Lines,Solapur,02173334928,08:00-23:00,3.7,M-14|M-18|M-03|M-15
+S-0377,Patel Medical Store Panchsheel Nagar,Medical Store,Panchsheel Nagar,Nagpur,07126918197,08:00-20:00,3.5,M-11|M-10|M-19|M-01
+S-0378,Sharma Pharmacy Sai Nagar,Pharmacy,Sai Nagar,Kolhapur,02315435191,08:00-23:00,4.8,M-02|M-11|M-17|M-10|M-09|M-06|M-18|M-03|M-04|M-15|M-14|M-13|M-16|M-05|M-08|M-07|M-20
+S-0379,Chavan Pharmacy Station Road,Pharmacy,Station Road,Bhandara,071842687116,08:00-23:00,4.2,M-12|M-06|M-17|M-05|M-13|M-14|M-20|M-02|M-04
+S-0380,Kulkarni Medical Store Airport Road,Medical Store,Airport Road,Nagpur,07128584727,11:00-19:00,3.5,M-18|M-02|M-16|M-03|M-01|M-10
+S-0381,Menon Pharmacy Market Yard,Pharmacy,Market Yard,Jalgaon,02574043694,09:00-23:00,4.4,M-20|M-13|M-15|M-01|M-19|M-05|M-08|M-11
+S-0382,Bhosale Pharmacy Krishna Nagar,Pharmacy,Krishna Nagar,Jalgaon,02578467229,09:00-23:00,3.7,M-08|M-09|M-11|M-20|M-15|M-05|M-19|M-03|M-17|M-18|M-04|M-16|M-13|M-07
+S-0383,Pawar Pharmacy Nehru Nagar,Pharmacy,Nehru Nagar,Pune,0208690124,10:00-23:00,4.6,M-07|M-11|M-04|M-16|M-19|M-02|M-01
+S-0384,Shah Clinic Chemist Temple Street,Clinic Chemist,Temple Street,Aurangabad,02403487178,08:00-23:00,3.5,M-16|M-14|M-02|M-15|M-13|M-09|M-17|M-20|M-04|M-03
+S-0385,Waghmare Pharmacy Koradi,Pharmacy,Koradi,Koradi,07128695548,08:00-23:00,3.7,M-12|M-18|M-04|M-08|M-14|M-03|M-20|M-06|M-16|M-11|M-17|M-19|M-07|M-10|M-15|M-01|M-05|M-02|M-09|M-13
+S-0386,Sharma Pharmacy Pipla,Pharmacy,Pipla,Nagpur,07125281518,09:00-23:00,4.1,M-12|M-01|M-14|M-08|M-02|M-20|M-19|M-15|M-17|M-09|M-18|M-04|M-16
+S-0387,Rao Pharmacy Vayusena Nagar,Pharmacy,Vayusena Nagar,Nagpur,07123492335,11:00-23:00,4.2,M-07|M-04|M-09|M-19|M-03|M-05
+S-0388,Joshi Pharmacy Temple Street,Pharmacy,Temple Street,Pune,0206925221,09:00-22:00,3.2,M-07|M-03|M-12|M-16|M-06|M-04
+S-0389,Singh Pharmacy Officers Colony,Pharmacy,Officers Colony,Solapur,02174171120,10:00-22:00,3.8,M-15|M-12|M-17|M-01|M-18|M-06|M-14|M-19|M-20|M-10|M-05|M-09|M-11|M-04|M-13|M-16|M-08|M-02
+S-0390,Thakur Pharmacy Seminary Hills,Pharmacy,Seminary Hills,Nagpur,07122966192,10:00-20:00,3.2,
+S-0391,Thakur Pharmacy Station Road,Pharmacy,Station Road,Aurangabad,02402361497,08:00-23:00,4.6,M-03|M-09|M-20|M-07
+S-0392,Shah Pharmacy Kuhi,Pharmacy,Kuhi,Kuhi,07124650505,10:00-21:00,3.6,M-05|M-15|M-04|M-07|M-16|M-10
+S-0393,Joshi Pharmacy Umred,Pharmacy,Umred,Umred,07122394101,09:00-23:00,3.5,M-11|M-16|M-03|M-13|M-07|M-20|M-10|M-18|M-12|M-09|M-08
+S-0394,Kamble Pharmacy Bagadganj,Pharmacy,Bagadganj,Nagpur,07126902435,11:00-21:00,3.2,M-16|M-18|M-19|M-06|M-01|M-05|M-17|M-14|M-08|M-13
+S-0395,Mane Pharmacy Station Road,Pharmacy,Station Road,Solapur,02178513923,08:00-21:00,4.0,M-15|M-09|M-13|M-17|M-10|M-04
+S-0396,Joshi Pharmacy Mankapur,Pharmacy,Mankapur,Nagpur,07128686422,09:00-19:00,3.6,M-19|M-20|M-18|M-16|M-12|M-17|M-14|M-10|M-11|M-08|M-03|M-07|M-01|M-13|M-06|M-04|M-09|M-02|M-15|M-05
+S-0397,Iyer Pharmacy MIDC Area,Pharmacy,MIDC Area,Nagpur,07125002228,11:00-23:00,3.9,M-09|M-02|M-12|M-05|M-08|M-20|M-07|M-11|M-19|M-06|M-03|M-16|M-10|M-15|M-14|M-18
+S-0398,Rane Pharmacy Laxmi Nagar,Pharmacy,Laxmi Nagar,Nagpur,07126523062,09:00-23:00,3.2,M-06|M-20|M-11|M-07|M-13|M-08|M-01|M-05
+S-0399,Gupta Clinic Chemist Ring Road,Clinic Chemist,Ring Road,Nashik,02523916578,10:00-22:00,4.8,M-14|M-12|M-19|M-16
+S-0400,Iyer Medical Store Bezonbagh,Medical Store,Bezonbagh,Nagpur,07124953918,11:00-21:00,3.8,M-03|M-07|M-02|M-08|M-01|M-05|M-14|M-10|M-06|M-12|M-13|M-19|M-15|M-09|M-18|M-04|M-11|M-20|M-16
+S-0401,Mehta Pharmacy Jaitala,Pharmacy,Jaitala,Nagpur,07127751885,11:00-20:00,3.3,M-08|M-15|M-07|M-04|M-11|M-19
+S-0402,Mane Pharmacy Katol,Pharmacy,Katol,Katol,07126328822,08:00-19:00,3.8,M-10|M-07|M-12|M-04|M-03|M-18|M-01|M-19
+S-0403,Rao Medical Store Bezonbagh,Medical Store,Bezonbagh,Nagpur,07126406599,08:00-20:00,3.3,M-19|M-13|M-02|M-20|M-12|M-07|M-10|M-17|M-05|M-11|M-09|M-15|M-06|M-08|M-03|M-01|M-04|M-14|M-16
+S-0404,Chavan Pharmacy Mankapur,Pharmacy,Mankapur,Nagpur,07125443156,10:00-20:00,4.1,M-16|M-13|M-02|M-05|M-10|M-03|M-15|M-07|M-11|M-18|M-04|M-01|M-08|M-06
+S-0405,Rao Medical Store Civil Lines,Medical Store,Civil Lines,Pune,0204575165,11:00-21:00,3.4,M-12|M-07|M-10|M-18|M-04|M-11|M-16|M-03
+S-0406,Khan Clinic Chemist College Road,Clinic Chemist,College Road,Pune,0203307568,11:00-22:00,3.7,M-11|M-06|M-08|M-15|M-20|M-13|M-02
+S-0407,Gupta Pharmacy Kamthi,Pharmacy,Kamthi,Kamthi,07128152642,09:00-21:00,3.5,M-01|M-20|M-17|M-07|M-05|M-19|M-03|M-18|M-10|M-16|M-15
+S-0408,Bhagat Pharmacy University Campus,Pharmacy,University Campus,Nagpur,07125480407,11:00-23:00,3.8,M-13|M-10|M-02|M-12|M-15|M-17|M-04|M-08|M-01|M-14
+S-0409,Khan Pharmacy Mahal,Pharmacy,Mahal,Nagpur,07125751315,10:00-20:00,4.2,M-03|M-16|M-18|M-13|M-15|M-05|M-01|M-12|M-08|M-17|M-07|M-20|M-02|M-09|M-14|M-10|M-19
+S-0410,Kulkarni Pharmacy MIDC Road,Pharmacy,MIDC Road,Amravati,072628994576,08:00-20:00,4.5,M-19|M-04|M-09|M-11|M-03|M-20|M-18|M-15|M-14|M-17|M-13|M-16|M-08|M-07|M-10|M-06
+S-0411,Chauhan Pharmacy Main Road,Pharmacy,Main Road,Kolhapur,02313488690,09:00-21:00,3.9,M-20|M-19|M-04|M-18|M-02|M-06|M-17|M-15|M-13|M-05|M-14|M-11|M-07
+S-0412,Deshmukh Clinic Chemist Pipla,Clinic Chemist,Pipla,Nagpur,07123441561,11:00-20:00,3.1,M-15|M-11|M-01|M-07|M-02|M-19|M-20|M-04
+S-0413,Patel Pharmacy Krishna Nagar,Pharmacy,Krishna Nagar,Bhandara,071842788502,10:00-23:00,3.4,M-17|M-03|M-18|M-11|M-16|M-09|M-08|M-10
+S-0414,Mane Pharmacy Sai Nagar,Pharmacy,Sai Nagar,Mumbai,0225373198,10:00-21:00,4.2,M-13|M-02|M-20|M-10|M-17|M-04|M-12|M-01|M-05|M-14|M-06|M-16|M-19|M-18|M-15|M-09|M-08
+S-0415,Pawar Pharmacy Jaitala,Pharmacy,Jaitala,Nagpur,07123104679,11:00-21:00,4.7,M-12|M-17|M-16|M-10|M-11|M-05|M-01|M-14|M-13|M-08|M-02|M-18|M-20|M-04|M-07
+S-0416,Sharma Clinic Chemist Sitabuldi,Clinic Chemist,Sitabuldi,Nagpur,07125882917,08:00-20:00,4.8,M-04|M-02|M-01|M-16|M-15|M-05|M-09
+S-0417,Verma Medical Store Station Road,Medical Store,Station Road,Aurangabad,02404038378,08:00-21:00,4.4,M-09|M-03|M-18|M-15|M-02|M-14|M-17|M-12|M-13|M-08|M-07
+S-0418,Sharma Medical Store Sitabuldi,Medical Store,Sitabuldi,Nagpur,07126770550,11:00-22:00,4.2,M-10|M-05|M-11|M-06|M-03|M-20|M-12|M-19|M-04
+S-0419,Kamble Medical Store Officers Colony,Medical Store,Officers Colony,Pune,0207281552,09:00-23:00,4.7,
+S-0420,Iyer Clinic Chemist College Road,Clinic Chemist,College Road,Amravati,072626713226,10:00-21:00,4.1,M-19|M-03|M-01|M-02|M-07|M-08|M-09|M-20|M-11|M-13
+S-0421,Bhagat Pharmacy Station Road,Pharmacy,Station Road,Bhandara,071842743288,11:00-21:00,4.6,M-02|M-13|M-07|M-19|M-01|M-14|M-15|M-12|M-05|M-08|M-18|M-17|M-11|M-06|M-03|M-10|M-16
+S-0422,Kamble Pharmacy Main Road,Pharmacy,Main Road,Aurangabad,02402972557,11:00-19:00,4.5,M-01|M-20|M-10|M-04|M-19|M-17|M-18|M-08|M-12|M-16
+S-0423,Joshi Pharmacy Laxmi Nagar,Pharmacy,Laxmi Nagar,Nagpur,07125630773,10:00-19:00,4.5,M-06|M-15|M-14|M-01|M-18|M-19|M-04|M-20|M-09|M-02|M-10|M-07|M-11|M-16|M-13|M-03|M-12|M-05
+S-0424,Deshmukh Pharmacy Model Colony,Pharmacy,Model Colony,Bhandara,071848485061,08:00-23:00,4.2,M-04|M-03|M-13|M-01|M-09|M-07|M-10|M-06|M-19|M-08|M-11|M-18|M-12|M-20|M-15|M-17|M-14
+S-0425,Patil Pharmacy Shivaji Nagar,Pharmacy,Shivaji Nagar,Pune,0204729844,11:00-19:00,4.1,M-08|M-03|M-16|M-17
+S-0426,Iyer Pharmacy Officers Colony,Pharmacy,Officers Colony,Aurangabad,02406241290,10:00-21:00,4.9,M-04|M-11|M-13|M-16|M-02|M-14
+S-0427,Chauhan Medical Store Nehru Nagar,Medical Store,Nehru Nagar,Pune,0208838162,09:00-20:00,3.4,M-10|M-19|M-12|M-01|M-11|M-17|M-09
+S-0428,Verma Pharmacy Dattawadi,Pharmacy,Dattawadi,Nagpur,07127190859,10:00-22:00,4.8,M-11|M-16|M-20|M-10
+S-0429,Shah Pharmacy Krishna Nagar,Pharmacy,Krishna Nagar,Aurangabad,02405288247,09:00-22:00,4.7,M-11|M-16|M-07|M-08|M-19|M-02|M-17|M-09|M-04|M-12|M-15|M-18|M-06|M-10|M-01
+S-0430,Gupta Medical Store MIDC Road,Medical Store,MIDC Road,Pune,0203573918,10:00-23:00,4.5,M-13|M-06|M-20|M-12|M-15|M-01|M-09|M-02|M-16|M-05|M-14|M-19|M-17|M-07|M-10|M-03
+S-0431,Gupta Pharmacy Civil Lines,Pharmacy,Civil Lines,Amravati,072626193430,09:00-23:00,3.2,M-06|M-18|M-13|M-04|M-09|M-11|M-05|M-10|M-08|M-01|M-02|M-07
+S-0432,Mehta Pharmacy Nehru Nagar,Pharmacy,Nehru Nagar,Pune,0205829813,09:00-19:00,3.4,M-15|M-14|M-02|M-03|M-19|M-06|M-10|M-04|M-11|M-05|M-01|M-09|M-13|M-20|M-07|M-16|M-18|M-17
+S-0433,Pawar Pharmacy Civil Lines,Pharmacy,Civil Lines,Nashik,02523575090,08:00-21:00,4.4,M-18|M-04|M-16|M-13|M-19|M-05|M-02
+S-0434,Gaikwad Pharmacy MIDC Road,Pharmacy,MIDC Road,Bhandara,071842681217,08:00-21:00,4.4,M-04|M-18|M-16|M-03|M-12|M-19|M-15|M-10
+S-0435,Menon Medical Store Kamthi,Medical Store,Kamthi,Kamthi,07122112966,09:00-23:00,3.2,M-05|M-01|M-06|M-07|M-14|M-13|M-02|M-08|M-10|M-12|M-18|M-20|M-11
+S-0436,Salunke Pharmacy Parvati Nagar,Pharmacy,Parvati Nagar,Nagpur,07126653153,10:00-20:00,3.8,M-15|M-02|M-17|M-01|M-05|M-18|M-10|M-13
+S-0437,Deshmukh Pharmacy Shankar Nagar,Pharmacy,Shankar Nagar,Nagpur,07122459503,09:00-23:00,3.1,M-18|M-12|M-14|M-04|M-20|M-15|M-09|M-05|M-01|M-06|M-07|M-11|M-17|M-13|M-03|M-19|M-16|M-02|M-08|M-10
+S-0438,Joshi Pharmacy Nehru Nagar,Pharmacy,Nehru Nagar,Solapur,02178799598,11:00-19:00,3.9,M-14|M-13|M-02|M-05|M-07|M-18|M-15|M-06
+S-0439,Sharma Pharmacy Saoner,Pharmacy,Saoner,Saoner,07123561190,10:00-19:00,4.2,M-16|M-01|M-11|M-07|M-06|M-15|M-14|M-02|M-04|M-10|M-13|M-09|M-12|M-18|M-20|M-08|M-03
+S-0440,Sharma Pharmacy CRPF Nagar,Pharmacy,CRPF Nagar,Nagpur,07128758197,10:00-20:00,4.4,M-07|M-05|M-11|M-19|M-14|M-12|M-02|M-16|M-15|M-03|M-04|M-17|M-06|M-08|M-20|M-01|M-13|M-18|M-10
+S-0441,Singh Pharmacy MIDC Road,Pharmacy,MIDC Road,Pune,0206829805,09:00-22:00,4.0,M-15|M-03|M-14|M-18|M-08|M-12|M-06|M-17|M-11|M-04|M-20|M-07|M-05|M-13|M-10
+S-0442,Verma Pharmacy CRPF Nagar,Pharmacy,CRPF Nagar,Nagpur,07123879964,10:00-23:00,3.5,M-17|M-14|M-08|M-02
+S-0443,Desai Pharmacy BESA Road,Pharmacy,BESA Road,Nagpur,07122960710,11:00-22:00,3.4,M-13|M-17|M-06|M-11|M-09|M-12|M-14|M-15|M-10|M-18|M-02|M-01|M-03
+S-0444,Bhagat Pharmacy Sitabuldi,Pharmacy,Sitabuldi,Nagpur,07123400012,11:00-23:00,3.9,M-08|M-19|M-02|M-07|M-10|M-09|M-01|M-05|M-15|M-13|M-16|M-14|M-17
+S-0445,Jadhav Pharmacy Market Yard,Pharmacy,Market Yard,Pune,0207413852,09:00-21:00,3.2,M-01|M-15|M-09|M-06|M-11|M-20|M-18|M-17|M-16|M-04|M-13|M-10|M-03|M-12|M-05|M-02|M-19
+S-0446,Verma Pharmacy College Road,Pharmacy,College Road,Chandrapur,071727539061,11:00-23:00,3.8,M-03|M-08|M-14|M-13|M-10
+S-0447,Thakur Pharmacy Station Road,Pharmacy,Station Road,Solapur,02173597818,10:00-21:00,3.5,M-10|M-12|M-02|M-19|M-03|M-15|M-18|M-14|M-11|M-09|M-04|M-13
+S-0448,Kulkarni Medical Store Jaitala,Medical Store,Jaitala,Nagpur,07126329589,11:00-20:00,3.6,
+S-0449,Gupta Pharmacy Uppalwadi,Pharmacy,Uppalwadi,Nagpur,07127897019,11:00-22:00,4.6,M-18|M-06|M-02|M-12|M-17|M-20|M-09|M-19|M-03|M-14|M-15|M-07|M-10|M-01
+S-0450,Verma Medical Store Narendra Nagar,Medical Store,Narendra Nagar,Nagpur,07123000119,11:00-20:00,4.0,M-17|M-20|M-15|M-08|M-16|M-03|M-01|M-10|M-14|M-05|M-12|M-18|M-07
+S-0451,Kulkarni Medical Store Imamwada,Medical Store,Imamwada,Nagpur,07128642460,11:00-21:00,3.8,M-04|M-01|M-06|M-10|M-19|M-15|M-05|M-08|M-14|M-11|M-20|M-03|M-18
+S-0452,Desai Medical Store Narendra Nagar,Medical Store,Narendra Nagar,Nagpur,07128065833,11:00-21:00,4.6,M-15|M-02|M-04|M-08|M-17|M-19|M-13|M-06|M-20|M-03|M-01|M-12|M-10|M-07|M-14|M-11
+S-0453,Deshmukh Medical Store MIDC Area,Medical Store,MIDC Area,Nagpur,07122422473,10:00-20:00,3.4,M-09|M-16|M-03|M-19|M-02
+S-0454,Reddy Medical Store Officers Colony,Medical Store,Officers Colony,Pune,0205253089,08:00-21:00,4.7,M-13|M-19|M-15|M-04|M-01|M-09|M-20|M-11|M-08|M-06|M-12|M-10|M-16|M-18|M-14
+S-0455,Gaikwad Pharmacy Koradi,Pharmacy,Koradi,Koradi,07123055692,10:00-20:00,4.2,M-08|M-04|M-12|M-18|M-19|M-09|M-20|M-07|M-03|M-06|M-05
+S-0456,Pawar Pharmacy Gandhi Marg,Pharmacy,Gandhi Marg,Amravati,072624160653,10:00-23:00,3.4,M-06|M-17|M-09|M-03|M-01|M-19|M-20|M-12|M-13|M-15|M-14|M-07|M-11|M-02|M-16|M-05|M-08|M-18|M-10
+S-0457,Iyer Pharmacy Officers Colony,Pharmacy,Officers Colony,Amravati,072628631855,11:00-21:00,3.4,M-09|M-12|M-06|M-19|M-08|M-20|M-07|M-02
+S-0458,Chavan Pharmacy Civil Lines,Pharmacy,Civil Lines,Pune,0203781463,09:00-23:00,3.5,M-04|M-11|M-20|M-01|M-06|M-02
+S-0459,Singh Pharmacy Civil Lines,Pharmacy,Civil Lines,Aurangabad,02408134914,08:00-19:00,3.2,M-03|M-14|M-17|M-13|M-11|M-12|M-07|M-01|M-19|M-16|M-15|M-20|M-02|M-10|M-06
+S-0460,Patil Medical Store Krishna Nagar,Medical Store,Krishna Nagar,Chandrapur,071723151795,08:00-19:00,3.2,M-15|M-13|M-19|M-08|M-17|M-16|M-03|M-09|M-02|M-12|M-06|M-01|M-14|M-05|M-11
+S-0461,Kulkarni Pharmacy Station Road,Pharmacy,Station Road,Chandrapur,071722364229,11:00-22:00,3.9,M-07|M-08|M-02|M-11
+S-0462,Mane Pharmacy Model Colony,Pharmacy,Model Colony,Aurangabad,02407783198,09:00-23:00,4.6,M-18|M-02|M-20|M-17|M-03|M-10|M-08|M-14|M-04|M-06|M-15|M-09|M-12|M-11|M-07|M-19|M-01|M-13|M-05|M-16
+S-0463,Yadav Pharmacy Officers Colony,Pharmacy,Officers Colony,Amravati,072623825655,11:00-22:00,3.4,M-01|M-18|M-10|M-02|M-16|M-03|M-08|M-11|M-19|M-04|M-05|M-12|M-14|M-13|M-07|M-20|M-17|M-15
+S-0464,Singh Pharmacy Model Colony,Pharmacy,Model Colony,Pune,0205482377,08:00-20:00,3.9,M-16|M-14|M-17|M-19|M-02
+S-0465,Gupta Pharmacy Umred,Pharmacy,Umred,Umred,07126012756,09:00-22:00,4.3,M-18|M-04|M-11|M-05|M-15|M-14|M-12|M-16|M-19|M-17|M-10|M-01
+S-0466,Rao Pharmacy Koradi,Pharmacy,Koradi,Koradi,07128687274,09:00-19:00,3.2,M-03|M-04|M-20|M-09|M-17|M-12
+S-0467,Mehta Medical Store Bezonbagh,Medical Store,Bezonbagh,Nagpur,07127907916,09:00-23:00,3.5,M-18|M-07|M-12|M-19|M-08|M-11|M-20
+S-0468,Yadav Pharmacy Nehru Nagar,Pharmacy,Nehru Nagar,Chandrapur,071723717393,11:00-20:00,4.6,M-02|M-09|M-06|M-13|M-18|M-07|M-03|M-20|M-14|M-04|M-12|M-15|M-01|M-16
+S-0469,Desai Pharmacy Panchsheel Nagar,Pharmacy,Panchsheel Nagar,Nagpur,07126870930,09:00-21:00,3.2,M-15|M-04|M-12|M-16|M-14|M-02|M-20|M-13|M-01|M-09
+S-0470,Gupta Pharmacy Airport Road,Pharmacy,Airport Road,Nagpur,07123028208,08:00-20:00,3.2,M-04|M-10|M-13|M-12
+S-0471,Reddy Pharmacy Krishna Nagar,Pharmacy,Krishna Nagar,Mumbai,0224926515,11:00-19:00,4.6,M-02|M-15|M-10|M-20|M-09|M-07|M-13|M-18
+S-0472,Patil Medical Store Mahal,Medical Store,Mahal,Nagpur,07122002411,11:00-20:00,3.7,M-03|M-17|M-16|M-06|M-15
+S-0473,Verma Pharmacy Vayusena Nagar,Pharmacy,Vayusena Nagar,Nagpur,07128287064,09:00-23:00,3.8,M-19|M-13|M-15|M-04|M-16|M-07|M-20|M-08|M-06|M-05|M-14|M-10|M-11|M-02|M-09|M-01|M-18|M-17
+S-0474,Dixit Pharmacy Khamla,Pharmacy,Khamla,Nagpur,07128689781,11:00-23:00,3.8,M-10|M-12|M-17|M-07|M-02|M-13|M-16|M-09|M-05|M-19|M-08|M-11|M-06|M-03
+S-0475,Dixit Pharmacy Shivaji Nagar,Pharmacy,Shivaji Nagar,Aurangabad,02402061469,11:00-22:00,4.6,M-19|M-05|M-10|M-16|M-09|M-02|M-11|M-04|M-12|M-01|M-03|M-07
+S-0476,Patil Medical Store Shankar Nagar,Medical Store,Shankar Nagar,Nagpur,07123701658,11:00-22:00,4.1,M-04|M-05|M-01|M-16
+S-0477,Chavan Medical Store Ring Road,Medical Store,Ring Road,Pune,0205849236,08:00-23:00,3.7,
+S-0478,Desai Pharmacy Nehru Nagar,Pharmacy,Nehru Nagar,Mumbai,0222886683,08:00-22:00,3.1,M-16|M-20|M-13|M-03|M-02|M-19|M-17|M-07|M-08|M-06|M-01|M-04|M-11|M-15|M-05|M-14|M-10
+S-0479,Verma Pharmacy Imamwada,Pharmacy,Imamwada,Nagpur,07128955422,10:00-21:00,4.6,M-12|M-15|M-05|M-19|M-02|M-13|M-17|M-18|M-20|M-06|M-01|M-16|M-03|M-11|M-10|M-09|M-14|M-04
+S-0480,Desai Pharmacy Sai Nagar,Pharmacy,Sai Nagar,Amravati,072627186932,10:00-20:00,4.9,M-04|M-02|M-10|M-15|M-08|M-06|M-03|M-14|M-20|M-01|M-09|M-18|M-07|M-05|M-19|M-17|M-16|M-12|M-11
+S-0481,Jadhav Pharmacy Uppalwadi,Pharmacy,Uppalwadi,Nagpur,07124094303,11:00-19:00,4.0,M-14|M-03|M-06|M-05|M-11|M-07|M-02
+S-0482,Desai Pharmacy Jaitala,Pharmacy,Jaitala,Nagpur,07126627855,09:00-23:00,4.5,M-02|M-17|M-16|M-15|M-07|M-11|M-03
+S-0483,Nair Pharmacy Market Yard,Pharmacy,Market Yard,Jalgaon,02572942237,10:00-19:00,3.6,M-04|M-11|M-08|M-20|M-09
+S-0484,Chavan Medical Store Umred,Medical Store,Umred,Umred,07123618919,11:00-23:00,3.9,M-10|M-15|M-06|M-18|M-08|M-13|M-01|M-19|M-03|M-05|M-02|M-14|M-20|M-07|M-04|M-12|M-09|M-16|M-11|M-17
+S-0485,Patel Pharmacy Nehru Nagar,Pharmacy,Nehru Nagar,Chandrapur,071723989166,11:00-19:00,3.6,M-05|M-08|M-02|M-01|M-14|M-18|M-06|M-17|M-03|M-13|M-19
+S-0486,Patel Pharmacy Ring Road,Pharmacy,Ring Road,Amravati,072628187611,11:00-21:00,4.3,M-05|M-10|M-14|M-09|M-02|M-18|M-20|M-13|M-04
+S-0487,Yadav Medical Store Pipla,Medical Store,Pipla,Nagpur,07128782278,09:00-23:00,3.4,M-20|M-07|M-03|M-16|M-06|M-14|M-08
+S-0488,Waghmare Pharmacy Station Road,Pharmacy,Station Road,Aurangabad,02407461514,11:00-20:00,3.1,M-16|M-12|M-14|M-03|M-19|M-17|M-18|M-04|M-10|M-09
+S-0489,Joshi Medical Store BESA Road,Medical Store,BESA Road,Nagpur,07126154482,08:00-19:00,4.3,M-20|M-16|M-01|M-18|M-14|M-10
+S-0490,Waghmare Medical Store Vayusena Nagar,Medical Store,Vayusena Nagar,Nagpur,07127948169,09:00-19:00,4.9,M-09|M-07|M-05|M-04|M-03|M-06|M-10|M-17|M-13|M-19|M-16
+S-0491,Thakur Pharmacy Officers Colony,Pharmacy,Officers Colony,Solapur,02178068447,11:00-21:00,3.8,M-02|M-05|M-06|M-11|M-17|M-13|M-19|M-20|M-04|M-08|M-14|M-18|M-09|M-07|M-12|M-01|M-15|M-16
+S-0492,Shah Pharmacy Mankapur,Pharmacy,Mankapur,Nagpur,07123021657,10:00-19:00,3.4,M-04|M-20|M-03|M-11|M-13|M-10|M-09|M-16|M-14|M-08|M-12|M-05|M-06
+S-0493,Kulkarni Pharmacy Sadar Bazar,Pharmacy,Sadar Bazar,Nagpur,07126866227,10:00-19:00,3.8,M-17|M-02|M-01|M-08
+S-0494,Singh Pharmacy Shivaji Nagar,Pharmacy,Shivaji Nagar,Mumbai,0223529230,11:00-19:00,3.5,M-09|M-08|M-18|M-06|M-02|M-15|M-20|M-04|M-16|M-07|M-12|M-13|M-17|M-10|M-19|M-14|M-11|M-05|M-01
+S-0495,Nair Clinic Chemist Civil Lines,Clinic Chemist,Civil Lines,Jalgaon,02574700482,11:00-20:00,3.5,M-02|M-14|M-10|M-09|M-07|M-12|M-17
+S-0496,Kamble Pharmacy Umred,Pharmacy,Umred,Umred,07126149654,09:00-20:00,4.1,M-14|M-12|M-15|M-08|M-10|M-01|M-17
+S-0497,Patel Pharmacy Narendra Nagar,Pharmacy,Narendra Nagar,Nagpur,07123602013,10:00-20:00,4.1,M-11|M-12|M-13|M-10|M-16|M-08|M-06|M-19|M-17|M-01|M-04|M-03|M-14|M-15|M-18|M-05|M-02|M-07|M-09
+S-0498,Gupta Pharmacy Parvati Nagar,Pharmacy,Parvati Nagar,Nagpur,07123829716,10:00-21:00,4.8,M-20|M-14|M-10|M-04|M-05|M-13|M-02|M-11|M-16|M-15|M-08|M-03|M-17|M-18|M-07|M-06
+S-0499,Reddy Medical Store Officers Colony,Medical Store,Officers Colony,Nashik,02526919205,10:00-22:00,3.2,M-02|M-03|M-20|M-05|M-10|M-06|M-15|M-18
+S-0500,Dixit Medical Store College Road,Medical Store,College Road,Aurangabad,02402885788,08:00-22:00,3.6,M-11|M-12|M-14|M-03
+S-0501,Iyer Pharmacy Nehru Nagar,Pharmacy,Nehru Nagar,Aurangabad,02406889560,11:00-23:00,3.3,M-16|M-08|M-12|M-19|M-10|M-07|M-18|M-04|M-13|M-14|M-03|M-15|M-09|M-05|M-17|M-11
+S-0502,Joshi Medical Store Civil Lines,Medical Store,Civil Lines,Kolhapur,02315607009,10:00-23:00,3.5,M-19|M-13|M-07|M-02
+S-0503,Desai Medical Store Officers Colony,Medical Store,Officers Colony,Pune,0205958999,10:00-20:00,4.8,M-16|M-08|M-11|M-03|M-12|M-20|M-05|M-01|M-15|M-02|M-09|M-04|M-18|M-10|M-07|M-19
+S-0504,Bhagat Pharmacy Station Road,Pharmacy,Station Road,Solapur,02174765365,11:00-21:00,4.9,M-17|M-06|M-03|M-13|M-10|M-15|M-18|M-20|M-14|M-02|M-01|M-16|M-07|M-12|M-04|M-09|M-19
+S-0505,Jadhav Pharmacy Krishna Nagar,Pharmacy,Krishna Nagar,Jalgaon,02575246702,10:00-20:00,3.4,M-12|M-18|M-14|M-16|M-08|M-01|M-19|M-06|M-15|M-04|M-20|M-11|M-10|M-05|M-02|M-07
+S-0506,Rane Medical Store MIDC Road,Medical Store,MIDC Road,Aurangabad,02403758433,09:00-22:00,3.5,
+S-0507,Dixit Pharmacy Ring Road,Pharmacy,Ring Road,Solapur,02173291145,08:00-19:00,3.4,M-08|M-11|M-09|M-02|M-07|M-01|M-17|M-03|M-05|M-14|M-12|M-19|M-10|M-15|M-04|M-06
+S-0508,Ghosh Medical Store Market Yard,Medical Store,Market Yard,Kolhapur,02314082944,11:00-19:00,3.6,M-16|M-05|M-20|M-19|M-10|M-02|M-15|M-17|M-07|M-13
+S-0509,Kulkarni Pharmacy Uppalwadi,Pharmacy,Uppalwadi,Nagpur,07126050812,09:00-19:00,4.3,M-17|M-05|M-06|M-03|M-09|M-19|M-16|M-04|M-12|M-07|M-15
+S-0510,Gaikwad Medical Store Khamla,Medical Store,Khamla,Nagpur,07125372640,09:00-22:00,4.5,M-07|M-05|M-20|M-14|M-09|M-12|M-11|M-19|M-02|M-04|M-08|M-15|M-01|M-06|M-16|M-18|M-13|M-03|M-10|M-17
+S-0511,Khan Medical Store Sadar Bazar,Medical Store,Sadar Bazar,Nagpur,07127945086,10:00-21:00,4.6,M-11|M-17|M-19|M-15|M-10|M-18|M-01|M-09|M-08|M-20|M-06|M-13|M-07|M-14|M-03
+S-0512,Kulkarni Pharmacy Gandhi Marg,Pharmacy,Gandhi Marg,Chandrapur,071726217405,11:00-19:00,3.5,M-13|M-08|M-19|M-02|M-17|M-16|M-14
+S-0513,Verma Pharmacy Officers Colony,Pharmacy,Officers Colony,Nashik,02528871804,08:00-22:00,3.9,M-18|M-07|M-04|M-12|M-16|M-05|M-19|M-06
+S-0514,Joshi Pharmacy Gandhi Marg,Pharmacy,Gandhi Marg,Amravati,072626258587,08:00-23:00,4.2,M-08|M-14|M-15|M-17|M-02|M-05|M-04|M-18|M-20|M-06|M-13|M-03|M-10|M-11|M-19|M-16|M-09
+S-0515,Chavan Pharmacy Model Colony,Pharmacy,Model Colony,Mumbai,0228980071,11:00-22:00,3.3,M-02|M-07|M-11|M-13|M-14|M-06|M-19|M-12|M-01|M-04|M-20|M-17|M-08|M-05|M-10|M-15|M-16|M-09
+S-0516,Chauhan Pharmacy Temple Street,Pharmacy,Temple Street,Amravati,072625377999,09:00-21:00,3.7,M-07|M-19|M-13|M-01
+S-0517,Gaikwad Medical Store Main Road,Medical Store,Main Road,Jalgaon,02572236383,10:00-19:00,4.2,M-08|M-10|M-17|M-02|M-18|M-13|M-12|M-07|M-15
+S-0518,Menon Medical Store Bagadganj,Medical Store,Bagadganj,Nagpur,07126000752,08:00-21:00,4.1,M-06|M-17|M-14|M-11|M-09|M-01|M-19|M-07|M-12|M-05|M-16|M-08|M-10|M-04|M-02|M-03
+S-0519,Desai Pharmacy Ring Road,Pharmacy,Ring Road,Solapur,02176751651,08:00-21:00,4.4,M-07|M-05|M-01|M-10|M-12|M-04|M-06|M-20|M-09|M-15|M-02|M-16|M-13|M-11|M-19
+S-0520,Shah Pharmacy MIDC Area,Pharmacy,MIDC Area,Nagpur,07122622128,11:00-23:00,4.1,M-05|M-14|M-15|M-20|M-07|M-09|M-11|M-08

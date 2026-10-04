@@ -1,11 +1,521 @@
 hospital_id,name,type,address_line,area,city,state,pincode,phone,beds,established_year,accreditation
-H-01,Sahyadri Multispeciality Hospital,Multispeciality,"Plot 12, Wardha Road",Wardha Road,Nagpur,Maharashtra,440010,07122240101,180,2009,nabh
-H-02,Deshmukh Memorial Hospital,Multispeciality,"44, Dharangaon Main Road",Dharangaon,Nagpur,Maharashtra,440001,07122440112,120,1998,none
-H-03,Grace Diagnostics and Clinic,Diagnostic Clinic,"8, Ramdaspeth Square",Ramdaspeth,Nagpur,Maharashtra,440010,07126640123,30,2015,none
-H-04,Anand Childrens Hospital,Paediatric,"21, Manish Nagar",Manish Nagar,Nagpur,Maharashtra,440017,07127840134,45,2011,none
-H-05,Shastri Surgical Institute,Surgical,"3, Gandhibagh Road",Gandhibagh,Nagpur,Maharashtra,440009,07125540145,90,2005,none
-H-06,City Care Family Clinic,General Practice,"57, Sitabuldi Main Road",Sitabuldi,Nagpur,Maharashtra,440012,07124540156,18,2019,none
-H-07,Naiya Life Sciences Diagnostics,Diagnostic Lab,"102, Dharangaon",Dharangaon,Nagpur,Maharashtra,440001,07124240167,12,2021,none
-H-08,Dr Patil Superspecialty Centre,Multispeciality,"9, Chhatrapati Sambhajinagar",Chhatrapati Sambhajinagar,Nagpur,Maharashtra,440022,07125640178,75,2014,none
-H-09,Sudarshan Eye and ENT Clinic,Specialist,"31, Katol Nava Bazar",Katol,Nagpur,Maharashtra,440013,07126240189,20,2017,none
-H-10,Balaji Orthopaedic Centre,Orthopaedic,"Bhopal Road, Near Petrol Pump",Bhopal Road,Nagpur,Maharashtra,440026,07127740190,60,2007,none
+H-0001,Sahyadri Multispeciality Hospital,Multispeciality,"Plot 12, Wardha Road",Wardha Road,Nagpur,Maharashtra,440010,07122240101,180,2009,nabh
+H-0002,Deshmukh Memorial Hospital,Multispeciality,"44, Dharangaon Main Road",Dharangaon,Nagpur,Maharashtra,440001,07122440112,120,1998,none
+H-0003,Grace Diagnostics and Clinic,Diagnostic Clinic,"8, Ramdaspeth Square",Ramdaspeth,Nagpur,Maharashtra,440010,07126640123,30,2015,none
+H-0004,Anand Childrens Hospital,Paediatric,"21, Manish Nagar",Manish Nagar,Nagpur,Maharashtra,440017,07127840134,45,2011,none
+H-0005,Shastri Surgical Institute,Surgical,"3, Gandhibagh Road",Gandhibagh,Nagpur,Maharashtra,440009,07125540145,90,2005,none
+H-0006,City Care Family Clinic,General Practice,"57, Sitabuldi Main Road",Sitabuldi,Nagpur,Maharashtra,440012,07124540156,18,2019,none
+H-0007,Naiya Life Sciences Diagnostics,Diagnostic Lab,"102, Dharangaon",Dharangaon,Nagpur,Maharashtra,440001,07124240167,12,2021,none
+H-0008,Dr Patil Superspecialty Centre,Multispeciality,"9, Chhatrapati Sambhajinagar",Chhatrapati Sambhajinagar,Nagpur,Maharashtra,440022,07125640178,75,2014,none
+H-0009,Sudarshan Eye and ENT Clinic,Specialist,"31, Katol Nava Bazar",Katol,Nagpur,Maharashtra,440013,07126240189,20,2017,none
+H-0010,Balaji Orthopaedic Centre,Orthopaedic,"Bhopal Road, Near Petrol Pump",Bhopal Road,Nagpur,Maharashtra,440026,07127740190,60,2007,none
+H-0011,Market Yard Community Health Centre,Community Health Centre,"Flat 315, Station Road, Market Yard",Market Yard,Bhandara,Maharashtra,441464,071847703040,106,1965,none
+H-0012,Sai Nagar Community Health Centre,Community Health Centre,"Flat 375, Gandhi Marg, Sai Nagar",Sai Nagar,Kolhapur,Maharashtra,416248,02317390255,67,1977,none
+H-0013,University Campus Speciality Clinic,Speciality Clinic,"58, Sai Nagar, University Campus",University Campus,Nagpur,Maharashtra,440033,07126314555,18,1960,none
+H-0014,BESA Road Day Care,Day Care Centre,"Flat 142, Shivaji Nagar, BESA Road",BESA Road,Nagpur,Maharashtra,440037,07127381620,15,1988,none
+H-0015,Civil Lines Community Health Centre,Community Health Centre,"33, Station Road, Civil Lines",Civil Lines,Jalgaon,Maharashtra,425702,02574406374,159,1987,none
+H-0016,Gandhi Marg Day Care,Day Care Centre,"Flat 183, Civil Lines, Gandhi Marg",Gandhi Marg,Pune,Maharashtra,411931,0205410610,16,1966,none
+H-0017,Officers Colony Community Health Centre,Community Health Centre,"Flat 255, Nehru Nagar, Officers Colony",Officers Colony,Chandrapur,Maharashtra,442235,071728456787,145,1978,none
+H-0018,Sai Nagar Nursing Home,Nursing Home,"Shop 434, MIDC Road, Sai Nagar",Sai Nagar,Pune,Maharashtra,411183,0208554537,33,1966,none
+H-0019,MIDC Road Multispeciality Hospital,Multispeciality Hospital,"Flat 211, Sai Nagar, MIDC Road",MIDC Road,Jalgaon,Maharashtra,425538,02578940775,442,1970,nabh
+H-0020,Airport Road District Hospital,District Hospital,"Shop 135, Shivaji Nagar, Airport Road",Airport Road,Nagpur,Maharashtra,440005,07124626804,338,2010,nabh
+H-0021,Gandhi Marg Multispeciality Hospital,Multispeciality Hospital,"Shop 174, Ring Road, Gandhi Marg",Gandhi Marg,Solapur,Maharashtra,413820,02177290452,320,2017,nabh
+H-0022,Sai Nagar District Hospital,District Hospital,"Shop 447, Ring Road, Sai Nagar",Sai Nagar,Jalgaon,Maharashtra,425356,02575257067,272,2006,nabh
+H-0023,Model Colony Diagnostic,Diagnostic Centre,"Flat 105, Shivaji Nagar, Model Colony",Model Colony,Chandrapur,Maharashtra,442229,071725837807,10,1990,nabh
+H-0024,MIDC Road Diagnostic,Diagnostic Centre,"Flat 495, Officers Colony, MIDC Road",MIDC Road,Nashik,Maharashtra,422602,02525601069,17,1990,nabh
+H-0025,Mahal Multispeciality Hospital,Multispeciality Hospital,"Shop 313, Market Yard, Mahal",Mahal,Nagpur,Maharashtra,440032,07128404545,470,1960,nabh
+H-0026,Khamla Community Health Centre,Community Health Centre,"Shop 252, Krishna Nagar, Khamla",Khamla,Nagpur,Maharashtra,440025,07128345080,179,2004,none
+H-0027,Laxmi Nagar Community Health Centre,Community Health Centre,"Shop 392, Sai Nagar, Laxmi Nagar",Laxmi Nagar,Nagpur,Maharashtra,440022,07128092042,78,1990,none
+H-0028,Civil Lines Diagnostic,Diagnostic Centre,"Flat 413, Main Road, Civil Lines",Civil Lines,Mumbai,Maharashtra,400039,0223492977,15,2018,nabh
+H-0029,MIDC Road District Hospital,District Hospital,"Shop 193, Shivaji Nagar, MIDC Road",MIDC Road,Kolhapur,Maharashtra,416904,02316785924,219,1989,nabh
+H-0030,MIDC Area Day Care,Day Care Centre,"45, Temple Street, MIDC Area",MIDC Area,Nagpur,Maharashtra,440016,07123034462,7,1967,none
+H-0031,Dattawadi Diagnostic,Diagnostic Centre,"Flat 484, College Road, Dattawadi",Dattawadi,Nagpur,Maharashtra,440023,07128104428,21,1978,nabh
+H-0032,Imamwada Multispeciality Hospital,Multispeciality Hospital,"20, Main Road, Imamwada",Imamwada,Nagpur,Maharashtra,440003,07127004739,564,1965,nabh
+H-0033,College Road Diagnostic,Diagnostic Centre,"34, Station Road, College Road",College Road,Mumbai,Maharashtra,400188,0222362069,8,2017,nabh
+H-0034,Shivaji Nagar Primary Health Centre,Primary Health Centre,"Shop 371, Main Road, Shivaji Nagar",Shivaji Nagar,Mumbai,Maharashtra,400513,0225792876,57,2006,none
+H-0035,Sai Nagar Nursing Home,Nursing Home,"Shop 390, Market Yard, Sai Nagar",Sai Nagar,Pune,Maharashtra,411896,0205419368,48,2003,none
+H-0036,Bezonbagh Nursing Home,Nursing Home,"45, Officers Colony, Bezonbagh",Bezonbagh,Nagpur,Maharashtra,440014,07127129138,18,1986,none
+H-0037,Civil Lines Day Care,Day Care Centre,"Flat 230, Gandhi Marg, Civil Lines",Civil Lines,Jalgaon,Maharashtra,425327,02572535146,8,1999,none
+H-0038,Airport Road Diagnostic,Diagnostic Centre,"8, Krishna Nagar, Airport Road",Airport Road,Nagpur,Maharashtra,440005,07124114449,10,2001,nabh
+H-0039,Temple Street Diagnostic,Diagnostic Centre,"Flat 425, Sai Nagar, Temple Street",Temple Street,Solapur,Maharashtra,413447,02175464266,22,2018,nabh
+H-0040,Nehru Nagar Day Care,Day Care Centre,"47, Temple Street, Nehru Nagar",Nehru Nagar,Bhandara,Maharashtra,441032,071845188881,23,1998,none
+H-0041,Nehru Nagar Primary Health Centre,Primary Health Centre,"Shop 347, Station Road, Nehru Nagar",Nehru Nagar,Pune,Maharashtra,411054,0202048985,31,1987,none
+H-0042,Sai Nagar Diagnostic,Diagnostic Centre,"27, Nehru Nagar, Sai Nagar",Sai Nagar,Nashik,Maharashtra,422328,02528898416,21,1982,nabh
+H-0043,Station Road Speciality Clinic,Speciality Clinic,"Shop 381, Main Road, Station Road",Station Road,Jalgaon,Maharashtra,425983,02578624528,25,2018,none
+H-0044,Ring Road Primary Health Centre,Primary Health Centre,"Flat 149, Model Colony, Ring Road",Ring Road,Pune,Maharashtra,411603,0206278702,58,1993,none
+H-0045,Main Road Community Health Centre,Community Health Centre,"Shop 125, Ring Road, Main Road",Main Road,Nashik,Maharashtra,422097,02523428745,174,2005,none
+H-0046,Sai Nagar Speciality Clinic,Speciality Clinic,"21, Sai Nagar, Sai Nagar",Sai Nagar,Jalgaon,Maharashtra,425179,02576550428,30,1976,none
+H-0047,Narendra Nagar Diagnostic,Diagnostic Centre,"Shop 256, Officers Colony, Narendra Nagar",Narendra Nagar,Nagpur,Maharashtra,440015,07128664973,5,1964,nabh
+H-0048,Vayusena Nagar Day Care,Day Care Centre,"30, Krishna Nagar, Vayusena Nagar",Vayusena Nagar,Nagpur,Maharashtra,440007,07128325845,11,2013,none
+H-0049,Nehru Nagar Speciality Clinic,Speciality Clinic,"Flat 419, College Road, Nehru Nagar",Nehru Nagar,Pune,Maharashtra,411237,0203297006,30,2012,none
+H-0050,Gandhi Marg Speciality Clinic,Speciality Clinic,"Shop 431, Civil Lines, Gandhi Marg",Gandhi Marg,Pune,Maharashtra,411181,0208233456,9,2003,none
+H-0051,Panchsheel Nagar Multispeciality Hospital,Multispeciality Hospital,"Flat 355, MIDC Road, Panchsheel Nagar",Panchsheel Nagar,Nagpur,Maharashtra,440017,07125743953,320,1982,nabh
+H-0052,Ring Road District Hospital,District Hospital,"Flat 455, Ring Road, Ring Road",Ring Road,Aurangabad,Maharashtra,431339,02402046514,178,1973,nabh
+H-0053,Jaitala Day Care,Day Care Centre,"3, College Road, Jaitala",Jaitala,Nagpur,Maharashtra,440036,07128066636,13,1959,none
+H-0054,Airport Road Nursing Home,Nursing Home,"Flat 372, Main Road, Airport Road",Airport Road,Nagpur,Maharashtra,440005,07123614849,42,1977,none
+H-0055,Civil Lines District Hospital,District Hospital,"Flat 258, Market Yard, Civil Lines",Civil Lines,Jalgaon,Maharashtra,425146,02575418663,398,1968,nabh
+H-0056,MIDC Road Community Health Centre,Community Health Centre,"Flat 347, Civil Lines, MIDC Road",MIDC Road,Aurangabad,Maharashtra,431205,02403834967,108,2010,none
+H-0057,MIDC Area Multispeciality Hospital,Multispeciality Hospital,"Shop 127, Civil Lines, MIDC Area",MIDC Area,Nagpur,Maharashtra,440016,07126602281,289,1996,nabh
+H-0058,Khamla Community Health Centre,Community Health Centre,"Flat 472, Sai Nagar, Khamla",Khamla,Nagpur,Maharashtra,440025,07125864852,114,1959,none
+H-0059,Saoner Community Health Centre,Community Health Centre,"Flat 127, Nehru Nagar, Saoner",Saoner,Saoner,Maharashtra,441107,07125050286,107,1980,none
+H-0060,Officers Colony Community Health Centre,Community Health Centre,"Flat 352, Krishna Nagar, Officers Colony",Officers Colony,Nashik,Maharashtra,422075,02528454075,66,2010,none
+H-0061,Model Colony Day Care,Day Care Centre,"Flat 135, MIDC Road, Model Colony",Model Colony,Solapur,Maharashtra,413963,02176939112,21,1965,none
+H-0062,Saoner Primary Health Centre,Primary Health Centre,"32, Main Road, Saoner",Saoner,Saoner,Maharashtra,441107,07122340755,43,1998,none
+H-0063,Gandhi Marg Diagnostic,Diagnostic Centre,"Flat 186, Market Yard, Gandhi Marg",Gandhi Marg,Pune,Maharashtra,411908,0205184698,24,1991,nabh
+H-0064,Station Road Speciality Clinic,Speciality Clinic,"32, Station Road, Station Road",Station Road,Solapur,Maharashtra,413279,02178734758,30,1982,none
+H-0065,Civil Lines Diagnostic,Diagnostic Centre,"Shop 103, Sai Nagar, Civil Lines",Civil Lines,Pune,Maharashtra,411034,0204802765,1,1968,nabh
+H-0066,College Road Day Care,Day Care Centre,"39, Model Colony, College Road",College Road,Pune,Maharashtra,411411,0202771940,18,2018,none
+H-0067,MIDC Road Community Health Centre,Community Health Centre,"Shop 407, Station Road, MIDC Road",MIDC Road,Solapur,Maharashtra,413774,02174707326,75,1989,none
+H-0068,Nehru Nagar Community Health Centre,Community Health Centre,"Shop 350, MIDC Road, Nehru Nagar",Nehru Nagar,Jalgaon,Maharashtra,425703,02576974899,105,1963,none
+H-0069,MIDC Road Diagnostic,Diagnostic Centre,"13, Temple Street, MIDC Road",MIDC Road,Solapur,Maharashtra,413955,02172908458,0,2000,nabh
+H-0070,Model Colony District Hospital,District Hospital,"Flat 461, Sai Nagar, Model Colony",Model Colony,Chandrapur,Maharashtra,442146,071727595429,319,1976,nabh
+H-0071,Laxmi Nagar Speciality Clinic,Speciality Clinic,"43, Krishna Nagar, Laxmi Nagar",Laxmi Nagar,Nagpur,Maharashtra,440022,07124133820,16,1959,none
+H-0072,Temple Street Nursing Home,Nursing Home,"Flat 460, College Road, Temple Street",Temple Street,Aurangabad,Maharashtra,431329,02403225511,34,1961,none
+H-0073,Main Road Community Health Centre,Community Health Centre,"31, MIDC Road, Main Road",Main Road,Pune,Maharashtra,411102,0204412983,171,1979,none
+H-0074,Model Colony Day Care,Day Care Centre,"Flat 128, Officers Colony, Model Colony",Model Colony,Pune,Maharashtra,411154,0206119564,5,2000,none
+H-0075,BESA Road Nursing Home,Nursing Home,"Flat 390, Main Road, BESA Road",BESA Road,Nagpur,Maharashtra,440037,07124229262,16,1969,none
+H-0076,Airport Road Community Health Centre,Community Health Centre,"Flat 179, Officers Colony, Airport Road",Airport Road,Nagpur,Maharashtra,440005,07127845049,92,2019,none
+H-0077,Ring Road Diagnostic,Diagnostic Centre,"Flat 180, Civil Lines, Ring Road",Ring Road,Mumbai,Maharashtra,400079,0227008111,13,2009,nabh
+H-0078,Nehru Nagar Multispeciality Hospital,Multispeciality Hospital,"Shop 298, Market Yard, Nehru Nagar",Nehru Nagar,Nashik,Maharashtra,422977,02527014064,449,1974,nabh
+H-0079,Nehru Nagar Community Health Centre,Community Health Centre,"Flat 268, Market Yard, Nehru Nagar",Nehru Nagar,Jalgaon,Maharashtra,425977,02573898035,179,2009,none
+H-0080,Sadar Bazar District Hospital,District Hospital,"Shop 189, MIDC Road, Sadar Bazar",Sadar Bazar,Nagpur,Maharashtra,440001,07123013634,258,1976,nabh
+H-0081,Shivaji Nagar Speciality Clinic,Speciality Clinic,"58, Main Road, Shivaji Nagar",Shivaji Nagar,Nashik,Maharashtra,422632,02523932852,18,2000,none
+H-0082,Airport Road Day Care,Day Care Centre,"Flat 102, Nehru Nagar, Airport Road",Airport Road,Nagpur,Maharashtra,440005,07123515999,7,1997,none
+H-0083,Main Road Community Health Centre,Community Health Centre,"Shop 386, Main Road, Main Road",Main Road,Pune,Maharashtra,411663,0204635132,153,2012,none
+H-0084,Gandhi Marg Day Care,Day Care Centre,"23, Ring Road, Gandhi Marg",Gandhi Marg,Nashik,Maharashtra,422681,02526443855,8,2004,none
+H-0085,Civil Lines Primary Health Centre,Primary Health Centre,"57, Market Yard, Civil Lines",Civil Lines,Chandrapur,Maharashtra,442911,071725792218,38,1962,none
+H-0086,College Road Community Health Centre,Community Health Centre,"46, Civil Lines, College Road",College Road,Mumbai,Maharashtra,400506,0228332200,141,1969,none
+H-0087,Model Colony Diagnostic,Diagnostic Centre,"49, Temple Street, Model Colony",Model Colony,Nashik,Maharashtra,422889,02525777485,19,2014,nabh
+H-0088,MIDC Road Nursing Home,Nursing Home,"Shop 237, College Road, MIDC Road",MIDC Road,Pune,Maharashtra,411856,0204501300,50,1999,none
+H-0089,Shankar Nagar Day Care,Day Care Centre,"Flat 459, Nehru Nagar, Shankar Nagar",Shankar Nagar,Nagpur,Maharashtra,440010,07127205475,12,1972,none
+H-0090,Model Colony Diagnostic,Diagnostic Centre,"Shop 251, Krishna Nagar, Model Colony",Model Colony,Chandrapur,Maharashtra,442650,071723908321,4,1969,nabh
+H-0091,Shivaji Nagar Diagnostic,Diagnostic Centre,"49, College Road, Shivaji Nagar",Shivaji Nagar,Jalgaon,Maharashtra,425284,02577900247,24,1991,nabh
+H-0092,Ring Road Nursing Home,Nursing Home,"Flat 396, Market Yard, Ring Road",Ring Road,Solapur,Maharashtra,413394,02178483661,58,1995,none
+H-0093,Saoner Community Health Centre,Community Health Centre,"Shop 183, Officers Colony, Saoner",Saoner,Saoner,Maharashtra,441107,07123518799,154,2012,none
+H-0094,Officers Colony Multispeciality Hospital,Multispeciality Hospital,"Flat 414, Nehru Nagar, Officers Colony",Officers Colony,Mumbai,Maharashtra,400498,0226482057,377,1972,nabh
+H-0095,Narendra Nagar Primary Health Centre,Primary Health Centre,"Shop 486, Gandhi Marg, Narendra Nagar",Narendra Nagar,Nagpur,Maharashtra,440015,07127998050,35,1981,none
+H-0096,Shivaji Nagar Diagnostic,Diagnostic Centre,"Flat 464, Model Colony, Shivaji Nagar",Shivaji Nagar,Chandrapur,Maharashtra,442855,071722074256,8,1989,nabh
+H-0097,Shivaji Nagar Community Health Centre,Community Health Centre,"1, Nehru Nagar, Shivaji Nagar",Shivaji Nagar,Chandrapur,Maharashtra,442569,071727210997,108,1992,none
+H-0098,Seminary Hills District Hospital,District Hospital,"Shop 250, Officers Colony, Seminary Hills",Seminary Hills,Nagpur,Maharashtra,440006,07127438140,310,1958,nabh
+H-0099,Sai Nagar Day Care,Day Care Centre,"Shop 252, Krishna Nagar, Sai Nagar",Sai Nagar,Mumbai,Maharashtra,400752,0224173693,25,1963,none
+H-0100,CRPF Nagar Speciality Clinic,Speciality Clinic,"Shop 499, Temple Street, CRPF Nagar",CRPF Nagar,Nagpur,Maharashtra,440019,07124016813,29,2009,none
+H-0101,Dattawadi Speciality Clinic,Speciality Clinic,"42, MIDC Road, Dattawadi",Dattawadi,Nagpur,Maharashtra,440023,07124149247,16,1959,none
+H-0102,Manewada Road Diagnostic,Diagnostic Centre,"Shop 316, Model Colony, Manewada Road",Manewada Road,Nagpur,Maharashtra,440024,07128730009,7,1965,nabh
+H-0103,Parvati Nagar Multispeciality Hospital,Multispeciality Hospital,"12, Krishna Nagar, Parvati Nagar",Parvati Nagar,Nagpur,Maharashtra,440027,07123214289,566,2008,nabh
+H-0104,Civil Lines Multispeciality Hospital,Multispeciality Hospital,"43, Ring Road, Civil Lines",Civil Lines,Amravati,Maharashtra,444880,072625781225,487,1996,nabh
+H-0105,Bezonbagh Nursing Home,Nursing Home,"Shop 431, Shivaji Nagar, Bezonbagh",Bezonbagh,Nagpur,Maharashtra,440014,07126703371,53,2015,none
+H-0106,MIDC Road Multispeciality Hospital,Multispeciality Hospital,"58, Gandhi Marg, MIDC Road",MIDC Road,Chandrapur,Maharashtra,442768,071727658185,538,1973,nabh
+H-0107,Sai Nagar Speciality Clinic,Speciality Clinic,"Flat 151, Temple Street, Sai Nagar",Sai Nagar,Pune,Maharashtra,411034,0205927698,19,1959,none
+H-0108,MIDC Road Diagnostic,Diagnostic Centre,"Shop 311, Nehru Nagar, MIDC Road",MIDC Road,Chandrapur,Maharashtra,442308,071724048085,24,1991,nabh
+H-0109,Katol Speciality Clinic,Speciality Clinic,"Shop 386, Krishna Nagar, Katol",Katol,Katol,Maharashtra,441103,07126360543,8,1996,none
+H-0110,Sai Nagar Nursing Home,Nursing Home,"Shop 400, Station Road, Sai Nagar",Sai Nagar,Jalgaon,Maharashtra,425618,02573532944,34,2007,none
+H-0111,Gandhi Marg Speciality Clinic,Speciality Clinic,"Flat 473, Station Road, Gandhi Marg",Gandhi Marg,Pune,Maharashtra,411113,0202306817,27,1982,none
+H-0112,Mahal Nursing Home,Nursing Home,"35, Market Yard, Mahal",Mahal,Nagpur,Maharashtra,440032,07126627337,28,1965,none
+H-0113,Krishna Nagar Primary Health Centre,Primary Health Centre,"Shop 168, Nehru Nagar, Krishna Nagar",Krishna Nagar,Pune,Maharashtra,411914,0202409893,52,2019,none
+H-0114,Station Road Primary Health Centre,Primary Health Centre,"29, College Road, Station Road",Station Road,Mumbai,Maharashtra,400215,0228405432,28,1973,none
+H-0115,Sai Nagar Multispeciality Hospital,Multispeciality Hospital,"43, Nehru Nagar, Sai Nagar",Sai Nagar,Aurangabad,Maharashtra,431300,02408450593,480,1988,nabh
+H-0116,Station Road Diagnostic,Diagnostic Centre,"Flat 340, Civil Lines, Station Road",Station Road,Pune,Maharashtra,411199,0207558567,19,1958,nabh
+H-0117,Main Road Speciality Clinic,Speciality Clinic,"Shop 398, MIDC Road, Main Road",Main Road,Mumbai,Maharashtra,400325,0223864139,21,1995,none
+H-0118,Model Colony Day Care,Day Care Centre,"Shop 439, Model Colony, Model Colony",Model Colony,Nashik,Maharashtra,422158,02527647933,18,2014,none
+H-0119,Civil Lines Multispeciality Hospital,Multispeciality Hospital,"3, Sai Nagar, Civil Lines",Civil Lines,Aurangabad,Maharashtra,431975,02408757264,489,2019,nabh
+H-0120,MIDC Road Primary Health Centre,Primary Health Centre,"Shop 315, Temple Street, MIDC Road",MIDC Road,Pune,Maharashtra,411942,0207278928,24,1963,none
+H-0121,Sai Nagar Primary Health Centre,Primary Health Centre,"Shop 350, Nehru Nagar, Sai Nagar",Sai Nagar,Mumbai,Maharashtra,400592,0222266338,50,1981,none
+H-0122,Koradi Nursing Home,Nursing Home,"39, Shivaji Nagar, Koradi",Koradi,Koradi,Maharashtra,441111,07123795172,17,1979,none
+H-0123,Vayusena Nagar District Hospital,District Hospital,"Shop 190, MIDC Road, Vayusena Nagar",Vayusena Nagar,Nagpur,Maharashtra,440007,07125098400,263,1961,nabh
+H-0124,Station Road Primary Health Centre,Primary Health Centre,"Flat 495, Civil Lines, Station Road",Station Road,Bhandara,Maharashtra,441186,071845220501,33,1983,none
+H-0125,Krishna Nagar Nursing Home,Nursing Home,"1, Station Road, Krishna Nagar",Krishna Nagar,Jalgaon,Maharashtra,425641,02575230873,60,1982,none
+H-0126,Market Yard Nursing Home,Nursing Home,"17, MIDC Road, Market Yard",Market Yard,Kolhapur,Maharashtra,416191,02312898295,60,2013,none
+H-0127,Station Road Nursing Home,Nursing Home,"Shop 303, Market Yard, Station Road",Station Road,Pune,Maharashtra,411861,0207844449,51,2017,none
+H-0128,Nehru Nagar Speciality Clinic,Speciality Clinic,"Flat 441, Civil Lines, Nehru Nagar",Nehru Nagar,Jalgaon,Maharashtra,425682,02574926604,28,2018,none
+H-0129,Krishna Nagar Diagnostic,Diagnostic Centre,"Shop 217, Nehru Nagar, Krishna Nagar",Krishna Nagar,Jalgaon,Maharashtra,425053,02576751715,3,2010,nabh
+H-0130,Panchsheel Nagar Speciality Clinic,Speciality Clinic,"Flat 176, College Road, Panchsheel Nagar",Panchsheel Nagar,Nagpur,Maharashtra,440017,07128451519,22,1985,none
+H-0131,College Road Day Care,Day Care Centre,"Shop 246, Main Road, College Road",College Road,Aurangabad,Maharashtra,431195,02407395266,25,1975,none
+H-0132,College Road Community Health Centre,Community Health Centre,"Shop 378, Sai Nagar, College Road",College Road,Aurangabad,Maharashtra,431870,02408326410,60,1979,none
+H-0133,Hingna Primary Health Centre,Primary Health Centre,"12, Nehru Nagar, Hingna",Hingna,Hingna,Maharashtra,441110,07123184345,22,2017,none
+H-0134,Shivaji Nagar Primary Health Centre,Primary Health Centre,"Flat 209, Temple Street, Shivaji Nagar",Shivaji Nagar,Amravati,Maharashtra,444898,072623624512,29,2010,none
+H-0135,Saoner Day Care,Day Care Centre,"38, Ring Road, Saoner",Saoner,Saoner,Maharashtra,441107,07124450648,21,1965,none
+H-0136,Manewada Road Diagnostic,Diagnostic Centre,"42, Temple Street, Manewada Road",Manewada Road,Nagpur,Maharashtra,440024,07126995077,2,1993,nabh
+H-0137,Kuhi Speciality Clinic,Speciality Clinic,"24, MIDC Road, Kuhi",Kuhi,Kuhi,Maharashtra,441202,07123085214,15,1965,none
+H-0138,Temple Street Multispeciality Hospital,Multispeciality Hospital,"Flat 300, Station Road, Temple Street",Temple Street,Nashik,Maharashtra,422598,02523467793,515,1967,nabh
+H-0139,Market Yard Multispeciality Hospital,Multispeciality Hospital,"Shop 201, Ring Road, Market Yard",Market Yard,Nashik,Maharashtra,422115,02523180935,270,1996,nabh
+H-0140,Narendra Nagar Community Health Centre,Community Health Centre,"Shop 288, College Road, Narendra Nagar",Narendra Nagar,Nagpur,Maharashtra,440015,07123606267,145,1963,none
+H-0141,Khamla District Hospital,District Hospital,"Shop 197, Krishna Nagar, Khamla",Khamla,Nagpur,Maharashtra,440025,07128013308,158,2002,nabh
+H-0142,MIDC Road Primary Health Centre,Primary Health Centre,"1, Station Road, MIDC Road",MIDC Road,Pune,Maharashtra,411321,0203273579,54,1959,none
+H-0143,College Road District Hospital,District Hospital,"Shop 149, Gandhi Marg, College Road",College Road,Amravati,Maharashtra,444049,072628311234,328,1998,nabh
+H-0144,Borgaon Road Speciality Clinic,Speciality Clinic,"Flat 126, Station Road, Borgaon Road",Borgaon Road,Nagpur,Maharashtra,440013,07126222647,19,1986,none
+H-0145,MIDC Road Community Health Centre,Community Health Centre,"Shop 294, Station Road, MIDC Road",MIDC Road,Kolhapur,Maharashtra,416708,02316883336,168,1961,none
+H-0146,MIDC Road Multispeciality Hospital,Multispeciality Hospital,"18, Station Road, MIDC Road",MIDC Road,Mumbai,Maharashtra,400663,0228770764,579,1979,nabh
+H-0147,CRPF Nagar Multispeciality Hospital,Multispeciality Hospital,"34, Gandhi Marg, CRPF Nagar",CRPF Nagar,Nagpur,Maharashtra,440019,07124824983,366,1967,nabh
+H-0148,Pipla Community Health Centre,Community Health Centre,"Shop 398, Nehru Nagar, Pipla",Pipla,Nagpur,Maharashtra,440034,07128074658,133,1960,none
+H-0149,Bezonbagh Day Care,Day Care Centre,"Shop 485, MIDC Road, Bezonbagh",Bezonbagh,Nagpur,Maharashtra,440014,07127893442,20,1994,none
+H-0150,Vayusena Nagar District Hospital,District Hospital,"40, MIDC Road, Vayusena Nagar",Vayusena Nagar,Nagpur,Maharashtra,440007,07126342489,347,2017,nabh
+H-0151,Krishna Nagar Multispeciality Hospital,Multispeciality Hospital,"Flat 312, Civil Lines, Krishna Nagar",Krishna Nagar,Pune,Maharashtra,411318,0205689067,399,1983,nabh
+H-0152,Market Yard Multispeciality Hospital,Multispeciality Hospital,"50, Shivaji Nagar, Market Yard",Market Yard,Jalgaon,Maharashtra,425880,02574352757,543,1999,nabh
+H-0153,University Campus Diagnostic,Diagnostic Centre,"Flat 313, Main Road, University Campus",University Campus,Nagpur,Maharashtra,440033,07122723245,3,2020,nabh
+H-0154,Officers Colony Diagnostic,Diagnostic Centre,"Shop 281, Officers Colony, Officers Colony",Officers Colony,Mumbai,Maharashtra,400782,0228960651,12,1961,nabh
+H-0155,Civil Lines Day Care,Day Care Centre,"Shop 487, Nehru Nagar, Civil Lines",Civil Lines,Solapur,Maharashtra,413759,02178288034,23,1989,none
+H-0156,Market Yard Day Care,Day Care Centre,"Shop 305, Shivaji Nagar, Market Yard",Market Yard,Bhandara,Maharashtra,441231,071847362263,23,2020,none
+H-0157,Mahal Primary Health Centre,Primary Health Centre,"Flat 210, Nehru Nagar, Mahal",Mahal,Nagpur,Maharashtra,440032,07126334477,53,2001,none
+H-0158,Sitabuldi Community Health Centre,Community Health Centre,"Shop 392, Sai Nagar, Sitabuldi",Sitabuldi,Nagpur,Maharashtra,440012,07123739318,99,1982,none
+H-0159,Ring Road District Hospital,District Hospital,"2, Shivaji Nagar, Ring Road",Ring Road,Aurangabad,Maharashtra,431729,02406926829,381,1971,nabh
+H-0160,Imamwada Multispeciality Hospital,Multispeciality Hospital,"Shop 463, College Road, Imamwada",Imamwada,Nagpur,Maharashtra,440003,07123294381,443,1978,nabh
+H-0161,Main Road Nursing Home,Nursing Home,"39, College Road, Main Road",Main Road,Nashik,Maharashtra,422430,02523476394,20,2020,none
+H-0162,Koradi Nursing Home,Nursing Home,"Flat 483, Model Colony, Koradi",Koradi,Koradi,Maharashtra,441111,07128460355,15,1991,none
+H-0163,Khamla Speciality Clinic,Speciality Clinic,"Shop 389, Nehru Nagar, Khamla",Khamla,Nagpur,Maharashtra,440025,07122886399,13,2019,none
+H-0164,Model Colony District Hospital,District Hospital,"52, MIDC Road, Model Colony",Model Colony,Jalgaon,Maharashtra,425852,02576016549,189,1962,nabh
+H-0165,Station Road Speciality Clinic,Speciality Clinic,"Flat 400, Temple Street, Station Road",Station Road,Aurangabad,Maharashtra,431635,02402143309,14,2011,none
+H-0166,Shivaji Nagar Day Care,Day Care Centre,"Shop 383, Model Colony, Shivaji Nagar",Shivaji Nagar,Mumbai,Maharashtra,400782,0222743040,12,2005,none
+H-0167,Sitabuldi Multispeciality Hospital,Multispeciality Hospital,"Flat 326, MIDC Road, Sitabuldi",Sitabuldi,Nagpur,Maharashtra,440012,07125242629,475,2004,nabh
+H-0168,Main Road Multispeciality Hospital,Multispeciality Hospital,"Shop 247, Krishna Nagar, Main Road",Main Road,Mumbai,Maharashtra,400728,0222505024,288,2013,nabh
+H-0169,Temple Street Nursing Home,Nursing Home,"Shop 359, Station Road, Temple Street",Temple Street,Solapur,Maharashtra,413196,02177997240,25,1997,none
+H-0170,Khamla Speciality Clinic,Speciality Clinic,"Flat 461, Station Road, Khamla",Khamla,Nagpur,Maharashtra,440025,07125738793,12,2000,none
+H-0171,College Road Primary Health Centre,Primary Health Centre,"Flat 123, MIDC Road, College Road",College Road,Solapur,Maharashtra,413205,02176906227,60,1993,none
+H-0172,Manewada Road Nursing Home,Nursing Home,"Shop 380, Gandhi Marg, Manewada Road",Manewada Road,Nagpur,Maharashtra,440024,07127283491,36,1990,none
+H-0173,Laxmi Nagar Day Care,Day Care Centre,"Flat 137, Temple Street, Laxmi Nagar",Laxmi Nagar,Nagpur,Maharashtra,440022,07122177740,24,1995,none
+H-0174,Market Yard Diagnostic,Diagnostic Centre,"44, Temple Street, Market Yard",Market Yard,Mumbai,Maharashtra,400316,0228350665,21,1991,nabh
+H-0175,Temple Street Diagnostic,Diagnostic Centre,"33, Krishna Nagar, Temple Street",Temple Street,Amravati,Maharashtra,444826,072622162343,0,1997,nabh
+H-0176,Model Colony Community Health Centre,Community Health Centre,"Flat 241, Nehru Nagar, Model Colony",Model Colony,Jalgaon,Maharashtra,425118,02572510360,96,1968,none
+H-0177,Jaitala Day Care,Day Care Centre,"8, Market Yard, Jaitala",Jaitala,Nagpur,Maharashtra,440036,07128331995,11,1976,none
+H-0178,Officers Colony District Hospital,District Hospital,"18, Gandhi Marg, Officers Colony",Officers Colony,Nashik,Maharashtra,422036,02522209937,245,2007,nabh
+H-0179,College Road District Hospital,District Hospital,"Shop 479, Shivaji Nagar, College Road",College Road,Solapur,Maharashtra,413544,02177036616,212,1963,nabh
+H-0180,Bezonbagh Nursing Home,Nursing Home,"Shop 108, Temple Street, Bezonbagh",Bezonbagh,Nagpur,Maharashtra,440014,07124831470,56,1989,none
+H-0181,Shivaji Nagar Primary Health Centre,Primary Health Centre,"Flat 176, Gandhi Marg, Shivaji Nagar",Shivaji Nagar,Chandrapur,Maharashtra,442142,071727301107,52,1973,none
+H-0182,University Campus Diagnostic,Diagnostic Centre,"Flat 180, Ring Road, University Campus",University Campus,Nagpur,Maharashtra,440033,07128077221,7,1998,nabh
+H-0183,BESA Road Day Care,Day Care Centre,"2, Station Road, BESA Road",BESA Road,Nagpur,Maharashtra,440037,07124452968,5,1994,none
+H-0184,Civil Lines Nursing Home,Nursing Home,"Shop 224, Ring Road, Civil Lines",Civil Lines,Kolhapur,Maharashtra,416859,02313430457,46,1963,none
+H-0185,Gandhi Marg Multispeciality Hospital,Multispeciality Hospital,"Shop 297, Model Colony, Gandhi Marg",Gandhi Marg,Mumbai,Maharashtra,400028,0223661422,333,2017,nabh
+H-0186,Temple Street Speciality Clinic,Speciality Clinic,"Shop 288, Civil Lines, Temple Street",Temple Street,Nashik,Maharashtra,422315,02526834694,29,2005,none
+H-0187,Officers Colony Primary Health Centre,Primary Health Centre,"Shop 462, Civil Lines, Officers Colony",Officers Colony,Jalgaon,Maharashtra,425775,02572032708,42,1986,none
+H-0188,Shivaji Nagar Multispeciality Hospital,Multispeciality Hospital,"18, Sai Nagar, Shivaji Nagar",Shivaji Nagar,Chandrapur,Maharashtra,442571,071725055773,459,2011,nabh
+H-0189,Main Road District Hospital,District Hospital,"Flat 488, Gandhi Marg, Main Road",Main Road,Kolhapur,Maharashtra,416886,02317504281,282,2012,nabh
+H-0190,Airport Road Diagnostic,Diagnostic Centre,"Flat 421, Shivaji Nagar, Airport Road",Airport Road,Nagpur,Maharashtra,440005,07127741522,17,1985,nabh
+H-0191,Umred Diagnostic,Diagnostic Centre,"Shop 438, Model Colony, Umred",Umred,Umred,Maharashtra,441203,07122948489,14,2007,nabh
+H-0192,Gandhi Marg Community Health Centre,Community Health Centre,"Flat 435, Nehru Nagar, Gandhi Marg",Gandhi Marg,Nashik,Maharashtra,422935,02522937705,80,1998,none
+H-0193,College Road Primary Health Centre,Primary Health Centre,"Flat 366, Gandhi Marg, College Road",College Road,Kolhapur,Maharashtra,416146,02314404165,53,1991,none
+H-0194,Pipla Diagnostic,Diagnostic Centre,"Flat 465, Gandhi Marg, Pipla",Pipla,Nagpur,Maharashtra,440034,07126372364,16,2015,nabh
+H-0195,Sai Nagar Community Health Centre,Community Health Centre,"Shop 282, Nehru Nagar, Sai Nagar",Sai Nagar,Mumbai,Maharashtra,400536,0226649927,94,1959,none
+H-0196,Model Colony Multispeciality Hospital,Multispeciality Hospital,"6, Nehru Nagar, Model Colony",Model Colony,Mumbai,Maharashtra,400620,0228983674,435,1991,nabh
+H-0197,Mahal Diagnostic,Diagnostic Centre,"40, College Road, Mahal",Mahal,Nagpur,Maharashtra,440032,07122309207,0,1965,nabh
+H-0198,Saoner Community Health Centre,Community Health Centre,"Shop 320, MIDC Road, Saoner",Saoner,Saoner,Maharashtra,441107,07127685579,113,1966,none
+H-0199,Borgaon Road Speciality Clinic,Speciality Clinic,"Shop 141, Nehru Nagar, Borgaon Road",Borgaon Road,Nagpur,Maharashtra,440013,07126211078,18,1958,none
+H-0200,Krishna Nagar Day Care,Day Care Centre,"43, Main Road, Krishna Nagar",Krishna Nagar,Kolhapur,Maharashtra,416600,02313932045,22,1979,none
+H-0201,MIDC Road Diagnostic,Diagnostic Centre,"46, Shivaji Nagar, MIDC Road",MIDC Road,Aurangabad,Maharashtra,431209,02406337217,20,2005,nabh
+H-0202,Nayapura Community Health Centre,Community Health Centre,"19, Market Yard, Nayapura",Nayapura,Nagpur,Maharashtra,440002,07125771770,65,2005,none
+H-0203,Krishna Nagar District Hospital,District Hospital,"8, Station Road, Krishna Nagar",Krishna Nagar,Kolhapur,Maharashtra,416427,02315366996,348,2004,nabh
+H-0204,Ring Road Primary Health Centre,Primary Health Centre,"Shop 376, Gandhi Marg, Ring Road",Ring Road,Solapur,Maharashtra,413503,02172127775,49,1959,none
+H-0205,Market Yard Speciality Clinic,Speciality Clinic,"Shop 152, Krishna Nagar, Market Yard",Market Yard,Amravati,Maharashtra,444589,072625956194,28,2013,none
+H-0206,Krishna Nagar Nursing Home,Nursing Home,"Shop 211, Temple Street, Krishna Nagar",Krishna Nagar,Chandrapur,Maharashtra,442704,071728555790,48,1994,none
+H-0207,Main Road Multispeciality Hospital,Multispeciality Hospital,"14, Temple Street, Main Road",Main Road,Pune,Maharashtra,411536,0206756236,382,1981,nabh
+H-0208,Uppalwadi Diagnostic,Diagnostic Centre,"Flat 397, Station Road, Uppalwadi",Uppalwadi,Nagpur,Maharashtra,440026,07123989654,12,2020,nabh
+H-0209,Seminary Hills Diagnostic,Diagnostic Centre,"Flat 466, Temple Street, Seminary Hills",Seminary Hills,Nagpur,Maharashtra,440006,07122123375,1,2019,nabh
+H-0210,Saoner Multispeciality Hospital,Multispeciality Hospital,"Flat 280, Model Colony, Saoner",Saoner,Saoner,Maharashtra,441107,07128916293,503,2015,nabh
+H-0211,Krishna Nagar Nursing Home,Nursing Home,"21, Market Yard, Krishna Nagar",Krishna Nagar,Bhandara,Maharashtra,441314,071848900519,45,1969,none
+H-0212,Umred Day Care,Day Care Centre,"Shop 354, Temple Street, Umred",Umred,Umred,Maharashtra,441203,07122800427,5,1971,none
+H-0213,Nehru Nagar Multispeciality Hospital,Multispeciality Hospital,"17, Sai Nagar, Nehru Nagar",Nehru Nagar,Jalgaon,Maharashtra,425120,02575740694,425,1975,nabh
+H-0214,MIDC Road Diagnostic,Diagnostic Centre,"Shop 243, Officers Colony, MIDC Road",MIDC Road,Kolhapur,Maharashtra,416279,02317642660,2,1987,nabh
+H-0215,Model Colony Community Health Centre,Community Health Centre,"Shop 123, Civil Lines, Model Colony",Model Colony,Jalgaon,Maharashtra,425447,02578770519,95,2012,none
+H-0216,MIDC Road Day Care,Day Care Centre,"Shop 368, MIDC Road, MIDC Road",MIDC Road,Pune,Maharashtra,411411,0203223375,15,1965,none
+H-0217,MIDC Road Day Care,Day Care Centre,"Shop 459, Ring Road, MIDC Road",MIDC Road,Mumbai,Maharashtra,400956,0225994182,21,1991,none
+H-0218,College Road Speciality Clinic,Speciality Clinic,"Shop 485, Gandhi Marg, College Road",College Road,Mumbai,Maharashtra,400416,0224901151,20,1975,none
+H-0219,Civil Lines Multispeciality Hospital,Multispeciality Hospital,"39, Sai Nagar, Civil Lines",Civil Lines,Amravati,Maharashtra,444881,072628426651,504,2000,nabh
+H-0220,Seminary Hills Multispeciality Hospital,Multispeciality Hospital,"Flat 128, Officers Colony, Seminary Hills",Seminary Hills,Nagpur,Maharashtra,440006,07124906100,301,1998,nabh
+H-0221,Krishna Nagar Multispeciality Hospital,Multispeciality Hospital,"Flat 193, College Road, Krishna Nagar",Krishna Nagar,Solapur,Maharashtra,413500,02178970327,549,1990,nabh
+H-0222,Sitabuldi Community Health Centre,Community Health Centre,"Flat 217, Market Yard, Sitabuldi",Sitabuldi,Nagpur,Maharashtra,440012,07123299519,169,1989,none
+H-0223,Civil Lines Community Health Centre,Community Health Centre,"Shop 152, Market Yard, Civil Lines",Civil Lines,Chandrapur,Maharashtra,442252,071722977833,69,1964,none
+H-0224,Krishna Nagar District Hospital,District Hospital,"36, Krishna Nagar, Krishna Nagar",Krishna Nagar,Jalgaon,Maharashtra,425624,02573269588,368,2007,nabh
+H-0225,Manewada Road Community Health Centre,Community Health Centre,"Shop 160, Krishna Nagar, Manewada Road",Manewada Road,Nagpur,Maharashtra,440024,07125961810,78,1972,none
+H-0226,Sai Nagar Community Health Centre,Community Health Centre,"Shop 450, MIDC Road, Sai Nagar",Sai Nagar,Aurangabad,Maharashtra,431661,02404428381,115,1978,none
+H-0227,MIDC Area Primary Health Centre,Primary Health Centre,"Flat 241, MIDC Road, MIDC Area",MIDC Area,Nagpur,Maharashtra,440016,07126545306,25,1986,none
+H-0228,Main Road Day Care,Day Care Centre,"33, Krishna Nagar, Main Road",Main Road,Chandrapur,Maharashtra,442769,071723071074,20,1964,none
+H-0229,Imamwada Community Health Centre,Community Health Centre,"36, Sai Nagar, Imamwada",Imamwada,Nagpur,Maharashtra,440003,07123715990,139,1990,none
+H-0230,Jaitala Nursing Home,Nursing Home,"Flat 276, College Road, Jaitala",Jaitala,Nagpur,Maharashtra,440036,07128441090,51,2010,none
+H-0231,College Road Day Care,Day Care Centre,"Shop 409, Krishna Nagar, College Road",College Road,Aurangabad,Maharashtra,431868,02403587833,6,2002,none
+H-0232,MIDC Road Multispeciality Hospital,Multispeciality Hospital,"44, Ring Road, MIDC Road",MIDC Road,Jalgaon,Maharashtra,425067,02574362734,501,1966,nabh
+H-0233,Seminary Hills Primary Health Centre,Primary Health Centre,"Flat 223, College Road, Seminary Hills",Seminary Hills,Nagpur,Maharashtra,440006,07128219318,35,1994,none
+H-0234,Ring Road Speciality Clinic,Speciality Clinic,"16, Main Road, Ring Road",Ring Road,Nashik,Maharashtra,422219,02522976471,22,1960,none
+H-0235,Dattawadi Multispeciality Hospital,Multispeciality Hospital,"34, Civil Lines, Dattawadi",Dattawadi,Nagpur,Maharashtra,440023,07125171652,503,2003,nabh
+H-0236,Dattawadi Community Health Centre,Community Health Centre,"32, Model Colony, Dattawadi",Dattawadi,Nagpur,Maharashtra,440023,07122850294,67,1962,none
+H-0237,Nehru Nagar Multispeciality Hospital,Multispeciality Hospital,"23, Gandhi Marg, Nehru Nagar",Nehru Nagar,Pune,Maharashtra,411011,0202800880,572,1984,nabh
+H-0238,Shivaji Nagar Primary Health Centre,Primary Health Centre,"Flat 258, Civil Lines, Shivaji Nagar",Shivaji Nagar,Pune,Maharashtra,411688,0205452712,27,1965,none
+H-0239,College Road District Hospital,District Hospital,"Shop 226, College Road, College Road",College Road,Aurangabad,Maharashtra,431678,02405616911,173,1976,nabh
+H-0240,Borgaon Road Nursing Home,Nursing Home,"Flat 155, Nehru Nagar, Borgaon Road",Borgaon Road,Nagpur,Maharashtra,440013,07122814237,27,2007,none
+H-0241,Dattawadi District Hospital,District Hospital,"Flat 111, Nehru Nagar, Dattawadi",Dattawadi,Nagpur,Maharashtra,440023,07122058989,206,2018,nabh
+H-0242,College Road Diagnostic,Diagnostic Centre,"4, Gandhi Marg, College Road",College Road,Pune,Maharashtra,411417,0203490431,22,1964,nabh
+H-0243,Civil Lines Diagnostic,Diagnostic Centre,"7, Civil Lines, Civil Lines",Civil Lines,Jalgaon,Maharashtra,425941,02575026758,15,2016,nabh
+H-0244,Model Colony Primary Health Centre,Primary Health Centre,"Shop 435, Officers Colony, Model Colony",Model Colony,Kolhapur,Maharashtra,416563,02316047007,42,2008,none
+H-0245,Sai Nagar Community Health Centre,Community Health Centre,"Flat 269, MIDC Road, Sai Nagar",Sai Nagar,Amravati,Maharashtra,444529,072623672824,116,2012,none
+H-0246,Main Road Community Health Centre,Community Health Centre,"Flat 333, College Road, Main Road",Main Road,Pune,Maharashtra,411009,0204297725,177,2007,none
+H-0247,Krishna Nagar Diagnostic,Diagnostic Centre,"Shop 208, Officers Colony, Krishna Nagar",Krishna Nagar,Chandrapur,Maharashtra,442951,071725468361,21,1963,nabh
+H-0248,Parvati Nagar Multispeciality Hospital,Multispeciality Hospital,"3, Main Road, Parvati Nagar",Parvati Nagar,Nagpur,Maharashtra,440027,07127848705,516,1980,nabh
+H-0249,Model Colony District Hospital,District Hospital,"Shop 437, Ring Road, Model Colony",Model Colony,Chandrapur,Maharashtra,442249,071724872534,350,1985,nabh
+H-0250,Market Yard Community Health Centre,Community Health Centre,"21, Temple Street, Market Yard",Market Yard,Mumbai,Maharashtra,400053,0224535417,158,2010,none
+H-0251,Shivaji Nagar Diagnostic,Diagnostic Centre,"49, Main Road, Shivaji Nagar",Shivaji Nagar,Nashik,Maharashtra,422260,02527048690,15,1989,nabh
+H-0252,Model Colony District Hospital,District Hospital,"41, Main Road, Model Colony",Model Colony,Jalgaon,Maharashtra,425191,02577693148,395,1996,nabh
+H-0253,Gandhi Marg District Hospital,District Hospital,"Flat 283, Nehru Nagar, Gandhi Marg",Gandhi Marg,Jalgaon,Maharashtra,425557,02573786971,328,1984,nabh
+H-0254,Model Colony Day Care,Day Care Centre,"17, Civil Lines, Model Colony",Model Colony,Mumbai,Maharashtra,400733,0226627198,21,1975,none
+H-0255,Vayusena Nagar Community Health Centre,Community Health Centre,"Shop 160, MIDC Road, Vayusena Nagar",Vayusena Nagar,Nagpur,Maharashtra,440007,07124467979,116,2004,none
+H-0256,Bagadganj Day Care,Day Care Centre,"18, Krishna Nagar, Bagadganj",Bagadganj,Nagpur,Maharashtra,440008,07122774004,14,2003,none
+H-0257,Parvati Nagar Multispeciality Hospital,Multispeciality Hospital,"Shop 185, Krishna Nagar, Parvati Nagar",Parvati Nagar,Nagpur,Maharashtra,440027,07123792110,260,1960,nabh
+H-0258,Shankar Nagar Diagnostic,Diagnostic Centre,"Flat 377, Shivaji Nagar, Shankar Nagar",Shankar Nagar,Nagpur,Maharashtra,440010,07122101213,24,2001,nabh
+H-0259,Shivaji Nagar Speciality Clinic,Speciality Clinic,"53, Shivaji Nagar, Shivaji Nagar",Shivaji Nagar,Chandrapur,Maharashtra,442644,071726656166,28,2001,none
+H-0260,Uppalwadi Diagnostic,Diagnostic Centre,"Shop 461, Ring Road, Uppalwadi",Uppalwadi,Nagpur,Maharashtra,440026,07126532697,7,1998,nabh
+H-0261,Umred Diagnostic,Diagnostic Centre,"Flat 188, Officers Colony, Umred",Umred,Umred,Maharashtra,441203,07122912373,11,1974,nabh
+H-0262,Market Yard Community Health Centre,Community Health Centre,"Flat 435, Civil Lines, Market Yard",Market Yard,Aurangabad,Maharashtra,431189,02405365976,143,2006,none
+H-0263,Uppalwadi Diagnostic,Diagnostic Centre,"21, Temple Street, Uppalwadi",Uppalwadi,Nagpur,Maharashtra,440026,07122594267,3,2001,nabh
+H-0264,Sai Nagar Community Health Centre,Community Health Centre,"Shop 394, Krishna Nagar, Sai Nagar",Sai Nagar,Kolhapur,Maharashtra,416318,02317999924,64,2021,none
+H-0265,Sai Nagar Day Care,Day Care Centre,"Flat 498, Model Colony, Sai Nagar",Sai Nagar,Kolhapur,Maharashtra,416050,02317337324,8,1997,none
+H-0266,Main Road Community Health Centre,Community Health Centre,"Shop 393, Ring Road, Main Road",Main Road,Amravati,Maharashtra,444358,072623482494,126,1976,none
+H-0267,Market Yard Multispeciality Hospital,Multispeciality Hospital,"Shop 308, Shivaji Nagar, Market Yard",Market Yard,Kolhapur,Maharashtra,416790,02314726459,441,2015,nabh
+H-0268,Nayapura Multispeciality Hospital,Multispeciality Hospital,"Flat 386, Main Road, Nayapura",Nayapura,Nagpur,Maharashtra,440002,07123899520,275,1999,nabh
+H-0269,Market Yard Multispeciality Hospital,Multispeciality Hospital,"38, Gandhi Marg, Market Yard",Market Yard,Nashik,Maharashtra,422914,02523238716,488,2006,nabh
+H-0270,Ramtek Diagnostic,Diagnostic Centre,"Flat 219, MIDC Road, Ramtek",Ramtek,Ramtek,Maharashtra,441106,07124294272,18,2008,nabh
+H-0271,Manewada Road Day Care,Day Care Centre,"9, Gandhi Marg, Manewada Road",Manewada Road,Nagpur,Maharashtra,440024,07128831701,15,2019,none
+H-0272,Temple Street Diagnostic,Diagnostic Centre,"Flat 149, Ring Road, Temple Street",Temple Street,Bhandara,Maharashtra,441989,071842775569,16,1985,nabh
+H-0273,Krishna Nagar District Hospital,District Hospital,"30, Officers Colony, Krishna Nagar",Krishna Nagar,Pune,Maharashtra,411980,0202105004,152,1991,nabh
+H-0274,Sai Nagar Speciality Clinic,Speciality Clinic,"52, Civil Lines, Sai Nagar",Sai Nagar,Nashik,Maharashtra,422313,02523979309,10,1990,none
+H-0275,Nehru Nagar District Hospital,District Hospital,"10, Gandhi Marg, Nehru Nagar",Nehru Nagar,Aurangabad,Maharashtra,431816,02404229631,243,2005,nabh
+H-0276,Narendra Nagar Community Health Centre,Community Health Centre,"34, Sai Nagar, Narendra Nagar",Narendra Nagar,Nagpur,Maharashtra,440015,07126342871,161,1972,none
+H-0277,Koradi Diagnostic,Diagnostic Centre,"Shop 356, Shivaji Nagar, Koradi",Koradi,Koradi,Maharashtra,441111,07128638090,2,2006,nabh
+H-0278,Model Colony District Hospital,District Hospital,"31, Market Yard, Model Colony",Model Colony,Pune,Maharashtra,411560,0207513727,164,1970,nabh
+H-0279,MIDC Area Day Care,Day Care Centre,"23, Model Colony, MIDC Area",MIDC Area,Nagpur,Maharashtra,440016,07123812151,17,1993,none
+H-0280,Krishna Nagar Primary Health Centre,Primary Health Centre,"Flat 125, Ring Road, Krishna Nagar",Krishna Nagar,Aurangabad,Maharashtra,431182,02406039820,39,1998,none
+H-0281,Seminary Hills Day Care,Day Care Centre,"45, Shivaji Nagar, Seminary Hills",Seminary Hills,Nagpur,Maharashtra,440006,07122383282,17,2000,none
+H-0282,MIDC Area District Hospital,District Hospital,"Flat 180, Sai Nagar, MIDC Area",MIDC Area,Nagpur,Maharashtra,440016,07122316408,252,2015,nabh
+H-0283,Khamla Primary Health Centre,Primary Health Centre,"42, Sai Nagar, Khamla",Khamla,Nagpur,Maharashtra,440025,07122585201,49,2007,none
+H-0284,Koradi Primary Health Centre,Primary Health Centre,"Shop 390, Krishna Nagar, Koradi",Koradi,Koradi,Maharashtra,441111,07126888456,31,2002,none
+H-0285,University Campus Speciality Clinic,Speciality Clinic,"Shop 219, Officers Colony, University Campus",University Campus,Nagpur,Maharashtra,440033,07124685404,9,1994,none
+H-0286,Station Road Primary Health Centre,Primary Health Centre,"Shop 120, Civil Lines, Station Road",Station Road,Pune,Maharashtra,411095,0205675421,28,1995,none
+H-0287,Sai Nagar Primary Health Centre,Primary Health Centre,"1, Ring Road, Sai Nagar",Sai Nagar,Solapur,Maharashtra,413850,02177523536,57,1975,none
+H-0288,Civil Lines Diagnostic,Diagnostic Centre,"Shop 199, Sai Nagar, Civil Lines",Civil Lines,Nashik,Maharashtra,422698,02523677328,22,1973,nabh
+H-0289,Gandhi Marg Day Care,Day Care Centre,"57, Nehru Nagar, Gandhi Marg",Gandhi Marg,Jalgaon,Maharashtra,425213,02572357569,14,1981,none
+H-0290,MIDC Road District Hospital,District Hospital,"Shop 406, Model Colony, MIDC Road",MIDC Road,Kolhapur,Maharashtra,416405,02313347253,310,1984,nabh
+H-0291,Officers Colony Nursing Home,Nursing Home,"8, Model Colony, Officers Colony",Officers Colony,Jalgaon,Maharashtra,425369,02573941929,34,1983,none
+H-0292,Mankapur Diagnostic,Diagnostic Centre,"22, College Road, Mankapur",Mankapur,Nagpur,Maharashtra,440030,07124707116,5,1981,nabh
+H-0293,Uppalwadi Diagnostic,Diagnostic Centre,"Shop 318, Market Yard, Uppalwadi",Uppalwadi,Nagpur,Maharashtra,440026,07127108874,18,2000,nabh
+H-0294,Katol Multispeciality Hospital,Multispeciality Hospital,"Flat 449, Sai Nagar, Katol",Katol,Katol,Maharashtra,441103,07127250963,321,2008,nabh
+H-0295,Krishna Nagar Community Health Centre,Community Health Centre,"Shop 160, College Road, Krishna Nagar",Krishna Nagar,Pune,Maharashtra,411770,0206200563,111,1980,none
+H-0296,Main Road Diagnostic,Diagnostic Centre,"51, Main Road, Main Road",Main Road,Pune,Maharashtra,411127,0205785015,9,2001,nabh
+H-0297,College Road Day Care,Day Care Centre,"18, Nehru Nagar, College Road",College Road,Kolhapur,Maharashtra,416350,02316761747,21,1967,none
+H-0298,Main Road Community Health Centre,Community Health Centre,"21, Main Road, Main Road",Main Road,Jalgaon,Maharashtra,425645,02574764415,161,2013,none
+H-0299,Hingna Community Health Centre,Community Health Centre,"Flat 270, Gandhi Marg, Hingna",Hingna,Hingna,Maharashtra,441110,07128471772,175,2015,none
+H-0300,Main Road District Hospital,District Hospital,"Flat 431, Ring Road, Main Road",Main Road,Mumbai,Maharashtra,400058,0226716927,286,1958,nabh
+H-0301,Shivaji Nagar District Hospital,District Hospital,"Shop 275, Shivaji Nagar, Shivaji Nagar",Shivaji Nagar,Nashik,Maharashtra,422192,02525959738,371,1970,nabh
+H-0302,Gandhi Marg Multispeciality Hospital,Multispeciality Hospital,"Shop 374, Shivaji Nagar, Gandhi Marg",Gandhi Marg,Amravati,Maharashtra,444734,072622485828,432,1998,nabh
+H-0303,Officers Colony Speciality Clinic,Speciality Clinic,"Shop 118, Civil Lines, Officers Colony",Officers Colony,Mumbai,Maharashtra,400752,0223452639,10,1999,none
+H-0304,Ring Road Nursing Home,Nursing Home,"Shop 435, College Road, Ring Road",Ring Road,Pune,Maharashtra,411795,0206770605,57,2003,none
+H-0305,Gandhi Marg District Hospital,District Hospital,"54, Sai Nagar, Gandhi Marg",Gandhi Marg,Pune,Maharashtra,411611,0204403826,375,1970,nabh
+H-0306,Nehru Nagar Diagnostic,Diagnostic Centre,"Shop 294, Market Yard, Nehru Nagar",Nehru Nagar,Amravati,Maharashtra,444108,072623116384,2,2008,nabh
+H-0307,Market Yard Diagnostic,Diagnostic Centre,"Shop 269, Main Road, Market Yard",Market Yard,Mumbai,Maharashtra,400391,0224498056,16,1978,nabh
+H-0308,Krishna Nagar Community Health Centre,Community Health Centre,"Shop 274, Nehru Nagar, Krishna Nagar",Krishna Nagar,Aurangabad,Maharashtra,431337,02404516596,60,2000,none
+H-0309,Mankapur Speciality Clinic,Speciality Clinic,"50, Temple Street, Mankapur",Mankapur,Nagpur,Maharashtra,440030,07126033997,22,2004,none
+H-0310,Civil Lines Speciality Clinic,Speciality Clinic,"60, MIDC Road, Civil Lines",Civil Lines,Mumbai,Maharashtra,400155,0224679980,26,1962,none
+H-0311,Gandhi Marg Diagnostic,Diagnostic Centre,"47, Shivaji Nagar, Gandhi Marg",Gandhi Marg,Mumbai,Maharashtra,400720,0223829459,7,1970,nabh
+H-0312,Ring Road Day Care,Day Care Centre,"Flat 370, Main Road, Ring Road",Ring Road,Nashik,Maharashtra,422467,02523232151,23,2019,none
+H-0313,Station Road Primary Health Centre,Primary Health Centre,"Shop 113, Station Road, Station Road",Station Road,Mumbai,Maharashtra,400683,0224180704,30,1965,none
+H-0314,Bezonbagh Day Care,Day Care Centre,"Shop 248, Model Colony, Bezonbagh",Bezonbagh,Nagpur,Maharashtra,440014,07122837184,22,1992,none
+H-0315,Nehru Nagar Diagnostic,Diagnostic Centre,"2, Nehru Nagar, Nehru Nagar",Nehru Nagar,Solapur,Maharashtra,413303,02175796589,18,1959,nabh
+H-0316,College Road District Hospital,District Hospital,"Flat 142, Temple Street, College Road",College Road,Aurangabad,Maharashtra,431575,02403613127,349,1964,nabh
+H-0317,Ring Road Diagnostic,Diagnostic Centre,"Flat 189, Shivaji Nagar, Ring Road",Ring Road,Mumbai,Maharashtra,400207,0226779742,3,1996,nabh
+H-0318,Nehru Nagar Day Care,Day Care Centre,"31, Krishna Nagar, Nehru Nagar",Nehru Nagar,Aurangabad,Maharashtra,431940,02402119962,20,1963,none
+H-0319,Bagadganj Day Care,Day Care Centre,"Shop 251, Market Yard, Bagadganj",Bagadganj,Nagpur,Maharashtra,440008,07124844667,8,1975,none
+H-0320,Station Road District Hospital,District Hospital,"47, Officers Colony, Station Road",Station Road,Pune,Maharashtra,411382,0203610898,170,1988,nabh
+H-0321,BESA Road District Hospital,District Hospital,"Shop 280, Station Road, BESA Road",BESA Road,Nagpur,Maharashtra,440037,07124433830,328,1984,nabh
+H-0322,Market Yard Community Health Centre,Community Health Centre,"Shop 114, Market Yard, Market Yard",Market Yard,Nashik,Maharashtra,422389,02522574154,132,1994,none
+H-0323,Saoner Community Health Centre,Community Health Centre,"Shop 403, Market Yard, Saoner",Saoner,Saoner,Maharashtra,441107,07123991250,103,1990,none
+H-0324,Main Road Speciality Clinic,Speciality Clinic,"Shop 183, Sai Nagar, Main Road",Main Road,Aurangabad,Maharashtra,431184,02406718920,24,1963,none
+H-0325,Kamthi District Hospital,District Hospital,"Flat 475, Gandhi Marg, Kamthi",Kamthi,Kamthi,Maharashtra,441001,07123317563,267,1981,nabh
+H-0326,Bagadganj District Hospital,District Hospital,"Shop 262, College Road, Bagadganj",Bagadganj,Nagpur,Maharashtra,440008,07127834388,378,1994,nabh
+H-0327,Hingna Day Care,Day Care Centre,"52, MIDC Road, Hingna",Hingna,Hingna,Maharashtra,441110,07124742134,13,1968,none
+H-0328,Model Colony Multispeciality Hospital,Multispeciality Hospital,"Shop 374, College Road, Model Colony",Model Colony,Solapur,Maharashtra,413827,02178318249,489,1985,nabh
+H-0329,Khamla District Hospital,District Hospital,"Flat 498, Civil Lines, Khamla",Khamla,Nagpur,Maharashtra,440025,07122670887,309,2003,nabh
+H-0330,Nayapura Day Care,Day Care Centre,"44, Nehru Nagar, Nayapura",Nayapura,Nagpur,Maharashtra,440002,07128601260,11,1958,none
+H-0331,Parvati Nagar Multispeciality Hospital,Multispeciality Hospital,"Flat 161, Station Road, Parvati Nagar",Parvati Nagar,Nagpur,Maharashtra,440027,07123585330,584,1992,nabh
+H-0332,Sadar Bazar Primary Health Centre,Primary Health Centre,"5, Shivaji Nagar, Sadar Bazar",Sadar Bazar,Nagpur,Maharashtra,440001,07123899364,20,1998,none
+H-0333,Station Road Diagnostic,Diagnostic Centre,"Shop 290, Sai Nagar, Station Road",Station Road,Jalgaon,Maharashtra,425001,02575078002,0,1981,nabh
+H-0334,Nehru Nagar Day Care,Day Care Centre,"Flat 391, Market Yard, Nehru Nagar",Nehru Nagar,Mumbai,Maharashtra,400065,0226938861,22,2007,none
+H-0335,BESA Road Nursing Home,Nursing Home,"Shop 390, Krishna Nagar, BESA Road",BESA Road,Nagpur,Maharashtra,440037,07125416661,17,2019,none
+H-0336,Ring Road Day Care,Day Care Centre,"Shop 457, Main Road, Ring Road",Ring Road,Chandrapur,Maharashtra,442531,071724862556,17,1960,none
+H-0337,Officers Colony Primary Health Centre,Primary Health Centre,"24, Temple Street, Officers Colony",Officers Colony,Pune,Maharashtra,411913,0207467563,44,1983,none
+H-0338,College Road Day Care,Day Care Centre,"Flat 463, MIDC Road, College Road",College Road,Mumbai,Maharashtra,400910,0227655451,23,1966,none
+H-0339,Main Road Primary Health Centre,Primary Health Centre,"Shop 457, Model Colony, Main Road",Main Road,Aurangabad,Maharashtra,431733,02406388220,47,2015,none
+H-0340,Krishna Nagar District Hospital,District Hospital,"Shop 378, Station Road, Krishna Nagar",Krishna Nagar,Chandrapur,Maharashtra,442029,071726348904,298,1988,nabh
+H-0341,CRPF Nagar Nursing Home,Nursing Home,"Flat 128, Krishna Nagar, CRPF Nagar",CRPF Nagar,Nagpur,Maharashtra,440019,07124582990,53,1962,none
+H-0342,Officers Colony Nursing Home,Nursing Home,"Flat 250, Ring Road, Officers Colony",Officers Colony,Mumbai,Maharashtra,400282,0225123298,21,2015,none
+H-0343,Sai Nagar Diagnostic,Diagnostic Centre,"28, Ring Road, Sai Nagar",Sai Nagar,Pune,Maharashtra,411427,0203859213,18,2011,nabh
+H-0344,Gandhi Marg District Hospital,District Hospital,"Shop 476, Gandhi Marg, Gandhi Marg",Gandhi Marg,Aurangabad,Maharashtra,431447,02405154186,263,1976,nabh
+H-0345,Officers Colony Multispeciality Hospital,Multispeciality Hospital,"Flat 146, Model Colony, Officers Colony",Officers Colony,Nashik,Maharashtra,422297,02525103363,429,1999,nabh
+H-0346,Sai Nagar District Hospital,District Hospital,"Flat 349, Temple Street, Sai Nagar",Sai Nagar,Mumbai,Maharashtra,400623,0224075702,393,2007,nabh
+H-0347,BESA Road District Hospital,District Hospital,"Shop 137, Gandhi Marg, BESA Road",BESA Road,Nagpur,Maharashtra,440037,07126258590,218,1970,nabh
+H-0348,University Campus District Hospital,District Hospital,"8, Temple Street, University Campus",University Campus,Nagpur,Maharashtra,440033,07128154295,265,2020,nabh
+H-0349,Seminary Hills Community Health Centre,Community Health Centre,"39, Ring Road, Seminary Hills",Seminary Hills,Nagpur,Maharashtra,440006,07124911303,177,1992,none
+H-0350,Uppalwadi Speciality Clinic,Speciality Clinic,"60, Sai Nagar, Uppalwadi",Uppalwadi,Nagpur,Maharashtra,440026,07125929440,30,1968,none
+H-0351,Ring Road Day Care,Day Care Centre,"Shop 493, Krishna Nagar, Ring Road",Ring Road,Jalgaon,Maharashtra,425352,02574096404,5,1979,none
+H-0352,Panchsheel Nagar Primary Health Centre,Primary Health Centre,"Flat 230, Temple Street, Panchsheel Nagar",Panchsheel Nagar,Nagpur,Maharashtra,440017,07122474038,60,2003,none
+H-0353,Main Road Diagnostic,Diagnostic Centre,"Shop 415, Nehru Nagar, Main Road",Main Road,Pune,Maharashtra,411205,0206122969,20,2011,nabh
+H-0354,Sai Nagar Nursing Home,Nursing Home,"29, Temple Street, Sai Nagar",Sai Nagar,Solapur,Maharashtra,413673,02178192857,17,2017,none
+H-0355,Main Road Primary Health Centre,Primary Health Centre,"Shop 342, Civil Lines, Main Road",Main Road,Amravati,Maharashtra,444542,072627454673,36,2002,none
+H-0356,Station Road Nursing Home,Nursing Home,"Shop 349, Krishna Nagar, Station Road",Station Road,Kolhapur,Maharashtra,416097,02314818590,48,1979,none
+H-0357,Umred Diagnostic,Diagnostic Centre,"52, Shivaji Nagar, Umred",Umred,Umred,Maharashtra,441203,07125073388,14,1991,nabh
+H-0358,Civil Lines Day Care,Day Care Centre,"3, Gandhi Marg, Civil Lines",Civil Lines,Jalgaon,Maharashtra,425432,02574595260,23,2016,none
+H-0359,Main Road District Hospital,District Hospital,"26, College Road, Main Road",Main Road,Aurangabad,Maharashtra,431992,02405784674,262,1976,nabh
+H-0360,Officers Colony District Hospital,District Hospital,"8, Model Colony, Officers Colony",Officers Colony,Kolhapur,Maharashtra,416441,02315366751,371,1977,nabh
+H-0361,Civil Lines District Hospital,District Hospital,"50, College Road, Civil Lines",Civil Lines,Mumbai,Maharashtra,400070,0228410164,185,1973,nabh
+H-0362,Khamla Multispeciality Hospital,Multispeciality Hospital,"6, Civil Lines, Khamla",Khamla,Nagpur,Maharashtra,440025,07125120480,503,1983,nabh
+H-0363,Bagadganj Primary Health Centre,Primary Health Centre,"36, Civil Lines, Bagadganj",Bagadganj,Nagpur,Maharashtra,440008,07128095994,45,2013,none
+H-0364,Bagadganj Speciality Clinic,Speciality Clinic,"35, MIDC Road, Bagadganj",Bagadganj,Nagpur,Maharashtra,440008,07122215349,13,1962,none
+H-0365,Civil Lines Nursing Home,Nursing Home,"Flat 435, Nehru Nagar, Civil Lines",Civil Lines,Mumbai,Maharashtra,400706,0226387689,31,1988,none
+H-0366,Shivaji Nagar Diagnostic,Diagnostic Centre,"Shop 461, Model Colony, Shivaji Nagar",Shivaji Nagar,Amravati,Maharashtra,444440,072624436645,17,2001,nabh
+H-0367,College Road Nursing Home,Nursing Home,"Shop 376, MIDC Road, College Road",College Road,Chandrapur,Maharashtra,442976,071725780844,31,1970,none
+H-0368,Main Road Speciality Clinic,Speciality Clinic,"Flat 137, Ring Road, Main Road",Main Road,Bhandara,Maharashtra,441323,071845601713,24,1964,none
+H-0369,Model Colony Diagnostic,Diagnostic Centre,"Flat 286, Main Road, Model Colony",Model Colony,Pune,Maharashtra,411221,0207175470,12,2021,nabh
+H-0370,Main Road District Hospital,District Hospital,"Flat 158, Shivaji Nagar, Main Road",Main Road,Pune,Maharashtra,411015,0202952873,379,1986,nabh
+H-0371,Airport Road Multispeciality Hospital,Multispeciality Hospital,"Flat 290, Shivaji Nagar, Airport Road",Airport Road,Nagpur,Maharashtra,440005,07126786631,402,1987,nabh
+H-0372,Main Road Multispeciality Hospital,Multispeciality Hospital,"47, Main Road, Main Road",Main Road,Kolhapur,Maharashtra,416094,02314759344,592,2019,nabh
+H-0373,Krishna Nagar Community Health Centre,Community Health Centre,"Shop 415, Main Road, Krishna Nagar",Krishna Nagar,Mumbai,Maharashtra,400785,0226200784,60,2004,none
+H-0374,Narendra Nagar Multispeciality Hospital,Multispeciality Hospital,"Flat 434, College Road, Narendra Nagar",Narendra Nagar,Nagpur,Maharashtra,440015,07125947391,557,1985,nabh
+H-0375,Ganjipeth Diagnostic,Diagnostic Centre,"Flat 223, College Road, Ganjipeth",Ganjipeth,Nagpur,Maharashtra,440018,07124594297,25,2008,nabh
+H-0376,Main Road District Hospital,District Hospital,"Flat 443, College Road, Main Road",Main Road,Pune,Maharashtra,411939,0202073655,346,1982,nabh
+H-0377,Imamwada Day Care,Day Care Centre,"Shop 172, Model Colony, Imamwada",Imamwada,Nagpur,Maharashtra,440003,07125256792,14,1982,none
+H-0378,Katol Diagnostic,Diagnostic Centre,"Flat 155, Shivaji Nagar, Katol",Katol,Katol,Maharashtra,441103,07126704565,0,1992,nabh
+H-0379,Station Road Diagnostic,Diagnostic Centre,"32, College Road, Station Road",Station Road,Pune,Maharashtra,411391,0205674163,18,2004,nabh
+H-0380,College Road Day Care,Day Care Centre,"Flat 212, Sai Nagar, College Road",College Road,Pune,Maharashtra,411746,0205575460,20,1987,none
+H-0381,Seminary Hills Diagnostic,Diagnostic Centre,"13, Station Road, Seminary Hills",Seminary Hills,Nagpur,Maharashtra,440006,07127422567,17,2009,nabh
+H-0382,Main Road Diagnostic,Diagnostic Centre,"57, Main Road, Main Road",Main Road,Solapur,Maharashtra,413277,02173532900,12,1967,nabh
+H-0383,Koradi Speciality Clinic,Speciality Clinic,"Flat 336, Main Road, Koradi",Koradi,Koradi,Maharashtra,441111,07123620032,26,2005,none
+H-0384,Nehru Nagar Speciality Clinic,Speciality Clinic,"32, Nehru Nagar, Nehru Nagar",Nehru Nagar,Amravati,Maharashtra,444532,072627557769,30,1959,none
+H-0385,Imamwada Community Health Centre,Community Health Centre,"Shop 416, Nehru Nagar, Imamwada",Imamwada,Nagpur,Maharashtra,440003,07123606319,82,1996,none
+H-0386,Vayusena Nagar Multispeciality Hospital,Multispeciality Hospital,"2, Temple Street, Vayusena Nagar",Vayusena Nagar,Nagpur,Maharashtra,440007,07124849947,371,2013,nabh
+H-0387,Ring Road Speciality Clinic,Speciality Clinic,"Shop 273, Sai Nagar, Ring Road",Ring Road,Jalgaon,Maharashtra,425047,02578857981,12,2002,none
+H-0388,Ring Road Multispeciality Hospital,Multispeciality Hospital,"58, Officers Colony, Ring Road",Ring Road,Pune,Maharashtra,411294,0207849575,314,1977,nabh
+H-0389,Dattawadi Primary Health Centre,Primary Health Centre,"14, Shivaji Nagar, Dattawadi",Dattawadi,Nagpur,Maharashtra,440023,07128787171,44,1991,none
+H-0390,Gandhi Marg Diagnostic,Diagnostic Centre,"8, Sai Nagar, Gandhi Marg",Gandhi Marg,Solapur,Maharashtra,413845,02176665043,13,2013,nabh
+H-0391,Gandhi Marg Nursing Home,Nursing Home,"Flat 121, Main Road, Gandhi Marg",Gandhi Marg,Mumbai,Maharashtra,400723,0227760461,34,1990,none
+H-0392,Vayusena Nagar Diagnostic,Diagnostic Centre,"Shop 271, MIDC Road, Vayusena Nagar",Vayusena Nagar,Nagpur,Maharashtra,440007,07125012943,18,1968,nabh
+H-0393,Ramtek Community Health Centre,Community Health Centre,"Flat 370, Station Road, Ramtek",Ramtek,Ramtek,Maharashtra,441106,07125031970,61,1992,none
+H-0394,MIDC Road Speciality Clinic,Speciality Clinic,"Shop 207, Shivaji Nagar, MIDC Road",MIDC Road,Amravati,Maharashtra,444364,072627860163,20,2019,none
+H-0395,MIDC Road Speciality Clinic,Speciality Clinic,"28, MIDC Road, MIDC Road",MIDC Road,Pune,Maharashtra,411574,0205071850,11,1990,none
+H-0396,Civil Lines Community Health Centre,Community Health Centre,"Shop 296, Shivaji Nagar, Civil Lines",Civil Lines,Nashik,Maharashtra,422826,02527294598,142,1999,none
+H-0397,College Road Multispeciality Hospital,Multispeciality Hospital,"Flat 181, Nehru Nagar, College Road",College Road,Amravati,Maharashtra,444030,072623455085,373,1982,nabh
+H-0398,Sai Nagar Primary Health Centre,Primary Health Centre,"Shop 384, Civil Lines, Sai Nagar",Sai Nagar,Amravati,Maharashtra,444609,072627831692,44,1996,none
+H-0399,Mahal Multispeciality Hospital,Multispeciality Hospital,"Shop 432, Shivaji Nagar, Mahal",Mahal,Nagpur,Maharashtra,440032,07126451670,271,2011,nabh
+H-0400,Civil Lines Nursing Home,Nursing Home,"Shop 253, Shivaji Nagar, Civil Lines",Civil Lines,Chandrapur,Maharashtra,442793,071724379922,43,1979,none
+H-0401,MIDC Road Multispeciality Hospital,Multispeciality Hospital,"Flat 144, Temple Street, MIDC Road",MIDC Road,Chandrapur,Maharashtra,442527,071727782055,316,1968,nabh
+H-0402,Dattawadi Nursing Home,Nursing Home,"Flat 165, College Road, Dattawadi",Dattawadi,Nagpur,Maharashtra,440023,07127632939,21,2012,none
+H-0403,Ring Road Nursing Home,Nursing Home,"Flat 226, Nehru Nagar, Ring Road",Ring Road,Nashik,Maharashtra,422425,02526552011,15,2014,none
+H-0404,MIDC Road District Hospital,District Hospital,"Shop 426, Sai Nagar, MIDC Road",MIDC Road,Nashik,Maharashtra,422232,02522609134,165,1969,nabh
+H-0405,Temple Street Diagnostic,Diagnostic Centre,"Flat 495, Ring Road, Temple Street",Temple Street,Jalgaon,Maharashtra,425054,02572078891,23,2002,nabh
+H-0406,Nehru Nagar Primary Health Centre,Primary Health Centre,"Shop 210, Sai Nagar, Nehru Nagar",Nehru Nagar,Mumbai,Maharashtra,400930,0228530016,26,2011,none
+H-0407,Nayapura District Hospital,District Hospital,"Shop 110, Main Road, Nayapura",Nayapura,Nagpur,Maharashtra,440002,07128843217,353,1982,nabh
+H-0408,Airport Road Diagnostic,Diagnostic Centre,"Shop 245, Sai Nagar, Airport Road",Airport Road,Nagpur,Maharashtra,440005,07123807210,2,1984,nabh
+H-0409,Temple Street Day Care,Day Care Centre,"Flat 263, Gandhi Marg, Temple Street",Temple Street,Jalgaon,Maharashtra,425304,02572362595,14,1960,none
+H-0410,Sadar Bazar Nursing Home,Nursing Home,"Flat 155, Ring Road, Sadar Bazar",Sadar Bazar,Nagpur,Maharashtra,440001,07123788913,39,1978,none
+H-0411,Ring Road Nursing Home,Nursing Home,"Flat 495, College Road, Ring Road",Ring Road,Chandrapur,Maharashtra,442204,071728957187,27,1975,none
+H-0412,College Road Day Care,Day Care Centre,"5, Shivaji Nagar, College Road",College Road,Mumbai,Maharashtra,400155,0226838573,13,1960,none
+H-0413,Ganjipeth Diagnostic,Diagnostic Centre,"27, Civil Lines, Ganjipeth",Ganjipeth,Nagpur,Maharashtra,440018,07127530507,17,1964,nabh
+H-0414,Nayapura District Hospital,District Hospital,"Flat 287, Shivaji Nagar, Nayapura",Nayapura,Nagpur,Maharashtra,440002,07125127121,298,1961,nabh
+H-0415,Gandhi Marg Diagnostic,Diagnostic Centre,"Shop 482, Shivaji Nagar, Gandhi Marg",Gandhi Marg,Pune,Maharashtra,411599,0206994177,9,1979,nabh
+H-0416,Market Yard Multispeciality Hospital,Multispeciality Hospital,"57, Market Yard, Market Yard",Market Yard,Amravati,Maharashtra,444033,072623791139,479,2003,nabh
+H-0417,Gandhi Marg Day Care,Day Care Centre,"38, Gandhi Marg, Gandhi Marg",Gandhi Marg,Aurangabad,Maharashtra,431757,02402847811,11,1959,none
+H-0418,Khamla Multispeciality Hospital,Multispeciality Hospital,"Flat 232, Krishna Nagar, Khamla",Khamla,Nagpur,Maharashtra,440025,07126671811,547,1966,nabh
+H-0419,College Road Primary Health Centre,Primary Health Centre,"Shop 443, Officers Colony, College Road",College Road,Amravati,Maharashtra,444967,072623316960,47,1962,none
+H-0420,Parvati Nagar Day Care,Day Care Centre,"25, Sai Nagar, Parvati Nagar",Parvati Nagar,Nagpur,Maharashtra,440027,07128952561,20,2019,none
+H-0421,Panchsheel Nagar Diagnostic,Diagnostic Centre,"Flat 160, Main Road, Panchsheel Nagar",Panchsheel Nagar,Nagpur,Maharashtra,440017,07123838253,21,2019,nabh
+H-0422,Sai Nagar District Hospital,District Hospital,"Shop 297, Ring Road, Sai Nagar",Sai Nagar,Pune,Maharashtra,411168,0208194895,197,1976,nabh
+H-0423,Uppalwadi District Hospital,District Hospital,"10, Station Road, Uppalwadi",Uppalwadi,Nagpur,Maharashtra,440026,07122223530,344,1966,nabh
+H-0424,Pipla District Hospital,District Hospital,"Shop 401, Market Yard, Pipla",Pipla,Nagpur,Maharashtra,440034,07123120271,229,2008,nabh
+H-0425,Shivaji Nagar District Hospital,District Hospital,"Shop 227, Shivaji Nagar, Shivaji Nagar",Shivaji Nagar,Kolhapur,Maharashtra,416966,02312116592,323,2007,nabh
+H-0426,Ring Road Diagnostic,Diagnostic Centre,"15, Officers Colony, Ring Road",Ring Road,Pune,Maharashtra,411703,0203061449,0,1988,nabh
+H-0427,Nehru Nagar Multispeciality Hospital,Multispeciality Hospital,"Flat 424, Station Road, Nehru Nagar",Nehru Nagar,Mumbai,Maharashtra,400428,0226304005,504,1989,nabh
+H-0428,Laxmi Nagar Nursing Home,Nursing Home,"51, Gandhi Marg, Laxmi Nagar",Laxmi Nagar,Nagpur,Maharashtra,440022,07122780875,36,1989,none
+H-0429,Civil Lines Community Health Centre,Community Health Centre,"Shop 105, Nehru Nagar, Civil Lines",Civil Lines,Kolhapur,Maharashtra,416375,02315980685,60,1977,none
+H-0430,Pipla Diagnostic,Diagnostic Centre,"21, Station Road, Pipla",Pipla,Nagpur,Maharashtra,440034,07125139164,2,2003,nabh
+H-0431,Krishna Nagar District Hospital,District Hospital,"44, Gandhi Marg, Krishna Nagar",Krishna Nagar,Mumbai,Maharashtra,400271,0227602845,156,1985,nabh
+H-0432,Sai Nagar Day Care,Day Care Centre,"42, Gandhi Marg, Sai Nagar",Sai Nagar,Chandrapur,Maharashtra,442276,071725250209,19,1987,none
+H-0433,Sadar Bazar Speciality Clinic,Speciality Clinic,"Shop 468, Ring Road, Sadar Bazar",Sadar Bazar,Nagpur,Maharashtra,440001,07122687474,27,1960,none
+H-0434,College Road Diagnostic,Diagnostic Centre,"Flat 416, College Road, College Road",College Road,Mumbai,Maharashtra,400461,0225962140,14,1971,nabh
+H-0435,Model Colony Primary Health Centre,Primary Health Centre,"Flat 186, Market Yard, Model Colony",Model Colony,Pune,Maharashtra,411292,0207100751,42,2014,none
+H-0436,Gandhi Marg Diagnostic,Diagnostic Centre,"Flat 478, Model Colony, Gandhi Marg",Gandhi Marg,Amravati,Maharashtra,444517,072625100350,24,1975,nabh
+H-0437,Hingna Day Care,Day Care Centre,"49, Ring Road, Hingna",Hingna,Hingna,Maharashtra,441110,07126305511,5,1963,none
+H-0438,College Road District Hospital,District Hospital,"Flat 404, Station Road, College Road",College Road,Pune,Maharashtra,411041,0207085450,334,2019,nabh
+H-0439,Officers Colony Community Health Centre,Community Health Centre,"Flat 142, Model Colony, Officers Colony",Officers Colony,Nashik,Maharashtra,422073,02524953986,128,1970,none
+H-0440,Krishna Nagar Speciality Clinic,Speciality Clinic,"Flat 217, Temple Street, Krishna Nagar",Krishna Nagar,Kolhapur,Maharashtra,416309,02312332825,14,1963,none
+H-0441,Civil Lines Multispeciality Hospital,Multispeciality Hospital,"Shop 482, Model Colony, Civil Lines",Civil Lines,Jalgaon,Maharashtra,425291,02576807712,479,1976,nabh
+H-0442,Nayapura Primary Health Centre,Primary Health Centre,"Shop 336, Sai Nagar, Nayapura",Nayapura,Nagpur,Maharashtra,440002,07125632472,51,2007,none
+H-0443,College Road Community Health Centre,Community Health Centre,"Shop 485, Model Colony, College Road",College Road,Pune,Maharashtra,411190,0204866933,165,2013,none
+H-0444,Mahal Day Care,Day Care Centre,"7, MIDC Road, Mahal",Mahal,Nagpur,Maharashtra,440032,07122790620,19,1987,none
+H-0445,Panchsheel Nagar District Hospital,District Hospital,"53, MIDC Road, Panchsheel Nagar",Panchsheel Nagar,Nagpur,Maharashtra,440017,07123225263,325,1964,nabh
+H-0446,Main Road Nursing Home,Nursing Home,"Flat 453, Shivaji Nagar, Main Road",Main Road,Aurangabad,Maharashtra,431133,02408186324,46,1964,none
+H-0447,Civil Lines Day Care,Day Care Centre,"Shop 299, Krishna Nagar, Civil Lines",Civil Lines,Kolhapur,Maharashtra,416096,02312129634,25,1993,none
+H-0448,Krishna Nagar Multispeciality Hospital,Multispeciality Hospital,"25, Sai Nagar, Krishna Nagar",Krishna Nagar,Chandrapur,Maharashtra,442509,071724693806,495,2015,nabh
+H-0449,Pipla Multispeciality Hospital,Multispeciality Hospital,"Shop 181, Station Road, Pipla",Pipla,Nagpur,Maharashtra,440034,07124999644,313,1961,nabh
+H-0450,Sitabuldi Multispeciality Hospital,Multispeciality Hospital,"Flat 106, Market Yard, Sitabuldi",Sitabuldi,Nagpur,Maharashtra,440012,07123077896,283,2001,nabh
+H-0451,Market Yard Speciality Clinic,Speciality Clinic,"26, Ring Road, Market Yard",Market Yard,Amravati,Maharashtra,444236,072627889242,21,1966,none
+H-0452,Nehru Nagar Diagnostic,Diagnostic Centre,"Shop 162, Model Colony, Nehru Nagar",Nehru Nagar,Mumbai,Maharashtra,400532,0223938363,9,1970,nabh
+H-0453,Shivaji Nagar Diagnostic,Diagnostic Centre,"Flat 447, College Road, Shivaji Nagar",Shivaji Nagar,Nashik,Maharashtra,422033,02522792508,11,1967,nabh
+H-0454,Nayapura Speciality Clinic,Speciality Clinic,"Shop 314, Nehru Nagar, Nayapura",Nayapura,Nagpur,Maharashtra,440002,07125772794,27,1969,none
+H-0455,Dattawadi Multispeciality Hospital,Multispeciality Hospital,"Flat 286, Gandhi Marg, Dattawadi",Dattawadi,Nagpur,Maharashtra,440023,07122970561,423,1999,nabh
+H-0456,Station Road Diagnostic,Diagnostic Centre,"37, Officers Colony, Station Road",Station Road,Chandrapur,Maharashtra,442597,071724981871,13,2006,nabh
+H-0457,Dattawadi Nursing Home,Nursing Home,"Flat 445, Temple Street, Dattawadi",Dattawadi,Nagpur,Maharashtra,440023,07128369278,47,1970,none
+H-0458,Umred Speciality Clinic,Speciality Clinic,"Flat 194, Station Road, Umred",Umred,Umred,Maharashtra,441203,07127165334,20,1997,none
+H-0459,Katol Speciality Clinic,Speciality Clinic,"Flat 299, College Road, Katol",Katol,Katol,Maharashtra,441103,07123524338,29,2019,none
+H-0460,Main Road District Hospital,District Hospital,"Shop 252, Officers Colony, Main Road",Main Road,Pune,Maharashtra,411747,0203866606,248,2010,nabh
+H-0461,Borgaon Road Multispeciality Hospital,Multispeciality Hospital,"42, Ring Road, Borgaon Road",Borgaon Road,Nagpur,Maharashtra,440013,07124205049,386,2013,nabh
+H-0462,Temple Street Primary Health Centre,Primary Health Centre,"Shop 449, Ring Road, Temple Street",Temple Street,Nashik,Maharashtra,422756,02526933925,35,1993,none
+H-0463,Civil Lines Speciality Clinic,Speciality Clinic,"Flat 242, Civil Lines, Civil Lines",Civil Lines,Nashik,Maharashtra,422901,02526568131,25,2014,none
+H-0464,Nehru Nagar Speciality Clinic,Speciality Clinic,"Shop 193, Ring Road, Nehru Nagar",Nehru Nagar,Pune,Maharashtra,411171,0208537278,27,1993,none
+H-0465,Model Colony Nursing Home,Nursing Home,"Shop 492, MIDC Road, Model Colony",Model Colony,Nashik,Maharashtra,422363,02528808474,36,2016,none
+H-0466,Uppalwadi Primary Health Centre,Primary Health Centre,"Shop 214, Nehru Nagar, Uppalwadi",Uppalwadi,Nagpur,Maharashtra,440026,07128299794,30,1973,none
+H-0467,Nayapura District Hospital,District Hospital,"Shop 346, MIDC Road, Nayapura",Nayapura,Nagpur,Maharashtra,440002,07125279724,176,1995,nabh
+H-0468,Temple Street Nursing Home,Nursing Home,"33, Ring Road, Temple Street",Temple Street,Amravati,Maharashtra,444119,072628376855,49,2013,none
+H-0469,Gandhi Marg Community Health Centre,Community Health Centre,"Shop 186, Temple Street, Gandhi Marg",Gandhi Marg,Amravati,Maharashtra,444558,072626279938,100,1983,none
+H-0470,Vayusena Nagar Community Health Centre,Community Health Centre,"50, Main Road, Vayusena Nagar",Vayusena Nagar,Nagpur,Maharashtra,440007,07125413169,122,1996,none
+H-0471,Sadar Bazar Day Care,Day Care Centre,"Shop 177, Model Colony, Sadar Bazar",Sadar Bazar,Nagpur,Maharashtra,440001,07126843458,13,1967,none
+H-0472,College Road Community Health Centre,Community Health Centre,"36, Ring Road, College Road",College Road,Nashik,Maharashtra,422661,02525937533,131,1958,none
+H-0473,Krishna Nagar Day Care,Day Care Centre,"Shop 215, Ring Road, Krishna Nagar",Krishna Nagar,Aurangabad,Maharashtra,431213,02405998986,10,1973,none
+H-0474,Temple Street Multispeciality Hospital,Multispeciality Hospital,"Flat 190, MIDC Road, Temple Street",Temple Street,Chandrapur,Maharashtra,442383,071725654832,488,2008,nabh
+H-0475,Shivaji Nagar Multispeciality Hospital,Multispeciality Hospital,"Shop 123, College Road, Shivaji Nagar",Shivaji Nagar,Aurangabad,Maharashtra,431827,02404987887,329,2003,nabh
+H-0476,Bagadganj Multispeciality Hospital,Multispeciality Hospital,"6, Civil Lines, Bagadganj",Bagadganj,Nagpur,Maharashtra,440008,07122681049,597,1998,nabh
+H-0477,Sai Nagar Speciality Clinic,Speciality Clinic,"20, Shivaji Nagar, Sai Nagar",Sai Nagar,Mumbai,Maharashtra,400793,0227207724,10,1976,none
+H-0478,Officers Colony Community Health Centre,Community Health Centre,"Shop 134, Station Road, Officers Colony",Officers Colony,Nashik,Maharashtra,422048,02525536201,170,2002,none
+H-0479,Station Road Day Care,Day Care Centre,"Flat 495, Civil Lines, Station Road",Station Road,Aurangabad,Maharashtra,431554,02403119917,22,2012,none
+H-0480,Narendra Nagar Community Health Centre,Community Health Centre,"4, Main Road, Narendra Nagar",Narendra Nagar,Nagpur,Maharashtra,440015,07125020851,119,2004,none
+H-0481,Gandhi Marg Diagnostic,Diagnostic Centre,"7, Civil Lines, Gandhi Marg",Gandhi Marg,Mumbai,Maharashtra,400718,0225896443,13,2016,nabh
+H-0482,Saoner Primary Health Centre,Primary Health Centre,"Flat 219, Krishna Nagar, Saoner",Saoner,Saoner,Maharashtra,441107,07127002165,25,1999,none
+H-0483,Shivaji Nagar District Hospital,District Hospital,"33, Officers Colony, Shivaji Nagar",Shivaji Nagar,Pune,Maharashtra,411838,0203795920,152,1971,nabh
+H-0484,Uppalwadi District Hospital,District Hospital,"Flat 415, Shivaji Nagar, Uppalwadi",Uppalwadi,Nagpur,Maharashtra,440026,07128240886,321,1969,nabh
+H-0485,Officers Colony Primary Health Centre,Primary Health Centre,"Flat 223, Station Road, Officers Colony",Officers Colony,Bhandara,Maharashtra,441040,071843577111,53,2009,none
+H-0486,Civil Lines Day Care,Day Care Centre,"7, Civil Lines, Civil Lines",Civil Lines,Bhandara,Maharashtra,441402,071843539514,21,1978,none
+H-0487,MIDC Road Speciality Clinic,Speciality Clinic,"47, Market Yard, MIDC Road",MIDC Road,Solapur,Maharashtra,413393,02175271152,22,1976,none
+H-0488,MIDC Road Diagnostic,Diagnostic Centre,"59, Market Yard, MIDC Road",MIDC Road,Solapur,Maharashtra,413458,02175873492,25,2017,nabh
+H-0489,Market Yard District Hospital,District Hospital,"11, Ring Road, Market Yard",Market Yard,Mumbai,Maharashtra,400504,0222652653,254,2006,nabh
+H-0490,Ring Road Primary Health Centre,Primary Health Centre,"Flat 272, Shivaji Nagar, Ring Road",Ring Road,Pune,Maharashtra,411548,0207271305,24,1969,none
+H-0491,Ring Road District Hospital,District Hospital,"4, Station Road, Ring Road",Ring Road,Bhandara,Maharashtra,441664,071843951700,306,1971,nabh
+H-0492,Civil Lines Day Care,Day Care Centre,"27, Station Road, Civil Lines",Civil Lines,Kolhapur,Maharashtra,416351,02318905719,10,2009,none
+H-0493,Market Yard Nursing Home,Nursing Home,"Flat 212, Temple Street, Market Yard",Market Yard,Aurangabad,Maharashtra,431614,02402300747,46,1979,none
+H-0494,Sai Nagar Day Care,Day Care Centre,"60, Civil Lines, Sai Nagar",Sai Nagar,Mumbai,Maharashtra,400701,0226376131,11,1997,none
+H-0495,Ring Road Day Care,Day Care Centre,"30, Officers Colony, Ring Road",Ring Road,Pune,Maharashtra,411638,0202945802,21,1964,none
+H-0496,Hingna Primary Health Centre,Primary Health Centre,"59, Krishna Nagar, Hingna",Hingna,Hingna,Maharashtra,441110,07125750813,32,2021,none
+H-0497,Civil Lines Nursing Home,Nursing Home,"Flat 395, Civil Lines, Civil Lines",Civil Lines,Pune,Maharashtra,411434,0206697953,41,2007,none
+H-0498,Bezonbagh Nursing Home,Nursing Home,"Shop 337, Ring Road, Bezonbagh",Bezonbagh,Nagpur,Maharashtra,440014,07123160063,19,1975,none
+H-0499,MIDC Road Primary Health Centre,Primary Health Centre,"Shop 401, Sai Nagar, MIDC Road",MIDC Road,Pune,Maharashtra,411492,0202476710,55,1996,none
+H-0500,Khamla District Hospital,District Hospital,"Flat 212, College Road, Khamla",Khamla,Nagpur,Maharashtra,440025,07128289818,260,1989,nabh
+H-0501,Civil Lines Primary Health Centre,Primary Health Centre,"45, Sai Nagar, Civil Lines",Civil Lines,Mumbai,Maharashtra,400546,0226593749,23,1969,none
+H-0502,College Road Multispeciality Hospital,Multispeciality Hospital,"20, Gandhi Marg, College Road",College Road,Amravati,Maharashtra,444541,072622217536,429,2016,nabh
+H-0503,Ganjipeth Speciality Clinic,Speciality Clinic,"35, Nehru Nagar, Ganjipeth",Ganjipeth,Nagpur,Maharashtra,440018,07127956201,10,2005,none
+H-0504,Dattawadi Diagnostic,Diagnostic Centre,"Flat 199, Model Colony, Dattawadi",Dattawadi,Nagpur,Maharashtra,440023,07128812041,22,2014,nabh
+H-0505,Civil Lines Diagnostic,Diagnostic Centre,"Flat 451, Nehru Nagar, Civil Lines",Civil Lines,Pune,Maharashtra,411472,0204450651,16,2011,nabh
+H-0506,CRPF Nagar Primary Health Centre,Primary Health Centre,"6, Ring Road, CRPF Nagar",CRPF Nagar,Nagpur,Maharashtra,440019,07122067980,31,2013,none
+H-0507,Shankar Nagar Speciality Clinic,Speciality Clinic,"Shop 381, Gandhi Marg, Shankar Nagar",Shankar Nagar,Nagpur,Maharashtra,440010,07126005497,14,1990,none
+H-0508,College Road Day Care,Day Care Centre,"Flat 469, Temple Street, College Road",College Road,Aurangabad,Maharashtra,431552,02403563966,6,1968,none
+H-0509,MIDC Road District Hospital,District Hospital,"Flat 389, Nehru Nagar, MIDC Road",MIDC Road,Bhandara,Maharashtra,441406,071845576796,211,1974,nabh
+H-0510,Officers Colony Community Health Centre,Community Health Centre,"Shop 139, Shivaji Nagar, Officers Colony",Officers Colony,Jalgaon,Maharashtra,425323,02577180863,71,1960,none
+H-0511,Seminary Hills Nursing Home,Nursing Home,"Shop 351, Gandhi Marg, Seminary Hills",Seminary Hills,Nagpur,Maharashtra,440006,07128566510,18,1972,none
+H-0512,MIDC Road Community Health Centre,Community Health Centre,"43, Gandhi Marg, MIDC Road",MIDC Road,Nashik,Maharashtra,422260,02527283518,104,1959,none
+H-0513,Temple Street Multispeciality Hospital,Multispeciality Hospital,"Flat 262, MIDC Road, Temple Street",Temple Street,Solapur,Maharashtra,413720,02174914595,263,1992,nabh
+H-0514,Khamla District Hospital,District Hospital,"24, Gandhi Marg, Khamla",Khamla,Nagpur,Maharashtra,440025,07127122832,389,1970,nabh
+H-0515,Ring Road Multispeciality Hospital,Multispeciality Hospital,"Flat 202, MIDC Road, Ring Road",Ring Road,Mumbai,Maharashtra,400791,0226800732,447,1978,nabh
+H-0516,Station Road Primary Health Centre,Primary Health Centre,"47, Temple Street, Station Road",Station Road,Pune,Maharashtra,411813,0204797491,20,2008,none
+H-0517,Temple Street Speciality Clinic,Speciality Clinic,"25, Shivaji Nagar, Temple Street",Temple Street,Pune,Maharashtra,411905,0207375770,25,1996,none
+H-0518,Nehru Nagar Primary Health Centre,Primary Health Centre,"Flat 468, Market Yard, Nehru Nagar",Nehru Nagar,Pune,Maharashtra,411458,0205544032,23,2000,none
+H-0519,Ring Road Speciality Clinic,Speciality Clinic,"52, Krishna Nagar, Ring Road",Ring Road,Chandrapur,Maharashtra,442498,071722032512,28,1972,none
+H-0520,Sai Nagar Community Health Centre,Community Health Centre,"Shop 275, Sai Nagar, Sai Nagar",Sai Nagar,Amravati,Maharashtra,444689,072624842020,180,1960,none

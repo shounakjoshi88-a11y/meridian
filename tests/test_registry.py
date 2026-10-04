@@ -178,9 +178,18 @@ def test_patient_search_tolerates_blank_blood_group():
     assert "name" in top["matched_fields"], top["matched_fields"]
 
     by_bg = registry.search_records(patients, "A-", "patients")
-    assert [r["patient_id"] for r in by_bg] == ["P-0007"], by_bg
+
+    # Every returned row must actually carry the searched blood group, and
+    # the fixture patient must be among them. An exact count is not
+    # asserted, because patients.csv is generated: "A-" is a common group
+    # and how many people carry it moves on every rebuild.
+    assert by_bg, "expected the A- fixture patient"
+    assert all(r["blood_group"] == "A-" for r in by_bg), by_bg
+    assert "P-0007" in [r["patient_id"] for r in by_bg], by_bg
+
     print(f"  ok  patient with a blank blood group searchable by name "
-          f"({len(by_name)} results, P-0006 first)")
+          f"({len(by_name)} results, P-0006 first); "
+          f"A- returns {len(by_bg)} rows, all genuinely A-")
 
 
 def test_patient_search_reaches_emergency_contact():
@@ -224,7 +233,7 @@ def test_doctor_search_ranks_specialisation_above_id():
 
     assert results, "expected a cardiology match"
     assert results[0]["specialisation"] == "Cardiology", results[0]
-    assert results[0]["doctor_id"] == "D-02", results[0]
+    assert results[0]["doctor_id"] == "D-0002", results[0]
 
     # The hospital_id field is weighted 0 so it never contributes.
     weighted = registry.FIELD_WEIGHTS["doctors"]["hospital_id"]
@@ -235,15 +244,15 @@ def test_doctor_search_ranks_specialisation_above_id():
 def test_doctor_validation_requires_real_hospital():
     """A doctor cannot be attached to a hospital that does not exist."""
     _, errors = registry.validate_record("doctors", {
-        "name": "Dr Test", "hospital_id": "H-99",
+        "name": "Dr Test", "hospital_id": "H-9999",
     })
 
     joined = " | ".join(errors)
-    assert "H-99" in joined, joined
+    assert "H-9999" in joined, joined
     assert "does not exist" in joined, joined
 
     _, ok_errors = registry.validate_record("doctors", {
-        "name": "Dr Test", "hospital_id": "H-01",
+        "name": "Dr Test", "hospital_id": "H-0001",
     })
     assert ok_errors == [], ok_errors
     print("  ok  doctor validation rejects an unknown hospital_id")
@@ -252,14 +261,14 @@ def test_doctor_validation_requires_real_hospital():
 def test_doctor_validation_checks_registration_format():
     """Registration numbers must look like MMC-YYYY-NNNNNN."""
     _, errors = registry.validate_record("doctors", {
-        "name": "Dr Test", "hospital_id": "H-01",
+        "name": "Dr Test", "hospital_id": "H-0001",
         "registration_no": "ABC123",
     })
 
     assert any("MMC" in e for e in errors), errors
 
     _, ok_errors = registry.validate_record("doctors", {
-        "name": "Dr Test", "hospital_id": "H-01",
+        "name": "Dr Test", "hospital_id": "H-0001",
         "registration_no": "MMC-2004-118742",
     })
     assert ok_errors == [], ok_errors
@@ -291,10 +300,10 @@ def test_negative_numbers_are_rejected():
 
 def test_stock_set_skips_blank():
     """A blank stock cell means not recorded, so the store is skipped."""
-    blank = {"store_id": "S-06", "stock_csv": ""}
+    blank = {"store_id": "S-0006", "stock_csv": ""}
     assert registry.stock_set_for(blank) == set()
 
-    filled = {"store_id": "S-01", "stock_csv": "M-01|M-03"}
+    filled = {"store_id": "S-0001", "stock_csv": "M-01|M-03"}
     assert registry.stock_set_for(filled) == {"M-01", "M-03"}
     print("  ok  blank stock_csv gives an empty set")
 
@@ -326,7 +335,7 @@ def test_stores_with_medicine():
 
 
 def test_stores_with_medicine_skips_unrecorded_store():
-    """S-06 has blank stock and must never appear."""
+    """S-0006 has blank stock and must never appear."""
     medicines = load("medicines")
     stores = load("stores")
 
