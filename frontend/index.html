@@ -22,6 +22,7 @@
       <a class="nav__link" href="#doctors" data-view="doctors">Doctors</a>
       <a class="nav__link" href="#medicines" data-view="medicines">Medicines</a>
       <a class="nav__link" href="#stores" data-view="stores">Stores</a>
+      <a class="nav__link" href="#rare-conditions" data-view="rare_conditions">Rare</a>
       <a class="nav__link" href="#analytics" data-view="analytics">Cohorts</a>
     </nav>
   </div>
@@ -187,6 +188,35 @@
     </div>
 
     <div id="store-results" aria-live="polite"></div>
+  </section>
+
+  <!-- --------------------------------------------------------- rare -->
+  <section id="view-rare_conditions" hidden>
+    <div class="page__head">
+      <h1 class="page__title">Rare conditions</h1>
+      <p class="page__lead">
+        Every disease the Human Phenotype Ontology annotates, with the
+        phenotypic findings recorded for it. Built from
+        <code>hp.obo</code> and <code>phenotype.hpoa</code>, filtered to
+        findings a clinician would recognise.
+      </p>
+    </div>
+
+    <div class="field field--search">
+      <label class="field__label" for="rare-search">Search rare conditions</label>
+      <input class="input" id="rare-search"
+             placeholder="disease name, finding, MONDO id"
+             autocomplete="off">
+      <p class="field__hint">
+        Searches 11,000+ diseases and 11,000+ distinct findings. One word
+        can match thousands, so results are capped and the true total is
+        shown.
+      </p>
+    </div>
+
+    <div id="rare-overview"></div>
+
+    <div id="rare-results" aria-live="polite"></div>
   </section>
 
   <!-- ---------------------------------------------------- analytics -->

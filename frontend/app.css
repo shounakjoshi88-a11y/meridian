@@ -839,6 +839,89 @@ textarea.input {
   font-weight: 500;
 }
 
+/* ------------------------------------------------------ registry facts */
+
+/* A short row of figures. The number is set in the data face because it
+ * is data, and it is the largest thing on the panel so the size of the
+ * registry is legible before anything is searched. */
+.figures {
+  display: grid;
+  gap: var(--s-4);
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+}
+
+.figure__value {
+  font-size: 1.5rem;
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.figure__label {
+  margin-top: 2px;
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+}
+
+/* Terms worth clicking. A pill because each one is a self-contained thing
+ * you can act on, not a navigation item, so the nav's underline treatment
+ * would be wrong here. */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--s-2);
+  min-height: 32px;
+  padding: 0 var(--s-3);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text-2);
+  font-size: var(--fs-sm);
+  cursor: pointer;
+  transition: border-color var(--dur-fast) var(--ease-out),
+              color var(--dur-fast) var(--ease-out),
+              background-color var(--dur-fast) var(--ease-out);
+}
+
+.chip:hover {
+  border-color: var(--accent-border);
+  background: var(--accent-soft);
+  color: var(--text);
+}
+
+.chip__count {
+  color: var(--text-muted);
+  font-size: var(--fs-xs);
+}
+
+/* Shown for a tally that is not clickable, so it must not look like it
+ * is. No hover, no pointer, no accent. */
+.chip--static {
+  cursor: default;
+  background: var(--surface-sunken);
+  border-color: transparent;
+}
+
+.chip--static:hover {
+  border-color: transparent;
+  background: var(--surface-sunken);
+  color: var(--text-2);
+}
+
+/* States that a list was cut short. Without it a capped page reads as a
+ * complete one, which is a different and wrong claim. */
+.result-note {
+  margin-top: var(--s-4);
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
+
 /* ---------------------------------------------------- visit timeline */
 
 .visits {

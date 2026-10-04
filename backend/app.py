@@ -35,7 +35,15 @@ app = Flask(__name__)
 
 FRONTEND_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "frontend")
 
-SEARCHABLE = ("patients", "medicines", "stores", "hospitals", "doctors")
+SEARCHABLE = ("patients", "medicines", "stores", "hospitals", "doctors",
+              "rare_conditions")
+
+# How many rows a search returns. The rare condition registry holds 11,655
+# diseases and a single phrase like "low muscle tone" matches 7,559 of
+# them, so returning everything is not an option. The total is reported
+# alongside the page so the interface can say "showing 50 of 7,559"
+# rather than implying the list is complete.
+SEARCH_PAGE_SIZE = 50
 
 
 def payload():
@@ -477,6 +485,94 @@ def get_doctor(doctor_id):
     })
 
 
+# ------------------------------------------------------- rare conditions
+
+@app.get("/api/rare-conditions")
+def list_rare_conditions():
+    """Summarise the HPO derived registry and return a first page.
+
+    The registry is 11,655 diseases. A page that opens on an empty search
+    box tells the reader nothing about a corpus that size, so this returns
+    the shape of it: how many diseases, how many phenotypic findings, how
+    many carry an inheritance mode, and the most common findings. The
+    interface shows that instead of a prompt to type.
+    """
+    records, _ = store.read_all("rare_conditions")
+    vocabulary, _ = store.read_all("hpo_symptoms")
+
+    by_hpo = {}
+    for row in records:
+        for hpo_id in row["hpo_ids"].split("|"):
+            if hpo_id:
+                by_hpo[hpo_id] = by_hpo.get(hpo_id, 0) + 1
+
+    lay = {v["hpo_id"]: (v["lay_term"] or v["term"]).lower()
+           for v in vocabulary}
+
+    common = []
+    for hpo_id, count in sorted(by_hpo.items(),
+                                key=lambda kv: -kv[1])[:12]:
+        common.append({
+            "hpo_id": hpo_id,
+            "word": lay.get(hpo_id, hpo_id.lower()),
+            "diseases": count,
+        })
+
+    inheritance = {}
+
+    for row in records:
+        for mode in row["inheritance_mode"].split("|"):
+            if mode:
+                inheritance[mode] = inheritance.get(mode, 0) + 1
+
+    return jsonify({
+        "total": len(records),
+        "with_mondo": sum(1 for r in records if r["mondo_id"]),
+        "with_inheritance": sum(1 for r in records if r["inheritance_mode"]),
+        "distinct_findings": len(by_hpo),
+        "lay_wording": sum(1 for v in vocabulary
+                           if v["has_lay_wording"] == "yes"),
+        "common_findings": common,
+        "inheritance_modes": sorted(
+            [{"mode": k, "diseases": v} for k, v in inheritance.items()],
+            key=lambda x: -x["diseases"],
+        )[:8],
+        "results": records[:SEARCH_PAGE_SIZE],
+    })
+
+
+@app.get("/api/rare-conditions/<condition_id>")
+def get_rare_condition(condition_id):
+    """One rare disease, with its findings expanded into words."""
+    record = store.get_by_id("rare_conditions", condition_id)
+
+    if record is None:
+        return error(f"no condition with id {condition_id}", 404)
+
+    vocabulary, _ = store.read_all("hpo_symptoms")
+    by_id = {v["hpo_id"]: v for v in vocabulary}
+
+    findings = []
+
+    for hpo_id, word in zip(record["hpo_ids"].split("|"),
+                            record["symptoms"].split("|")):
+        term = by_id.get(hpo_id, {})
+
+        findings.append({
+            "hpo_id": hpo_id,
+            "word": word,
+            "term": term.get("term", ""),
+            "lay_term": term.get("lay_term", ""),
+            "is_lay_wording": term.get("has_lay_wording") == "yes",
+        })
+
+    return jsonify({
+        "condition": record,
+        "findings": findings,
+        "inheritance": [m for m in record["inheritance_mode"].split("|") if m],
+    })
+
+
 # ---------------------------------------------------------------- search
 
 @app.get("/api/search/<record_type>")
@@ -504,11 +600,24 @@ def search(record_type):
 
     results = registry.search_records(records, query, record_type)
 
+    # Page size is honoured only when it would not hide a short result set.
+    try:
+        limit = int(request.args.get("limit", SEARCH_PAGE_SIZE))
+    except ValueError:
+        return error("limit must be a whole number")
+
+    limit = max(1, min(limit, 500))
+
+    total = len(results)
+    page = results[:limit]
+
     return jsonify({
         "query": query,
         "record_type": record_type,
-        "count": len(results),
-        "results": results,
+        "count": len(page),
+        "total_matched": total,
+        "truncated": total > len(page),
+        "results": page,
     })
 
 

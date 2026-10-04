@@ -678,20 +678,98 @@ def test_missing_chart_is_404():
 
 # ----------------------------------------------------------------- backup
 
+def test_rare_condition_overview():
+    """The rare registry opens with its shape, not an empty prompt."""
+    body = data(get("/api/rare-conditions"))
+
+    assert body["total"] >= 10000, body["total"]
+    assert body["distinct_findings"] >= 10000, body["distinct_findings"]
+    assert body["with_mondo"] > 10000, body["with_mondo"]
+    assert body["common_findings"], body
+    assert body["inheritance_modes"], body
+
+    top = body["common_findings"][0]
+    assert top["diseases"] > 0, top
+    assert top["word"], top
+
+    # A page that opens on 11,000 rows must say how many there are.
+    assert len(body["results"]) <= 50, len(body["results"])
+    print(f"  ok  rare registry holds {body['total']:,} diseases, "
+          f"{body['distinct_findings']:,} findings")
+
+
+def test_rare_condition_detail():
+    """One rare disease, with its findings expanded and traceable."""
+    overview = data(get("/api/rare-conditions"))
+    condition_id = overview["results"][0]["condition_id"]
+
+    body = data(get(f"/api/rare-conditions/{condition_id}"))
+
+    assert body["condition"]["condition_id"] == condition_id
+    assert body["findings"], body
+
+    first = body["findings"][0]
+    assert first["hpo_id"].startswith("HP:"), first
+    assert first["word"], first
+
+    # Every finding word must be traceable to an HPO term.
+    for f in body["findings"]:
+        assert f["word"], f
+        assert f["hpo_id"].startswith("HP:"), f
+
+    print(f"  ok  {condition_id} -> {len(body['findings'])} findings")
+
+
+def test_rare_condition_unknown_is_404():
+    body = data(get("/api/rare-conditions/NOPE-1"))
+    assert "NOPE-1" in body["error"], body
+    print("  ok  unknown rare condition returns 404 naming the id")
+
+
+def test_search_reports_total_when_truncated():
+    """A capped search must say the list is capped.
+
+    One finding matches thousands of rare diseases. Returning 50 rows with
+    no total would let the reader assume those 50 were all of them.
+    """
+    body = data(get("/api/search/rare_conditions", q="low muscle tone"))
+
+    assert body["count"] == 50, body["count"]
+    assert body["total_matched"] > body["count"], body
+    assert body["truncated"] is True, body
+
+    quiet = data(get("/api/search/patients", q="rohan"))
+    assert quiet["truncated"] is False, quiet
+    assert quiet["total_matched"] == quiet["count"], quiet
+    print(f"  ok  truncated search reports {body['total_matched']:,} total, "
+          f"{body['count']} returned")
+
+
+def test_search_limit_is_bounded():
+    """A caller cannot ask for the whole registry in one response."""
+    body = data(get("/api/search/rare_conditions", q="seizure", limit=5000))
+
+    assert len(body["results"]) <= 500, len(body["results"])
+
+    bad = get("/api/search/rare_conditions", q="seizure", limit="many")
+    assert bad.status_code == 400, bad.status_code
+    print("  ok  search limit is clamped and validated")
+
+
 def test_backup_route():
-    """Backup copies all seven registries into a fresh folder."""
+    """Backup copies every registry into a fresh folder."""
     shutil.rmtree(store.BACKUP_DIR, ignore_errors=True)
 
     r = post("/api/backup")
     body = data(r)
 
+    expected = sorted(filename for filename, _f, _i in store.RECORDS.values())
+
     assert r.status_code == 200, r.status_code
-    assert body["count"] == 7, body
+    assert body["count"] == len(store.RECORDS), body
 
     names = sorted(os.path.basename(p) for p in body["files"])
-    assert names == ["diseases.csv", "doctors.csv", "hospitals.csv",
-                     "medicines.csv", "patients.csv", "stores.csv",
-                     "visits.csv"], names
+    assert names == expected, names
 
     for path in body["files"]:
         assert os.path.exists(path), path

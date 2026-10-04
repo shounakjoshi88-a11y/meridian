@@ -28,9 +28,12 @@ EXPECTED = {
                    "severity", "vitals_bp", "vitals_pulse", "vitals_temp",
                    "vitals_spo2", "vitals_weight", "vitals_height",
                    "follow_up_days", "status", "notes"],
-    "hospitals.csv": ["hospital_id", "name", "type", "address_line", "area",
-                      "city", "state", "pincode", "phone", "beds",
-                      "established_year", "accreditation"],
+"hospitals.csv": ["hospital_id", "name", "type", "address_line", "area", "city",
+                     "state", "pincode", "phone", "beds", "established_year",
+                     "accreditation"],
+    "rare_conditions.csv": ["condition_id", "mondo_id", "name", "symptom_count",
+                           "symptoms", "hpo_ids", "inheritance_mode"],
+    "hpo_symptoms.csv": ["hpo_id", "term", "lay_term", "has_lay_wording"],
     "doctors.csv": ["doctor_id", "name", "qualification", "specialisation",
                     "registration_no", "hospital_id", "department", "room_no",
                     "phone", "consultation_fee", "experience_years",
@@ -343,6 +346,54 @@ def check_patients():
     return problems
 
 
+def check_rare_conditions():
+    """The HPO registry must be internally consistent.
+
+    Three things can go wrong when it is generated: a symptom word that
+    does not line up with its HPO id, a symptom_count that disagrees with
+    the list it counts, and an inheritance mode that leaked into the
+    symptom column, which is the failure that made the raw file useless.
+    """
+    problems = []
+
+    conditions = load("rare_conditions.csv")
+    vocabulary = {v["hpo_id"]: v for v in load("hpo_symptoms.csv")}
+
+    for row in conditions:
+        cid = row["condition_id"]
+
+        words = [w for w in row["symptoms"].split("|") if w]
+        ids = [i for i in row["hpo_ids"].split("|") if i]
+
+        if len(words) != len(ids):
+            problems.append(
+                f"{cid}: {len(words)} symptom words but {len(ids)} HPO ids")
+
+        if row["symptom_count"] != str(len(words)):
+            problems.append(
+                f"{cid}: symptom_count {row['symptom_count']} "
+                f"but {len(words)} symptoms listed")
+
+        for hpo_id in ids:
+            if hpo_id not in vocabulary:
+                problems.append(f"{cid}: {hpo_id} is not in hpo_symptoms.csv")
+
+        for word in words:
+            if "inheritance" in word.lower():
+                problems.append(
+                    f"{cid}: inheritance mode {word!r} leaked into symptoms")
+
+        if "|" in row["name"]:
+            problems.append(f"{cid}: name contains a pipe")
+
+    thin = [r for r in conditions if int(r["symptom_count"]) < 3]
+
+    if thin:
+        problems.append(f"{len(thin)} conditions have fewer than 3 findings")
+
+    return problems
+
+
 def main():
     checks = [
         ("file shapes", lambda: [p for n in EXPECTED for p in check(n)]),
@@ -352,8 +403,12 @@ def main():
                                + check_ids("patients.csv", "patient_id")
                                + check_ids("visits.csv", "visit_id")
                                + check_ids("hospitals.csv", "hospital_id")
-                               + check_ids("doctors.csv", "doctor_id")),
+                               + check_ids("doctors.csv", "doctor_id")
+                               + check_ids("rare_conditions.csv",
+                                           "condition_id")
+                               + check_ids("hpo_symptoms.csv", "hpo_id")),
         ("disease fields", check_diseases),
+        ("rare conditions", check_rare_conditions),
         ("store -> medicine", check_stores_refer_to_medicines),
         ("doctor -> hospital", check_doctors_refer_to_hospitals),
         ("visit -> patient/doctor/hospital", check_visits_refer_to_patients),

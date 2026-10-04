@@ -279,6 +279,9 @@ def test_backup_copies_only_the_registries():
     data/datasets/ holds files whose names collide with registry files, so
     flattening everything into one folder silently overwrites one with
     the other.
+
+    The expected list is derived from RECORDS rather than written out, so
+    adding a registry cannot leave this asserting a stale count.
     """
     shutil.rmtree(store.BACKUP_DIR, ignore_errors=True)
 
@@ -286,13 +289,14 @@ def test_backup_copies_only_the_registries():
 
     names = sorted(os.path.basename(p) for p in written)
 
-    assert len(written) == 7, names
-    assert names == ["diseases.csv", "doctors.csv", "hospitals.csv",
-                     "medicines.csv", "patients.csv", "stores.csv",
-                     "visits.csv"], names
+    expected = sorted(filename for filename, _f, _i in store.RECORDS.values())
+
+    assert len(written) == len(store.RECORDS), names
+    assert names == expected, names
 
     for path in written:
         assert os.path.exists(path), path
+        assert os.path.getsize(path) > 0, f"{path} was copied empty"
         source = os.path.join(store.DATA_DIR, os.path.basename(path))
         with open(source, "rb") as a, open(path, "rb") as b:
             assert a.read() == b.read(), f"{path} differs from source"
@@ -376,12 +380,29 @@ def test_model_row_order_matches_csv_header():
 
 
 def test_count_records_matches_seeds():
-    """Row counts are what the integrity checker expects."""
+    """Row counts are what the integrity checker expects.
+
+    The HPO derived registries are checked against a floor rather than an
+    exact number, because they are generated from an upstream release
+    that grows: pinning 11,655 would mean editing this test every time
+    the Human Phenotype Ontology publishes.
+    """
     counts = {t: store.count_records(t) for t in store.RECORDS}
 
-    assert counts == {"patients": 8, "visits": 20, "medicines": 20,
-                      "stores": 12, "diseases": 96, "hospitals": 10,
-                      "doctors": 12}, counts
+    assert counts["patients"] == 8, counts
+    assert counts["visits"] == 20, counts
+    assert counts["medicines"] == 20, counts
+    assert counts["stores"] == 12, counts
+    assert counts["hospitals"] == 10, counts
+    assert counts["doctors"] == 12, counts
+
+    # The triage knowledge base, generated from ICD-10-CM.
+    assert counts["diseases"] >= 90, counts
+
+    # Generated from the Human Phenotype Ontology.
+    assert counts["rare_conditions"] >= 10000, counts
+    assert counts["hpo_symptoms"] >= 10000, counts
+
     print(f"  ok  seed row counts {counts}")
 
 

@@ -391,6 +391,13 @@ const SEARCH_VIEWS = {
     containerId: "store-results",
     label: "store",
   },
+  rare_conditions: {
+    noun: "rare conditions",
+    endpoint: "/api/search/rare_conditions",
+    searchId: "rare-search",
+    containerId: "rare-results",
+    label: "condition",
+  },
 };
 
 /* Each search view remembers its last query and its last results, so
@@ -443,6 +450,15 @@ function closeDetail({ restoreFocus = true } = {}) {
 
   clear(viewContainer(name));
 
+  /* Restore the rare registry summary on the way out, because
+   * detailShell hid it. Done here rather than at each call site so there
+   * is one place that knows the overview belongs to the list, not to a
+   * record. */
+  if (name === "rare_conditions") {
+    const overview = document.getElementById("rare-overview");
+    if (overview) overview.hidden = false;
+  }
+
   const stored = lastResults[name];
 
   if (stored && stored.rows.length) renderList(stored.rows, name);
@@ -462,6 +478,14 @@ function detailShell({ name, title, lead, children }) {
 
   clear(container);
   openDetail = name;
+
+  /* The rare overview is a summary of the registry. Once a single record
+   * is open it is stale context sitting above the thing being read, and it
+   * pushes the record off the screen. */
+  if (name === "rare_conditions") {
+    const overview = document.getElementById("rare-overview");
+    if (overview) overview.hidden = true;
+  }
 
   const heading = el("h2", { class: "page__title", tabindex: "-1", text: title });
 
@@ -486,6 +510,14 @@ function renderList(rows, name) {
 function showPrompt(name) {
   const container = viewContainer(name);
   const stored = lastResults[name];
+
+  // The rare registry opens on an overview that already says what is in
+  // it. Adding "No search yet" underneath tells the reader to do the one
+  // thing they do not need to do.
+  if (name === "rare_conditions" && document.getElementById("rare-overview")
+      ?.dataset.loaded === "yes") {
+    return;
+  }
 
   clear(container);
   container.appendChild(emptyState({
@@ -535,6 +567,15 @@ function searchView(name) {
       }
 
       renderList(data.results, name);
+
+      /* The rare registry matches thousands of rows to one word. Capping
+       * the page without saying so would make a truncated list look
+       * complete, so the true total is stated above it. */
+      if (data.truncated) {
+        container.appendChild(el("p", { class: "result-note" },
+          `Showing the top ${data.count} of ${data.total_matched.toLocaleString()} ` +
+          `matches. Narrow the search to see fewer.`));
+      }
     } catch (error) {
       if (mine !== ticket) return;
       clear(container);
@@ -1070,6 +1111,182 @@ async function showDoctor(d) {
   }
 }
 
+/* -------------------------------------------------------------- rare */
+
+const RARE_VIEW = {
+  name: "rare_conditions",
+  containerId: "rare-results",
+  searchId: "rare-search",
+};
+
+function rareRow(c) {
+  const findings = c.symptoms ? c.symptoms.split("|").length : 0;
+  const mode = c.inheritance_mode ? c.inheritance_mode.replace(/-/g, " ") : "";
+
+  return el("button", { class: "row", onclick: () => showRare(c) }, [
+    el("span", { class: "row__main" }, [
+      el("span", { class: "row__title", text: c.name }),
+      el("span", { class: "row__meta",
+                   text: `${findings} findings${mode ? ` · ${mode}` : ""}` }),
+      el("span", { class: "row__sub", text: previewFindings(c.symptoms) }),
+    ]),
+    el("span", { class: "row__trailing data", text: c.mondo_id || c.condition_id }),
+  ]);
+}
+
+function previewFindings(symptoms) {
+  if (!symptoms) return "";
+  const words = symptoms.split("|");
+  return words.slice(0, 6).join(" · ") + (words.length > 6 ? ` · +${words.length - 6} more` : "");
+}
+
+/* Shown before any search, so the page opens with the shape of the
+ * corpus rather than an empty box telling you to type. A registry this
+ * size is itself the interesting thing. */
+async function loadRareOverview() {
+  const panel = document.getElementById("rare-overview");
+
+  if (!panel || panel.dataset.loaded === "yes") return;
+  panel.dataset.loaded = "yes";
+
+  clear(panel);
+  panel.appendChild(skeletonRows(2));
+
+  try {
+    const data = await api("/api/rare-conditions");
+
+    clear(panel);
+
+    /* The prompt underneath is the thing the overview replaces, and it is
+     * still on screen because the overview arrives after it. */
+    clear(viewContainer(RARE_VIEW.name));
+
+    const figures = [
+      ["Diseases", data.total.toLocaleString()],
+      ["Distinct findings", data.distinct_findings.toLocaleString()],
+      ["With a MONDO id", data.with_mondo.toLocaleString()],
+      ["With inheritance noted", data.with_inheritance.toLocaleString()],
+    ];
+
+    panel.appendChild(el("div", { class: "card" }, [
+      el("p", { class: "section-label", text: "What is in this registry" }),
+      el("div", { class: "figures" }, figures.map(([label, value]) =>
+        el("div", { class: "figure" }, [
+          el("p", { class: "figure__value data", text: value }),
+          el("p", { class: "figure__label", text: label }),
+        ])
+      )),
+
+      el("p", { class: "section-label section-label--spaced",
+                text: "Most common findings" }),
+      el("div", { class: "chips" }, data.common_findings.map((f) =>
+        el("button", {
+          class: "chip", type: "button",
+          title: `Search for ${f.word}`,
+          onclick: () => {
+            const input = document.getElementById("rare-search");
+            input.value = f.word;
+            input.dispatchEvent(new Event("input"));
+            input.focus();
+          },
+        }, [
+          el("span", { class: "chip__word", text: f.word }),
+          el("span", { class: "chip__count data", text: f.diseases.toLocaleString() }),
+        ])
+      )),
+
+      el("p", { class: "section-label section-label--spaced",
+                text: "Inheritance" }),
+      el("div", { class: "chips" }, data.inheritance_modes.map((m) =>
+        el("span", { class: "chip chip--static" }, [
+          el("span", { class: "chip__word", text: m.mode }),
+          el("span", { class: "chip__count data", text: m.diseases.toLocaleString() }),
+        ])
+      )),
+
+      el("p", { class: "note note--quiet",
+                text: "Derived from the Human Phenotype Ontology. Findings are " +
+                      "clinical descriptors, not patient complaints, so this " +
+                      "registry is browsed rather than used for outpatient triage." }),
+    ]));
+  } catch (error) {
+    clear(panel);
+    panel.appendChild(errorState(error.message, loadRareOverview));
+  }
+}
+
+async function showRare(c) {
+  const container = viewContainer(RARE_VIEW.name);
+  clear(container);
+  container.appendChild(skeletonRows(3));
+
+  try {
+    const data = await api(`/api/rare-conditions/${c.condition_id}`);
+    const condition = data.condition;
+
+    const facts = [
+      ["MONDO id", condition.mondo_id],
+      ["Source id", condition.condition_id],
+      ["Inheritance", condition.inheritance_mode.replace(/-/g, " ")],
+    ].filter(([, value]) => value && value.trim());
+
+    detailShell({
+      name: RARE_VIEW.name,
+      title: condition.name,
+      lead: [
+        condition.mondo_id,
+        `${condition.symptom_count} phenotypic findings`,
+      ].filter(Boolean).join(" · "),
+      children: [
+        el("div", { class: "detail-grid" }, [
+          factGrid("Record", facts),
+
+          el("div", { class: "card" }, [
+            el("p", { class: "section-label", text: "Findings" }),
+            el("div", { class: "glance" }, [
+              ["Recorded", String(data.findings.length)],
+              ["With lay wording", String(
+                data.findings.filter((f) => f.is_lay_wording).length)],
+              ["Inheritance modes", String(data.inheritance.length)],
+            ].map(([label, value]) =>
+              el("div", { class: "glance__row" }, [
+                el("span", { class: "glance__label", text: label }),
+                el("span", { class: "glance__value", text: value }),
+              ])
+            )),
+          ]),
+        ]),
+
+        el("p", { class: "section-label section-label--spaced",
+                  text: `Phenotypic findings (${data.findings.length})` }),
+
+        el("div", { class: "rows" }, data.findings.map((f) =>
+          el("div", { class: "row row--static" }, [
+            el("span", { class: "row__main" }, [
+              el("span", { class: "row__title", text: f.word }),
+              /* The curator label is only worth a second line when it
+               * differs from the lay word. Printing both when they are
+               * the same text just repeats the row. */
+              f.term && f.term.toLowerCase() !== f.word
+                ? el("span", { class: "row__meta", text: f.term })
+                : null,
+            ]),
+            el("span", { class: "row__trailing data", text: f.hpo_id }),
+          ])
+        )),
+
+        el("p", { class: "note note--quiet",
+                  text: "Terms come from the Human Phenotype Ontology. Words " +
+                        "marked with a lay synonym are the wording a patient " +
+                        "would recognise." }),
+      ],
+    });
+  } catch (error) {
+    clear(container);
+    container.appendChild(errorState(error.message, () => showRare(c)));
+  }
+}
+
 /* ------------------------------------------------------------ analytics */
 
 const datasetTabs = document.getElementById("dataset-tabs");
@@ -1266,9 +1483,10 @@ ROW_RENDERERS.hospitals = hospitalRow;
 ROW_RENDERERS.doctors = doctorRow;
 ROW_RENDERERS.medicines = medicineRow;
 ROW_RENDERERS.stores = storeRow;
+ROW_RENDERERS.rare_conditions = rareRow;
 
 const VIEWS = ["triage", "patients", "hospitals", "doctors", "medicines",
-               "stores", "analytics"];
+               "stores", "rare_conditions", "analytics"];
 const INITIALISED = new Set();
 
 /* Seven sections do not fit across a phone, so the nav scrolls sideways
@@ -1316,6 +1534,10 @@ function focusHeading(viewName) {
 }
 
 function show(name) {
+  // Hashes read better with a hyphen, view keys cannot contain one.
+  // "rare-conditions" and "rare_conditions" are the same view.
+  name = String(name).replace(/-/g, "_");
+
   if (!VIEWS.includes(name)) name = "triage";
 
   // The first call is not a change. Treating it as one would move focus
@@ -1360,6 +1582,7 @@ function show(name) {
    * with no way back. */
   try {
     if (SEARCH_VIEWS[name]) searchView(name);
+    if (name === "rare_conditions") loadRareOverview();
     if (name === "analytics") loadDatasets();
     INITIALISED.add(name);
   } catch (error) {
