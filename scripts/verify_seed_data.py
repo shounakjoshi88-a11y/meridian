@@ -10,8 +10,9 @@ import os
 DATA = "data"
 
 EXPECTED = {
-    "diseases.csv": ["disease_id", "name", "severity", "symptoms", "medication",
-                     "dosage", "age_range", "contraindications"],
+    "diseases.csv": ["disease_id", "icd10_code", "name", "severity", "symptoms",
+                     "medication", "dosage", "age_range", "contraindications",
+                     "symptom_source"],
     "medicines.csv": ["medicine_id", "name", "generic", "category", "form",
                       "strength", "otc", "rx_required", "storage", "price",
                       "manufacturer"],

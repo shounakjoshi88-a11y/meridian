@@ -28,6 +28,17 @@ BAND_WIDTH = 0.05
 
 COVERAGE_WEIGHT = 0.6
 PRECISION_WEIGHT = 0.4
+
+# The penalty for symptoms a disease cannot account for, as a fraction of
+# the report rather than a flat charge per symptom.
+#
+# A flat charge was defensible against a 15 condition knowledge base, where
+# any unmatched symptom was strong evidence against. It is not defensible
+# against 95. A flat 0.5 per symptom drove every score to zero as soon as
+# a patient listed six or seven symptoms, so a textbook cold ranked
+# alongside pneumonia at 0% and the ordering became arbitrary. Charging a
+# share of the report instead keeps a well explained long report scoring
+# above a badly explained short one, which is the actual distinction.
 EXTRA_PENALTY = 0.5
 
 MIN_MATCHED_SYMPTOMS = 2
@@ -51,18 +62,138 @@ def evidence_strength(matched_count, total_symptoms=0):
     return "weak"
 
 
+# A patient does not use the vocabulary in the knowledge base. They say
+# "tired", "loose motions", "sugar", "cannot sleep". Without folding those
+# into the canonical terms, set intersection finds nothing and the tool
+# looks broken rather than merely literal.
+#
+# Keys are what a person might type. Values are terms that appear in
+# scripts/build_disease_kb.py VOCABULARY, so every value here is checked
+# against the knowledge base by test_symonym_targets_are_real_symptoms.
+SYNONYMS = {
+    "tired": "fatigue",
+    "tiredness": "fatigue",
+    "exhausted": "fatigue",
+    "no energy": "fatigue",
+    "weakness": "weakness",
+    "lethargy": "weakness",
+    "loose motions": "diarrhoea",
+    "loose stool": "diarrhoea",
+    "diarrhea": "diarrhoea",
+    "runs": "diarrhoea",
+    "stomach upset": "abdominal pain",
+    "stomach ache": "abdominal pain",
+    "tummy ache": "abdominal pain",
+    "belly pain": "abdominal pain",
+    "cannot sleep": "sleep disturbance",
+    "can't sleep": "sleep disturbance",
+    "insomnia": "sleep disturbance",
+    "sugar": "excessive thirst",
+    "sugar patient": "excessive thirst",
+    "thirsty": "excessive thirst",
+    "pissing a lot": "frequent urination",
+    "urinating often": "frequent urination",
+    "blood in urine": "passing blood in urine",
+    "blood in stool": "blood in stool",
+    "heart burn": "heartburn",
+    "acidity": "heartburn",
+    "indigestion": "indigestion",
+    "giddiness": "dizziness",
+    "vertigo": "dizziness",
+    "fainting": "fainting",
+    "blackout": "fainting",
+    "fit": "seizure",
+    "convulsion": "seizure",
+    "seizures": "seizure",
+    "memory loss": "memory loss",
+    "forgetful": "memory loss",
+    "cannot concentrate": "poor concentration",
+    "lack of concentration": "poor concentration",
+    "depressed": "low mood",
+    "depression": "low mood",
+    "sadness": "low mood",
+    "feeling low": "low mood",
+    "worry": "anxiety",
+    "anxious": "anxiety",
+    "panic": "anxiety",
+    "itch": "itching",
+    "itching": "itching",
+    "rash": "rash",
+    "skin rash": "rash",
+    "blocked nose": "nasal congestion",
+    "congestion": "nasal congestion",
+    "running nose": "runny nose",
+    "sneezing": "sneezing",
+    "sore throat": "sore throat",
+    "throat pain": "sore throat",
+    "earache": "ear pain",
+    "hearing problem": "hearing loss",
+    "cannot hear": "hearing loss",
+    "blurred vision": "blurred vision",
+    "vision blur": "blurred vision",
+    "chest pain": "chest pain",
+    "tightness in chest": "chest tightness",
+    "palpitations": "palpitations",
+    "heart racing": "palpitations",
+    "breathless": "breathlessness",
+    "shortness of breath": "breathlessness",
+    "wheezing": "wheezing",
+    "noisy breathing": "wheezing",
+    "vomiting": "vomiting",
+    "throwing up": "vomiting",
+    "nausea": "nausea",
+    "feeling sick": "nausea",
+    "joint pain": "joint pain",
+    "joint pains": "joint pain",
+    "body ache": "body ache",
+    "bodyache": "body ache",
+    "muscle ache": "muscle ache",
+    "back pain": "back pain",
+    "lower back": "lower back pain",
+    "backache": "back pain",
+    "weight loss": "weight loss",
+    "lost weight": "weight loss",
+    "weight gain": "weight gain",
+    "gained weight": "weight gain",
+    "no appetite": "loss of appetite",
+    "lost appetite": "loss of appetite",
+    "fever": "fever",
+    "high temperature": "high fever",
+    "high fever": "high fever",
+    "shivering": "chills",
+    "chills": "chills",
+    "night sweats": "night sweats",
+    "sweating": "sweating",
+    "yellowish skin": "jaundice",
+    "yellow eyes": "jaundice",
+    "piles": "blood in stool",
+    "burning while urinating": "painful urination",
+    "painful urination": "painful urination",
+}
+
+
+def canonical_symptom(term):
+    """Fold one reported symptom onto the knowledge base vocabulary."""
+    if term in SYNONYMS:
+        return SYNONYMS[term]
+
+    return term
+
+
 def normalise_symptoms(symptoms):
     """Turn a list or string of symptoms into a clean set.
 
     Accepts ["Fever", " cough "] or "fever|cough" or "fever, cough" and
-    returns {"fever", "cough"}. Blank entries are dropped.
+    returns {"fever", "cough"}. Blank entries are dropped and reported
+    phrasings are folded onto the vocabulary via SYNONYMS.
     """
     if isinstance(symptoms, str):
         parts = symptoms.replace("|", ",").split(",")
     else:
         parts = symptoms
 
-    return {str(p).strip().casefold() for p in parts if str(p).strip()}
+    return {canonical_symptom(str(p).strip().casefold())
+            for p in parts if str(p).strip()}
 
 
 def load_diseases(path="data/diseases.csv"):
@@ -96,13 +227,13 @@ def score_disease(patient_symptoms, disease):
 
     coverage   how much of the disease's symptom list the patient shows
     precision  how much of the patient's report the disease explains
-    penalty    charged for symptoms the disease cannot account for
+    penalty    charged for the share of the report left unexplained
 
     Three numbers rather than one, because a single ratio is misleading in
-    both directions. A patient listing 14 symptoms should not match Common
-    Cold on 4 of its 5; a patient reporting only fever, fatigue and cough
-    should not be told nothing is wrong. precision punishes the first,
-    coverage rescues the second.
+    both directions. A patient listing 14 symptoms should not match a
+    common cold on 4 of its 5; a patient reporting only fever, fatigue and
+    cough should not be told nothing is wrong. precision punishes the
+    first, coverage rescues the second.
 
     The score is clamped to [0, 1] so a long list of unrelated symptoms
     produces 0 rather than a negative percentage.
@@ -116,7 +247,7 @@ def score_disease(patient_symptoms, disease):
 
     coverage = len(matched) / len(disease["symptom_set"])
     precision = len(matched) / len(patient_symptoms)
-    penalty = len(extra) * EXTRA_PENALTY
+    penalty = EXTRA_PENALTY * (len(extra) / len(patient_symptoms))
 
     score = (coverage * COVERAGE_WEIGHT) + (precision * PRECISION_WEIGHT) - penalty
     score = max(0.0, min(1.0, score))
@@ -241,6 +372,7 @@ def rank_diseases(symptoms, conditions=None, age=None, limit=MAX_RESULTS):
 
         results.append({
             "disease_id": disease["disease_id"],
+            "icd10_code": disease.get("icd10_code", ""),
             "name": disease["name"],
             "severity": disease["severity"],
             "score": round(score, 4),

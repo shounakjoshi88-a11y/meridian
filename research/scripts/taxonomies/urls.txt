@@ -1,0 +1,104 @@
+# Every URL recorded in research/notes/01-disease-taxonomies.md
+# Verified by actual HTTP request. Blank lines and # lines ignored.
+# Format: <url>
+
+# --- WHO ICD-11 ---
+https://icd.who.int/icdapi
+https://icd.who.int/icdapi/docs2/API-Authentication/
+https://icd.who.int/icdapi/docs2/APIDoc-Version2/
+https://icdaccessmanagement.who.int/connect/token
+https://id.who.int/icd/entity
+https://id.who.int/icd/release/11
+https://icd.who.int/en/docs/ICD11-license.pdf
+https://icd.who.int/en/docs/ICD11_Fact_Sheet_2026.pdf
+https://icd.who.int/en/docs/icd11factsheet_en.pdf
+https://www.who.int/news-room/fact-sheets/detail/icd-11
+https://icd.who.int/browse11/mms/en
+
+# --- ICD-10 / ICD-10-CM (CDC/NCHS) ---
+https://ftp.cdc.gov/pub/Health_Statistics/NCHS/Publications/ICD10CM/
+https://ftp.cdc.gov/pub/Health_Statistics/NCHS/Publications/ICD10CM/2027/
+https://ftp.cdc.gov/pub/Health_Statistics/NCHS/Publications/ICD10CM/2027/icd10cm-code-descriptions-2027.zip
+https://ftp.cdc.gov/pub/Health_Statistics/NCHS/Publications/ICD10CM/2027/icd10cm-table-and-index-2027.zip
+https://ftp.cdc.gov/pub/Health_Statistics/NCHS/Publications/ICD10CM/2027/ICD-10-CM-CONVERSION-TABLE-FY2027.xlsx
+https://www.cdc.gov/nchs/icd/icd-10-cm/files.html
+https://cdn.who.int/media/docs/default-source/publishing-policies/copyright/who-faq-licensing-icd-10.pdf
+
+# --- MeSH (NLM) ---
+https://www.nlm.nih.gov/mesh/meshhome.html
+https://nlmpubs.nlm.nih.gov/projects/mesh/MESH_FILES/
+https://nlmpubs.nlm.nih.gov/projects/mesh/MESH_FILES/readme.txt
+https://nlmpubs.nlm.nih.gov/projects/mesh/MESH_FILES/xmlmesh/
+https://nlmpubs.nlm.nih.gov/projects/mesh/MESH_FILES/xmlmesh/desc2026.xml
+https://nlmpubs.nlm.nih.gov/projects/mesh/MESH_FILES/xmlmesh/desc2026.zip
+https://nlmpubs.nlm.nih.gov/projects/mesh/MESH_FILES/xmlmesh/desc2026.gz
+https://nlmpubs.nlm.nih.gov/projects/mesh/MESH_FILES/xmlmesh/supp2026.xml
+https://nlmpubs.nlm.nih.gov/projects/mesh/MESH_FILES/xmlmesh/qual2026.xml
+https://id.nlm.nih.gov/mesh/lookup/descriptor?label=Cholera
+
+# --- Disease Ontology ---
+https://disease-ontology.org/
+https://disease-ontology.org/downloads/
+https://purl.obolibrary.org/obo/doid.obo
+https://purl.obolibrary.org/obo/doid.owl
+https://purl.obolibrary.org/obo/doid.json
+https://raw.githubusercontent.com/DiseaseOntology/HumanDiseaseOntology/main/src/ontology/doid.obo
+https://raw.githubusercontent.com/DiseaseOntology/HumanDiseaseOntology/main/src/ontology/HumanDO.obo
+https://raw.githubusercontent.com/DiseaseOntology/HumanDiseaseOntology/main/LICENSE
+https://obofoundry.org/ontology/doid
+https://creativecommons.org/publicdomain/zero/1.0/
+
+# --- SNOMED CT ---
+https://www.snomed.org/get-snomed
+https://docs.snomed.org/snomed-ct-practical-guides/vendor-introduction-to-snomed-ct/7-licensing
+https://www.nlm.nih.gov/healthit/snomedct/snomed_licensing.html
+https://www.nlm.nih.gov/research/umls/knowledge_sources/metathesaurus/release/license_agreement_snomed.html
+https://conf.spaces.snomed.org/wiki/rest/api/content/550633600?expand=body.storage
+https://conf.spaces.snomed.org/wiki/rest/api/content/1107656851?expand=body.storage
+https://mlds.ihtsdotools.org/
+https://snomedbrowser.org/
+https://snowstorm.snomedtools.org/fhir/metadata
+
+# --- Orphanet / ORDO ---
+https://www.orphadata.com/
+https://www.orphadata.com/_ontologies/
+https://www.orphadata.com/faq/
+https://www.orphadata.com/data/xml/en_product1.xml
+https://www.orphadata.com/data/xml/en_product4.xml
+https://www.orphadata.com/data/xml/en_product6.xml
+https://www.orphadata.com/data/ontologies/ordo/last_version/ORDO_en_4.9.owl
+https://www.orphadata.com/docs/WhatIsORDO.pdf
+https://creativecommons.org/licenses/by/4.0/
+https://creativecommons.org/licenses/by/4.0/legalcode
+
+# --- BioPortal / OLS4 ---
+https://data.bioontology.org/ontologies
+https://data.bioontology.org/ontologies/DOID
+https://bioportal.bioontology.org/account
+https://www.ebi.ac.uk/ols4/api/ontologies
+https://www.ebi.ac.uk/ols4/api/ontologies/doid
+https://www.ebi.ac.uk/ols4/api/ontologies/ordo
+https://www.ebi.ac.uk/ols4/api/ontologies/hp
+https://www.ebi.ac.uk/ols4/api/ontologies/mondo
+https://www.ebi.ac.uk/ols4/api/search?q=cholera&ontology=doid&rows=2
+
+# --- Extra: HPO (phenotype) ---
+https://purl.obolibrary.org/obo/hp.obo
+https://purl.obolibrary.org/obo/hp.owl
+https://purl.obolibrary.org/obo/hp/phenotype.hpoa
+https://hpo.jax.org/app/license
+https://hpo.jax.org/app/citation
+https://raw.githubusercontent.com/obophenotype/human-phenotype-ontology/master/LICENSE
+https://obofoundry.org/ontology/hp
+https://human-phenotype-ontology.github.io/downloads.html
+
+# --- Extra: MONDO ---
+https://purl.obolibrary.org/obo/mondo.obo
+https://purl.obolibrary.org/obo/mondo.json
+https://raw.githubusercontent.com/monarch-initiative/mondo/master/LICENSE
+https://obofoundry.org/ontology/mondo
+https://mondo.monarchinitiative.org/
+
+# --- License reference ---
+https://opensource.org/license/mit/
+https://creativecommons.org/licenses/by-nd/3.0/igo/

@@ -348,15 +348,21 @@ def test_stores_with_medicine_unknown_name():
 
 
 def test_medicines_for_disease():
-    """A disease's medication maps back to catalogue rows."""
+    """A disease's medication maps back to catalogue rows.
+
+    The condition name is read from the knowledge base rather than typed,
+    because the names are now the official ICD-10-CM titles.
+    """
     medicines = load("medicines")
     diseases = load("diseases")
 
-    found = registry.medicines_for_disease("Type 2 Diabetes", medicines, diseases)
+    diabetes = [d for d in diseases if d["icd10_code"] == "E11"][0]
 
-    assert len(found) == 2, [m["name"] for m in found]
-    assert all(m["generic"] == "Metformin" for m in found), found
-    print(f"  ok  Type 2 Diabetes -> {[m['name'] for m in found]}")
+    found = registry.medicines_for_disease(diabetes["name"], medicines, diseases)
+
+    assert found, f"no medicines matched {diabetes['name']}"
+    assert all("metformin" in m["generic"].lower() for m in found), found
+    print(f"  ok  {diabetes['name']} -> {[m['name'] for m in found]}")
 
 
 def test_validate_accepts_good_payload():

@@ -6,6 +6,7 @@ Every test that writes runs inside a rollback block, so the seed CSVs are
 restored afterwards and the suite is safe to run repeatedly.
 """
 
+import csv
 import os
 import shutil
 import sys
@@ -379,9 +380,35 @@ def test_count_records_matches_seeds():
     counts = {t: store.count_records(t) for t in store.RECORDS}
 
     assert counts == {"patients": 8, "visits": 20, "medicines": 20,
-                      "stores": 12, "diseases": 15, "hospitals": 10,
+                      "stores": 12, "diseases": 96, "hospitals": 10,
                       "doctors": 12}, counts
     print(f"  ok  seed row counts {counts}")
+
+
+def test_declared_fields_match_every_csv_header():
+    """Each registry's declared fields must equal its CSV header exactly.
+
+    read_all keys rows off the declared field list, so a column the list
+    omits is not an error, it is data that quietly disappears. That is how
+    icd10_code and symptom_source went missing from every disease row after
+    the knowledge base gained them: nothing failed, the fields were just
+    gone.
+    """
+    for record_type, (filename, fields, _id_field) in store.RECORDS.items():
+        path = os.path.join(store.DATA_DIR, filename)
+
+        with open(path, newline="", encoding="utf-8") as f:
+            header = next(csv.reader(f))
+
+        assert header == fields, (
+            f"{filename} header does not match {record_type} fields\n"
+            f"  header: {header}\n"
+            f"  declared: {fields}\n"
+            f"  only in header: {[h for h in header if h not in fields]}\n"
+            f"  only in declared: {[x for x in fields if x not in header]}"
+        )
+
+    print(f"  ok  all {len(store.RECORDS)} declared field lists match their CSV")
 
 
 def test_every_registry_ends_with_a_newline():

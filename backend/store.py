@@ -41,8 +41,8 @@ STORE_FIELDS = [
 ]
 
 DISEASE_FIELDS = [
-    "disease_id", "name", "severity", "symptoms", "medication",
-    "dosage", "age_range", "contraindications",
+    "disease_id", "icd10_code", "name", "severity", "symptoms", "medication",
+    "dosage", "age_range", "contraindications", "symptom_source",
 ]
 
 HOSPITAL_FIELDS = [

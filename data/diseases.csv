@@ -1,16 +1,97 @@
-disease_id,name,severity,symptoms,medication,dosage,age_range,contraindications
-D-01,Common Cold,low,"runny nose|sore throat|sneezing|cough|mild fatigue|chills",Paracetamol,500mg every 6 hours,0-70,
-D-02,Influenza,moderate,"fever|body ache|headache|cough|fatigue|chills|sore throat",Oseltamivir,75mg twice daily for 5 days,0-70,
-D-03,Type 2 Diabetes,high,"frequent urination|excessive thirst|increased hunger|fatigue|blurred vision|weight loss|slow healing wounds",Metformin,500mg twice daily with meals,30-70,"pregnancy|kidney disease"
-D-04,Type 1 Diabetes,severe,"frequent urination|excessive thirst|weight loss|fatigue|blurred vision|nausea|breath with fruity smell",Insulin,as prescribed by endocrinologist,5-40,"pregnancy|kidney disease"
-D-05,Dengue Fever,severe,"high fever|severe body ache|joint pain|rash|headache|nausea|bleeding gums",Paracetamol,500mg every 6 hours,0-60,"liver disease|kidney disease|pregnancy"
-D-06,Malaria,severe,"fever|chills|sweating|headache|body ache|nausea|fatigue|muscle pain",Artemisinin-based combination,as directed by clinician,0-60,"pregnancy|liver disease"
-D-07,Hypertension,moderate,"headache|dizziness|blurred vision|chest pain|shortness of breath|irregular heartbeat",Amlodipine,5mg once daily,30-80,"pregnancy|heart failure"
-D-08,Hypothyroidism,moderate,"fatigue|weight gain|cold intolerance|dry skin|hair loss|constipation|depression",Levothyroxine,75micrograms once daily,20-70,"pregnancy"
-D-09,Asthma,moderate,"shortness of breath|wheezing|cough|chest tightness|fatigue",Salbutamol inhaler,2 puffs as needed,5-60,
-D-10,Gastroenteritis,moderate,"diarrhoea|vomiting|abdominal pain|nausea|fever|dehydration",ORS plus Zinc,as directed by clinician,0-70,"kidney disease"
-D-11,Urinary Tract Infection,moderate,"burning urination|frequent urination|lower abdominal pain|cloudy urine|fever",Nitrofurantoin,100mg twice daily for 7 days,18-70,"pregnancy|kidney disease"
-D-12,Iron Deficiency Anaemia,moderate,"fatigue|pale skin|shortness of breath|dizziness|headache|fast heartbeat",Ferrous Sulphate,325mg once daily,15-70,"pregnancy"
-D-13,Migraine,moderate,"severe headache|nausea|sensitivity to light|sensitivity to sound|visual disturbance",Sumatriptan,50mg at onset of migraine,15-60,"heart disease|pregnancy"
-D-14,Anxiety Disorder,moderate,"persistent worry|restlessness|irritability|difficulty concentrating|sleep disturbance|palpitations",Sertraline,25mg once daily,18-65,"pregnancy"
-D-15,COVID-19,moderate,"fever|cough|fatigue|shortness of breath|loss of taste|loss of smell|sore throat",Paracetamol,500mg every 6 hours,0-70,
+disease_id,icd10_code,name,severity,symptoms,medication,dosage,age_range,contraindications,symptom_source
+ICD-J00,J00,Acute nasopharyngitis [common cold],low,runny nose|sneezing|nasal congestion|sore throat|fatigue|headache|low-grade fever,Paracetamol and rest,"500 mg as needed, maximum 4 g daily",0-99,liver disease,curated
+ICD-J02,J02,Acute pharyngitis,moderate,sore throat|fever|swollen glands|headache|difficulty swallowing,Paracetamol and fluids,500 mg four times daily,3-99,liver disease,curated
+ICD-J03,J03,Acute tonsillitis,moderate,sore throat|fever|swollen glands|difficulty swallowing|headache,Phenoxymethylpenicillin,500 mg three times daily for 7 days,3-99,penicillin allergy,curated
+ICD-J06,J06,Acute upper respiratory infections of multiple and unspecified sites,low,runny nose|sore throat|cough|fever|fatigue|headache,Paracetamol and rest,500 mg as needed,0-99,liver disease,curated
+ICD-J20,J20,Acute bronchitis,moderate,cough|productive cough|chest pain|fever|breathlessness|fatigue,Amoxicillin,500 mg three times daily for 5 days,5-99,penicillin allergy,curated
+ICD-J21,J21,Acute bronchiolitis,moderate,wheezing|breathlessness|cough|fever|feeding difficulty,Salbutamol inhaler,two puffs four hourly,0-2,,curated
+ICD-J18,J18,"Pneumonia, unspecified organism",high,fever|cough|productive cough|breathlessness|chest pain|fatigue|confusion,Amoxicillin,500 mg three times daily for 7 days,0-99,penicillin allergy,curated
+ICD-J44,J44,Other chronic obstructive pulmonary disease,moderate,breathlessness on exertion|productive cough|wheezing|fatigue|cough,Salbutamol and inhaled corticosteroid,"two puffs four hourly, plus preventer",40-99,pregnancy,curated
+ICD-J45,J45,Asthma,moderate,wheezing|breathlessness|breathlessness on exertion|chest tightness|cough|sleep disturbance,Salbutamol and inhaled corticosteroid,"two puffs as needed, plus preventer",1-99,,curated
+ICD-J47,J47,Bronchiectasis,moderate,productive cough|breathlessness|fever|wheezing|fatigue,Antibiotic only if infective,amoxicillin 500 mg three times daily,18-99,penicillin allergy,curated
+ICD-J38,J38,"Diseases of vocal cords and larynx, not elsewhere classified",moderate,sore throat|hoarseness|fever|ear pain|difficulty swallowing,Paracetamol and voice rest,500 mg four times daily,5-99,liver disease,curated
+ICD-R05,R05,Cough,moderate,cough|productive cough|dry cough|breathlessness|chest pain|fever,"Treat the cause, avoid routine antibiotic",not indicated unless bacterial,0-99,,curated
+ICD-A09,A09,"Infectious gastroenteritis and colitis, unspecified",moderate,diarrhoea|abdominal pain|vomiting|nausea|fever|weakness,ORS and zinc,"ORS after each loose stool, zinc 20 mg daily",0-99,,curated
+ICD-A15,A15,Respiratory tuberculosis,high,cough|productive cough|fever|weight loss|fatigue|night sweats|breathlessness,"Rifampicin, isoniazid, pyrazinamide","weight-based regimen, directly observed",0-99,liver disease,curated
+ICD-A19,A19,Miliary tuberculosis,severe,high fever|rigors|breathlessness|confusion|weight loss|night sweats,Urgent admission,inpatient management,0-99,,curated
+ICD-A37,A37,Whooping cough,moderate,cough|vomiting|breathlessness|fever|fatigue|feeding difficulty,Azithromycin,500 mg daily for 5 days,0-99,,curated
+ICD-A90,A90,Dengue fever [classical dengue],high,high fever|body ache|joint pain|headache|nausea|rash|vomiting,Paracetamol and oral fluids,"500 mg four times daily, avoid NSAIDs",0-99,pregnancy,curated
+ICD-A91,A91,Dengue hemorrhagic fever,severe,high fever|vomiting|bleeding gums|bruising|nosebleed|rash|weakness,"Urgent admission, IV fluids",inpatient management,0-99,,curated
+ICD-B54,B54,Unspecified malaria,high,high fever|rigors|chills|headache|body ache|vomiting|nausea|fatigue,Artemether-lumefantrine,weight-based course over 3 days,0-99,pregnancy,curated
+ICD-A01,A01,Typhoid and paratyphoid fevers,high,high fever|body ache|headache|abdominal pain|constipation|vomiting|fatigue,Azithromycin,500 mg daily for 7 days,0-99,,curated
+ICD-A92,A92,Other mosquito-borne viral fevers,moderate,high fever|joint pain|body ache|headache|rash|fatigue,Paracetamol and rest,500 mg four times daily,0-99,pregnancy,curated
+ICD-B05,B05,Measles,moderate,high fever|rash|runny nose|cough|red eye|irritability|fatigue,"Paracetamol, notify and isolate",500 mg four times daily,0-99,,curated
+ICD-B34,B34,Viral infection of unspecified site,low,fever|body ache|fatigue|headache|runny nose|cough,Paracetamol and rest,"500 mg as needed, maximum 4 g daily",0-99,liver disease,curated
+ICD-L08,L08,Other local infections of skin and subcutaneous tissue,low,redness|itching|discharge|swelling of feet,Topical antibiotic and hygiene,mupirocin twice daily for 5 days,0-99,,curated
+ICD-B01,B01,Varicella [chickenpox],moderate,fever|body ache|itching|blisters|pain|headache,Aciclovir,800 mg five times daily for 7 days,0-99,kidney disease,curated
+ICD-A60,A60,Anogenital herpesviral [herpes simplex] infections,moderate,blisters|pain|itching|redness|discharge|fever,Aciclovir and review,200 mg five times daily,13-99,kidney disease,curated
+ICD-E11,E11,Type 2 diabetes mellitus,moderate,excessive thirst|frequent urination|weight loss|fatigue|blurred vision|poor concentration|night sweats,Metformin,"start 500 mg once daily with food, titrate",18-99,kidney disease,curated
+ICD-E10,E10,Type 1 diabetes mellitus,high,excessive thirst|frequent urination|weight loss|fatigue|nausea|vomiting|abdominal pain,Insulin,"basal-bolus, dose titrated to readings",1-99,,curated
+ICD-E03,E03,Other hypothyroidism,low,fatigue|weight gain|cold intolerance|constipation|dry skin|hair loss|poor concentration|slurred speech,Levothyroxine,"start 50 micrograms daily, titrate on TSH",18-99,adrenal crisis,curated
+ICD-E05,E05,Thyrotoxicosis [hyperthyroidism],moderate,weight loss|palpitations|heat intolerance|anxiety|sweating|tremor|sleep disturbance,Carbimazole,"5 to 10 mg daily, titrate on thyroid function",18-99,pregnancy,curated
+ICD-E66,E66,Overweight and obesity,moderate,weight gain|breathlessness on exertion|joint pain|sleep disturbance|poor concentration,Weight management and metformin,500 mg twice daily with meals,18-99,kidney disease,curated
+ICD-E78,E78,Disorders of lipoprotein metabolism and other lipidemias,moderate,chest pain|fatigue|poor concentration|upper abdominal pain|joint pain,Atorvastatin,10 to 20 mg once daily,18-99,pregnancy,curated
+ICD-E86,E86,Volume depletion,moderate,vomiting|diarrhoea|passing blood in urine|weakness|fainting|dizziness on standing,Oral rehydration salts,replace the measured deficit over 4 hours,0-99,,curated
+ICD-E87,E87,"Other disorders of fluid, electrolyte and acid-base balance",high,muscle ache|weakness|palpitations|fatigue|numbness|abdominal pain,Potassium chloride,replace per serum potassium,0-99,kidney disease,curated
+ICD-R73,R73,Elevated blood glucose level,moderate,excessive thirst|frequent urination|weight loss|fatigue|poor concentration,"Fasting glucose, then refer",screen for diabetes,18-99,,curated
+ICD-I10,I10,Essential (primary) hypertension,moderate,headache|dizziness|blurred vision|chest pain|breathlessness|palpitations,Amlodipine and/or a thiazide,amlodipine 5 mg daily,18-99,pregnancy,curated
+ICD-I20,I20,Angina pectoris,high,chest pain|breathlessness on exertion|fatigue|palpitations|cold sweat,"Aspirin, statin, beta blocker","aspirin 75 mg daily, titrate statin",30-99,active bleeding,curated
+ICD-I21,I21,Acute myocardial infarction,severe,chest pain|breathlessness|cold sweat|nausea|vomiting|fainting,Aspirin and urgent transfer,"chew 300 mg, transfer immediately",18-99,active bleeding,curated
+ICD-I48,I48,Atrial fibrillation and flutter,moderate,palpitations|breathlessness|fatigue|dizziness|chest pain|poor concentration,Rate control and anticoagulation,dose adjusted to stroke risk,18-99,pregnancy,curated
+ICD-I50,I50,Heart failure,high,breathlessness|breathlessness on exertion|swollen ankles|fatigue|shortness of breath on lying flat,Furosemide and ACE inhibitor,"furosemide 40 mg daily, titrate",18-99,pregnancy,curated
+ICD-I95,I95,Hypotension,moderate,dizziness on standing|fainting|fatigue|dizziness|weakness|poor concentration,Review antihypertensives and fluids,reduce dose and reassess,18-99,,curated
+ICD-H66,H66,Suppurative and unspecified otitis media,moderate,ear pain|hearing loss|fever|ear discharge|irritability|sleep disturbance,Amoxicillin,500 mg three times daily for 7 days,0-99,penicillin allergy,curated
+ICD-H81,H81,Disorders of vestibular function,moderate,ringing in ears|hearing loss|dizziness|nausea|vomiting|ear pain,Short-course diuretic and refer,"symptom relief, ENT if persistent",30-99,pregnancy,curated
+ICD-H10,H10,Conjunctivitis,moderate,red eye|eye pain|itching|watering eyes|blurred vision|light sensitivity,Antihistamine drops,lidoflazine drops,0-99,,curated
+ICD-H25,H25,Age-related cataract,moderate,blurred vision|eye pain|headache|halos around lights|light sensitivity,Urgent ophthalmology referral,same day review,50-99,,curated
+ICD-H52,H52,Disorders of refraction and accommodation,low,blurred vision|eye pain|fatigue|headache|dry eyes,Corrective lenses and review,refraction test,18-99,,curated
+ICD-K21,K21,Gastro-esophageal reflux disease,moderate,heartburn|indigestion|difficulty swallowing|upper abdominal pain|nausea|cough,Pantoprazole,40 mg once daily before food,18-99,,curated
+ICD-K30,K30,Functional dyspepsia,moderate,upper abdominal pain|indigestion|bloating|nausea|vomiting,Pantoprazole and prokinetic,pantoprazole 40 mg daily,18-99,,curated
+ICD-K52,K52,Other and unspecified noninfective gastroenteritis and colitis,low,upper abdominal pain|nausea|bloating|heartburn|indigestion|diarrhoea,Antacid and PPI,pantoprazole 20 mg daily,18-99,,curated
+ICD-K58,K58,Irritable bowel syndrome,moderate,abdominal pain|bloating|diarrhoea|constipation|mucus in stool,Fibre and antispasmodic,dicyclomine 10 mg three times daily,18-99,glaucoma,curated
+ICD-K59,K59,Other functional intestinal disorders,moderate,constipation|abdominal pain|bloating|nausea,Bulk laxative,ispaghula husk with adequate fluid,18-99,bowel obstruction,curated
+ICD-K70,K70,Alcoholic liver disease,moderate,nausea|vomiting|upper abdominal pain|jaundice|weight loss|swollen ankles,Stop alcohol and refer,"nutritional support, hepatology referral",30-99,,curated
+ICD-K04,K04,Diseases of pulp and periapical tissues,moderate,toothache|facial pain|ear pain|fever|difficulty swallowing,Analgesia then dental referral,ibuprofen 400 mg three times daily,5-99,ulcer,curated
+ICD-K05,K05,Gingivitis and periodontal diseases,moderate,gum bleeding|bad breath|painful chewing|toothache,Scaling and oral hygiene,chlorhexidine mouthwash,18-99,,curated
+ICD-K80,K80,Cholelithiasis,moderate,upper abdominal pain|nausea|vomiting|fatigue|indigestion,Analgesia and surgical review,diclofenac 50 mg three times daily,30-99,ulcer,curated
+ICD-K922,K922,"Gastrointestinal hemorrhage, unspecified",high,blood in stool|vomiting|dizziness on standing|fatigue|pale skin|weakness,"Urgent endoscopy, IV fluids",admit if haemodynamic compromise,18-99,,curated
+ICD-K920,K920,Hematemesis,high,vomiting|upper abdominal pain|weakness|dizziness on standing|fatigue,Urgent endoscopy,same day review,18-99,,curated
+ICD-M54,M54,Dorsalgia,moderate,lower back pain|back pain|stiffness|body ache|tingling|morning stiffness,Physiotherapy and NSAID,diclofenac 50 mg three times daily,18-99,kidney disease,curated
+ICD-M17,M17,Osteoarthritis of knee,moderate,knee pain|joint swelling|stiffness|joint pain|crepitus|morning stiffness,Topical NSAID and physiotherapy,diclofenac gel to the knee,45-99,ulcer,curated
+ICD-M10,M10,Gout,high,joint pain|joint swelling|redness|fever|tenderness,Colchicine then allopurinol,colchicine 500 micrograms three times daily,30-99,kidney disease,curated
+ICD-M06,M06,Other rheumatoid arthritis,moderate,joint swelling|joint pain|stiffness|morning stiffness|fatigue|fever,DMARD under rheumatology,methotrexate with folic acid,20-99,pregnancy,curated
+ICD-M79,M79,"Other and unspecified soft tissue disorders, not elsewhere classified",low,muscle ache|body ache|joint pain|fatigue|headache|tenderness,"Rest, hydration, NSAID",paracetamol 500 mg as needed,18-99,liver disease,curated
+ICD-M25,M25,"Other joint disorder, not elsewhere classified",low,joint pain|joint swelling|stiffness|tenderness|morning stiffness,Physiotherapy and topical NSAID,diclofenac gel,18-99,ulcer,curated
+ICD-M62,M62,Other disorders of muscle,moderate,muscle ache|weakness|fatigue|body ache|tenderness,Physiotherapy and review,stretching programme,18-99,,curated
+ICD-F32,F32,Depressive episode,moderate,low mood|anxiety|sleep disturbance|poor concentration|fatigue|loss of appetite,Sertraline and cognitive therapy,"start 25 mg daily, titrate",13-99,pregnancy,curated
+ICD-F41,F41,Other anxiety disorders,moderate,anxiety|sleep disturbance|poor concentration|palpitations|muscle ache|dizziness|restlessness,"Cognitive therapy, SSRI if severe",sertraline 25 mg daily,13-99,,curated
+ICD-F43,F43,"Reaction to severe stress, and adjustment disorders",moderate,anxiety|sleep disturbance|poor concentration|headache|chest pain|restlessness,CBT and relaxation training,no drug first line,18-99,,curated
+ICD-G47,G47,Sleep disorders,moderate,sleep disturbance|anxiety|fatigue|poor concentration|headache|irritability,"Sleep hygiene, short melatonin course",melatonin 3 mg before bed,18-99,,curated
+ICD-G43,G43,Migraine,moderate,headache|nausea|blurred vision|light sensitivity|neck pain|vomiting,Sumatriptan and propranolol,sumatriptan 50 mg at onset,12-99,heart disease,curated
+ICD-G40,G40,Epilepsy and recurrent seizures,moderate,seizure|confusion|fainting|memory loss|headache|weakness in one limb,Levetiracetam,start 500 mg twice daily,0-99,kidney disease,curated
+ICD-G20,G20,Parkinson's disease,moderate,tremor|slowness of movement|stiffness|poor concentration|depression|slurred speech,Levodopa-carbidopa,titrated to response,50-99,psychosis,curated
+ICD-G56,G56,Mononeuropathies of upper limb,moderate,numbness|tingling|hand pain|night pain|weakness in one limb,Night splint then steroid injection,splint at night,30-99,,curated
+ICD-N20,N20,Calculus of kidney and ureter,high,upper abdominal pain|nausea|vomiting|fever|passing blood in urine|restlessness,"Analgesia, imaging and referral","diclofenac 75 mg IM, admit if septic",20-99,kidney disease,curated
+ICD-N39,N39,Other disorders of urinary system,moderate,painful urination|frequent urination|urinary urgency|lower abdominal pain|fever,Nitrofurantoin,100 mg twice daily for 7 days,12-99,kidney disease,curated
+ICD-N40,N40,Benign prostatic hyperplasia,moderate,frequent urination|nocturia|urinary urgency|weak stream|poor concentration,Tamsulosin,0.4 mg once daily at night,50-99,liver disease,curated
+ICD-N63,N63,Unspecified lump in breast,moderate,pelvic pain|painful urination|frequent urination|fatigue|lower abdominal pain,Antibiotic course and review,doxycycline 100 mg twice daily,30-99,pregnancy,curated
+ICD-N04,N04,Nephrotic syndrome,moderate,swelling of feet|swollen ankles|fatigue|nausea|itching|poor concentration,Nephrology referral,dietary sodium restriction,18-99,,curated
+ICD-N92,N92,"Excessive, frequent and irregular menstruation",moderate,excessive periods|fatigue|bruising|pale skin|dizziness on standing,Iron salts and tranexamic acid,ferrous sulphate with vitamin C,12-55,,curated
+ICD-D25,D25,Leiomyoma of uterus,moderate,excessive periods|pelvic pain|lower back pain|fatigue|painful periods,NSAID and tranexamic acid,mefenamic acid 500 mg three times daily,18-55,ulcer,curated
+ICD-N80,N80,Endometriosis,moderate,pelvic pain|painful periods|painful urination|lower abdominal pain|bloating,NSAID and hormonal therapy,mefenamic acid during the period,18-45,ulcer,curated
+ICD-N61,N61,Inflammatory disorders of breast,moderate,breast pain|breast lump|fever|redness|swelling of feet,"NSAID, antibiotics if infective",paracetamol and review,18-99,ulcer,curated
+ICD-N91,N91,"Absent, scanty and rare menstruation",moderate,irregular periods|bleeding gums|bruising|fatigue|missed period,"Assess cycle, then hormonal therapy",review after 3 cycles,12-50,,curated
+ICD-L20,L20,Atopic dermatitis,moderate,rash|itching|redness|skin scaling|dry skin|sleep disturbance,Emollient and topical steroid,"moderate steroid twice daily, then wean",0-99,fungal infection,curated
+ICD-L40,L40,Psoriasis,low,rash|skin scaling|redness|itching,Topical steroid and vitamin D analogue,calcipotriol with a potent steroid,18-99,,curated
+ICD-L30,L30,Other and unspecified dermatitis,moderate,rash|itching|redness|skin scaling|dry skin,Topical antifungal,clotrimazole twice daily for 2 to 4 weeks,0-99,pregnancy,curated
+ICD-L70,L70,Acne,low,pimples|redness|itching,Topical retinoid and benzoyl peroxide,adapalene at night,12-99,pregnancy,curated
+ICD-L65,L65,Other nonscarring hair loss,moderate,hair loss|itching|redness|skin scaling,"Topical steroid, refer if scarring",clobetasol scalp solution,18-99,,curated
+ICD-L53,L53,Other erythematous conditions,low,rash|redness|itching|skin scaling,Emollient and antihistamine,cetirizine 10 mg daily,0-99,,curated
+ICD-R50,R50,Fever of other and unknown origin,low,fever|chills|body ache|fatigue|headache|nausea,Paracetamol and fluids,500 mg four times daily,0-99,liver disease,curated
+ICD-R51,R51,Headache,moderate,headache|nausea|dizziness|blurred vision|fatigue|neck pain,"Paracetamol, review if persistent",500 mg four times daily,0-99,liver disease,curated
+ICD-R53,R53,Malaise and fatigue,low,fatigue|weakness|poor concentration|sleep disturbance|pale skin|palpitations,"Screen for anaemia, thyroid, diabetes",investigate before treating,0-99,,curated
+ICD-R10,R10,Abdominal and pelvic pain,moderate,lower abdominal pain|nausea|vomiting|diarrhoea|fever|abdominal pain,"Paracetamol, assess for surgical cause",500 mg four times daily,0-99,liver disease,curated
+ICD-R21,R21,Rash and other nonspecific skin eruption,low,rash|itching|redness|fever,Antihistamine and review,cetirizine 10 mg daily,0-99,,curated
+ICD-R31,R31,Hematuria,moderate,passing blood in urine|painful urination|frequent urination|fatigue,Urgent investigation,same day review,0-99,,curated
+ICD-R42,R42,Dizziness and giddiness,moderate,dizziness|fainting|chest pain|palpitations|fatigue,Check lying and standing blood pressure,orthostatic review,0-99,,curated
+ICD-R55,R55,Syncope and collapse,moderate,dizziness on standing|fainting|weakness|poor concentration,Review antihypertensives and hydration,reduce dose and reassess,18-99,,curated

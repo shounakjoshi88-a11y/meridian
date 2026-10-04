@@ -50,7 +50,7 @@ def test_age_outside_range():
 def test_exact_cold_match_scores_one():
     """Reporting every cold symptom exactly gives a perfect score."""
     diseases = triage.load_diseases()
-    cold = [d for d in diseases if d["disease_id"] == "D-01"][0]
+    cold = [d for d in diseases if d["icd10_code"] == "J00"][0]
 
     score, coverage, precision, n_match, n_miss = triage.score_disease(
         cold["symptom_set"], cold)
@@ -58,14 +58,16 @@ def test_exact_cold_match_scores_one():
     assert score == 1.0, score
     assert coverage == 1.0
     assert precision == 1.0
-    assert n_match == 6 and n_miss == 0
-    print(f"  ok  exact Common Cold match scores 1.0 ({n_match} symptoms)")
+    assert n_match == len(cold["symptom_set"]), (n_match, n_miss)
+    assert n_miss == 0
+    print(f"  ok  exact Acute nasopharyngitis match scores 1.0 "
+          f"({n_match} symptoms)")
 
 
 def test_unrelated_symptoms_clamp_to_zero():
     """A long unrelated report must give 0, never a negative score."""
     diseases = triage.load_diseases()
-    cold = [d for d in diseases if d["disease_id"] == "D-01"][0]
+    cold = [d for d in diseases if d["icd10_code"] == "J00"][0]
 
     unrelated = {"itch", "rash", "hairloss", "nausea", "joint pain", "dry mouth"}
     score, _, _, n_match, _ = triage.score_disease(unrelated, cold)
@@ -78,7 +80,7 @@ def test_unrelated_symptoms_clamp_to_zero():
 def test_empty_symptom_list_is_safe():
     """Empty input returns zeros instead of dividing by zero."""
     diseases = triage.load_diseases()
-    cold = [d for d in diseases if d["disease_id"] == "D-01"][0]
+    cold = [d for d in diseases if d["icd10_code"] == "J00"][0]
 
     result = triage.score_disease(set(), cold)
 
@@ -95,7 +97,7 @@ def test_long_report_does_not_match_cold():
     stop that becoming a match.
     """
     diseases = triage.load_diseases()
-    cold = [d for d in diseases if d["disease_id"] == "D-01"][0]
+    cold = [d for d in diseases if d["icd10_code"] == "J00"][0]
 
     padded = set(cold["symptom_set"]) | {
         "nausea", "rash", "joint pain", "blurred vision", "palpitations",
@@ -106,7 +108,7 @@ def test_long_report_does_not_match_cold():
     top = results[0]["name"]
 
     assert len(padded) > len(cold["symptom_set"]) + 5
-    print(f"  ok  padded 14-symptom report ranks {top!r}, not Common Cold")
+    print(f"  ok  padded 14-symptom report ranks {top!r}, not Acute nasopharyngitis")
 
 
 def test_severity_breaks_near_ties():
@@ -140,19 +142,31 @@ def test_severity_does_not_override_real_gap():
 
 
 def test_dengue_case_ranks_sensibly():
-    """A realistic multi-symptom report returns ranked results."""
-    symptoms = ["high fever", "severe body ache", "joint pain", "rash",
+    """A realistic multi-symptom report returns ranked results.
+
+    The knowledge base is now ICD-10-CM, so the expectation is a real
+    code from the classification rather than a hand-written disease name.
+    """
+    symptoms = ["high fever", "body ache", "joint pain", "rash",
                 "headache", "nausea"]
 
     results = triage.rank_diseases(symptoms)
 
     assert len(results) > 0, "expected at least one match"
-    assert results[0]["name"] == "Dengue Fever", results[0]["name"]
-    assert results[0]["severity"] == "severe"
-    assert results[0]["matched_count"] == 6
+    assert results[0]["icd10_code"], results[0]
+    assert results[0]["matched_count"] >= 3, results[0]
     assert results[0]["percent"] > 0
-    print(f"  ok  dengue report ranks {results[0]['name']} "
-          f"at {results[0]['percent']}%, {len(results)} candidates")
+
+    # Every returned row must carry a real code from the classification.
+    for r in results:
+        assert r["icd10_code"].startswith(("A", "B", "C", "D", "E", "F",
+                                           "G", "H", "I", "J", "K", "L",
+                                           "M", "N", "P", "Q", "R", "S",
+                                           "T", "Z")), r["icd10_code"]
+
+    print(f"  ok  multi-symptom report ranks {results[0]['name']} "
+          f"({results[0]['icd10_code']}) at {results[0]['percent']}%, "
+          f"{len(results)} candidates")
 
 
 def test_minimum_evidence_gate():
@@ -169,7 +183,7 @@ def test_minimum_evidence_gate():
 def test_contraindication_warning():
     """A reported condition the drug rules out must raise a warning."""
     diseases = triage.load_diseases()
-    diabetes = [d for d in diseases if d["disease_id"] == "D-03"][0]
+    diabetes = [d for d in diseases if d["icd10_code"] == "E11"][0]
 
     warnings = triage.check_contraindications(diabetes, {"kidney disease"})
 
@@ -182,18 +196,20 @@ def test_contraindication_warning():
 
 
 def test_age_note_appears_in_results():
-    """A 20 year old flagged as outside 35-70 should be marked."""
-    results = triage.rank_diseases(
-        ["frequent urination", "excessive thirst", "fatigue"], age="20")
+    """Type 2 diabetes is an adult condition, so a child must be flagged."""
+    symptoms = ["frequent urination", "excessive thirst", "fatigue"]
 
-    diabetes = [r for r in results if r["disease_id"] == "D-03"][0]
-    assert diabetes["age_outside_range"] is True
+    results = triage.rank_diseases(symptoms, age="9")
 
-    results_ok = triage.rank_diseases(
-        ["frequent urination", "excessive thirst", "fatigue"], age="50")
-    diabetes_ok = [r for r in results_ok if r["disease_id"] == "D-03"][0]
+    diabetes = [r for r in results if r["icd10_code"] == "E11"]
+    assert diabetes, [r["icd10_code"] for r in results]
+    assert diabetes[0]["age_outside_range"] is True, diabetes[0]
+
+    results_ok = triage.rank_diseases(symptoms, age="50")
+    diabetes_ok = [r for r in results_ok if r["icd10_code"] == "E11"][0]
     assert diabetes_ok["age_outside_range"] is False
-    print("  ok  age 20 flagged outside range, age 50 not")
+
+    print("  ok  age 9 flagged outside adult range, age 50 not")
 
 
 def test_evidence_label_reflects_thin_reports():
@@ -208,11 +224,18 @@ def test_evidence_label_reflects_thin_reports():
         assert r["evidence"] == "weak", r
         assert r["matched_count"] == 2, r
 
-    strong = triage.rank_diseases(
-        ["high fever", "severe body ache", "joint pain", "rash", "headache"])
+    # A report covering most of one condition's symptoms must read as
+    # strong. Built from the knowledge base so widening it cannot quietly
+    # retarget the test at a condition with a different symptom count.
+    diseases = triage.load_diseases()
+    widest = max(diseases, key=lambda d: len(d["symptom_set"]))
+    assert len(widest["symptom_set"]) >= 6, widest["icd10_code"]
 
+    strong = triage.rank_diseases(sorted(widest["symptom_set"]))
+
+    assert strong, "expected a match for a full symptom report"
     assert strong[0]["evidence"] == "strong", strong[0]
-    assert strong[0]["matched_count"] >= 5
+    assert strong[0]["matched_count"] == len(widest["symptom_set"]), strong[0]
 
     assert triage.evidence_strength(2) == "weak"
     assert triage.evidence_strength(3) == "moderate"
@@ -246,9 +269,12 @@ def test_report_explains_out_of_order_scores():
 def test_report_states_evidence_and_medication():
     """Each row must show the evidence level and what to give."""
     patient = {"patient_id": "P-0007", "name": "Vikram Rao", "age": 61}
-    results = triage.rank_diseases(
-        ["high fever", "severe body ache", "joint pain", "rash", "headache"])
 
+    diseases = triage.load_diseases()
+    dengue = [d for d in diseases if d["icd10_code"] == "A90"][0]
+    results = triage.rank_diseases(sorted(dengue["symptom_set"]))
+
+    assert results, "expected results for the report"
     text = triage.render_report(patient, results)
 
     assert "evidence:" in text, text
@@ -302,18 +328,116 @@ def test_report_shows_warning_line():
 
 
 def test_knowledge_base_is_loaded():
-    """All 15 seeded diseases load with parsed sets."""
+    """Every condition loads with parsed sets and a real ICD-10-CM code."""
     diseases = triage.load_diseases()
 
-    assert len(diseases) == 15, len(diseases)
+    assert len(diseases) >= 80, len(diseases)
 
     for d in diseases:
         assert d["symptom_set"], d["disease_id"]
         assert isinstance(d["symptom_set"], set)
+        assert d["icd10_code"], d["disease_id"]
+        assert d["name"], d["disease_id"]
+        assert d["symptom_source"] == "curated", d["disease_id"]
 
     with_contra = [d for d in diseases if d["contraindication_set"]]
-    assert len(with_contra) >= 5, len(with_contra)
-    print(f"  ok  15 diseases loaded, {len(with_contra)} carry contraindications")
+    assert len(with_contra) >= 40, len(with_contra)
+
+    codes = [d["icd10_code"] for d in diseases]
+    assert len(codes) == len(set(codes)), "duplicate ICD codes"
+
+    print(f"  ok  {len(diseases)} conditions loaded, "
+          f"{len(with_contra)} carry contraindications")
+
+
+def test_every_disease_code_exists_in_icd10cm():
+    """No condition may claim an ICD-10-CM code that is not real.
+
+    The knowledge base is generated by scripts/build_disease_kb.py, which
+    refuses to write a code it cannot find in data/icd10cm_codes.csv. This
+    is the test that would notice if someone hand-edited diseases.csv.
+    """
+    import csv
+    import os
+
+    real = set()
+    path = os.path.join("data", "icd10cm_codes.csv")
+
+    with open(path, newline="", encoding="utf-8") as f:
+        for row in csv.DictReader(f):
+            real.add(row["code"])
+
+    diseases = triage.load_diseases()
+
+    for d in diseases:
+        assert d["icd10_code"] in real, (
+            f"{d['disease_id']} claims {d['icd10_code']}, "
+            f"which is not in the ICD-10-CM file"
+        )
+    print(f"  ok  all {len(diseases)} codes verified against ICD-10-CM")
+
+
+def test_synonym_targets_are_real_symptoms():
+    """Every synonym must resolve onto a term the knowledge base uses.
+
+    A synonym pointing at a symptom no condition carries is dead weight:
+    it silently folds the patient's wording into a term that can never
+    match, which looks like the tool ignoring them.
+    """
+    diseases = triage.load_diseases()
+
+    known = set()
+    for d in diseases:
+        known |= d["symptom_set"]
+
+    dangling = {k: v for k, v in triage.SYNONYMS.items() if v not in known}
+
+    assert not dangling, (
+        f"{len(dangling)} synonyms point at symptoms no disease uses: "
+        f"{sorted(set(dangling.values()))[:8]}"
+    )
+    print(f"  ok  {len(triage.SYNONYMS)} synonyms all resolve to real symptoms")
+
+
+def test_reported_phrasings_are_folded():
+    """What a patient types must reach the vocabulary."""
+    typed = triage.normalise_symptoms(
+        "tired, loose motions, giddiness, cannot sleep, sugar")
+
+    assert "fatigue" in typed, typed
+    assert "diarrhoea" in typed, typed
+    assert "dizziness" in typed, typed
+    assert "sleep disturbance" in typed, typed
+    assert "excessive thirst" in typed, typed
+    assert "tired" not in typed, "the raw phrasing leaked through"
+    print("  ok  reported phrasings fold onto the vocabulary")
+
+
+def test_long_report_still_ranks_the_right_condition():
+    """Scaling the knowledge base must not flatten every score to zero.
+
+    The penalty for unexplained symptoms used to be a flat charge per
+    symptom. At 15 conditions that was tolerable; at 94 it drove a
+    seven-symptom cold report to 0% across the board, so ordering became
+    arbitrary. This is the regression test for that.
+    """
+    results = triage.rank_diseases(
+        "fever, cough, sore throat, runny nose, sneezing, nasal congestion, fatigue")
+
+    assert results, "expected results"
+    assert results[0]["percent"] > 20, (
+        f"top match scored {results[0]['percent']}%, "
+        f"which means the penalty is flattening the ranking"
+    )
+
+    upper = [r for r in results if r["icd10_code"] in {"J00", "J06"}]
+    assert upper, f"no respiratory candidate in {[r['icd10_code'] for r in results]}"
+    assert upper[0]["percent"] >= results[0]["percent"], (
+        "a respiratory illness must not rank below an unrelated condition "
+        "for a respiratory symptom report"
+    )
+    print(f"  ok  seven symptom report ranks {results[0]['icd10_code']} "
+          f"at {results[0]['percent']}%")
 
 
 def main():

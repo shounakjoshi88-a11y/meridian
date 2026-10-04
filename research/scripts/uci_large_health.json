@@ -1,0 +1,186 @@
+[
+ {
+  "id": 515,
+  "name": "Bar Crawl: Detecting Heavy Drinking",
+  "rows": 14057567,
+  "cols": 15,
+  "target": null,
+  "doi": "10.24432/C5TK6G",
+  "data_url": null,
+  "landing": "https://archive.ics.uci.edu/dataset/515/bar+crawl+detecting+heavy+drinking",
+  "abstract": "Accelerometer and transdermal alcohol content data from a college bar crawl. Used to predict heavy drinking episodes via mobile data."
+ },
+ {
+  "id": 1128,
+  "name": "RecGym: Gym Workouts Recognition Dataset with IMU and Capacitive Sensor",
+  "rows": 4432070,
+  "cols": 11,
+  "target": null,
+  "doi": "10.24432/C5PW4K",
+  "data_url": null,
+  "landing": "https://archive.ics.uci.edu/dataset/1128/recgym:+gym+workouts+recognition+dataset+with+imu+and+capacitive+sensor-7",
+  "abstract": "The RecGym dataset is a collection of gym workouts with IMU and Capacitive sensors, designed for research and development in recommendation systems an"
+ },
+ {
+  "id": 891,
+  "name": "CDC Diabetes Health Indicators",
+  "rows": 253680,
+  "cols": 21,
+  "target": [
+   "Diabetes_binary"
+  ],
+  "doi": "10.24432/C53919",
+  "data_url": "https://archive.ics.uci.edu/static/public/891/data.csv",
+  "landing": "https://archive.ics.uci.edu/dataset/891/cdc+diabetes+health+indicators",
+  "abstract": "The Diabetes Health Indicators Dataset contains healthcare statistics and lifestyle survey information about people in general along with their diagno"
+ },
+ {
+  "id": 760,
+  "name": "Multivariate Gait Data",
+  "rows": 181800,
+  "cols": 7,
+  "target": null,
+  "doi": "10.24432/C5861T",
+  "data_url": "https://archive.ics.uci.edu/static/public/760/data.csv",
+  "landing": "https://archive.ics.uci.edu/dataset/760/multivariate+gait+data",
+  "abstract": "Bilateral (left, right) joint angle (ankle, knee, hip) times series data collected from 10 healthy subjects under 3 walking conditions (unbraced, knee"
+ },
+ {
+  "id": 196,
+  "name": "Localization Data for Person Activity",
+  "rows": 164860,
+  "cols": 8,
+  "target": null,
+  "doi": "10.24432/C57G8X",
+  "data_url": null,
+  "landing": "https://archive.ics.uci.edu/dataset/196/localization+data+for+person+activity",
+  "abstract": "Data contains recordings of five people performing different activities. Each person wore four sensors (tags) while performing the same scenario five "
+ },
+ {
+  "id": 827,
+  "name": "Sepsis Survival Minimal Clinical Records",
+  "rows": 110341,
+  "cols": 3,
+  "target": [
+   "hospital_outcome_1alive_0dead"
+  ],
+  "doi": "10.24432/C53C8N",
+  "data_url": "https://archive.ics.uci.edu/static/public/827/data.csv",
+  "landing": "https://archive.ics.uci.edu/dataset/827/sepsis+survival+minimal+clinical+records",
+  "abstract": "The dataset consists of 110,204 admissions of 84,811 hospitalized subjects between 2011 and 2012 in Norway who were diagnosed with infections, systemi"
+ },
+ {
+  "id": 296,
+  "name": "Diabetes 130-US Hospitals for Years 1999-2008",
+  "rows": 101766,
+  "cols": 47,
+  "target": [
+   "readmitted"
+  ],
+  "doi": "10.24432/C5230J",
+  "data_url": "https://archive.ics.uci.edu/static/public/296/data.csv",
+  "landing": "https://archive.ics.uci.edu/dataset/296/diabetes+130-us+hospitals+for+years+1999-2008",
+  "abstract": "The dataset represents ten years (1999-2008) of clinical care at 130 US hospitals and integrated delivery networks. Each row concerns hospital records"
+ },
+ {
+  "id": 877,
+  "name": "MOVER: Medical Informatics Operating Room Vitals and Events Repository",
+  "rows": 83468,
+  "cols": null,
+  "target": null,
+  "doi": "10.24432/C5VS5G",
+  "data_url": null,
+  "landing": "https://archive.ics.uci.edu/dataset/877/mover:+medical+informatics+operating+room+vitals+and+events+repository",
+  "abstract": "This first release of MOVER includes adult patients who underwent surgery at the University of California Irvine Medical Center from 2015 to 2022. Dat"
+ },
+ {
+  "id": 861,
+  "name": "Influenza Outbreak Event Prediction via Twitter",
+  "rows": 75839,
+  "cols": 523,
+  "target": null,
+  "doi": "10.24432/C5CP7V",
+  "data_url": null,
+  "landing": "https://archive.ics.uci.edu/dataset/861/influenza+outbreak+event+prediction+via+twitter",
+  "abstract": "By identifying influenza-related tweets, the goal is to forecast the spatiotemporal patterns of influenza outbreaks for different locations and dates."
+ },
+ {
+  "id": 427,
+  "name": "Activity recognition with healthy older people using a batteryless wearable sensor",
+  "rows": 75128,
+  "cols": 9,
+  "target": null,
+  "doi": "10.24432/C5GG6B",
+  "data_url": null,
+  "landing": "https://archive.ics.uci.edu/dataset/427/activity+recognition+with+healthy+older+people+using+a+batteryless+wearable+sensor",
+  "abstract": "Sequential motion data from 14 healthy older people aged 66 to 86 years old using a batteryless, wearable sensor on top of their clothing for the reco"
+ },
+ {
+  "id": 273,
+  "name": "Weight Lifting Exercises monitored with Inertial Measurement Units",
+  "rows": 39242,
+  "cols": 0,
+  "target": null,
+  "doi": "10.24432/C5WK63",
+  "data_url": null,
+  "landing": "https://archive.ics.uci.edu/dataset/273/weight+lifting+exercises+monitored+with+inertial+measurement+units",
+  "abstract": "Six young health subjects were asked to perform 5 variations of the biceps curl weight lifting exercise. One of the variations is the one predicted by"
+ },
+ {
+  "id": 481,
+  "name": "EMG Data for Gestures",
+  "rows": 30000,
+  "cols": 0,
+  "target": null,
+  "doi": "10.24432/C5ZP5C",
+  "data_url": null,
+  "landing": "https://archive.ics.uci.edu/dataset/481/emg+data+for+gestures",
+  "abstract": "These are files of raw EMG data recorded by MYO Thalmic bracelet"
+ },
+ {
+  "id": 264,
+  "name": "EEG Eye State",
+  "rows": 14980,
+  "cols": 14,
+  "target": [
+   "eyeDetection"
+  ],
+  "doi": "10.24432/C57G7J",
+  "data_url": "https://archive.ics.uci.edu/static/public/264/data.csv",
+  "landing": "https://archive.ics.uci.edu/dataset/264/eeg+eye+state",
+  "abstract": "The data set consists of 14 EEG values and a value indicating the eye state."
+ },
+ {
+  "id": 340,
+  "name": "Cuff-Less Blood Pressure Estimation",
+  "rows": 12000,
+  "cols": 0,
+  "target": null,
+  "doi": "10.24432/C5B602",
+  "data_url": null,
+  "landing": "https://archive.ics.uci.edu/dataset/340/cuff+less+blood+pressure+estimation",
+  "abstract": "This Data set provides preprocessed and cleaned vital signals which can be used in designing algorithms for cuff-less estimation of the blood pressure"
+ },
+ {
+  "id": 341,
+  "name": "Smartphone-Based Recognition of Human Activities and Postural Transitions",
+  "rows": 10929,
+  "cols": 0,
+  "target": null,
+  "doi": "10.24432/C54G7M",
+  "data_url": null,
+  "landing": "https://archive.ics.uci.edu/dataset/341/smartphone+based+recognition+of+human+activities+and+postural+transitions",
+  "abstract": "Activity recognition data set built from the recordings of 30 subjects performing basic activities and postural transitions while carrying a waist-mou"
+ },
+ {
+  "id": 213,
+  "name": "EMG Physical Action Data Set",
+  "rows": 10000,
+  "cols": 0,
+  "target": null,
+  "doi": "10.24432/C53W49",
+  "data_url": null,
+  "landing": "https://archive.ics.uci.edu/dataset/213/emg+physical+action+data+set",
+  "abstract": "The Physical Action Data Set includes 10 normal and 10 aggressive physical actions that measure the human activity. The data have been collected by 4 "
+ }
+]

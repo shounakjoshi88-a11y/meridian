@@ -27,3 +27,19 @@ ui-review/
 server.log
 server.err
 *.pid
+
+# Disposable verification caches written by research/scripts/*.py
+# (re-downloadable; the extracted reference data lives in research/raw/)
+research/tmp/
+
+# Downloaded source files. The ICD-10-CM pair is kept because the build
+# reads it; everything else is 130MB of ontologies, some of it under
+# licences that forbid redistribution. research/scripts/fetch_*.py
+# re-downloads any of it.
+research/raw/*
+!research/raw/icd10cm_codes_2027.txt
+!research/raw/icd10cm_order_2027.txt
+
+# Compiled leftovers from the research scripts
+__pycache__/
+*.pyc

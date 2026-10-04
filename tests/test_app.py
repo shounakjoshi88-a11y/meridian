@@ -497,17 +497,26 @@ def test_search_unsearchable_type_is_404():
 
 def test_triage_ranks_diseases():
     """A symptom list comes back ranked, with the disclaimer present."""
-    r = post("/api/triage", {"symptoms": ["high fever", "severe body ache",
-                                          "joint pain", "rash", "headache"]})
+    r = post("/api/triage", {"symptoms": ["high fever", "body ache",
+                                          "joint pain", "rash", "headache",
+                                          "nausea"]})
     body = data(r)
 
     assert r.status_code == 200, r.status_code
     assert body["count"] > 0, body
-    assert body["results"][0]["name"] == "Dengue Fever", body["results"][0]
+
+    top = body["results"][0]
+
+    # The knowledge base is ICD-10-CM, so every row carries a real code.
+    assert top["icd10_code"], top
+    assert top["icd10_code"] == "A90", top
+    assert top["name"] == "Dengue fever [classical dengue]", top["name"]
+    assert top["percent"] > 0, top
+
     assert body["disclaimer"] == "NOT A DIAGNOSIS. TRIAGE GUIDANCE ONLY."
     assert "NOT A DIAGNOSIS" in body["report"], body["report"]
-    print(f"  ok  triage ranks {body['results'][0]['name']} at "
-          f"{body['results'][0]['percent']}%")
+    print(f"  ok  triage ranks {top['name']} ({top['icd10_code']}) at "
+          f"{top['percent']}%")
 
 
 def test_triage_accepts_pipe_string():
