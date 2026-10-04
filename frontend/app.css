@@ -15,6 +15,15 @@
 
 html {
   -webkit-text-size-adjust: 100%;
+  /* Reserve the scrollbar gutter at all times.
+   *
+   * A view that grows past the viewport height brings a scrollbar with
+   * it, which narrows the viewport by its width. On a phone that is
+   * enough to change how far the nav can scroll, and any scroll position
+   * chosen before the scrollbar existed ends up short by exactly that
+   * much, clipping the active nav item. Reserving the gutter keeps the
+   * header the same width whether or not the page scrolls. */
+  scrollbar-gutter: stable;
 }
 
 body {
@@ -85,12 +94,19 @@ button, input, textarea, select {
   font-weight: 600;
   letter-spacing: -0.015em;
   white-space: nowrap;
+  flex-shrink: 0;
+  color: inherit;
+  text-decoration: none;
 }
 
 .nav {
   display: flex;
   gap: var(--s-1);
   margin-left: auto;
+  /* min-width: 0 lets the nav shrink inside the flex row, which is what
+   * allows the scroll below to engage instead of pushing the brand off
+   * the left edge. */
+  min-width: 0;
 }
 
 .nav__link {
@@ -136,6 +152,18 @@ button, input, textarea, select {
 
 .page__head { margin-bottom: var(--s-6); }
 
+/* On a record screen the heading follows the back control, so it clears
+ * it rather than sitting flush underneath. */
+.page__head--detail { margin-top: var(--s-5); margin-bottom: var(--s-5); }
+
+/* Stacks below another block of the same kind. */
+.panel--spaced,
+.charts--spaced { margin-top: var(--s-5); }
+
+/* Inside .charts the figure is the grid item, so the figure's own margin
+ * would double the gap the grid already provides. */
+.chart--flush { margin: 0; }
+
 .page__title {
   font-size: var(--fs-xl);
   margin-bottom: var(--s-2);
@@ -154,6 +182,10 @@ button, input, textarea, select {
   color: var(--text-2);
   margin-bottom: var(--s-3);
 }
+
+/* Opens a sub-block below something already on the page, so it needs to
+ * clear the block above rather than sit against its own content. */
+.section-label--spaced { margin-top: var(--s-6); }
 
 /* ----------------------------------------------------------- controls */
 
@@ -244,6 +276,11 @@ textarea.input {
   margin-top: var(--s-2);
 }
 
+/* Every search view leads with one input. Capping its width keeps the
+ * label and the field the same object instead of stretching a text box
+ * across a 1120px page. */
+.field--search { max-width: 34rem; }
+
 /* ------------------------------------------------------------ layout */
 
 .split {
@@ -317,6 +354,30 @@ textarea.input {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+/* Third line, for the fact that would otherwise be crowded into the meta
+ * line: which hospital, which room, when they are available. */
+.row__sub {
+  display: block;
+  margin-top: 2px;
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* A row that is not a link must not look like one. */
+.row--static { cursor: default; }
+
+.row--static:hover { background: none; }
+
+/* Used when a field is absent rather than empty, so the wording says which
+ * one it is. Quieter than the value it stands in for. */
+.row__trailing-note {
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
 }
 
 .row__trailing {
@@ -562,10 +623,23 @@ textarea.input {
 .skeleton__bar--title { width: 38%; }
 .skeleton__bar--meta { width: 56%; }
 
+/* Takes the leftover width so the two bars together fill the row. */
+.skeleton__bar--fill { flex: 1; width: auto; }
+
 @keyframes pulse {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.55; }
 }
+
+/* Risk band readout: label, count and share, one per line. The column is
+ * narrow, so each band gets its own line rather than running together. */
+.bands__lines {
+  font-size: var(--fs-sm);
+  color: var(--text-2);
+  margin-bottom: var(--s-2);
+}
+
+.bands__line { display: block; }
 
 /* ------------------------------------------------------------ charts */
 
@@ -612,10 +686,279 @@ textarea.input {
   color: var(--text-2);
   font-weight: 500;
   white-space: nowrap;
-  width: 40%;
+  /* A fixed label column rather than a percentage. At 40% of a wide
+   * column the value ends up 300px from its own label, which reads as
+   * two unrelated columns rather than one record. */
+  width: 11rem;
 }
 
+/* Record fields, laid out as a grid of label over value rather than as a
+ * table.
+ *
+ * A two column table spends 790px of width to hold eight short values and
+ * draws a hairline under all that empty space. A grid uses the width for
+ * a second field instead, and drops the row rules, because the label
+ * above each value already says where one field stops. */
+.facts {
+  display: grid;
+  gap: var(--s-4) var(--s-6);
+  grid-template-columns: minmax(0, 1fr);
+}
+
+@media (min-width: 620px) {
+  .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+.fact__label {
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+.fact__value {
+  margin-top: 2px;
+  font-size: var(--fs-sm);
+  overflow-wrap: anywhere;
+}
+
+/* An address or a note reads as one thought and is given the full width
+ * rather than being broken across two columns. */
+.fact--wide { grid-column: 1 / -1; }
+
 .kv td { font-variant-numeric: tabular-nums; }
+
+/* A caption inside a table is the only heading a data table can carry
+ * without breaking the table semantics, so it is styled as one. */
+.kv caption {
+  text-align: start;
+  padding-bottom: var(--s-2);
+}
+
+.kv caption + tbody tr:last-child th,
+.kv caption + tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+/* ----------------------------------------------------- record detail */
+
+/* Back is a real button, so it carries the same 44px target as the nav
+ * and announces itself as a button rather than as a link. */
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  min-height: 44px;
+  padding: 0 var(--s-3) 0 var(--s-2);
+  margin-inline-start: calc(var(--s-2) * -1);
+  border: 0;
+  border-radius: var(--r-sm);
+  background: none;
+  color: var(--text-2);
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: color var(--dur-fast) var(--ease-out),
+              background-color var(--dur-fast) var(--ease-out);
+}
+
+.back:hover {
+  color: var(--text);
+  background: var(--surface-hover);
+}
+
+.back__mark {
+  font-size: var(--fs-md);
+  line-height: 1;
+}
+
+/* Two panels side by side on a wide screen, stacked on a narrow one.
+ * minmax(0, ...) on both tracks stops a long unbroken value from
+ * forcing the grid wider than its container. */
+.detail-grid {
+  display: grid;
+  gap: var(--s-5);
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+}
+
+@media (min-width: 780px) {
+  .detail-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 260px); }
+}
+
+/* The one figure on a detail screen, so it gets the display size. */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: var(--s-4) var(--s-5);
+}
+
+.stock-card__count {
+  margin-top: var(--s-2);
+  font-family: var(--font-data);
+  font-size: var(--fs-display);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.stock-card__unit {
+  margin-top: var(--s-2);
+  font-size: var(--fs-sm);
+  color: var(--text-2);
+}
+
+/* A short list of figures, where none of them is the point of the screen
+ * so none of them gets the display size. The card is what gives this
+ * column presence next to a long record table. */
+.glance__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s-3);
+  padding: var(--s-2) 0;
+  border-top: 1px solid var(--border);
+  font-size: var(--fs-sm);
+}
+
+/* The first row opens the list, so it does not also carry a divider
+ * sitting directly under the heading. */
+.glance > .glance__row:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.glance__label { color: var(--text-2); }
+
+.glance__value {
+  font-family: var(--font-data);
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+}
+
+/* ---------------------------------------------------- visit timeline */
+
+.visits {
+  display: grid;
+  gap: var(--s-3);
+}
+
+.visit {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: var(--s-4) var(--s-5);
+}
+
+.visit__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s-4);
+}
+
+.visit__title { font-size: var(--fs-lg); }
+
+.visit__reason {
+  margin-top: var(--s-1);
+  font-size: var(--fs-sm);
+  color: var(--text-2);
+}
+
+.visit__when {
+  flex-shrink: 0;
+  text-align: end;
+}
+
+.visit__date {
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.visit__time {
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.visit__who {
+  margin-top: var(--s-3);
+  padding-top: var(--s-3);
+  border-top: 1px solid var(--border);
+}
+
+.visit__doctor {
+  font-size: var(--fs-sm);
+  font-weight: 500;
+}
+
+.visit__where,
+.visit__meta {
+  font-size: var(--fs-sm);
+  color: var(--text-2);
+}
+
+.visit__meta { color: var(--text-muted); font-size: var(--fs-xs); }
+
+.visit__symptoms {
+  margin-top: var(--s-3);
+  font-size: var(--fs-sm);
+  color: var(--text-2);
+}
+
+.visit__vitals {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--s-2) var(--s-3);
+  margin-top: var(--s-3);
+  padding: var(--s-2) var(--s-3);
+  background: var(--surface-sunken);
+  border-radius: var(--r-sm);
+}
+
+.visit__vitals-label {
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
+.visit__facts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-2) var(--s-3);
+  margin-top: var(--s-3);
+  font-size: var(--fs-sm);
+  color: var(--text-2);
+}
+
+.visit__notes {
+  margin-top: var(--s-3);
+  padding-top: var(--s-3);
+  border-top: 1px solid var(--border);
+  font-size: var(--fs-sm);
+  color: var(--text-2);
+}
+
+/* On a narrow screen the date has to leave the heading row or it forces
+ * the diagnosis to wrap every word. */
+@media (max-width: 520px) {
+  .visit__head {
+    display: block;
+  }
+
+  .visit__when {
+    margin-top: var(--s-2);
+    text-align: start;
+  }
+}
 
 /* ------------------------------------------------------------- tabs */
 
@@ -624,8 +967,15 @@ textarea.input {
   gap: var(--s-1);
   border-bottom: 1px solid var(--border);
   margin-bottom: var(--s-5);
+  /* overflow-y is stated because overflow-x: auto forces overflow-y to
+   * auto as well, which puts a vertical scrollbar on a strip that is only
+   * ever a few pixels tall. */
   overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
 }
+
+.tabs::-webkit-scrollbar { display: none; }
 
 .tabs__btn {
   position: relative;
@@ -653,22 +1003,6 @@ textarea.input {
   border-radius: 1px;
 }
 
-/* ------------------------------------------------------------ toast */
-
-.toast {
-  position: fixed;
-  left: 50%;
-  bottom: var(--s-5);
-  transform: translateX(-50%);
-  z-index: 40;
-  background: var(--text);
-  color: var(--bg);
-  padding: var(--s-3) var(--s-4);
-  border-radius: var(--r-md);
-  font-size: var(--fs-sm);
-  box-shadow: 0 4px 20px hsl(215 30% 12% / 0.18);
-}
-
 /* -------------------------------------------------------- responsive */
 
 @media (max-width: 640px) {
@@ -678,6 +1012,35 @@ textarea.input {
   .rank__lead { padding: var(--s-4); }
   .rank__score { font-size: 2rem; }
   .nav__link { padding: 0 var(--s-2); }
+
+  /* Seven sections do not fit across a phone. Rather than hide them or
+   * wrap them onto two ragged rows, the nav scrolls sideways. The links
+   * stay in the tab order, so the browser scrolls the focused one into
+   * view on its own. */
+  .nav {
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    /* Fades the cut edge so it reads as "more this way" rather than as a
+     * layout mistake. */
+    mask-image: linear-gradient(to right, #000 calc(100% - 24px),
+                                transparent 100%);
+  }
+
+.nav::-webkit-scrollbar { display: none; }
+
+  /* The dataset tabs scroll the same way, for the same reason: three
+   * long file names do not fit across a phone. */
+  .tabs {
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    mask-image: linear-gradient(to right, #000 calc(100% - 24px),
+                                transparent 100%);
+  }
+
+  .visit,
+  .stock-card { padding: var(--s-4); }
 }
 
 @media (prefers-reduced-motion: reduce) {

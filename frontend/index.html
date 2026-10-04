@@ -14,10 +14,12 @@
 
 <header class="header">
   <div class="header__inner">
-    <span class="brand">Meridian</span>
+    <a class="brand" href="#triage">Meridian</a>
     <nav class="nav" aria-label="Sections">
       <a class="nav__link" href="#triage" data-view="triage">Triage</a>
       <a class="nav__link" href="#patients" data-view="patients">Patients</a>
+      <a class="nav__link" href="#hospitals" data-view="hospitals">Hospitals</a>
+      <a class="nav__link" href="#doctors" data-view="doctors">Doctors</a>
       <a class="nav__link" href="#medicines" data-view="medicines">Medicines</a>
       <a class="nav__link" href="#stores" data-view="stores">Stores</a>
       <a class="nav__link" href="#analytics" data-view="analytics">Cohorts</a>
@@ -90,13 +92,59 @@
       </p>
     </div>
 
-    <div class="field" style="max-width: 420px;">
+    <div class="field field--search">
       <label class="field__label" for="patient-search">Search patients</label>
       <input class="input" id="patient-search" placeholder="name, area, blood group"
              autocomplete="off">
+      <p class="field__hint">
+        Matches name, contact, address and notes. Open a record for its
+        consultation history.
+      </p>
     </div>
 
     <div id="patient-results" aria-live="polite"></div>
+  </section>
+
+  <!-- ------------------------------------------------------ hospitals -->
+  <section id="view-hospitals" hidden>
+    <div class="page__head">
+      <h1 class="page__title">Hospitals</h1>
+      <p class="page__lead">
+        Facilities in <code>data/hospitals.csv</code>, with the doctors the
+        registry lists as practising there.
+      </p>
+    </div>
+
+    <div class="field field--search">
+      <label class="field__label" for="hospital-search">Search hospitals</label>
+      <input class="input" id="hospital-search" placeholder="name, type, area"
+             autocomplete="off">
+      <p class="field__hint">Matches name, type, area, city and accreditation.</p>
+    </div>
+
+    <div id="hospital-results" aria-live="polite"></div>
+  </section>
+
+  <!-- -------------------------------------------------------- doctors -->
+  <section id="view-doctors" hidden>
+    <div class="page__head">
+      <h1 class="page__title">Doctors</h1>
+      <p class="page__lead">
+        Practitioners in <code>data/doctors.csv</code>, each attached to the
+        hospital they work at.
+      </p>
+    </div>
+
+    <div class="field field--search">
+      <label class="field__label" for="doctor-search">Search doctors</label>
+      <input class="input" id="doctor-search" placeholder="name, specialisation, hospital"
+             autocomplete="off">
+      <p class="field__hint">
+        Matches name, specialisation, qualification, department and hospital.
+      </p>
+    </div>
+
+    <div id="doctor-results" aria-live="polite"></div>
   </section>
 
   <!-- ---------------------------------------------------- medicines -->
@@ -109,10 +157,11 @@
       </p>
     </div>
 
-    <div class="field" style="max-width: 420px;">
+    <div class="field field--search">
       <label class="field__label" for="medicine-search">Search medicines</label>
       <input class="input" id="medicine-search" placeholder="name, generic, category"
              autocomplete="off">
+      <p class="field__hint">Matches name, generic name, category and manufacturer.</p>
     </div>
 
     <div id="medicine-results" aria-live="polite"></div>
@@ -128,10 +177,13 @@
       </p>
     </div>
 
-    <div class="field" style="max-width: 420px;">
+    <div class="field field--search">
       <label class="field__label" for="store-search">Search stores</label>
       <input class="input" id="store-search" placeholder="name, city, area"
              autocomplete="off">
+      <p class="field__hint">
+        Matches name, type, area, city and opening hours.
+      </p>
     </div>
 
     <div id="store-results" aria-live="polite"></div>
@@ -153,8 +205,6 @@
   </section>
 
 </main>
-
-<div id="toast" class="toast" hidden role="status"></div>
 
 <script src="app.js"></script>
 </body>

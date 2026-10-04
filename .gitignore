@@ -20,4 +20,10 @@ Thumbs.db
 
 # Screenshots taken during UI review
 crit-*.png
+ui-review/
 .playwright-mcp/
+
+# Local run artefacts
+server.log
+server.err
+*.pid

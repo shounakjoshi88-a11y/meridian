@@ -1,0 +1,21 @@
+# Normalise line endings in the repository, then check out per-platform.
+* text=auto eol=lf
+
+# CSVs are data. Pin them to LF so a Windows checkout cannot change a byte
+# count and the trailing-newline invariant stays true everywhere.
+*.csv text eol=lf
+
+# Windows scripts need CRLF to run from cmd.exe or PowerShell.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.ps1 text eol=crlf
+
+# Binary, never touch.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.pptx binary
+*.whl binary

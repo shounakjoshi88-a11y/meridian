@@ -406,15 +406,31 @@ def get_hospital(hospital_id):
 
 # --------------------------------------------------------------- doctors
 
+def attach_hospital(doctors):
+    """Copy the hospital's name, area and city onto each doctor row.
+
+    A doctor is only identified by the hospital they work at, so those
+    three fields have to be present *before* the search runs. Joining
+    afterwards means a query for a hospital or a locality can never match,
+    even though the interface offers both.
+    """
+    hospitals, _ = store.read_all("hospitals")
+    by_hospital = {h["hospital_id"]: h for h in hospitals}
+
+    for row in doctors:
+        hospital = by_hospital.get(row["hospital_id"], {})
+        row["hospital_name"] = hospital.get("name", "")
+        row["hospital_area"] = hospital.get("area", "")
+        row["hospital_city"] = hospital.get("city", "")
+
+    return doctors
+
+
 @app.get("/api/doctors")
 def list_doctors():
-    """Return every doctor, with their hospital name attached."""
+    """Return every doctor, with their hospital attached."""
     records, skipped = store.read_all("doctors")
-    hospitals, _ = store.read_all("hospitals")
-    by_hospital = {h["hospital_id"]: h["name"] for h in hospitals}
-
-    for row in records:
-        row["hospital_name"] = by_hospital.get(row["hospital_id"], "")
+    attach_hospital(records)
 
     return jsonify({"count": len(records), "doctors": records,
                     "skipped": skipped})
@@ -481,6 +497,11 @@ def search(record_type):
         return error("query parameter q is required and cannot be blank")
 
     records, _ = store.read_all(record_type)
+
+    # Joined before searching, not after. See attach_hospital.
+    if record_type == "doctors":
+        attach_hospital(records)
+
     results = registry.search_records(records, query, record_type)
 
     return jsonify({

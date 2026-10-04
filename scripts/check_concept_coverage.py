@@ -42,8 +42,12 @@ DOCUMENTED = {
 # Modules that are our own code, not third party.
 LOCAL = {"store", "triage", "registry", "analytics", "models", "app"}
 
-# Ignored: typing, testing plumbing, and comments inside code.
-SKIP = {"typing", "unittest", "__future__", "io", "sys", "os", "re", "datetime"}
+# Ignored: typing, testing plumbing, and standard library modules the labs
+# never name. colorsys arrived with check_contrast.py, which needs it to
+# turn the HSL design tokens into RGB before measuring contrast. It is
+# stdlib and belongs here rather than in a concept explainer.
+SKIP = {"typing", "unittest", "__future__", "io", "sys", "os", "re",
+        "datetime", "colorsys"}
 
 IMPORT_RE = re.compile(r"^\s*(?:from|import)\s+([A-Za-z_][\w]*)")
 

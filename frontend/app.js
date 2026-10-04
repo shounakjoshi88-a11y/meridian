@@ -10,11 +10,17 @@
 
 const API = "";
 
+/* state.view exists to answer one question the DOM cannot: did this call
+ * change the view, or is it the first one? state.dataset names the cohort
+ * currently on screen. Nothing else is kept here; the lists live in
+ * lastResults, next to the view they belong to. */
 const state = {
-  view: "triage",
+  view: null,
   dataset: null,
-  datasetProfile: null,
 };
+
+/* Guards the one-off re-measure after the webfont loads. */
+let fontsSettled = false;
 
 /* ----------------------------------------------------------------- dom */
 
@@ -78,7 +84,7 @@ function skeletonRows(count = 4) {
   return el("div", {}, Array.from({ length: count }, () =>
     el("div", { class: "skeleton" }, [
       el("div", { class: "skeleton__bar skeleton__bar--title" }),
-      el("div", { class: "skeleton__bar skeleton__bar--meta", style: "flex:1" }),
+      el("div", { class: "skeleton__bar skeleton__bar--meta skeleton__bar--fill" }),
     ])
   ));
 }
@@ -124,17 +130,24 @@ function errorState(message, retry) {
   });
 }
 
-let toastTimer = null;
-
-function toast(message) {
-  const node = document.getElementById("toast");
-  node.textContent = message;
-  node.hidden = false;
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => { node.hidden = true; }, 2600);
-}
-
 /* ------------------------------------------------------------ formatting */
+
+/* A titled grid of record fields. Fields whose value is a sentence rather
+ * than a figure are marked so they get the full width instead of being
+ * split across a column gap. */
+const WIDE_FACTS = new Set(["Address", "Notes", "Availability", "Languages"]);
+
+function factGrid(caption, pairs) {
+  return el("div", {}, [
+    el("p", { class: "section-label", text: caption }),
+    el("div", { class: "facts" }, pairs.map(([label, value]) =>
+      el("div", { class: WIDE_FACTS.has(label) ? "fact fact--wide" : "fact" }, [
+        el("p", { class: "fact__label", text: label }),
+        el("p", { class: "fact__value", text: String(value) }),
+      ])
+    )),
+  ]);
+}
 
 function formatDate(value) {
   if (!value) return "";
@@ -286,7 +299,7 @@ function renderTriage(data) {
     }
 
     if (meaningful.length) {
-      block.push(el("p", { class: "section-label", style: "margin-top: var(--s-6)",
+      block.push(el("p", { class: "section-label section-label--spaced",
                             text: "Also considered" }));
       block.push(el("div", { class: "rank__rest" }, meaningful.map((item) =>
         el("div", { class: "rank__item" }, [
@@ -310,8 +323,7 @@ function renderTriage(data) {
     }
 
     if (noMatch.length) {
-      block.push(el("p", { class: "section-label",
-                            style: "margin-top: var(--s-6)",
+      block.push(el("p", { class: "section-label section-label--spaced",
                             text: "Explains none of the report" }));
 
       block.push(el("ul", { class: "nonmatch" }, noMatch.map((item) =>
@@ -334,126 +346,197 @@ function renderTriage(data) {
 
 /* ------------------------------------------------------- search helpers */
 
+/* One entry per searchable registry, and the only place that knows how a
+ * view is wired.
+ *
+ * The element ids are written out rather than built from the view name.
+ * Building them, as "doctors" + "-search", produces doctors-search while
+ * the markup says doctor-search, and the mismatch is invisible until
+ * getElementById returns null and a whole view silently stops working.
+ * Spelling them out here means a rename shows up as a missing id in one
+ * table instead of a null dereference somewhere else. */
+const SEARCH_VIEWS = {
+  patients: {
+    noun: "patients",
+    endpoint: "/api/search/patients",
+    searchId: "patient-search",
+    containerId: "patient-results",
+    label: "patient",
+  },
+  hospitals: {
+    noun: "hospitals",
+    endpoint: "/api/search/hospitals",
+    searchId: "hospital-search",
+    containerId: "hospital-results",
+    label: "hospital",
+  },
+  doctors: {
+    noun: "doctors",
+    endpoint: "/api/search/doctors",
+    searchId: "doctor-search",
+    containerId: "doctor-results",
+    label: "doctor",
+  },
+  medicines: {
+    noun: "medicines",
+    endpoint: "/api/search/medicines",
+    searchId: "medicine-search",
+    containerId: "medicine-results",
+    label: "medicine",
+  },
+  stores: {
+    noun: "stores",
+    endpoint: "/api/search/stores",
+    searchId: "store-search",
+    containerId: "store-results",
+    label: "store",
+  },
+};
+
 /* Each search view remembers its last query and its last results, so
  * opening a record and coming back does not lose the list. Without this
  * the detail view is a dead end. */
-const lastResults = {
-  patients: { query: "", rows: [] },
-  medicines: { query: "", rows: [] },
-  stores: { query: "", rows: [] },
-  hospitals: { query: "", rows: [] },
-  doctors: { query: "", rows: [] },
-};
+const lastResults = {};
 
-/* Renderers for the five list views, looked up by view name. */
-const ROW_RENDERERS = {
-  patients: null,
-  medicines: null,
-  stores: null,
-  hospitals: null,
-  doctors: null,
-};
+/* Renderers for the list views, looked up by view name. Assigned once the
+ * renderers are defined, further down. */
+const ROW_RENDERERS = {};
 
 /* One detail view is open at a time. */
 let openDetail = null;
 
+/* Every detail load takes a ticket. Backing out, or opening another
+ * record, invalidates the ones in flight, so a slow response cannot
+ * replace a screen the reader has already navigated away from. */
+let detailTicket = 0;
+
+/* Looking up a view's elements is the one place a typo becomes a dead
+ * screen rather than a visible error, so a miss throws with the name of
+ * the view instead of returning null and failing later somewhere else. */
+function viewContainer(name) {
+  const node = document.getElementById(SEARCH_VIEWS[name].containerId);
+  if (!node) throw new Error(`no results container for the ${name} view`);
+  return node;
+}
+
+function viewSearchInput(name) {
+  const node = document.getElementById(SEARCH_VIEWS[name].searchId);
+  if (!node) throw new Error(`no search input for the ${name} view`);
+  return node;
+}
+
 function backLink() {
   return el("button", {
-    class: "back", type: "button", onclick: closeDetail,
+    class: "back", type: "button", onclick: () => closeDetail(),
   }, [
-    el("span", { class: "back__mark", "aria-hidden": "true", text: "←" }),
+    el("span", { class: "back__mark", "aria-hidden": "true", text: "\u2190" }),
     el("span", { text: "Back to list" }),
   ]);
 }
 
-function closeDetail() {
+function closeDetail({ restoreFocus = true } = {}) {
   if (!openDetail) return;
 
-  const view = openDetail;
+  const name = openDetail;
   openDetail = null;
+  detailTicket += 1;
 
-  const container = document.getElementById(view.containerId);
-  const stored = lastResults[view.name];
+  clear(viewContainer(name));
 
-  clear(container);
+  const stored = lastResults[name];
 
-  if (stored.rows.length) {
-    renderList(stored.rows, view.name);
-    toast(`Back to ${stored.rows.length} results`);
-  } else {
-    showPrompt(view.name);
-  }
+  if (stored && stored.rows.length) renderList(stored.rows, name);
+  else showPrompt(name);
 
-  document.getElementById(view.searchId)?.focus();
+  if (restoreFocus) viewSearchInput(name)?.focus();
 }
 
-/* Replace a search view's contents with a detail screen. */
-function detailShell({ view, title, lead, children }) {
-  const container = document.getElementById(view.containerId);
+/* Replace a search view's contents with a detail screen.
+ *
+ * The heading takes focus so a keyboard or screen reader user lands on the
+ * record they just opened rather than being left where the list used to
+ * be. tabindex="-1" makes a heading focusable without adding it to the
+ * tab order, so Tab from here still reaches the content below. */
+function detailShell({ name, title, lead, children }) {
+  const container = viewContainer(name);
 
   clear(container);
-  openDetail = { name: view.name, containerId: view.containerId, searchId: view.searchId };
+  openDetail = name;
+
+  const heading = el("h2", { class: "page__title", tabindex: "-1", text: title });
 
   container.appendChild(el("div", {}, [
     backLink(),
-    el("div", { class: "page__head", style: "margin-top: var(--s-5)" }, [
-      el("h2", { class: "page__title", text: title }),
+    el("div", { class: "page__head page__head--detail" }, [
+      heading,
       el("p", { class: "page__lead", text: lead }),
     ]),
     ...[].concat(children),
   ]));
+
+  heading.focus();
 }
 
-function renderList(rows, viewName) {
-  const container = document.getElementById(`${viewName}-results`);
+function renderList(rows, name) {
+  const container = viewContainer(name);
   clear(container);
-  container.appendChild(el("div", { class: "rows" }, rows.map(ROW_RENDERERS[viewName])));
+  container.appendChild(el("div", { class: "rows" }, rows.map(ROW_RENDERERS[name])));
 }
 
-function showPrompt(viewName) {
-  const container = document.getElementById(`${viewName}-results`);
-  const stored = lastResults[viewName];
+function showPrompt(name) {
+  const container = viewContainer(name);
+  const stored = lastResults[name];
 
   clear(container);
   container.appendChild(emptyState({
     title: "No search yet",
-    body: `Type a name, place or category to search ${viewName}.` +
-          (stored.query ? ` Last search was “${stored.query}”.` : ""),
+    body: `Type a name, place or category to search ${SEARCH_VIEWS[name].noun}.` +
+          (stored && stored.query ? ` Last search was “${stored.query}”.` : ""),
   }));
 }
 
-function searchView({ view, endpoint, noun }) {
-  const input = document.getElementById(`${view}-search`);
-  const container = document.getElementById(`${view}-results`);
+function searchView(name) {
+  const config = SEARCH_VIEWS[name];
+  const input = viewSearchInput(name);
+  const container = viewContainer(name);
   let timer = null;
+  // Each load gets a ticket. A slow response belonging to an abandoned
+  // query must not overwrite the results of the query that replaced it.
+  let ticket = 0;
 
   async function load(query) {
     if (!query.trim()) {
-      lastResults[view] = { query: "", rows: [] };
-      showPrompt(view);
+      lastResults[name] = { query: "", rows: [] };
+      openDetail = null;
+      showPrompt(name);
       return;
     }
+
+    const mine = (ticket += 1);
 
     clear(container);
     container.appendChild(skeletonRows(4));
 
     try {
-      const data = await api(`${endpoint}?q=${encodeURIComponent(query)}`);
-      clear(container);
+      const data = await api(`${config.endpoint}?q=${encodeURIComponent(query)}`);
+      if (mine !== ticket) return;
 
-      lastResults[view] = { query, rows: data.results };
+      clear(container);
+      openDetail = null;
+      lastResults[name] = { query, rows: data.results };
 
       if (!data.count) {
         container.appendChild(emptyState({
-          title: `No ${noun} matched`,
+          title: `No ${config.noun} matched`,
           body: `Nothing in the registry matches “${query}”. ` +
                 `Try a shorter or more general term.`,
         }));
         return;
       }
 
-      renderList(data.results, view);
+      renderList(data.results, name);
     } catch (error) {
+      if (mine !== ticket) return;
       clear(container);
       container.appendChild(errorState(error.message, () => load(query)));
     }
@@ -464,18 +547,21 @@ function searchView({ view, endpoint, noun }) {
     timer = setTimeout(() => load(input.value.trim()), 220);
   });
 
+  /* Escape backs out of a record. It has to clear any pending debounce
+   * first, otherwise the keystroke also fires the search that is waiting
+   * to run and the detail closes into a fresh list. */
   input.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && openDetail) closeDetail();
+    if (event.key !== "Escape" || !openDetail) return;
+    clearTimeout(timer);
+    event.preventDefault();
+    closeDetail();
   });
 
+  showPrompt(name);
   load(input.value.trim());
 }
 
 /* ------------------------------------------------------------- patients */
-
-const PATIENT_VIEW = {
-  name: "patients", containerId: "patient-results", searchId: "patient-search",
-};
 
 function patientRow(p) {
   const meta = [p.age ? `age ${p.age}` : "", p.gender,
@@ -518,9 +604,6 @@ function weightFor(v) {
 }
 
 function visitCard(v) {
-  const waited = v.checked_in_at && v.scheduled_time
-    ? null : null;
-
   const facts = [
     el("span", { class: severityClass(v.severity), text: v.severity || "" }),
     el("span", { class: "data", text: v.status || "" }),
@@ -570,12 +653,14 @@ function visitCard(v) {
 }
 
 async function showPatient(p) {
-  const container = document.getElementById("patient-results");
+  const mine = (detailTicket += 1);
+  const container = viewContainer("patients");
   clear(container);
   container.appendChild(skeletonRows(2));
 
   try {
     const data = await api(`/api/patients/${p.patient_id}`);
+    if (mine !== detailTicket) return;
     const who = data.patient;
 
     const contact = [
@@ -583,16 +668,21 @@ async function showPatient(p) {
       ["Phone", who.phone ? `+91 ${who.phone}` : ""],
       ["Email", who.email],
       ["Blood group", who.blood_group || "not recorded"],
-      ["Address", who.address_line],
       ["Area", [who.area, who.pincode].filter(Boolean).join(" ")],
       ["City", [who.city, who.state].filter(Boolean).join(", ")],
       ["Emergency", who.emergency_contact
         ? `${who.emergency_contact}${who.emergency_phone ? `, +91 ${who.emergency_phone}` : ""}`
         : ""],
+      ["Address", who.address_line],
+      ["Notes", who.notes],
     ].filter(([, value]) => value);
 
+    /* Address and notes span both columns: each is a single sentence that
+     * does not survive being split across a gap. */
+    const wide = new Set(["Address", "Notes"]);
+
     detailShell({
-      view: PATIENT_VIEW,
+      name: "patients",
       title: who.name,
       lead: [who.patient_id,
              who.age ? `age ${who.age}` : "",
@@ -601,42 +691,34 @@ async function showPatient(p) {
              .filter(Boolean).join(" · "),
       children: [
         el("div", { class: "detail-grid" }, [
-          el("table", { class: "kv" }, [
-            el("caption", { class: "section-label", text: "Record" }),
-            el("tbody", {}, contact.map(([key, value]) =>
-              el("tr", {}, [
-                el("th", { text: key }),
-                el("td", { text: value }),
+          el("div", {}, [
+            el("p", { class: "section-label", text: "Record" }),
+            el("div", { class: "facts" }, contact.map(([label, value]) =>
+              el("div", { class: wide.has(label) ? "fact fact--wide" : "fact" }, [
+                el("p", { class: "fact__label", text: label }),
+                el("p", { class: "fact__value", text: value }),
               ])
             )),
           ]),
-          el("table", { class: "kv" }, [
-            el("caption", { class: "section-label", text: "At a glance" }),
-            el("tbody", {}, [
-              el("tr", {}, [
-                el("th", { text: "Consultations" }),
-                el("td", { class: "data", text: String(data.visit_count) }),
-              ]),
-              el("tr", {}, [
-                el("th", { text: "Doctors seen" }),
-                el("td", { class: "data",
-                           text: String(new Set(data.visits.map((v) => v.doctor_id)).size) }),
-              ]),
-              el("tr", {}, [
-                el("th", { text: "Hospitals" }),
-                el("td", { class: "data",
-                           text: String(new Set(data.visits.map((v) => v.hospital_id)).size) }),
-              ]),
-              el("tr", {}, [
-                el("th", { text: "Active" }),
-                el("td", { class: "data",
-                           text: String(data.visits.filter((v) => v.status === "Active").length) }),
-              ]),
-            ]),
+
+          el("div", { class: "card" }, [
+            el("p", { class: "section-label", text: "At a glance" }),
+            el("div", { class: "glance" }, [
+              ["Consultations", data.visit_count],
+              ["Doctors seen", new Set(data.visits.map((v) => v.doctor_id)).size],
+              ["Hospitals", new Set(data.visits.map((v) => v.hospital_id)).size],
+              ["Still active", data.visits.filter((v) => v.status === "Active").length],
+              ["Follow-ups due", data.visits.filter((v) => v.follow_up_days !== "").length],
+            ].map(([label, value]) =>
+              el("div", { class: "glance__row" }, [
+                el("span", { class: "glance__label", text: label }),
+                el("span", { class: "glance__value", text: String(value) }),
+              ])
+            )),
           ]),
         ]),
 
-        el("p", { class: "section-label", style: "margin-top: var(--s-6)",
+        el("p", { class: "section-label section-label--spaced",
                   text: "Consultation history" }),
 
         data.visits.length
@@ -650,6 +732,7 @@ async function showPatient(p) {
       ],
     });
   } catch (error) {
+    if (mine !== detailTicket) return;
     clear(container);
     container.appendChild(errorState(error.message, () => showPatient(p)));
   }
@@ -676,17 +759,15 @@ function medicineRow(m) {
   ]);
 }
 
-const MEDICINE_VIEW = {
-  name: "medicines", containerId: "medicine-results", searchId: "medicine-search",
-};
-
 async function showMedicine(m) {
-  const container = document.getElementById("medicine-results");
+  const mine = (detailTicket += 1);
+  const container = viewContainer("medicines");
   clear(container);
   container.appendChild(skeletonRows(2));
 
   try {
     const data = await api(`/api/medicines/${m.medicine_id}`);
+    if (mine !== detailTicket) return;
     const med = data.medicine;
 
     const facts = [
@@ -702,21 +783,13 @@ async function showMedicine(m) {
     ].filter(([, value]) => value);
 
     detailShell({
-      view: MEDICINE_VIEW,
+      name: "medicines",
       title: med.name,
       lead: [med.generic, med.category, med.strength].filter(Boolean).join(" · "),
       children: [
         el("div", { class: "detail-grid" }, [
-          el("table", { class: "kv" }, [
-            el("caption", { class: "section-label", text: "Catalogue entry" }),
-            el("tbody", {}, facts.map(([key, value]) =>
-              el("tr", {}, [
-                el("th", { text: key }),
-                el("td", { text: value }),
-              ])
-            )),
-          ]),
-          el("div", { class: "stock-card" }, [
+          factGrid("Catalogue entry", facts),
+          el("div", { class: "card stock-card" }, [
             el("p", { class: "section-label", text: "Availability" }),
             el("p", { class: "stock-card__count data",
                       text: String(data.stocked_by.length) }),
@@ -726,12 +799,12 @@ async function showMedicine(m) {
           ]),
         ]),
 
-        el("p", { class: "section-label", style: "margin-top: var(--s-6)",
+        el("p", { class: "section-label section-label--spaced",
                   text: "Stocked by" }),
 
         data.stocked_by.length
           ? el("div", { class: "rows" }, data.stocked_by.map((s) =>
-              el("div", { class: "row", style: "cursor: default" }, [
+              el("div", { class: "row row--static" }, [
                 el("span", { class: "row__main" }, [
                   el("span", { class: "row__title", text: s.name }),
                   el("span", { class: "row__meta",
@@ -750,16 +823,13 @@ async function showMedicine(m) {
       ],
     });
   } catch (error) {
+    if (mine !== detailTicket) return;
     clear(container);
     container.appendChild(errorState(error.message, () => showMedicine(m)));
   }
 }
 
 /* --------------------------------------------------------------- stores */
-
-const STORE_VIEW = {
-  name: "stores", containerId: "store-results", searchId: "store-search",
-};
 
 function storeRow(s) {
   const count = s.stock_csv ? s.stock_csv.split("|").length : 0;
@@ -778,12 +848,14 @@ function storeRow(s) {
 }
 
 async function showStore(s) {
-  const container = document.getElementById("store-results");
+  const mine = (detailTicket += 1);
+  const container = viewContainer("stores");
   clear(container);
   container.appendChild(skeletonRows(2));
 
   try {
     const data = await api(`/api/stores/${s.store_id}`);
+    if (mine !== detailTicket) return;
     const store = data.store;
 
     const facts = [
@@ -799,21 +871,13 @@ async function showStore(s) {
     const known = data.medicines.length;
 
     detailShell({
-      view: STORE_VIEW,
+      name: "stores",
       title: store.name,
       lead: [store.type, store.area, store.city].filter(Boolean).join(" · "),
       children: [
         el("div", { class: "detail-grid" }, [
-          el("table", { class: "kv" }, [
-            el("caption", { class: "section-label", text: "Store" }),
-            el("tbody", {}, facts.map(([key, value]) =>
-              el("tr", {}, [
-                el("th", { text: key }),
-                el("td", { text: String(value) }),
-              ])
-            )),
-          ]),
-          el("div", { class: "stock-card" }, [
+          factGrid("Store", facts),
+          el("div", { class: "card stock-card" }, [
             el("p", { class: "section-label", text: "Recorded stock" }),
             el("p", { class: "stock-card__count data", text: String(known) }),
             el("p", { class: "stock-card__unit",
@@ -821,12 +885,12 @@ async function showStore(s) {
           ]),
         ]),
 
-        el("p", { class: "section-label", style: "margin-top: var(--s-6)",
+        el("p", { class: "section-label section-label--spaced",
                   text: "Medicines listed" }),
 
         data.medicines.length
           ? el("div", { class: "rows" }, data.medicines.map((m) =>
-              el("div", { class: "row", style: "cursor: default" }, [
+              el("div", { class: "row row--static" }, [
                 el("span", { class: "row__main" }, [
                   el("span", { class: "row__title", text: m.name }),
                   el("span", { class: "row__meta",
@@ -846,16 +910,13 @@ async function showStore(s) {
       ],
     });
   } catch (error) {
+    if (mine !== detailTicket) return;
     clear(container);
     container.appendChild(errorState(error.message, () => showStore(s)));
   }
 }
 
 /* ------------------------------------------------------------ hospitals */
-
-const HOSPITAL_VIEW = {
-  name: "hospitals", containerId: "hospital-results", searchId: "hospital-search",
-};
 
 function hospitalRow(h) {
   return el("button", { class: "row", onclick: () => showHospital(h) }, [
@@ -870,12 +931,14 @@ function hospitalRow(h) {
 }
 
 async function showHospital(h) {
-  const container = document.getElementById("hospital-results");
+  const mine = (detailTicket += 1);
+  const container = viewContainer("hospitals");
   clear(container);
   container.appendChild(skeletonRows(2));
 
   try {
     const data = await api(`/api/hospitals/${h.hospital_id}`);
+    if (mine !== detailTicket) return;
     const hosp = data.hospital;
 
     const facts = [
@@ -892,26 +955,18 @@ async function showHospital(h) {
     ].filter(([, value]) => value && String(value).trim());
 
     detailShell({
-      view: HOSPITAL_VIEW,
+      name: "hospitals",
       title: hosp.name,
       lead: [hosp.type, hosp.area, hosp.city].filter(Boolean).join(" · "),
       children: [
-        el("table", { class: "kv" }, [
-          el("caption", { class: "section-label", text: "Hospital" }),
-          el("tbody", {}, facts.map(([key, value]) =>
-            el("tr", {}, [
-              el("th", { text: key }),
-              el("td", { text: String(value) }),
-            ])
-          )),
-        ]),
+        factGrid("Hospital", facts),
 
-        el("p", { class: "section-label", style: "margin-top: var(--s-6)",
+        el("p", { class: "section-label section-label--spaced",
                   text: `Doctors practising here (${data.doctors.length})` }),
 
         data.doctors.length
           ? el("div", { class: "rows" }, data.doctors.map((d) =>
-              el("div", { class: "row", style: "cursor: default" }, [
+              el("div", { class: "row row--static" }, [
                 el("span", { class: "row__main" }, [
                   el("span", { class: "row__title", text: d.name }),
                   el("span", { class: "row__meta",
@@ -931,16 +986,13 @@ async function showHospital(h) {
       ],
     });
   } catch (error) {
+    if (mine !== detailTicket) return;
     clear(container);
     container.appendChild(errorState(error.message, () => showHospital(h)));
   }
 }
 
 /* -------------------------------------------------------------- doctors */
-
-const DOCTOR_VIEW = {
-  name: "doctors", containerId: "doctor-results", searchId: "doctor-search",
-};
 
 function doctorRow(d) {
   return el("button", { class: "row", onclick: () => showDoctor(d) }, [
@@ -957,12 +1009,14 @@ function doctorRow(d) {
 }
 
 async function showDoctor(d) {
-  const container = document.getElementById("doctor-results");
+  const mine = (detailTicket += 1);
+  const container = viewContainer("doctors");
   clear(container);
   container.appendChild(skeletonRows(2));
 
   try {
     const data = await api(`/api/doctors/${d.doctor_id}`);
+    if (mine !== detailTicket) return;
     const doc = data.doctor;
 
     const facts = [
@@ -981,26 +1035,18 @@ async function showDoctor(d) {
     ].filter(([, value]) => value && String(value).trim());
 
     detailShell({
-      view: DOCTOR_VIEW,
+      name: "doctors",
       title: doc.name,
       lead: [doc.specialisation, doc.qualification].filter(Boolean).join(" · "),
       children: [
-        el("table", { class: "kv" }, [
-          el("caption", { class: "section-label", text: "Practitioner" }),
-          el("tbody", {}, facts.map(([key, value]) =>
-            el("tr", {}, [
-              el("th", { text: key }),
-              el("td", { text: String(value) }),
-            ])
-          )),
-        ]),
+        factGrid("Practitioner", facts),
 
-        el("p", { class: "section-label", style: "margin-top: var(--s-6)",
+        el("p", { class: "section-label section-label--spaced",
                   text: `Recent consultations (${data.visits.length})` }),
 
         data.visits.length
           ? el("div", { class: "rows" }, data.visits.map((v) =>
-              el("div", { class: "row", style: "cursor: default" }, [
+              el("div", { class: "row row--static" }, [
                 el("span", { class: "row__main" }, [
                   el("span", { class: "row__title",
                                text: v.patient_name || v.patient_id }),
@@ -1018,6 +1064,7 @@ async function showDoctor(d) {
       ],
     });
   } catch (error) {
+    if (mine !== detailTicket) return;
     clear(container);
     container.appendChild(errorState(error.message, () => showDoctor(d)));
   }
@@ -1027,6 +1074,10 @@ async function showDoctor(d) {
 
 const datasetTabs = document.getElementById("dataset-tabs");
 const analyticsBody = document.getElementById("analytics-body");
+
+/* See detailTicket. Same reasoning: a response for a dataset the reader
+ * has already switched away from must not paint over the current one. */
+let datasetTicket = 0;
 
 async function loadDatasets() {
   clear(datasetTabs);
@@ -1069,8 +1120,12 @@ function selectDataset(name) {
       tab.textContent === name.replace(".csv", "") ? "true" : "false");
   }
 
+  revealTab(name);
+
   clear(analyticsBody);
   analyticsBody.appendChild(skeletonRows(3));
+
+  const mine = (datasetTicket += 1);
 
   (async () => {
     try {
@@ -1078,6 +1133,10 @@ function selectDataset(name) {
         api(`/api/analytics/${name}`),
         api(`/api/analytics/${name}/risk-bands`).catch(() => null),
       ]);
+
+      // Switching tabs faster than the requests return is normal. A
+      // response for a tab the reader has already left must not paint.
+      if (mine !== datasetTicket) return;
 
       const charts = profile.strongest_separators.slice(0, 3);
 
@@ -1103,8 +1162,9 @@ function selectDataset(name) {
         analyticsBody.appendChild(renderBands(name, bands));
       }
 
-      loadCharts(name);
+      loadCharts(name, mine);
     } catch (error) {
+      if (mine !== datasetTicket) return;
       clear(analyticsBody);
       analyticsBody.appendChild(errorState(error.message, () => selectDataset(name)));
     }
@@ -1121,9 +1181,9 @@ function renderBands(name, bands) {
     rows.push(el("tr", {}, [
       el("th", { class: "data", text: column }),
       el("td", {}, [
-        el("div", { class: "row__meta", style: "margin-bottom: var(--s-2)" },
+        el("div", { class: "bands__lines" },
           entries.map(([label, count]) =>
-            el("span", { style: "display:block" },
+            el("span", { class: "bands__line" },
               `${label}: ${count} (${Math.round((count / total) * 100)}%)`))),
         data.unreachable_bands.length
           ? el("p", { class: "field__hint",
@@ -1136,22 +1196,53 @@ function renderBands(name, bands) {
 
   if (!rows.length) return null;
 
-  return el("div", { class: "panel", style: "margin-top: var(--s-5)" }, [
+  return el("div", { class: "panel panel--spaced" }, [
     el("p", { class: "section-label", text: "Risk bands" }),
     el("table", { class: "kv" }, [el("tbody", {}, rows)]),
   ]);
 }
 
-async function loadCharts(name) {
+/* The dataset tabs scroll sideways on a narrow screen, so the one that is
+ * selected has to be brought back into view or the reader cannot see
+ * which dataset they are looking at. Same reasoning as revealActiveNav. */
+function revealTab(name) {
+  const strip = document.getElementById("dataset-tabs");
+  if (!strip) return;
+
+  const wanted = name.replace(".csv", "");
+  const tab = [...strip.children].find((t) => t.textContent === wanted);
+  if (!tab) return;
+
+  for (let pass = 0; pass < 3; pass += 1) {
+    const stripBox = strip.getBoundingClientRect();
+    const tabBox = tab.getBoundingClientRect();
+
+    const hiddenLeft = tabBox.left < stripBox.left;
+    const hiddenRight = tabBox.right > stripBox.right;
+
+    if (!hiddenLeft && !hiddenRight) return;
+
+    if (hiddenRight) strip.scrollLeft += tabBox.right - stripBox.right + 8;
+    else strip.scrollLeft -= stripBox.left - tabBox.left + 8;
+  }
+}
+
+async function loadCharts(name, ticket) {
   try {
     const data = await api(`/api/analytics/${name}/charts`);
+
+    // Charts land last and slowest, so they need the same ticket check as
+    // the rest. Without it, flipping between tabs leaves a grid of images
+    // from every tab visited, stacked under whichever one loaded last.
+    if (ticket !== datasetTicket) return;
+
     const target = document.getElementById("analytics-body");
     if (!target) return;
 
-    const grid = el("div", { class: "charts", style: "margin-top: var(--s-5)" },
+    const grid = el("div", { class: "charts charts--spaced" },
       data.charts.map((path) => {
         const file = path.split(/[\\/]/).pop();
-        return el("figure", { class: "chart", style: "margin:0" }, [
+        return el("figure", { class: "chart chart--flush" }, [
           el("img", { src: `/charts/${file}`, alt: `Chart for ${name}`,
                       loading: "lazy", width: "700", height: "420" }),
           el("figcaption", { class: "chart__caption",
@@ -1167,28 +1258,69 @@ async function loadCharts(name) {
 
 /* ------------------------------------------------------------- routing */
 
-/* Every searchable view: which registry to query, and what a row looks
- * like. Kept as one table so adding a registry is a single entry. */
+/* Row renderers, bound to the view names declared in SEARCH_VIEWS above.
+ * Kept as a block here because each renderer is defined next to the
+ * detail screen it opens. */
 ROW_RENDERERS.patients = patientRow;
-ROW_RENDERERS.medicines = medicineRow;
-ROW_RENDERERS.stores = storeRow;
 ROW_RENDERERS.hospitals = hospitalRow;
 ROW_RENDERERS.doctors = doctorRow;
-
-const SEARCH_VIEWS = {
-  patients: { view: "patients", endpoint: "/api/search/patients", noun: "patients" },
-  medicines: { view: "medicines", endpoint: "/api/search/medicines", noun: "medicines" },
-  stores: { view: "stores", endpoint: "/api/search/stores", noun: "stores" },
-  hospitals: { view: "hospitals", endpoint: "/api/search/hospitals", noun: "hospitals" },
-  doctors: { view: "doctors", endpoint: "/api/search/doctors", noun: "doctors" },
-};
+ROW_RENDERERS.medicines = medicineRow;
+ROW_RENDERERS.stores = storeRow;
 
 const VIEWS = ["triage", "patients", "hospitals", "doctors", "medicines",
                "stores", "analytics"];
 const INITIALISED = new Set();
 
+/* Seven sections do not fit across a phone, so the nav scrolls sideways
+ * and fades at the cut edge. That makes the section you are in easy to
+ * lose off the right of the screen, so it is brought back into view when
+ * it changes.
+ *
+ * scrollLeft is adjusted directly rather than through scrollIntoView,
+ * which would also scroll the page vertically to chase the link. */
+function revealActiveNav(name) {
+  const nav = document.querySelector(".nav");
+  const link = nav && nav.querySelector(`.nav__link[data-view="${name}"]`);
+  if (!nav || !link) return;
+
+  /* scrollLeft is assigned rather than scrolled through scrollIntoView,
+   * which would also scroll the page vertically chasing the link.
+   *
+   * Two passes, because the browser clamps scrollLeft at both ends and a
+   * single pass can leave the link short of the edge it was pushed
+   * towards. The loop stops as soon as the link is wholly inside. */
+  for (let pass = 0; pass < 3; pass += 1) {
+    const navBox = nav.getBoundingClientRect();
+    const linkBox = link.getBoundingClientRect();
+
+    const hiddenLeft = linkBox.left < navBox.left;
+    const hiddenRight = linkBox.right > navBox.right;
+
+    if (!hiddenLeft && !hiddenRight) return;
+
+    if (hiddenRight) nav.scrollLeft += linkBox.right - navBox.right + 8;
+    else nav.scrollLeft -= navBox.left - linkBox.left + 8;
+  }
+}
+
+/* Changing the view is a navigation, so focus has to move with it. The
+ * heading is made programmatically focusable rather than carrying
+ * tabindex="-1" in the markup, which keeps the authored HTML readable and
+ * puts the attribute only where it is needed. */
+function focusHeading(viewName) {
+  const heading = document.getElementById(`view-${viewName}`)?.querySelector("h1");
+  if (!heading) return;
+
+  heading.setAttribute("tabindex", "-1");
+  heading.focus();
+}
+
 function show(name) {
   if (!VIEWS.includes(name)) name = "triage";
+
+  // The first call is not a change. Treating it as one would move focus
+  // to the heading on page load, which is never what anyone wants.
+  const isChange = state.view !== null && state.view !== name;
   state.view = name;
 
   for (const view of VIEWS) {
@@ -1201,14 +1333,56 @@ function show(name) {
     else link.removeAttribute("aria-current");
   }
 
-  // Leaving a view with a record open must not strand the reader.
-  if (openDetail && openDetail.name !== name) closeDetail();
+  // Leaving a view with a record open must not strand the reader. Focus is
+  // not restored to the search box here, because the heading is about to
+  // take it.
+  if (openDetail && openDetail.name !== name) closeDetail({ restoreFocus: false });
+
+  if (isChange) focusHeading(name);
+
+  revealActiveNav(name);
+
+  /* The nav is measured with the fallback font first, then re-measured
+   * when IBM Plex arrives and every item gets wider. The scroll position
+   * chosen against the fallback is then short by however much the real
+   * font added, which leaves the active item clipped again. One more pass
+   * after the fonts settle closes the gap. */
+  if (!fontsSettled) {
+    fontsSettled = true;
+    document.fonts?.ready.then(() => revealActiveNav(state.view));
+  }
 
   if (INITIALISED.has(name)) return;
-  INITIALISED.add(name);
 
-  if (SEARCH_VIEWS[name]) searchView(SEARCH_VIEWS[name]);
-  if (name === "analytics") loadDatasets();
+  /* Marked as done only after it has actually worked. Recording it first
+   * means a view whose setup throws is remembered as initialised and is
+   * then skipped forever, so it stays blank for the rest of the session
+   * with no way back. */
+  try {
+    if (SEARCH_VIEWS[name]) searchView(name);
+    if (name === "analytics") loadDatasets();
+    INITIALISED.add(name);
+  } catch (error) {
+    reportBrokenView(name, error);
+  }
+}
+
+/* A view that cannot start says so, in its own area, rather than leaving
+ * a heading above nothing. */
+function reportBrokenView(name, error) {
+  console.error(`Meridian: the ${name} view failed to start`, error);
+
+  const config = SEARCH_VIEWS[name];
+  if (!config) return;
+
+  const container = document.getElementById(config.containerId);
+  if (!container) return;
+
+  clear(container);
+  container.appendChild(errorState(
+    `${error.message}. This is a bug in the interface, not a data problem.`,
+    () => location.reload(),
+  ));
 }
 
 window.addEventListener("hashchange", () => show(location.hash.slice(1) || "triage"));
