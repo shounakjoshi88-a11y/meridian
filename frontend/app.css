@@ -1527,3 +1527,133 @@ textarea.input {
   ::view-transition-old(*),
   ::view-transition-new(*) { animation: none !important; }
 }
+
+/* ============================================================ about card
+ *
+ * The rare registry carries a lot of reference material: how many diseases
+ * it holds, the most common findings, how inheritance splits. It used to be
+ * a permanent panel above the list, which meant every visit began by
+ * scrolling past a wall of figures to reach anything. Reference material
+ * belongs one click away, not in the way.
+ *
+ * A native <dialog> rather than a div with role="dialog", because the
+ * escape key, the backdrop, the focus move on open and the focus return on
+ * close are behaviour a hand-rolled overlay usually gets subtly wrong.
+ */
+
+/* The page head becomes a row when the button needs its own space. Without
+ * the modifier the button would try to sit beside the title on a phone. */
+.page__head--split {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--s-4);
+}
+
+.about-btn { flex-shrink: 0; }
+
+.about {
+  width: min(680px, calc(100vw - var(--s-6)));
+  max-height: min(80vh, 720px);
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  background: var(--surface);
+  color: var(--text);
+  /* Shadow is layered and tinted toward the canvas rather than a flat grey,
+   * and it is the one place on this screen a shadow is warranted: the card
+   * is genuinely floating above the page. */
+  box-shadow: 0 1px 2px hsl(215 30% 12% / 0.10),
+              0 12px 32px hsl(215 30% 12% / 0.14);
+  overflow: hidden;
+}
+
+.about::backdrop {
+  background: hsl(215 30% 10% / 0.44);
+}
+
+/* Native dialogs fade and scale by default. Kept, because it is the one
+ * motion on this screen and it earns its place by explaining where the card
+ * came from. */
+.about[open] { animation: about-in 200ms var(--ease-out); }
+
+@keyframes about-in {
+  from { opacity: 0; transform: translateY(6px) scale(0.99); }
+}
+
+.about__inner {
+  display: flex;
+  flex-direction: column;
+  max-height: inherit;
+}
+
+.about__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-3);
+  padding: var(--s-4) var(--s-5);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.about__title {
+  margin: 0;
+  font-size: var(--fs-lg);
+  font-weight: 500;
+  line-height: var(--lh-tight);
+}
+
+.about__body {
+  padding: var(--s-5);
+  overflow-y: auto;
+  /* Room for the scrollbar so the content does not shift sideways the
+   * moment it becomes scrollable. */
+  scrollbar-gutter: stable;
+}
+
+/* Inside the card the outer card border is a frame around a frame. Dropped,
+ * because the dialog already provides the boundary. */
+.about__body .card {
+  border: 0;
+  padding: 0;
+  background: none;
+}
+
+.about__body .figure__value { font-size: 1.5rem; }
+
+@media (max-width: 640px) {
+  .page__head--split { flex-direction: column; }
+  .about-btn { align-self: flex-start; }
+  .about { width: calc(100vw - var(--s-5)); }
+  .about__bar,
+  .about__body { padding: var(--s-4); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about[open] { animation: none; }
+}
+
+/* Inside the About card the four figures sit in a narrower box, and
+ * auto-fit puts three across and orphans the fourth. Two by two reads as a
+ * set of four rather than as a row with a leftover. */
+.about__body .figures {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s-5) var(--s-4);
+}
+
+@media (max-width: 420px) {
+  .about__body .figures { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* The companion does not travel on a phone.
+ *
+ * It is positioned 40px above the row it stands on, which is deliberate on a
+ * wide screen where that space is empty margin. At 360px there is no empty
+ * margin: the row above ends with a line of hint text and the creature lands
+ * on top of it, obscuring words. A decoration that covers content is a bug
+ * however charming it is, so below 640px it is simply not shown. The header
+ * control stays, because turning it off is still a choice worth having. */
+@media (max-width: 640px) {
+  .cr { display: none; }
+}

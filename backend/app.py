@@ -588,13 +588,12 @@ def get_doctor(doctor_id):
 
 @app.get("/api/rare-conditions")
 def list_rare_conditions():
-    """Summarise the HPO derived registry and return a first page.
+    """One page of the HPO derived registry, plus its shape.
 
-    The registry is 11,655 diseases. A page that opens on an empty search
-    box tells the reader nothing about a corpus that size, so this returns
-    the shape of it: how many diseases, how many phenotypic findings, how
-    many carry an inheritance mode, and the most common findings. The
-    interface shows that instead of a prompt to type.
+    The registry is 11,655 diseases. The figures ride along with the page
+    rather than sitting on a second request, because the About card and the
+    list must not be able to describe different sizes, and both come free
+    from the same pass over the same rows.
     """
     records, _ = store.read_all("rare_conditions")
     vocabulary, _ = store.read_all("hpo_symptoms")
@@ -624,8 +623,22 @@ def list_rare_conditions():
             if mode:
                 inheritance[mode] = inheritance.get(mode, 0) + 1
 
+    # One page of the registry, in the same shape every other list endpoint
+    # returns, so the interface keeps one browse component instead of
+    # growing a second one for this view. The figures travel with the page
+    # rather than sitting on their own request, so the About card and the
+    # list cannot end up describing different sizes.
+    _limit, _offset = page_args()
+    window = records[_offset:_offset + _limit]
+
     return jsonify({
+        "count": len(window),
         "total": len(records),
+        "offset": _offset,
+        "limit": _limit,
+        "has_more": _offset + len(window) < len(records),
+        "conditions": window,
+        "facets": [],
         "with_mondo": sum(1 for r in records if r["mondo_id"]),
         "with_inheritance": sum(1 for r in records if r["inheritance_mode"]),
         "distinct_findings": len(by_hpo),
@@ -636,7 +649,6 @@ def list_rare_conditions():
             [{"mode": k, "diseases": v} for k, v in inheritance.items()],
             key=lambda x: -x["diseases"],
         )[:8],
-        "results": records[:SEARCH_PAGE_SIZE],
     })
 
 

@@ -50,9 +50,84 @@ LOCAL = {"store", "triage", "registry", "analytics", "models", "app"}
 # turn the HSL design tokens into RGB before measuring contrast. It is
 # stdlib and belongs here rather than in a concept explainer.
 SKIP = {"typing", "unittest", "__future__", "io", "sys", "os", "re",
-        "datetime", "colorsys"}
+        "datetime", "colorsys", "tokenize", "atexit", "hashlib", "time"}
 
 IMPORT_RE = re.compile(r"^\s*(?:from|import)\s+([A-Za-z_][\w]*)")
+
+
+def imports_in(source):
+    """Yield (module_name, line_number) for each real import statement.
+
+    Uses the tokenizer rather than a regular expression over the text. A
+    regex cannot tell an import from a line of English that happens to start
+    with "from", which is not a hypothetical: a docstring here contained the
+    sentence "from the same pass over the same rows" and it was reported as
+    an import of a module named "the".
+
+    tokenize labels that sentence as string content and a real import as a
+    NAME token, so the two cannot be confused.
+    """
+    import io
+    import tokenize
+
+    found = []
+    mode = None          # None, "from" or "import"
+    want_name = False
+
+    try:
+        tokens = list(tokenize.generate_tokens(io.StringIO(source).readline))
+    except (tokenize.TokenError, IndentationError, SyntaxError):
+        # An unreadable file still gets scanned as text. Reporting a few
+        # spurious imports beats reporting none at all.
+        for number, line in enumerate(source.splitlines(), start=1):
+            match = IMPORT_RE.match(line)
+
+            if match:
+                found.append((match.group(1), number))
+
+        return found
+
+    for token in tokens:
+        # A statement ends at the newline. Everything inside it is one of
+        # the forms below, so nothing after it is considered.
+        if token.type in (tokenize.NEWLINE, tokenize.NL) and token.line.strip():
+            mode = None
+            want_name = False
+            continue
+
+        if token.type != tokenize.NAME:
+            # A comma means another name in the same statement: "import a, b"
+            if token.type == tokenize.OP and token.string == "," and mode:
+                want_name = True
+            continue
+
+        if token.string == "from" and not mode:
+            mode = "from"
+            want_name = True
+            continue
+
+        if token.string == "import" and not mode:
+            mode = "import"
+            # "import x" names x next. "from x import y" has already named
+            # x, so this import keyword ends the module part.
+            want_name = True
+            continue
+
+        if want_name:
+            # For "from x import y", only x is a module. y is a name inside
+            # x, and recording it would report jsonify and Flask as modules
+            # in their own right.
+            if mode == "from":
+                found.append((token.string, token.start[0]))
+                mode = "names"
+                want_name = False
+            elif mode == "import":
+                found.append((token.string, token.start[0]))
+                want_name = False
+            else:
+                want_name = False
+
+    return found
 
 
 def scan(directory):
@@ -69,22 +144,13 @@ def scan(directory):
         path = os.path.join(directory, name)
 
         with open(path, "r", encoding="utf-8") as f:
-            for number, line in enumerate(f, start=1):
-                stripped = line.strip()
+            source = f.read()
 
-                if stripped.startswith("#"):
-                    continue
+        for module, number in imports_in(source):
+            if module in LOCAL or module in SKIP:
+                continue
 
-                match = IMPORT_RE.match(line)
-                if not match:
-                    continue
-
-                module = match.group(1)
-
-                if module in LOCAL or module in SKIP:
-                    continue
-
-                found.setdefault(module, []).append(f"{path}:{number}")
+            found.setdefault(module, []).append(f"{path}:{number}")
 
     return found
 

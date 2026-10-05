@@ -235,14 +235,24 @@
 
   <!-- --------------------------------------------------------- rare -->
   <section id="view-rare_conditions" hidden>
-    <div class="page__head">
-      <h1 class="page__title">Rare conditions</h1>
-      <p class="page__lead">
-        Every disease the Human Phenotype Ontology annotates, with the
-        phenotypic findings recorded for it. Built from
-        <code>hp.obo</code> and <code>phenotype.hpoa</code>, filtered to
-        findings a clinician would recognise.
-      </p>
+    <div class="page__head page__head--split">
+      <div>
+        <h1 class="page__title">Rare conditions</h1>
+        <p class="page__lead">
+          Every disease the Human Phenotype Ontology annotates, with the
+          phenotypic findings recorded for it. Built from
+          <code>hp.obo</code> and <code>phenotype.hpoa</code>, filtered to
+          findings a clinician would recognise.
+        </p>
+      </div>
+      <!-- The explainer used to sit permanently above the list, so every
+           visit to this view began by scrolling past a wall of figures
+           before reaching anything. It is reference material, so it is one
+           click away instead. -->
+      <button class="btn btn--secondary about-btn" id="rare-about"
+              type="button" aria-haspopup="dialog">
+        About this registry
+      </button>
     </div>
 
     <div class="field field--search">
@@ -257,7 +267,26 @@
       </p>
     </div>
 
-    <div id="rare-overview"></div>
+    <!-- Filled on first open, then reused, so a reader who closes it to
+         look at the list does not pay for it twice. -->
+    <dialog class="about" id="rare-about-dialog"
+            aria-labelledby="rare-about-title">
+      <div class="about__inner">
+        <div class="about__bar">
+          <h2 class="about__title" id="rare-about-title">About this registry</h2>
+          <button class="iconbtn" id="rare-about-close" type="button"
+                  aria-label="Close">
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"
+                 fill="none" stroke="currentColor" stroke-width="1.6"
+                 stroke-linecap="round">
+              <path d="M6 6l12 12M18 6L6 18"/>
+            </svg>
+          </button>
+        </div>
+        <div class="about__body" id="rare-overview"></div>
+      </div>
+    </dialog>
+
 
     <div id="rare-results" aria-live="polite"></div>
   </section>

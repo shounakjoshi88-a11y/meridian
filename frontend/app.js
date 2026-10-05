@@ -90,11 +90,12 @@ function skeletonRows(count = 4) {
 }
 
 function emptyState({ title, body, action, art = "search", role = "status" }) {
+  const actions = actionNodes(action);
+
   // Line art drawn from the same geometry as the interface: a list of
   // reported symptoms being matched against a reference set. One accent
   // detail, everything else neutral.
-  const art_ = art === "search"
-    ? el("svg", { class: "empty-art", viewBox: "0 0 96 72", width: "104",
+  const art_ = art === "search"    ? el("svg", { class: "empty-art", viewBox: "0 0 96 72", width: "104",
                   height: "78", "aria-hidden": "true" }, [
         el("path", { class: "draw", pathLength: "1",
                      d: "M24 14h30M24 26h30M24 38h22" }),
@@ -116,8 +117,38 @@ function emptyState({ title, body, action, art = "search", role = "status" }) {
     art_,
     el("h2", { class: "state__title", text: title }),
     el("p", { class: "state__body", text: body }),
-    action ? el("div", { class: "state__action" }, action) : null,
+    actions ? el("div", { class: "state__action" }, actions) : null,
   ]);
+}
+
+/* An empty state's action may be given as a node, as a list of nodes, or as
+ * a {label, run} pair. Accepting all three is deliberate: the alternative is
+ * every caller constructing its own button, and a caller that forgets ends up
+ * passing a plain object to appendChild, which fails at runtime with a
+ * message that does not point at the cause.
+ *
+ * Button labels are verb-first and sentence case, so nothing here needs
+ * capitalising or rewording. */
+function actionNodes(action) {
+  if (!action) return null;
+
+  const list = Array.isArray(action) ? action : [action];
+
+  const nodes = list.map((item) => {
+    if (!item || typeof item === "string") return item;
+
+    if (typeof item.appendChild === "function") return item;
+
+    const { label, run } = item;
+
+    return el("button", {
+      class: "btn btn--secondary",
+      type: "button",
+      onclick: run,
+    }, label);
+  });
+
+  return nodes.some(Boolean) ? nodes : null;
 }
 
 function errorState(message, retry) {
@@ -357,6 +388,7 @@ function renderTriage(data) {
  * table instead of a null dereference somewhere else. */
 const SEARCH_VIEWS = {
   patients: {
+    searchFor: "a name, an area or a blood group",
     noun: "patients",
     endpoint: "/api/search/patients",
     searchId: "patient-search",
@@ -364,6 +396,7 @@ const SEARCH_VIEWS = {
     label: "patient",
   },
   hospitals: {
+    searchFor: "a name, a type, an area or an accreditation",
     noun: "hospitals",
     endpoint: "/api/search/hospitals",
     searchId: "hospital-search",
@@ -371,6 +404,7 @@ const SEARCH_VIEWS = {
     label: "hospital",
   },
   doctors: {
+    searchFor: "a name, a specialisation or a hospital",
     noun: "doctors",
     endpoint: "/api/search/doctors",
     searchId: "doctor-search",
@@ -378,6 +412,7 @@ const SEARCH_VIEWS = {
     label: "doctor",
   },
   medicines: {
+    searchFor: "a medicine, its generic name or a manufacturer",
     noun: "medicines",
     endpoint: "/api/search/medicines",
     searchId: "medicine-search",
@@ -385,6 +420,7 @@ const SEARCH_VIEWS = {
     label: "medicine",
   },
   stores: {
+    searchFor: "a pharmacy, an area or a city",
     noun: "stores",
     endpoint: "/api/search/stores",
     searchId: "store-search",
@@ -392,6 +428,7 @@ const SEARCH_VIEWS = {
     label: "store",
   },
   rare_conditions: {
+    searchFor: "a disease, a finding or a MONDO id",
     noun: "rare conditions",
     endpoint: "/api/search/rare_conditions",
     searchId: "rare-search",
@@ -512,19 +549,17 @@ function showPrompt(name) {
   const container = viewContainer(name);
   const stored = lastResults[name];
 
-  // The rare registry opens on an overview that already says what is in
-  // it. Adding "No search yet" underneath tells the reader to do the one
-  // thing they do not need to do.
-  if (name === "rare_conditions" && document.getElementById("rare-overview")
-      ?.dataset.loaded === "yes") {
-    return;
-  }
+  const config = SEARCH_VIEWS[name];
 
   clear(container);
+
+  /* The headline names the reader's options rather than reporting that
+   * nothing has happened yet. "No search yet" describes the interface;
+   * "Browse 600 patients" describes what they can do. */
   container.appendChild(emptyState({
-    title: "No search yet",
-    body: `Type a name, place or category to search ${SEARCH_VIEWS[name].noun}.` +
-          (stored && stored.query ? ` Last search was “${stored.query}”.` : ""),
+    title: `Browse ${config.noun}`,
+    body: `Search by ${config.searchFor}.` +
+          (stored && stored.query ? ` Last search was "${stored.query}".` : ""),
   }));
 }
 
@@ -628,6 +663,10 @@ function searchView(name) {
  */
 
 const BROWSE_VIEWS = {
+  /* The rare registry pages like the rest. It calls its page "conditions"
+   * rather than after itself, so the key is named explicitly. */
+  rare_conditions: { endpoint: "/api/rare-conditions", limit: 50,
+                     key: "conditions" },
   patients: { endpoint: "/api/patients", limit: 50 },
   hospitals: { endpoint: "/api/hospitals", limit: 50 },
   doctors: { endpoint: "/api/doctors", limit: 50 },
@@ -679,6 +718,10 @@ function browseCountLine(name, data, state) {
 }
 
 function facetTabs(name, state, onPick) {
+  /* A registry with no facets gets no tab strip. An "All" tab next to a
+   * count that already states the total is a control that does nothing. */
+  if (!state.facets.length) return null;
+
   const strip = el("div", {
     class: "tabs tabs--facets",
     role: "tablist",
@@ -766,7 +809,7 @@ async function renderBrowse(name) {
     clear(container);
     openDetail = null;
 
-    const rows = data[name] || [];
+    const rows = data[BROWSE_VIEWS[name].key || name] || [];
 
     if (!rows.length) {
       /* Reachable when a page offset falls past the end, which is what a
@@ -794,15 +837,17 @@ async function renderBrowse(name) {
 
     const wrap = el("div", { class: "browse" });
 
+    const tabs = facetTabs(name, state, (flag) => {
+      if (state.flag === flag) return;
+      state.flag = flag;
+      state.offset = 0;
+      renderBrowse(name);
+    });
+
     wrap.appendChild(el("div", { class: "browse__bar" }, [
       el("p", { class: "browse__count" }, browseCountLine(name, data, state)),
-      facetTabs(name, state, (flag) => {
-        if (state.flag === flag) return;
-        state.flag = flag;
-        state.offset = 0;
-        renderBrowse(name);
-      }),
-    ]));
+      tabs,
+    ].filter(Boolean)));
 
     wrap.appendChild(el("div", { class: "rows" }, rows.map(ROW_RENDERERS[name])));
 
@@ -1405,10 +1450,6 @@ async function loadRareOverview() {
 
     clear(panel);
 
-    /* The prompt underneath is the thing the overview replaces, and it is
-     * still on screen because the overview arrives after it. */
-    clear(viewContainer(RARE_VIEW.name));
-
     const figures = [
       ["Diseases", data.total.toLocaleString()],
       ["Distinct findings", data.distinct_findings.toLocaleString()],
@@ -1416,8 +1457,7 @@ async function loadRareOverview() {
       ["With inheritance noted", data.with_inheritance.toLocaleString()],
     ];
 
-    panel.appendChild(el("div", { class: "card" }, [
-      el("p", { class: "section-label", text: "What is in this registry" }),
+    panel.appendChild(el("div", {}, [
       el("div", { class: "figures" }, figures.map(([label, value]) =>
         el("div", { class: "figure" }, [
           el("p", { class: "figure__value data", text: value }),
@@ -1461,6 +1501,60 @@ async function loadRareOverview() {
     clear(panel);
     panel.appendChild(errorState(error.message, loadRareOverview));
   }
+}
+
+/* ------------------------------------------------------------ about card
+ *
+ * The button opens a native <dialog>. Escape, the backdrop and focus return
+ * are all handled by the element itself, which is the reason for using it
+ * rather than a div that imitates one. The two things it does not do are
+ * remembered here: the content is fetched the first time it is opened rather
+ * than on page load, and focus goes back to the button on close so a
+ * keyboard reader is not dropped at the top of the document.
+ */
+
+const aboutDialog = document.getElementById("rare-about-dialog");
+const aboutButton = document.getElementById("rare-about");
+const aboutClose = document.getElementById("rare-about-close");
+
+if (aboutDialog && aboutButton) {
+  aboutButton.addEventListener("click", async () => {
+    /* showModal moves focus into the dialog and traps it there. Calling it
+     * before the content exists would show an empty card, so the fetch is
+     * awaited first and the skeleton sits in the panel meanwhile. */
+    if (aboutDialog.open) return;
+
+    const panel = document.getElementById("rare-overview");
+
+    if (!panel.dataset.loaded) {
+      clear(panel);
+      panel.appendChild(skeletonRows(3));
+    }
+
+    aboutDialog.showModal();
+
+    if (!panel.dataset.loaded) await loadRareOverview();
+
+    /* Whatever focus the dialog chose on open, the close button is the
+     * thing a reader wants next, and it is the only guaranteed target. */
+    aboutClose?.focus();
+  });
+
+  aboutClose?.addEventListener("click", () => aboutDialog.close());
+
+  /* Clicking the backdrop closes. The click target is the dialog itself
+   * rather than a child, so a click on the card does not dismiss it. */
+  aboutDialog.addEventListener("click", (event) => {
+    if (event.target === aboutDialog) aboutDialog.close();
+  });
+
+  /* The browser restores focus to the opener on close for a modal dialog,
+   * but not reliably when it was opened programmatically, so it is done
+   * here where it cannot be argued with. */
+  aboutDialog.addEventListener("close", () => {
+    aboutButton.focus();
+    if (typeof companion !== "undefined") companion.show();
+  });
 }
 
 async function showRare(c) {
@@ -1836,11 +1930,10 @@ function show(name) {
    * means a view whose setup throws is remembered as initialised and is
    * then skipped forever, so it stays blank for the rest of the session
    * with no way back. */
-  try {
-    if (SEARCH_VIEWS[name]) searchView(name);
-    if (name === "rare_conditions") loadRareOverview();
-    if (name === "analytics") loadDatasets();
-    INITIALISED.add(name);
+    try {
+      if (SEARCH_VIEWS[name]) searchView(name);
+      if (name === "analytics") loadDatasets();
+      INITIALISED.add(name);
   } catch (error) {
     reportBrokenView(name, error);
   }

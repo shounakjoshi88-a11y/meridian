@@ -7,10 +7,13 @@ test deletes what it created and the suite asserts at the end that the
 row counts are back to their starting values.
 """
 
+import atexit
+import hashlib
 import json
 import os
 import shutil
 import sys
+import time
 
 BACKEND = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "backend")
 if BACKEND not in sys.path:
@@ -28,18 +31,42 @@ STARTING = {t: store.count_records(t) for t in store.RECORDS}
 # assigned by next_id and a deleted row leaves a gap.
 SNAPSHOTS = {}
 
+# Hash of each registry as the suite found it, checked on exit.
+SEED_FINGERPRINTS = {}
+
+
+def read_registry(record_type, attempts=3):
+    """Read a registry file, retrying briefly if the OS refuses the handle.
+
+    Windows refuses an open with EINVAL when another handle happens to be
+    mid-write on the same file, which is what happens if the application is
+    running while the suite runs. It is transient, so it is retried rather
+    than turned into a failure or, worse, a half-taken snapshot.
+    """
+    for attempt in range(attempts):
+        try:
+            with open(store.path_for(record_type), "r", newline="") as f:
+                return f.read()
+        except OSError:
+            if attempt == attempts - 1:
+                raise
+            time.sleep(0.05 * (attempt + 1))
+
+
+def write_registry(record_type, text):
+    with open(store.path_for(record_type), "w", newline="") as f:
+        f.write(text)
+
 
 def snapshot(record_type):
     """Save a registry file's contents before a test writes to it."""
-    with open(store.path_for(record_type), "r", newline="") as f:
-        SNAPSHOTS[record_type] = f.read()
+    SNAPSHOTS[record_type] = read_registry(record_type)
 
 
 def restore_all():
     """Put every snapshotted registry back."""
     for record_type, text in SNAPSHOTS.items():
-        with open(store.path_for(record_type), "w", newline="") as f:
-            f.write(text)
+        write_registry(record_type, text)
     SNAPSHOTS.clear()
 
 
@@ -53,6 +80,15 @@ class rollback:
     Reentrant by saving the outermost snapshot only. A nested block joins
     the outer one, otherwise the inner exit would restore the file and the
     outer block would then operate on a row that no longer exists.
+
+    The snapshot is captured into a local dict and only published once every
+    registry has been read. An earlier version set the owns flag first and
+    filled the shared dict as it went, so a single failed read left the dict
+    partially filled, __exit__ never ran because __enter__ had raised, and
+    from then on every later test believed a snapshot already existed and
+    skipped both taking and restoring one. One transient read error turned
+    into permanent, silent corruption of the seed files for the rest of the
+    run. Failures here are loud instead.
     """
 
     def __init__(self, *record_types):
@@ -60,16 +96,84 @@ class rollback:
         self.owns_snapshot = False
 
     def __enter__(self):
-        if not SNAPSHOTS:
-            self.owns_snapshot = True
+        if SNAPSHOTS:
+            return self
+
+        captured = {}
+
+        try:
             for record_type in store.RECORDS:
-                snapshot(record_type)
+                captured[record_type] = read_registry(record_type)
+        except OSError as error:
+            # Nothing was published, so nothing is left half-taken. Whatever
+            # was read before the failure is put back before re-raising.
+            for record_type, text in captured.items():
+                try:
+                    write_registry(record_type, text)
+                except OSError:
+                    pass
+
+            raise AssertionError(
+                f"could not snapshot the seed registries, so a test that "
+                f"writes to them could not be rolled back: {error}")
+
+        SNAPSHOTS.update(captured)
+        self.owns_snapshot = True
         return self
 
     def __exit__(self, *exc):
         if self.owns_snapshot:
+            # Restored whether or not the test failed, and the flag is
+            # cleared first so a failure inside restore cannot leave the
+            # block looking like it still owns a snapshot.
+            self.owns_snapshot = False
             restore_all()
+
         return False
+
+
+def test_seed_files_are_unchanged_by_the_suite():
+    """The suite must leave data/ exactly as it found it.
+
+    Several tests write to the registries and rely on a context manager to
+    put them back. That mechanism has failed once already, silently: a
+    snapshot read that raised part way through left the shared snapshot
+    populated but unowned, so every later test skipped both taking and
+    restoring a snapshot, and a created patient survived into the seed.
+
+    The mechanism being correct is not something a passing suite can show,
+    because the tests that depend on it are the ones that would be fooled.
+    So this hashes the registries once, and a finaliser compares them. It is
+    a guard on the guard.
+    """
+    if not SEED_FINGERPRINTS:
+        for record_type in store.RECORDS:
+            with open(store.path_for(record_type), "rb") as f:
+                SEED_FINGERPRINTS[record_type] = hashlib.sha256(f.read()).hexdigest()
+
+        def check():
+            drifted = []
+
+            for record_type, before in SEED_FINGERPRINTS.items():
+                with open(store.path_for(record_type), "rb") as f:
+                    after = hashlib.sha256(f.read()).hexdigest()
+
+                if after != before:
+                    drifted.append(record_type)
+
+            if drifted:
+                raise AssertionError(
+                    "the test suite modified these registries and did not "
+                    f"put them back: {', '.join(sorted(drifted))}. Run "
+                    "python scripts/verify_seed_data.py, then rebuild with "
+                    "scripts/build_synthetic_registries.py if needed.")
+
+        atexit.register(check)
+
+    assert SEED_FINGERPRINTS, "no seed fingerprints captured"
+
+    print(f"  ok  {len(SEED_FINGERPRINTS)} registries fingerprinted; a "
+          f"finaliser will fail the run if any is left modified")
 
 
 def get(path, **params):
@@ -879,7 +983,12 @@ def test_missing_chart_is_404():
 # ----------------------------------------------------------------- backup
 
 def test_rare_condition_overview():
-    """The rare registry opens with its shape, not an empty prompt."""
+    """The rare registry returns one page plus the shape of the whole thing.
+
+    The figures are what the About card shows and the page is what the
+    browse view draws, and they come from the same request, so the card and
+    the list cannot describe different sizes.
+    """
     body = data(get("/api/rare-conditions"))
 
     assert body["total"] >= 10000, body["total"]
@@ -892,16 +1001,43 @@ def test_rare_condition_overview():
     assert top["diseases"] > 0, top
     assert top["word"], top
 
-    # A page that opens on 11,000 rows must say how many there are.
-    assert len(body["results"]) <= 50, len(body["results"])
+    # A registry of 11,000 rows must not be sent whole, and must say how
+    # many there really are.
+    assert len(body["conditions"]) <= 50, len(body["conditions"])
+    assert body["count"] == len(body["conditions"]), body["count"]
+    assert body["has_more"] is True, body["has_more"]
+    assert body["facets"] == [], body["facets"]
+
     print(f"  ok  rare registry holds {body['total']:,} diseases, "
           f"{body['distinct_findings']:,} findings")
+
+
+def test_rare_conditions_page_without_repeats():
+    """Paging the rare registry yields each disease exactly once."""
+    first = data(get("/api/rare-conditions", limit=10, offset=0))
+    second = data(get("/api/rare-conditions", limit=10, offset=10))
+
+    a = [c["condition_id"] for c in first["conditions"]]
+    b = [c["condition_id"] for c in second["conditions"]]
+
+    assert len(a) == 10, len(a)
+    assert len(b) == 10, len(b)
+    assert not set(a) & set(b), "the two pages overlap"
+
+    # Past the end is an empty page, not an error and not a repeat.
+    past = data(get("/api/rare-conditions", limit=10, offset=10 ** 7))
+
+    assert past["count"] == 0, past["count"]
+    assert past["conditions"] == [], past
+    assert past["has_more"] is False, past
+
+    print(f"  ok  rare registry pages cleanly: {first['total']:,} diseases")
 
 
 def test_rare_condition_detail():
     """One rare disease, with its findings expanded and traceable."""
     overview = data(get("/api/rare-conditions"))
-    condition_id = overview["results"][0]["condition_id"]
+    condition_id = overview["conditions"][0]["condition_id"]
 
     body = data(get(f"/api/rare-conditions/{condition_id}"))
 
