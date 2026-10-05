@@ -43,3 +43,8 @@ research/raw/*
 # Compiled leftovers from the research scripts
 __pycache__/
 *.pyc
+# Claude's standalone prototype, kept locally as a design reference for the
+# browse view and the companion. It generates its own 600 mock patients in
+# JavaScript, so committing it would put a second, fictional copy of the
+# registry in the repository next to the real one.
+claude made page demo/

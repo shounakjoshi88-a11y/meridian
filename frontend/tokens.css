@@ -41,6 +41,13 @@
   --ok: hsl(166 50% 27%);
   --ok-soft: hsl(166 42% 94%);
 
+  /* The companion is deliberately not the accent. It was petrol once and
+   * read as a green blob sitting on a teal interface. Coral sits close to
+   * opposite the accent on the wheel, so it is unmistakably a different
+   * thing without clashing with anything. Decorative only: it is
+   * aria-hidden and nothing about the interface depends on it. */
+  --mascot: hsl(12 72% 46%);
+
   /* --- type ------------------------------------------------------ */
   /* Plex Sans carries the interface. Plex Mono appears only where
    * real data lives: record ids, dosages, numeric columns. */
@@ -84,10 +91,24 @@
 
 /* Dark mode is designed rather than inverted. The canvas is a dark
  * neutral, never pure black. Surfaces get lighter as they rise, so
- * elevation reads as lightness instead of shadow. The accent
- * desaturates and lightens so it does not vibrate against the dark. */
+ * elevation reads as lightness instead of shadow. The accent desaturates
+ * and lightens so it does not vibrate against the dark.
+ *
+ * Written out twice on purpose, because there are two ways to be in dark
+ * mode and one selector cannot express both.
+ *
+ *   The media query follows the system. :not([data-theme="light"]) means
+ *   an explicit light choice still wins over a dark system setting.
+ *
+ *   The attribute rule is the reader pressing the theme button, which
+ *   works whatever the system says.
+ *
+ * The two blocks hold the same values. A change to one has to be made to
+ * the other, which is the price of having no preprocessor in this project.
+ */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
+
     --bg: hsl(215 28% 8.5%);
     --surface: hsl(215 24% 12.5%);
     --surface-sunken: hsl(215 22% 10.5%);
@@ -112,5 +133,43 @@
     --alarm-soft: hsl(8 34% 16%);
     --ok: hsl(166 44% 54%);
     --ok-soft: hsl(166 30% 15%);
+
+    /* Lightened and slightly desaturated so it does not vibrate against a
+     * dark canvas, the same treatment the accent gets. */
+    --mascot: hsl(14 78% 64%);
+
   }
+}
+
+:root[data-theme="dark"] {
+
+    --bg: hsl(215 28% 8.5%);
+    --surface: hsl(215 24% 12.5%);
+    --surface-sunken: hsl(215 22% 10.5%);
+    --surface-hover: hsl(215 22% 16%);
+
+    --text: hsl(210 20% 93%);
+    --text-2: hsl(213 14% 70%);
+    --text-muted: hsl(213 12% 57%);
+
+    --border: hsl(214 16% 22%);
+    --border-strong: hsl(214 12% 52%);
+
+    --accent: hsl(172 44% 52%);
+    --accent-hover: hsl(172 48% 60%);
+    --accent-soft: hsl(174 32% 16%);
+    --accent-border: hsl(174 26% 30%);
+    --on-accent: hsl(200 40% 7%);
+
+    --caution: hsl(36 74% 60%);
+    --caution-soft: hsl(36 38% 15%);
+    --alarm: hsl(8 76% 63%);
+    --alarm-soft: hsl(8 34% 16%);
+    --ok: hsl(166 44% 54%);
+    --ok-soft: hsl(166 30% 15%);
+
+    /* Lightened and slightly desaturated so it does not vibrate against a
+     * dark canvas, the same treatment the accent gets. */
+    --mascot: hsl(14 78% 64%);
+
 }

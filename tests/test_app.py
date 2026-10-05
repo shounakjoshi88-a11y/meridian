@@ -160,14 +160,173 @@ def test_unknown_route_is_404():
 # --------------------------------------------------------------- patients
 
 def test_list_patients():
-    """Every patient comes back, with the skipped list present."""
+    """Patients page, and report the true total rather than the page size.
+
+    `count` is what came back and `total` is how many exist. A capped page
+    that reported only `count` would read as a complete one, which is the
+    specific thing the frontend needs to be able to say out loud.
+    """
     body = data(get("/api/patients"))
 
-    assert body["count"] == STARTING["patients"], body["count"]
     assert "patients" in body
     assert "skipped" in body
     assert body["skipped"] == [], body["skipped"]
-    print(f"  ok  GET /api/patients returns {body['count']} rows")
+
+    assert body["total"] == STARTING["patients"], body["total"]
+    assert len(body["patients"]) == body["count"], body["count"]
+    assert body["count"] <= body["limit"], body
+    assert body["has_more"] == (body["offset"] + body["count"] < body["total"])
+
+    print(f"  ok  GET /api/patients pages: {body['count']} of {body['total']} rows")
+
+
+def test_list_patients_visits_join_visit_count():
+    """Every patient row carries a visit_count, including the zeroes.
+
+    The browse list uses it to mark who has never been seen, and the row
+    beside the mark and the count have to come from the same place or they
+    will eventually disagree.
+    """
+    zero = 0
+    seen = 0
+    offset = 0
+
+    while True:
+        page = data(get("/api/patients", limit=100, offset=offset))
+
+        for patient in page["patients"]:
+            assert "visit_count" in patient, patient
+            assert patient["visit_count"] >= 0, patient
+            seen += 1
+
+            if patient["visit_count"] == 0:
+                zero += 1
+
+        offset += len(page["patients"])
+
+        if not page["has_more"]:
+            break
+
+    assert seen == STARTING["patients"], (seen, STARTING["patients"])
+
+    assert zero > 0, "expected some patients with no consultation on file"
+    print(f"  ok  {zero} patients carry visit_count 0")
+
+
+def test_pagination_covers_every_row_without_repeats():
+    """Paging through a registry must yield each row exactly once.
+
+    The tempting bug is an offset that is applied before the facet filter,
+    or a limit that does not move with the page, and both produce a list
+    that looks right and skips or repeats rows.
+    """
+    first = data(get("/api/patients", limit=20, offset=0))
+    second = data(get("/api/patients", limit=20, offset=20))
+
+    assert len(first["patients"]) == 20, len(first["patients"])
+    assert len(second["patients"]) == 20, len(second["patients"])
+
+    a = [p["patient_id"] for p in first["patients"]]
+    b = [p["patient_id"] for p in second["patients"]]
+
+    assert not set(a) & set(b), "the two pages overlap"
+    assert a[0] != b[0], "the second page repeated the first"
+
+    walked = 0
+    offset = 0
+
+    while True:
+        page = data(get("/api/patients", limit=100, offset=offset))
+        walked += len(page["patients"])
+        offset += len(page["patients"])
+
+        if not page["has_more"]:
+            break
+
+        assert offset < 10 ** 6, "paging never terminated"
+
+    assert walked == first["total"], (walked, first["total"])
+    print(f"  ok  paging walked all {walked} patients exactly once")
+
+
+def test_offset_past_the_end_returns_an_empty_page_not_an_error():
+    """A reader on page 9 when a record is deleted should see nothing left.
+
+    Not a 400 and not a repeat of the last page, because both would send
+    them looking for data that is not there.
+    """
+    body = data(get("/api/patients", limit=20, offset=10 ** 6))
+
+    assert body["count"] == 0, body["count"]
+    assert body["patients"] == [], body
+    assert body["has_more"] is False
+    print("  ok  offset past the end returns an empty page")
+
+
+def test_list_bad_paging_parameters_fall_back():
+    """Nonsense paging is ignored rather than raising.
+
+    limit and offset arrive as a query string, so a bad one should still
+    render a page rather than hand the reader an error.
+    """
+    cases = [{"limit": "abc"}, {"limit": -5}, {"limit": 0},
+             {"offset": "abc"}, {"offset": -1}, {"limit": ""},
+             {"limit": "abc", "offset": "nope"}]
+
+    for params in cases:
+        body = data(get("/api/patients", **params))
+
+        assert body["total"] == STARTING["patients"], (params, body["total"])
+        assert body["limit"] >= 0, (params, body["limit"])
+        assert body["offset"] >= 0, (params, body["offset"])
+        assert len(body["patients"]) == body["count"], (params, body)
+
+    print("  ok  bad limit and offset values fall back instead of failing")
+
+
+def test_limit_is_capped():
+    """A caller cannot ask for the whole registry by asking for a lot."""
+    body = data(get("/api/patients", limit=100000))
+
+    assert body["limit"] <= 500, body["limit"]
+    assert len(body["patients"]) <= 500, body["count"]
+    print(f"  ok  limit capped at {body['limit']}")
+
+
+def test_registry_listings_carry_facets():
+    """Each registry reports the facet counts its browse tabs show.
+
+    The counts are computed from the same predicate that filters the list,
+    so a tab saying 67 and a filtered list returning 67 rows cannot drift.
+    """
+    body = data(get("/api/patients"))
+    flags = {f["flag"]: f for f in body["facets"]}
+
+    for name in ("no_visit", "child", "senior", "no_blood_group"):
+        assert name in flags, flags
+
+    filtered = data(get("/api/patients", flag="no_visit", limit=500))
+
+    assert filtered["total"] == flags["no_visit"]["count"], (
+        filtered["total"], flags["no_visit"]["count"])
+    assert filtered["count"] == filtered["total"], filtered["count"]
+
+    print(f"  ok  facets agree with their own filtered lists "
+          f"({flags['no_visit']['count']} with no consultation)")
+
+
+def test_unknown_flag_is_rejected():
+    """A filter that does nothing is worse than one that matches everything.
+
+    A typo'd flag silently returning the unfiltered list looks identical to
+    a filter that matched every row, so it has to be an error.
+    """
+    r = get("/api/patients", flag="not_a_real_flag")
+
+    assert r.status_code == 400, r.status_code
+    body = data(r)
+    assert "no_visit" in str(body), body
+    print("  ok  an unknown flag is rejected and lists what is available")
 
 
 def test_get_patient_with_visits():
@@ -286,16 +445,24 @@ def test_delete_patient():
 # ----------------------------------------------------------------- visits
 
 def test_list_visits_filtered():
-    """Visits can be filtered by patient_id."""
+    """Visits filter by patient_id, and the total reflects the filter.
+
+    The total has to be the size of the filtered answer, not of the whole
+    registry, or a reader paginating one patient's history is told there are
+    two thousand visits when the patient has three.
+    """
     body = data(get("/api/visits", patient_id="P-0003"))
 
     assert body["count"] == 3, body["count"]
+    assert body["total"] == 3, body["total"]
+
     for v in body["visits"]:
         assert v["patient_id"] == "P-0003"
 
     every = data(get("/api/visits"))
-    assert every["count"] == STARTING["visits"], every["count"]
-    print("  ok  GET /api/visits filters by patient_id")
+    assert every["total"] == STARTING["visits"], every["total"]
+    assert len(every["visits"]) == every["count"], every["count"]
+    print("  ok  GET /api/visits filters by patient_id and reports it")
 
 
 def test_create_visit():
@@ -336,14 +503,22 @@ def test_create_visit_requires_fields():
 # ------------------------------------------------- medicines and stores
 
 def test_list_medicines_and_stores():
-    """Both catalogues list cleanly."""
-    meds = data(get("/api/medicines"))
+    """Both catalogues list cleanly, and report their true totals."""
+    meds = data(get("/api/medicines", limit=500))
     shops = data(get("/api/stores"))
 
-    assert meds["count"] == STARTING["medicines"], meds["count"]
-    assert shops["count"] == STARTING["stores"], shops["count"]
+    assert meds["total"] == STARTING["medicines"], meds["total"]
+    assert shops["total"] == STARTING["stores"], shops["total"]
+    assert len(meds["medicines"]) == meds["count"], meds["count"]
     assert meds["skipped"] == []
-    print(f"  ok  {meds['count']} medicines, {shops['count']} stores listed")
+    assert shops["skipped"] == []
+
+    no_stock = data(get("/api/stores", flag="no_stock"))
+    assert no_stock["total"] > 0, no_stock
+    assert all(s["stock_csv"] == "" for s in no_stock["stores"]), no_stock
+
+    print(f"  ok  {meds['total']} medicines and {shops['total']} stores, "
+          f"{no_stock['total']} with no stock recorded")
 
 
 def test_get_medicine_with_stores():

@@ -362,3 +362,121 @@ def count_records(record_type):
     """Return how many rows a CSV holds."""
     records, _ = read_all(record_type)
     return len(records)
+
+# ------------------------------------------------------------------ facets
+#
+# A facet is a named subset of a registry that corresponds to something a
+# clinician would want to isolate: an incomplete record, a group that needs
+# a different approach, or a gap in follow-up. They exist so the browse views
+# can open on a real question rather than on an alphabetical list.
+#
+# Each facet is a predicate over one row. Counts are computed by applying the
+# predicate to every row, so a count can never disagree with the list that the
+# same flag returns.
+
+def _is_child(row):
+    return row.get("age", "").isdigit() and int(row["age"]) < 18
+
+
+def _is_senior(row):
+    return row.get("age", "").isdigit() and int(row["age"]) >= 60
+
+
+def _has_visit(row):
+    return row["patient_id"] in _visited_ids()
+
+
+_visited_cache = {}
+
+
+def _visited_ids():
+    """Patient ids with at least one consultation on file."""
+    cached = _visited_cache.get("ids")
+
+    if cached is None:
+        records, _ = read_all("visits")
+        cached = {r["patient_id"] for r in records}
+        _visited_cache["ids"] = cached
+
+    return cached
+
+
+def _blank(row, field):
+    return not row.get(field, "").strip()
+
+
+FACETS = {
+    "patients": [
+        ("no_visit", "No consultation on file",
+         "Registered but never seen", lambda r: r["patient_id"] not in _visited_ids()),
+        ("child", "Under 18",
+         "Recorded with a guardian", _is_child),
+        ("senior", "Age 60 and over",
+         "Age-related review due", _is_senior),
+        ("no_blood_group", "No blood group",
+         "Field left blank on the record", lambda r: _blank(r, "blood_group")),
+    ],
+    "hospitals": [
+        ("no_accreditation", "No accreditation",
+         "Not listed as accredited", lambda r: _blank(r, "accreditation")),
+    ],
+    "doctors": [
+        ("newly_qualified", "Qualified in the last 3 years",
+         "Registration dated 2024 or later",
+         lambda r: _registration_year(r) >= 2024),
+    ],
+    "stores": [
+        ("no_stock", "No stock recorded",
+         "Stock has never been entered",
+         lambda r: _blank(r, "stock_csv")),
+    ],
+    "medicines": [
+        ("rx_only", "Prescription only",
+         "Cannot be sold over the counter",
+         lambda r: r.get("rx_required", "").strip().lower() in {"yes", "true", "1"}),
+        ("otc", "Over the counter",
+         "Sold without a prescription",
+         lambda r: r.get("otc", "").strip().lower() in {"yes", "true", "1"}),
+    ],
+}
+
+
+def _registration_year(row):
+    """The year out of a registration number like MMC-2008-203416."""
+    parts = row.get("registration_no", "").split("-")
+
+    for part in parts:
+        if len(part) == 4 and part.isdigit():
+            return int(part)
+
+    return 0
+
+
+def apply_facet(records, record_type, flag):
+    """Return (filtered records, facet list with counts, unknown flag).
+
+    The facet list is returned alongside so the frontend never has to ask a
+    second question about how many rows a tab would show. An empty flag
+    means no facet, which is not an error.
+    """
+    defined = FACETS.get(record_type, [])
+    by_flag = {name: (label, note, test) for name, label, note, test in defined}
+
+    available = [
+        {
+            "flag": name,
+            "label": label,
+            "note": note,
+            "count": sum(1 for r in records if test(r)),
+        }
+        for name, label, note, test in defined
+    ]
+
+    unknown = bool(flag) and flag not in by_flag
+
+    if unknown or not flag:
+        return records, available, unknown
+
+    _label, _note, test = by_flag[flag]
+
+    return [r for r in records if test(r)], available, False

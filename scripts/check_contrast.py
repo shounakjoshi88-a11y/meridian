@@ -65,6 +65,7 @@ LIGHT = {
     "caution": "hsl(28 72% 34%)",
     "alarm": "hsl(6 68% 42%)",
     "ok": "hsl(166 50% 27%)",
+    "mascot": "hsl(12 72% 46%)",
     "border": "hsl(214 18% 88%)",
     "border-strong": "hsl(214 16% 54%)",
 }
@@ -82,6 +83,7 @@ DARK = {
     "caution": "hsl(36 74% 60%)",
     "alarm": "hsl(8 76% 63%)",
     "ok": "hsl(166 44% 54%)",
+    "mascot": "hsl(14 78% 64%)",
     "border": "hsl(214 16% 22%)",
     "border-strong": "hsl(214 12% 52%)",
 }
@@ -110,6 +112,12 @@ CHECKS = [
     ("ok", "surface", LARGE_MIN, "ok text on surface"),
     ("border-strong", "surface", LARGE_MIN, "input border, UI component"),
     ("border", "bg", 1.2, "hairline divider, decorative only"),
+    # The companion is aria-hidden, but its header toggle is a real control
+    # drawn in the same colour, so the colour has to clear the UI bar
+    # against the header it sits on rather than being waved through as
+    # decoration.
+    ("mascot", "bg", LARGE_MIN, "companion toggle icon on canvas"),
+    ("mascot", "surface", LARGE_MIN, "companion on surface"),
 ]
 
 

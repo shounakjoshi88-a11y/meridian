@@ -1140,3 +1140,390 @@ textarea.input {
   .state__body,
   .state__action { opacity: 1; transform: none; }
 }
+/* ============================================================ browse
+ *
+ * The registry views used to open on a search prompt, which was honest
+ * when there were eight patients and useless at six hundred. A browse view
+ * answers the question a reader actually arrives with, "what is in here",
+ * and lets search refine the answer afterwards.
+ *
+ * Deliberately not built from cards. Six hundred cards is a wall; rows
+ * separated by a hairline can be scanned and compared, which is the whole
+ * job on this screen. Not built from stat tiles either: a row of four
+ * equal figures at the top competes with the list instead of introducing
+ * it. The one number that matters is the count in the bar.
+ */
+
+.browse {
+  margin-top: var(--s-4);
+}
+
+/* The bar sits between the search field and the list. It carries the count
+ * and the facet tabs, and nothing else. */
+.browse__bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--s-2) var(--s-5);
+  margin-bottom: var(--s-1);
+}
+
+.browse__count {
+  font-size: var(--fs-sm);
+  color: var(--text-2);
+  /* Tabular so the count does not shift width as the reader pages. */
+  font-variant-numeric: tabular-nums;
+}
+
+/* Facet tabs reuse the existing tab strip rather than introducing a second
+ * one. A row of chips would imply multi-select and removable tokens; these
+ * are single-choice filters, which is what an underline says. */
+.tabs--facets {
+  margin-bottom: 0;
+  border-bottom: 0;
+  order: 2;
+}
+
+.tabs--facets .tabs__btn {
+  min-height: 36px;
+  padding: 0 var(--s-2);
+  font-size: var(--fs-sm);
+}
+
+.tabs__count {
+  margin-inline-start: var(--s-1);
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+  font-size: var(--fs-xs);
+}
+
+.tabs__btn[aria-selected="true"] .tabs__count { color: var(--text-2); }
+
+/* Facet with nothing in it. Shown, because "no records are missing a blood
+ * group" is information, and hidden only because clicking it is pointless. */
+.tabs__btn[aria-disabled="true"] {
+  color: var(--text-muted);
+  cursor: default;
+}
+
+.tabs__btn[aria-disabled="true"]:hover { color: var(--text-muted); }
+
+/* -------------------------------------------------------------- the rail
+ *
+ * One restrained signal per row: a hairline down the leading edge, in a
+ * semantic colour, meaning this record has something outstanding. It is
+ * not a badge and not an icon tile. It sits in the margin the row already
+ * has, costs no vertical space, and because the same fact is written in the
+ * row's own text, removing the colour costs no information.
+ */
+.row { position: relative; padding-inline: var(--s-4); }
+
+.row--flagged::before {
+  content: "";
+  position: absolute;
+  inset-block: -1px;
+  inset-inline-start: 0;
+  width: 3px;
+  background: var(--caution);
+}
+
+.row--flagged-alarm::before { background: var(--alarm); }
+
+/* The words that go with the rail. Quiet, and never the only carrier. */
+.flag {
+  color: var(--text-2);
+  font-size: var(--fs-xs);
+}
+
+/* --------------------------------------------------------------- pager
+ *
+ * Pagination is stated in words as well as arrows, because "Next" on its
+ * own does not tell a reader whether there are four records or four
+ * thousand. The range is in the data font with tabular figures so it does
+ * not jitter while paging.
+ */
+.pager {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-3);
+  padding-block: var(--s-4);
+}
+
+.pager__status {
+  font-size: var(--fs-sm);
+  color: var(--text-2);
+}
+
+.pager__btn {
+  min-height: 40px;
+  padding: 0 var(--s-4);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  background: var(--surface);
+  color: var(--text);
+  font-family: inherit;
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color var(--dur-fast) var(--ease-out),
+              background var(--dur-fast) var(--ease-out);
+}
+
+.pager__btn:hover:not([disabled]) {
+  border-color: var(--accent-border);
+  background: var(--accent-soft);
+}
+
+.pager__btn[disabled] {
+  color: var(--text-muted);
+  cursor: default;
+  opacity: 0.6;
+}
+
+.pager__nav { display: flex; gap: var(--s-2); }
+
+/* Rows get a little more breathing room when they carry a rail, so the
+ * hairline does not sit against the text. */
+.row--flagged { padding-inline-start: var(--s-5); }
+
+@media (max-width: 640px) {
+  /* On a phone the count and the tabs each want the full width. */
+  .browse__bar { flex-direction: column; align-items: stretch; }
+  .tabs--facets { order: 0; }
+  .row { padding-inline: var(--s-3); }
+  .row--flagged { padding-inline-start: var(--s-4); }
+  .row__sub { display: none; }
+}
+
+/* ============================================================ companion
+ *
+ * A small pixel creature that walks along the list rows. It is decorative:
+ * aria-hidden, carries no information, and the interface is complete
+ * without it. A reader can switch it off and lose nothing.
+ *
+ * It was drawn for a prototype and kept. What it earns is a sense that the
+ * registry is alive rather than a table, and a reason to look at rows you
+ * would otherwise scroll past. It is the one deliberately unquiet element
+ * on an otherwise very restrained screen, which is why it is small and why
+ * there is only ever one.
+ *
+ * Colour comes from --mascot, not --accent, so it cannot be mistaken for a
+ * piece of interface. Body, glasses and hair take it; the eyes stay --bg so
+ * they read as holes rather than as a second colour.
+ */
+
+.cr {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 3;
+  padding: var(--s-1) var(--s-2);
+  cursor: pointer;
+  transition-property: transform;
+  transition-timing-function: linear;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.cr[hidden] { display: none; }
+
+.cr svg {
+  display: block;
+  width: 48px;
+  height: 39px;
+  overflow: visible;
+  shape-rendering: crispEdges;
+  transform: scaleX(var(--f, 1));
+}
+
+.cr .bd,
+.cr .gl,
+.cr .ht { fill: var(--mascot); }
+
+.cr .ey { fill: var(--bg); }
+
+/* Expressions other than the neutral one stay hidden until data-x selects
+ * them, so exactly one face is ever drawn. */
+.cr [data-e],
+.cr .zs { display: none; }
+
+.cr[data-x="n"] [data-e="n"],
+.cr[data-x="h"] [data-e="h"],
+.cr[data-x="s"] [data-e="s"],
+.cr[data-x="z"] [data-e="z"],
+.cr[data-x="w"] [data-e="w"],
+.cr[data-x="z"] .zs { display: inline; }
+
+/* The pupils slide toward the pointer, in whole pixels, clamped to one
+ * pixel of travel each way so the face never comes apart. */
+.cr .look {
+  transform: translate(calc(var(--lx, 0) * 1px), calc(var(--ly, 0) * 1px));
+}
+
+.cr [data-e="n"] rect {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: critter-blink 4.8s infinite;
+}
+
+.cr .ht { opacity: 0; }
+.cr:hover .ht { animation: critter-flutter 1.6s ease-out infinite; }
+
+/* Clicking it puts the shades on, which is the joke: it gets brief and
+ * unreadable, then goes back to normal. */
+.cr .sh {
+  opacity: 0;
+  transform: translateY(-5px);
+  transition: transform var(--dur-base) var(--ease-out),
+              opacity var(--dur-fast);
+}
+
+.cr.cool .sh { opacity: 1; transform: none; }
+.cr.cool .eyes { opacity: 0; }
+
+.cr .zq {
+  fill: none;
+  stroke: var(--text-2);
+  stroke-width: 1;
+  opacity: 0;
+  animation: critter-z 3.6s ease-out infinite;
+}
+
+.cr[data-x="z"] .zq { opacity: 1; }
+
+.cr.walk .bod { animation: critter-step 0.36s steps(1) infinite; }
+.cr.walk .l1,
+.cr.walk .l3 { animation: critter-step 0.36s steps(1) infinite; }
+.cr.walk .l2,
+.cr.walk .l4 { animation: critter-step 0.36s steps(1) infinite -0.18s; }
+
+.cr.jump svg { animation: critter-jump 520ms ease-out; }
+
+/* The row it jumps onto acknowledges the landing. */
+.bump { animation: critter-bump 300ms ease-out; }
+
+/* Larger, static, used inside empty states. No walking, because an empty
+ * state is seen many times a day and motion there is noise. */
+.cr-s {
+  position: relative;
+  transform: none;
+  animation: critter-pop 520ms var(--ease-out) both;
+  margin-bottom: var(--s-2);
+  padding: 0;
+}
+
+.cr-s svg { width: 96px; height: 78px; }
+
+@keyframes critter-blink {
+  0%, 93%, 100% { transform: none; }
+  96% { transform: scaleY(0.1); }
+}
+
+@keyframes critter-flutter {
+  0% { opacity: 0; transform: translateY(3px); }
+  30% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-4px); }
+}
+
+@keyframes critter-z {
+  0% { opacity: 0; transform: translate(0, 3px); }
+  30% { opacity: 1; }
+  100% { opacity: 0; transform: translate(2px, -5px); }
+}
+
+@keyframes critter-step { 50% { transform: translateY(-1px); } }
+
+@keyframes critter-jump {
+  0%, 100% { transform: scaleX(var(--f, 1)); }
+  50% { transform: translateY(-14px) scaleX(var(--f, 1)); }
+}
+
+@keyframes critter-bump { 30% { transform: translateX(-2px); } }
+
+@keyframes critter-pop { from { opacity: 0; transform: translateY(8px); } }
+
+/* Reduced motion. The creature holds still and never wanders; it is not
+ * removed, because a still creature is still a friendly one, but nothing
+ * on screen moves without being asked for. */
+@media (prefers-reduced-motion: reduce) {
+  .cr,
+  .cr * { animation: none !important; transition: none !important; }
+  .bump { animation: none; }
+}
+
+/* The companion's on/off control. Tertiary styling: it must be reachable
+ * and legible, but it is never the primary action on any screen. */
+.iconbtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: var(--r-sm);
+  background: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: color var(--dur-fast) var(--ease-out),
+              background var(--dur-fast) var(--ease-out);
+}
+
+.iconbtn:hover { color: var(--text); background: var(--surface-hover); }
+
+/* Off state. The creature is drawn hollow rather than tinted, so the
+ * control reads as a switch and not as a dimmed icon. */
+.buddy[aria-pressed="false"] { color: var(--text-muted); }
+.buddy[aria-pressed="false"] svg rect:not([fill="var(--bg)"]) { fill: none; }
+.buddy[aria-pressed="false"] svg rect[fill="var(--bg)"] { fill: var(--border-strong); }
+
+.buddy[aria-pressed="true"] { color: var(--mascot); }
+
+/* --------------------------------------------------------------- theme
+ *
+ * Both icon buttons share .iconbtn. Each is tertiary: reachable, legible,
+ * never the primary action on a screen. The theme control reveals the
+ * change outward from itself, so it is obvious what was pressed.
+ */
+
+.theme { color: var(--text-2); }
+
+/* One icon at a time. Which one is showing says what pressing will do,
+ * not what is currently true, so it shows the target. */
+.theme__moon { display: none; }
+
+:root[data-theme="dark"] .theme__sun { display: none; }
+:root[data-theme="dark"] .theme__moon { display: block; }
+
+/* No data-theme yet means the system preference is in charge, so the
+ * media query has to answer the same question the attribute would. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .theme__sun { display: none; }
+  :root:not([data-theme="light"]) .theme__moon { display: block; }
+}
+
+:root[data-theme="light"] .theme__sun { display: block; }
+:root[data-theme="light"] .theme__moon { display: none; }
+
+/* The reveal. The browser snapshots the old frame, then the new one is
+ * revealed through a clip-path circle growing from the button. Only the
+ * new snapshot is animated, so the old one stays put underneath. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) { z-index: 1; }
+::view-transition-new(root) { z-index: 2; }
+
+/* Reduced motion: the theme still changes, it just arrives rather than
+ * wipes. Honoured in CSS here and checked in JS before starting one. */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) { animation: none !important; }
+}

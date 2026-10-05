@@ -38,6 +38,72 @@ FRONTEND_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__fi
 SEARCHABLE = ("patients", "medicines", "stores", "hospitals", "doctors",
               "rare_conditions")
 
+# --------------------------------------------------------------- paging
+#
+# The registries hold 600 patients, 540 doctors and 520 hospitals. Serving
+# every row on every page view meant /api/patients answered with 334 KB and
+# /api/visits with 1.4 MB, which is the whole registry to draw a screen
+# that shows fifty. Pagination is what lets the frontend show a count it
+# can trust instead of a number it happened to receive.
+
+PAGE_LIMIT_DEFAULT = 50
+PAGE_LIMIT_MAX = 500
+
+
+def page_args():
+    """Read ?limit= and ?offset= as integers, clamped to sane bounds.
+
+    A missing, negative or non-numeric value falls back to the default
+    rather than raising, because this is a query string and a bad one
+    should still render a page.
+    """
+    def whole(name, default, ceiling):
+        raw = request.args.get(name)
+        if raw is None or raw == "":
+            return default
+
+        try:
+            value = int(raw)
+        except ValueError:
+            return default
+
+        return max(0, min(value, ceiling))
+
+    return (whole("limit", PAGE_LIMIT_DEFAULT, PAGE_LIMIT_MAX),
+            whole("offset", 0, 10 ** 9))
+
+
+def paged(records, key, skipped=None, facets=None):
+    """Slice records to the requested page and report the true total.
+
+    The window is clamped at both ends so an offset past the end returns
+    an empty page rather than an error, which is what a user who was on
+    page 9 when a record was deleted should see.
+    """
+    limit, offset = page_args()
+    total = len(records)
+
+    window = records[offset:offset + limit]
+
+    body = {
+        "count": len(window),
+        "total": total,
+        "offset": offset,
+        "limit": limit,
+        "has_more": offset + len(window) < total,
+        key: window,
+    }
+
+    if skipped is not None:
+        body["skipped"] = skipped
+
+    if facets is not None:
+        body["facets"] = facets
+
+    return jsonify(body)
+
+
+
 # How many rows a search returns. The rare condition registry holds 11,655
 # diseases and a single phrase like "low muscle tone" matches 7,559 of
 # them, so returning everything is not an option. The total is reported
@@ -107,6 +173,52 @@ def frontend_assets(filename):
 
 # ---------------------------------------------------------------- health
 
+def registry_page(record_type, key, after=None):
+    """Read a registry, apply ?flag=, then return one page of it.
+
+    The facet is applied before the window is cut, otherwise total would
+    report the size of the page rather than the size of the answer. A flag
+    that no registry defines is a 400 rather than a silently ignored
+    parameter, because a filter that does nothing is indistinguishable from
+    one that matched everything.
+    """
+    records, skipped = store.read_all(record_type)
+
+    if after is not None:
+        after(records)
+
+    flag = request.args.get("flag", "")
+    records, available, unknown = store.apply_facet(records, record_type, flag)
+
+    if unknown:
+        return error(f"unknown flag {flag!r}", 400,
+                     available=[f["flag"] for f in available])
+
+    body = paged(records, key, skipped, available)
+
+    return body
+
+
+
+def attach_visit_counts(records):
+    """Add visit_count to each patient row, in place.
+
+    The browse list needs it to say who has never been seen without asking
+    the reader to open 600 records to find out. Counting here rather than in
+    the frontend also means the "no consultation on file" facet and the row
+    beside it cannot disagree.
+    """
+    visits, _ = store.read_all("visits")
+    counts = {}
+
+    for visit in visits:
+        pid = visit["patient_id"]
+        counts[pid] = counts.get(pid, 0) + 1
+
+    for record in records:
+        record["visit_count"] = counts.get(record["patient_id"], 0)
+
+
 @app.get("/api/health")
 def health():
     """Report that the API is up, with record counts per registry."""
@@ -129,10 +241,8 @@ def health():
 
 @app.get("/api/patients")
 def list_patients():
-    """Return every patient record."""
-    records, skipped = store.read_all("patients")
-    return jsonify({"count": len(records), "patients": records,
-                    "skipped": skipped})
+    """Return one page of patient records, plus the true total."""
+    return registry_page("patients", "patients", after=attach_visit_counts)
 
 
 @app.post("/api/patients")
@@ -249,8 +359,7 @@ def list_visits():
     if patient_id:
         records = [r for r in records if r["patient_id"] == patient_id]
 
-    return jsonify({"count": len(records), "visits": records,
-                    "skipped": skipped})
+    return paged(records, "visits", skipped)
 
 
 @app.post("/api/visits")
@@ -280,10 +389,8 @@ def create_visit():
 
 @app.get("/api/medicines")
 def list_medicines():
-    """Return the medicine catalogue."""
-    records, skipped = store.read_all("medicines")
-    return jsonify({"count": len(records), "medicines": records,
-                    "skipped": skipped})
+    """Return one page of the medicine catalogue."""
+    return registry_page("medicines", "medicines")
 
 
 @app.post("/api/medicines")
@@ -336,10 +443,8 @@ def medicine_stores(medicine_id):
 
 @app.get("/api/stores")
 def list_stores():
-    """Return every medical store."""
-    records, skipped = store.read_all("stores")
-    return jsonify({"count": len(records), "stores": records,
-                    "skipped": skipped})
+    """Return one page of medical stores."""
+    return registry_page("stores", "stores")
 
 
 @app.post("/api/stores")
@@ -377,10 +482,8 @@ def get_store(store_id):
 
 @app.get("/api/hospitals")
 def list_hospitals():
-    """Return every hospital."""
-    records, skipped = store.read_all("hospitals")
-    return jsonify({"count": len(records), "hospitals": records,
-                    "skipped": skipped})
+    """Return one page of hospitals."""
+    return registry_page("hospitals", "hospitals")
 
 
 @app.post("/api/hospitals")
@@ -436,12 +539,8 @@ def attach_hospital(doctors):
 
 @app.get("/api/doctors")
 def list_doctors():
-    """Return every doctor, with their hospital attached."""
-    records, skipped = store.read_all("doctors")
-    attach_hospital(records)
-
-    return jsonify({"count": len(records), "doctors": records,
-                    "skipped": skipped})
+    """Return one page of doctors, with their hospital attached."""
+    return registry_page("doctors", "doctors", after=attach_hospital)
 
 
 @app.post("/api/doctors")

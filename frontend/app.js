@@ -462,6 +462,7 @@ function closeDetail({ restoreFocus = true } = {}) {
   const stored = lastResults[name];
 
   if (stored && stored.rows.length) renderList(stored.rows, name);
+  else if (BROWSE_VIEWS[name]) renderBrowse(name);
   else showPrompt(name);
 
   if (restoreFocus) viewSearchInput(name)?.focus();
@@ -540,7 +541,11 @@ function searchView(name) {
     if (!query.trim()) {
       lastResults[name] = { query: "", rows: [] };
       openDetail = null;
-      showPrompt(name);
+
+      /* A blank search box is not an empty state, it is the browse list.
+       * The rare registry has its own overview and is left alone. */
+      if (BROWSE_VIEWS[name]) renderBrowse(name);
+      else showPrompt(name);
       return;
     }
 
@@ -598,24 +603,263 @@ function searchView(name) {
     closeDetail();
   });
 
-  showPrompt(name);
+  if (BROWSE_VIEWS[name]) renderBrowse(name);
+  else showPrompt(name);
+
   load(input.value.trim());
 }
 
-/* ------------------------------------------------------------- patients */
+/* ================================================================ browse
+ *
+ * A registry view used to render a search box and an invitation to type.
+ * That was correct for eight patients and useless for six hundred, because
+ * a reader who opens "Patients" is asking what is in there, not already
+ * knowing a name to type.
+ *
+ * So each registry view now opens on the records themselves, with the
+ * facets that matter as underlined tabs and a stated page range. Search is
+ * unchanged and still refines whatever is on screen; clearing the field
+ * returns to the browse list rather than to an empty prompt.
+ *
+ * One generic component drives all five views. A registry differs only in
+ * its endpoint, its row renderer and its facets, and those three already
+ * existed, so five bespoke implementations would be five places for the
+ * same pagination bug to hide.
+ */
+
+const BROWSE_VIEWS = {
+  patients: { endpoint: "/api/patients", limit: 50 },
+  hospitals: { endpoint: "/api/hospitals", limit: 50 },
+  doctors: { endpoint: "/api/doctors", limit: 50 },
+  medicines: { endpoint: "/api/medicines", limit: 50 },
+  stores: { endpoint: "/api/stores", limit: 50 },
+};
+
+/* Per-view browse state. Remembers the facet and the page so that opening a
+ * record and coming back does not reset the reader to the top. */
+const browseState = {};
+
+function browseFor(name) {
+  if (browseState[name]) return browseState[name];
+
+  const state = { flag: "", offset: 0, ticket: 0, facets: [], total: 0 };
+  browseState[name] = state;
+
+  return state;
+}
+
+function facetUrl(name, state) {
+  const { endpoint, limit } = BROWSE_VIEWS[name];
+  const query = new URLSearchParams({
+    limit: String(limit),
+    offset: String(state.offset),
+  });
+
+  if (state.flag) query.set("flag", state.flag);
+
+  return `${endpoint}?${query.toString()}`;
+}
+
+function browseCountLine(name, data, state) {
+  const { noun } = SEARCH_VIEWS[name];
+  const one = noun.replace(/s$/, "");
+
+  if (state.flag) {
+    const facet = state.facets.find((f) => f.flag === state.flag);
+    const what = facet ? facet.label.toLowerCase() : state.flag;
+
+    return data.total === 1
+      ? `1 ${one} matches ${what}`
+      : `${data.total.toLocaleString()} ${noun} match ${what}`;
+  }
+
+  return data.total === 1
+    ? `1 ${one} on file`
+    : `${data.total.toLocaleString()} ${noun} on file`;
+}
+
+function facetTabs(name, state, onPick) {
+  const strip = el("div", {
+    class: "tabs tabs--facets",
+    role: "tablist",
+    "aria-label": `Filter ${SEARCH_VIEWS[name].noun}`,
+  });
+
+  const all = el("button", {
+    class: "tabs__btn",
+    type: "button",
+    role: "tab",
+    "aria-selected": state.flag ? "false" : "true",
+  }, [
+    "All",
+    el("span", { class: "tabs__count" }, state.total.toLocaleString()),
+  ]);
+
+  all.addEventListener("click", () => onPick(""));
+  strip.appendChild(all);
+
+  for (const facet of state.facets) {
+    const active = state.flag === facet.flag;
+    const empty = facet.count === 0 && !active;
+
+    const button = el("button", {
+      class: "tabs__btn",
+      type: "button",
+      role: "tab",
+      "aria-selected": active ? "true" : "false",
+      "aria-disabled": empty ? "true" : "false",
+      title: facet.note,
+    }, [
+      facet.label,
+      el("span", { class: "tabs__count" }, facet.count.toLocaleString()),
+    ]);
+
+    /* A facet with nothing in it is still worth showing, because "none are
+     * missing a blood group" is an answer. It just is not clickable. */
+    if (!empty) button.addEventListener("click", () => onPick(facet.flag));
+
+    strip.appendChild(button);
+  }
+
+  return strip;
+}
+
+function buildPager(name, state, data, onGo) {
+  const { limit } = BROWSE_VIEWS[name];
+  const first = data.total === 0 ? 0 : state.offset + 1;
+  const last = Math.min(state.offset + data.count, data.total);
+
+  const prev = el("button", { class: "pager__btn", type: "button" }, "Previous");
+  const next = el("button", { class: "pager__btn", type: "button" }, "Next");
+
+  prev.disabled = state.offset === 0;
+  next.disabled = !data.has_more;
+
+  prev.addEventListener("click", () => onGo(-limit));
+  next.addEventListener("click", () => onGo(limit));
+
+  return el("div", { class: "pager" }, [
+    el("span", { class: "pager__status data" },
+      `${first.toLocaleString()}–${last.toLocaleString()} of ` +
+      `${data.total.toLocaleString()}`),
+    el("div", { class: "pager__nav" }, [prev, next]),
+  ]);
+}
+
+/* Draw the browse list into a view's results container. */
+async function renderBrowse(name) {
+  const container = viewContainer(name);
+  const state = browseFor(name);
+
+  const mine = (state.ticket += 1);
+
+  clear(container);
+  container.appendChild(skeletonRows(6));
+
+  try {
+    const data = await api(facetUrl(name, state));
+    if (mine !== state.ticket) return;
+
+    state.facets = data.facets || [];
+    state.total = data.total;
+
+    clear(container);
+    openDetail = null;
+
+    const rows = data[name] || [];
+
+    if (!rows.length) {
+      /* Reachable when a page offset falls past the end, which is what a
+       * reader on page 9 sees if records are deleted underneath them. The
+       * action gets them back rather than leaving a dead end. */
+      const past = state.offset > 0;
+
+      container.appendChild(emptyState({
+        title: past ? "Nothing on this page" : "No records here",
+        body: past
+          ? "This page is past the end of the list. Go back to see the records."
+          : `No ${SEARCH_VIEWS[name].noun} match this filter.`,
+        action: past
+          ? {
+              label: "Back to first page",
+              run: () => {
+                state.offset = 0;
+                renderBrowse(name);
+              },
+            }
+          : null,
+      }));
+      return;
+    }
+
+    const wrap = el("div", { class: "browse" });
+
+    wrap.appendChild(el("div", { class: "browse__bar" }, [
+      el("p", { class: "browse__count" }, browseCountLine(name, data, state)),
+      facetTabs(name, state, (flag) => {
+        if (state.flag === flag) return;
+        state.flag = flag;
+        state.offset = 0;
+        renderBrowse(name);
+      }),
+    ]));
+
+    wrap.appendChild(el("div", { class: "rows" }, rows.map(ROW_RENDERERS[name])));
+
+    wrap.appendChild(buildPager(name, state, data, (delta) => {
+      state.offset = Math.max(0, state.offset + delta);
+      renderBrowse(name);
+      window.scrollTo(0, 0);
+    }));
+
+    container.appendChild(wrap);
+
+    /* New rows, new geometry. */
+    if (typeof companion !== "undefined") {
+      requestAnimationFrame(() => companion.show());
+    }
+  } catch (error) {
+    if (mine !== state.ticket) return;
+    clear(container);
+    container.appendChild(errorState(error.message, () => renderBrowse(name)));
+  }
+}/* ------------------------------------------------------------- patients */
 
 function patientRow(p) {
+  const seen = Number.isInteger(p.visit_count) ? p.visit_count : null;
+  const never = seen === 0;
+  const child = p.age !== "" && Number(p.age) < 18;
+
   const meta = [p.age ? `age ${p.age}` : "", p.gender,
                 p.blood_group || "blood group not recorded",
                 p.area]
-    .filter(Boolean).join(" · ");
+    .filter(Boolean).join(", ");
 
-  return el("button", { class: "row", onclick: () => showPatient(p) }, [
+  /* The rail marks the one thing on this record that is outstanding: a
+   * patient who registered and never came back. A child is not flagged,
+   * because being under 18 is not a problem to action, it is who they are.
+   * The same fact is written in the trailing meta, so the colour is never
+   * the only thing carrying it. */
+  const classes = ["row"];
+
+  if (never) classes.push("row--flagged");
+
+  const trailing = never
+    ? [el("span", { class: "row__trailing-note", text: "no consultation" }),
+       el("span", { class: "data row__sub", text: p.patient_id })]
+    : [
+        el("span", { class: "row__trailing-note" },
+          seen === null ? "" : `${seen} consultation${seen === 1 ? "" : "s"}`),
+        el("span", { class: "data row__sub", text: p.patient_id }),
+      ];
+
+  return el("button", { class: classes.join(" "), onclick: () => showPatient(p) }, [
     el("span", { class: "row__main" }, [
       el("span", { class: "row__title", text: p.name }),
       el("span", { class: "row__meta", text: meta }),
-    ]),
-    el("span", { class: "row__trailing data", text: p.patient_id }),
+      child ? el("span", { class: "flag" }, "Recorded with a guardian") : null,
+    ].filter(Boolean)),
+    el("span", { class: "row__trailing" }, trailing),
   ]);
 }
 
@@ -630,7 +874,7 @@ function vitalsLine(v) {
   const weight = weightFor(v);
   if (weight) parts.push(weight);
 
-  return parts.join(" · ");
+  return parts.join(", ");
 }
 
 function weightFor(v) {
@@ -669,10 +913,10 @@ function visitCard(v) {
         [v.doctor?.name || "Doctor not recorded"]),
       el("p", { class: "visit__where",
                 text: [v.doctor?.specialisation, v.hospital?.name]
-                        .filter(Boolean).join(" · ") }),
+                        .filter(Boolean).join(", ") }),
       el("p", { class: "visit__meta",
                 text: [v.doctor?.department && `${v.doctor.department}, room ${v.doctor.room_no}`,
-                       v.hospital?.area].filter(Boolean).join(" · ") }),
+                       v.hospital?.area].filter(Boolean).join(", ") }),
     ]),
 
     v.symptoms
@@ -729,7 +973,7 @@ async function showPatient(p) {
              who.age ? `age ${who.age}` : "",
              who.gender,
              who.blood_group ? `${who.blood_group}` : ""]
-             .filter(Boolean).join(" · "),
+             .filter(Boolean).join(", "),
       children: [
         el("div", { class: "detail-grid" }, [
           el("div", {}, [
@@ -784,7 +1028,7 @@ async function showPatient(p) {
 function medicineRow(m) {
   const flags = [m.otc === "yes" ? "Over the counter" : "",
                  m.rx_required === "yes" ? "Prescription required" : ""]
-    .filter(Boolean).join(" · ");
+    .filter(Boolean).join(", ");
 
   const price = m.price ? `₹${m.price}` : "";
 
@@ -792,7 +1036,7 @@ function medicineRow(m) {
     el("span", { class: "row__main" }, [
       el("span", { class: "row__title", text: m.name }),
       el("span", { class: "row__meta",
-                   text: [m.generic, m.category, flags].filter(Boolean).join(" · ") }),
+                   text: [m.generic, m.category, flags].filter(Boolean).join(", ") }),
     ]),
     el("span", { class: "row__trailing" }, [
       el("span", { class: "data", text: price }),
@@ -826,7 +1070,7 @@ async function showMedicine(m) {
     detailShell({
       name: "medicines",
       title: med.name,
-      lead: [med.generic, med.category, med.strength].filter(Boolean).join(" · "),
+      lead: [med.generic, med.category, med.strength].filter(Boolean).join(", "),
       children: [
         el("div", { class: "detail-grid" }, [
           factGrid("Catalogue entry", facts),
@@ -850,7 +1094,7 @@ async function showMedicine(m) {
                   el("span", { class: "row__title", text: s.name }),
                   el("span", { class: "row__meta",
                                text: [s.area, s.city, s.hours, s.phone && `+91 ${s.phone}`]
-                                     .filter(Boolean).join(" · ") }),
+                                     .filter(Boolean).join(", ") }),
                 ]),
                 el("span", { class: "row__trailing data", text: s.store_id }),
               ])
@@ -875,11 +1119,15 @@ async function showMedicine(m) {
 function storeRow(s) {
   const count = s.stock_csv ? s.stock_csv.split("|").length : 0;
 
-  return el("button", { class: "row", onclick: () => showStore(s) }, [
+  /* No stock on file is the same class of problem as a patient with no
+   * consultation: the record exists but the useful part is missing. */
+  const classes = count ? ["row"] : ["row", "row--flagged"];
+
+  return el("button", { class: classes.join(" "), onclick: () => showStore(s) }, [
     el("span", { class: "row__main" }, [
       el("span", { class: "row__title", text: s.name }),
       el("span", { class: "row__meta",
-                   text: [s.type, s.area, s.city, s.hours].filter(Boolean).join(" · ") }),
+                   text: [s.type, s.area, s.city, s.hours].filter(Boolean).join(", ") }),
     ]),
     el("span", { class: "row__trailing" }, [
       el("span", { class: count ? "data" : "row__trailing-note",
@@ -914,7 +1162,7 @@ async function showStore(s) {
     detailShell({
       name: "stores",
       title: store.name,
-      lead: [store.type, store.area, store.city].filter(Boolean).join(" · "),
+      lead: [store.type, store.area, store.city].filter(Boolean).join(", "),
       children: [
         el("div", { class: "detail-grid" }, [
           factGrid("Store", facts),
@@ -936,7 +1184,7 @@ async function showStore(s) {
                   el("span", { class: "row__title", text: m.name }),
                   el("span", { class: "row__meta",
                                text: [m.generic, m.category, m.strength]
-                                     .filter(Boolean).join(" · ") }),
+                                     .filter(Boolean).join(", ") }),
                 ]),
                 el("span", { class: "row__trailing data",
                              text: m.price ? `₹${m.price}` : "" }),
@@ -965,7 +1213,7 @@ function hospitalRow(h) {
       el("span", { class: "row__title", text: h.name }),
       el("span", { class: "row__meta",
                    text: [h.type, h.area, h.city,
-                          h.beds ? `${h.beds} beds` : ""].filter(Boolean).join(" · ") }),
+                          h.beds ? `${h.beds} beds` : ""].filter(Boolean).join(", ") }),
     ]),
     el("span", { class: "row__trailing data", text: h.hospital_id }),
   ]);
@@ -998,7 +1246,7 @@ async function showHospital(h) {
     detailShell({
       name: "hospitals",
       title: hosp.name,
-      lead: [hosp.type, hosp.area, hosp.city].filter(Boolean).join(" · "),
+      lead: [hosp.type, hosp.area, hosp.city].filter(Boolean).join(", "),
       children: [
         factGrid("Hospital", facts),
 
@@ -1012,7 +1260,7 @@ async function showHospital(h) {
                   el("span", { class: "row__title", text: d.name }),
                   el("span", { class: "row__meta",
                                text: [d.specialisation, d.qualification,
-                                      `room ${d.room_no}`].filter(Boolean).join(" · ") }),
+                                      `room ${d.room_no}`].filter(Boolean).join(", ") }),
                   el("span", { class: "row__sub",
                                text: d.availability || "" }),
                 ]),
@@ -1040,10 +1288,10 @@ function doctorRow(d) {
     el("span", { class: "row__main" }, [
       el("span", { class: "row__title", text: d.name }),
       el("span", { class: "row__meta",
-                   text: [d.specialisation, d.qualification].filter(Boolean).join(" · ") }),
+                   text: [d.specialisation, d.qualification].filter(Boolean).join(", ") }),
       el("span", { class: "row__sub",
                    text: [d.hospital_name, d.department,
-                          `room ${d.room_no}`].filter(Boolean).join(" · ") }),
+                          `room ${d.room_no}`].filter(Boolean).join(", ") }),
     ]),
     el("span", { class: "row__trailing data", text: d.doctor_id }),
   ]);
@@ -1078,7 +1326,7 @@ async function showDoctor(d) {
     detailShell({
       name: "doctors",
       title: doc.name,
-      lead: [doc.specialisation, doc.qualification].filter(Boolean).join(" · "),
+      lead: [doc.specialisation, doc.qualification].filter(Boolean).join(", "),
       children: [
         factGrid("Practitioner", facts),
 
@@ -1137,7 +1385,7 @@ function rareRow(c) {
 function previewFindings(symptoms) {
   if (!symptoms) return "";
   const words = symptoms.split("|");
-  return words.slice(0, 6).join(" · ") + (words.length > 6 ? ` · +${words.length - 6} more` : "");
+  return words.slice(0, 6).join(", ") + (words.length > 6 ? ` · +${words.length - 6} more` : "");
 }
 
 /* Shown before any search, so the page opens with the shape of the
@@ -1236,7 +1484,7 @@ async function showRare(c) {
       lead: [
         condition.mondo_id,
         `${condition.symptom_count} phenotypic findings`,
-      ].filter(Boolean).join(" · "),
+      ].filter(Boolean).join(", "),
       children: [
         el("div", { class: "detail-grid" }, [
           factGrid("Record", facts),
@@ -1563,6 +1811,14 @@ function show(name) {
   if (isChange) focusHeading(name);
 
   revealActiveNav(name);
+
+  /* The companion walks on rows, so it has to be re-placed whenever
+   * the screen under it changes. Deferred a frame because a view
+   * rendering for the first time has not drawn its rows yet. */
+  if (typeof companion !== "undefined") {
+    if (BROWSE_VIEWS[name]) requestAnimationFrame(() => companion.show());
+    else companion.hide();
+  }
 
   /* The nav is measured with the fallback font first, then re-measured
    * when IBM Plex arrives and every item gets wider. The scroll position

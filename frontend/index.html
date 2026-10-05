@@ -25,10 +25,55 @@
       <a class="nav__link" href="#rare-conditions" data-view="rare_conditions">Rare</a>
       <a class="nav__link" href="#analytics" data-view="analytics">Cohorts</a>
     </nav>
+
+    <!-- The companion is decorative, so the only thing this control has to
+         do is let a reader turn it off. aria-pressed carries that state,
+         and it persists between sessions because being walked past by a
+         pixel creature every visit is exactly what someone switches off. -->
+    <!-- Theme. Follows the system by default, overridable by the reader,
+         and the change is revealed outward from this button so it is
+         obvious what was pressed and what moved. -->
+    <button class="iconbtn theme" id="theme" type="button"
+            aria-label="Switch between light and dark theme"
+            title="Switch between light and dark theme">
+      <svg class="theme__sun" viewBox="0 0 24 24" width="20" height="20"
+           aria-hidden="true" fill="none" stroke="currentColor"
+           stroke-width="1.5" stroke-linecap="round">
+        <circle cx="12" cy="12" r="4.2"/>
+        <path d="M12 2.6v2.2M12 19.2v2.2M2.6 12h2.2M19.2 12h2.2
+                 M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6
+                 M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6"/>
+      </svg>
+      <svg class="theme__moon" viewBox="0 0 24 24" width="20" height="20"
+           aria-hidden="true" fill="none" stroke="currentColor"
+           stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 14.2A8.4 8.4 0 1 1 9.8 4a6.9 6.9 0 0 0 10.2 10.2z"/>
+      </svg>
+    </button>
+
+    <button class="iconbtn buddy" id="buddy" type="button" aria-pressed="true"
+            title="Show the companion walking along the list">
+      <span class="sr-only">Show the companion</span>
+      <svg viewBox="0 0 16 13" width="20" height="16" aria-hidden="true"
+           shape-rendering="crispEdges">
+        <rect x="2" y="1" width="12" height="8" fill="currentColor"/>
+        <rect x="0" y="4" width="2" height="2" fill="currentColor"/>
+        <rect x="14" y="4" width="2" height="2" fill="currentColor"/>
+        <rect x="5" y="3" width="2" height="2" fill="var(--bg)"/>
+        <rect x="9" y="3" width="2" height="2" fill="var(--bg)"/>
+        <rect x="3" y="9" width="2" height="3" fill="currentColor"/>
+        <rect x="6" y="9" width="2" height="3" fill="currentColor"/>
+        <rect x="9" y="9" width="2" height="3" fill="currentColor"/>
+        <rect x="12" y="9" width="2" height="3" fill="currentColor"/>
+      </svg>
+    </button>
   </div>
 </header>
 
 <main class="page">
+  <!-- The companion. Placed last so it paints over the rows,
+       and positioned against .page so it can walk their edges. -->
+  <div class="cr" id="critter" data-x="n" aria-hidden="true" hidden></div>
 
   <!-- ------------------------------------------------------- triage -->
   <section id="view-triage" hidden>
@@ -88,8 +133,7 @@
     <div class="page__head">
       <h1 class="page__title">Patients</h1>
       <p class="page__lead">
-        Records held in <code>data/patients.csv</code>. Search tolerates
-        incomplete entries and returns a ranked list.
+        Every registered patient. Open a record for its consultation history, or search to narrow the list.
       </p>
     </div>
 
@@ -98,8 +142,7 @@
       <input class="input" id="patient-search" placeholder="name, area, blood group"
              autocomplete="off">
       <p class="field__hint">
-        Matches name, contact, address and notes. Open a record for its
-        consultation history.
+        Matches name, contact, address and notes. Leave this empty to keep browsing the list.
       </p>
     </div>
 
@@ -111,8 +154,7 @@
     <div class="page__head">
       <h1 class="page__title">Hospitals</h1>
       <p class="page__lead">
-        Facilities in <code>data/hospitals.csv</code>, with the doctors the
-        registry lists as practising there.
+        Empanelled facilities, with the doctors the registry lists as practising there.
       </p>
     </div>
 
@@ -120,7 +162,9 @@
       <label class="field__label" for="hospital-search">Search hospitals</label>
       <input class="input" id="hospital-search" placeholder="name, type, area"
              autocomplete="off">
-      <p class="field__hint">Matches name, type, area, city and accreditation.</p>
+      <p class="field__hint">
+        Matches name, type, area, city and accreditation. Leave this empty to keep browsing the list.
+      </p>
     </div>
 
     <div id="hospital-results" aria-live="polite"></div>
@@ -131,8 +175,7 @@
     <div class="page__head">
       <h1 class="page__title">Doctors</h1>
       <p class="page__lead">
-        Practitioners in <code>data/doctors.csv</code>, each attached to the
-        hospital they work at.
+        Practitioners, each attached to the hospital they work at. Open one for their registration and schedule.
       </p>
     </div>
 
@@ -141,7 +184,7 @@
       <input class="input" id="doctor-search" placeholder="name, specialisation, hospital"
              autocomplete="off">
       <p class="field__hint">
-        Matches name, specialisation, qualification, department and hospital.
+        Matches name, specialisation, qualification, department and hospital. Leave this empty to keep browsing the list.
       </p>
     </div>
 
@@ -153,8 +196,7 @@
     <div class="page__head">
       <h1 class="page__title">Medicines</h1>
       <p class="page__lead">
-        The catalogue in <code>data/medicines.csv</code>. Each medicine lists
-        which medical stores hold it.
+        The catalogue. Each medicine lists which medical stores hold it.
       </p>
     </div>
 
@@ -162,7 +204,9 @@
       <label class="field__label" for="medicine-search">Search medicines</label>
       <input class="input" id="medicine-search" placeholder="name, generic, category"
              autocomplete="off">
-      <p class="field__hint">Matches name, generic name, category and manufacturer.</p>
+      <p class="field__hint">
+        Matches name, generic name, category and manufacturer. Leave this empty to keep browsing the list.
+      </p>
     </div>
 
     <div id="medicine-results" aria-live="polite"></div>
@@ -173,8 +217,7 @@
     <div class="page__head">
       <h1 class="page__title">Stores</h1>
       <p class="page__lead">
-        Medical stores and what they hold. A store with no recorded stock
-        shows as empty rather than being treated as stocking nothing.
+        Medical stores and what they hold. A store with nothing recorded says so rather than reading as empty shelves.
       </p>
     </div>
 
@@ -183,7 +226,7 @@
       <input class="input" id="store-search" placeholder="name, city, area"
              autocomplete="off">
       <p class="field__hint">
-        Matches name, type, area, city and opening hours.
+        Matches name, type, area, city and opening hours. Leave this empty to keep browsing the list.
       </p>
     </div>
 
@@ -237,5 +280,7 @@
 </main>
 
 <script src="app.js"></script>
+<script src="theme.js"></script>
+<script src="companion.js"></script>
 </body>
 </html>
