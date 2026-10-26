@@ -15,7 +15,7 @@ import re
 import zipfile
 from xml.etree import ElementTree as ET
 
-RAW = r"D:\Q_project\meridian\research\raw"
+RAW = r"D:/Q_project/projects/meridian\research\raw"
 ZIP = os.path.join(RAW, "hoom_orphanet_2.5..zip")
 RDF = "{http://www.w3.org/1999/02/22-rdf-syntax-ns#}"
 OWL = "{http://www.w3.org/2002/07/owl#}"

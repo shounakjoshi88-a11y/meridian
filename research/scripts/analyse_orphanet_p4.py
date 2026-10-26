@@ -13,7 +13,7 @@ import collections
 import os
 from xml.etree import ElementTree as ET
 
-RAW = r"D:\Q_project\meridian\research\raw"
+RAW = r"D:/Q_project/projects/meridian\research\raw"
 P4 = os.path.join(RAW, "en_product4.xml.1")
 
 tree = ET.parse(P4)

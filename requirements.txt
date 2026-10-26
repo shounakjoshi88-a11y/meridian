@@ -1,0 +1,6 @@
+# Runtime requirements. The app runs from the project root with Flask
+# serving the frontend from the same process, so nothing else is needed.
+# Rendered charts need matplotlib, analytics needs pandas.
+flask
+pandas
+matplotlib

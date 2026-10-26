@@ -883,12 +883,36 @@ def test_triage_unknown_patient_is_tolerated():
 
 def test_list_diseases():
     """The knowledge base lists with parsed symptom sets."""
-    body = data(get("/api/diseases"))
+    body = data(get("/api/diseases", limit=500))
 
     assert body["count"] == STARTING["diseases"], body["count"]
     for d in body["diseases"]:
         assert isinstance(d["symptom_set"], list), d
     print(f"  ok  GET /api/diseases returns {body['count']} diseases")
+
+
+def test_conditions_browse_has_a_total():
+    """The conditions page carries the fields the count line reads.
+
+    Regression: /api/diseases used to return {count, diseases} with no
+    total, so the browser crashed on toLocaleString of undefined before
+    the list rendered. The endpoint is paged like every registry now, and
+    the page reports the true total either way.
+    """
+    page = data(get("/api/diseases"))
+
+    assert page["total"] == STARTING["diseases"], page["total"]
+    assert page["count"] == 50, page["count"]
+    assert page["has_more"] is True, page["has_more"]
+
+    ranged = data(get("/api/diseases", limit=50, offset=50))
+
+    assert ranged["count"] == STARTING["diseases"] - 50, ranged["count"]
+    assert ranged["has_more"] is False, ranged["has_more"]
+    assert ranged["diseases"][0] != page["diseases"][0], "offset was ignored"
+    for row in ranged["diseases"]:
+        assert isinstance(row["symptom_set"], list), row
+    print("  ok  conditions browse reports a total and pages: 50 of 96")
 
 
 # -------------------------------------------------------------- analytics
@@ -978,6 +1002,79 @@ def test_analytics_charts_written_and_served():
 def test_missing_chart_is_404():
     assert get("/charts/nosuchchart.png").status_code == 404
     print("  ok  unknown chart returns 404")
+
+
+# ------------------------------------------------------------------ graphs
+
+def test_graph_catalog_lists_kinds_and_columns():
+    """The catalog tells the browser what it can build without guessing."""
+    body = data(get("/api/graphs"))
+
+    kinds = [k["kind"] for k in body["kinds"]]
+
+    assert "histogram" in kinds, kinds
+    assert "scatter" in kinds, kinds
+    assert "pima_diabetes.csv" in body["datasets"], body["datasets"].keys()
+
+    pima = body["datasets"]["pima_diabetes.csv"]
+
+    assert "Glucose" in pima["numeric"], pima
+    assert pima["target"] == "Outcome", pima
+    print(f"  ok  graph catalog: {len(kinds)} kinds, "
+          f"{len(body['datasets'])} datasets with columns")
+
+
+def test_graph_built_and_served_for_each_kind():
+    """Every kind builds through the API and the PNG is then servable."""
+    catalog = data(get("/api/graphs"))["kinds"]
+
+    for card in catalog:
+        kind = card["kind"]
+        params = {"x": "Glucose", "y": "BMI"} \
+            if "y" in card["needs"] else {"x": "Glucose"}
+        body = data(get(f"/api/graphs/pima_diabetes.csv/{kind}", **params))
+        graph = body["graph"]
+
+        assert graph["file"].endswith(".png"), graph
+        assert graph["dataset"] == "pima_diabetes.csv", graph
+
+        served = get(f"/charts/{graph['file']}")
+
+        assert served.status_code == 200, (graph["file"], served.status_code)
+        assert served.data[:4] == b"\x89PNG", graph["file"]
+    print(f"  ok  all {len(catalog)} graph kinds build and serve through "
+          "the API")
+
+
+def test_graph_rejects_bad_kind_and_columns():
+    """A bad pick is a 400 naming what would have worked, never a 500."""
+    r = get("/api/graphs/pima_diabetes.csv/pineapple", x="BMI")
+    body = data(r)
+
+    assert r.status_code == 400, r.status_code
+    assert "pineapple" in body["error"], body
+    assert any(k["kind"] == "histogram" for k in body["available"]), body
+
+    r = get("/api/graphs/pima_diabetes.csv/histogram", x="Nope")
+
+    assert r.status_code == 400, r.status_code
+    assert "Glucose" in data(r)["error"], data(r)
+
+    r = get("/api/graphs/pima_diabetes.csv/scatter", x="Glucose")
+
+    assert r.status_code == 400, r.status_code
+    assert "y" in data(r)["error"], data(r)
+    print("  ok  bad kind or columns answer 400 with the usable list")
+
+
+def test_graph_unknown_dataset_is_404():
+    """A dataset that never profiled is the shared 404, not a 500."""
+    r = get("/api/graphs/mammographic_masses.csv/histogram", x="Glucose")
+    body = data(r)
+
+    assert r.status_code == 404, r.status_code
+    assert "Glucose" not in body.get("error", ""), body
+    print("  ok  graph of an unknown dataset returns the shared 404")
 
 
 # ----------------------------------------------------------------- backup

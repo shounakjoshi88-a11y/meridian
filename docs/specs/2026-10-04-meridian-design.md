@@ -64,7 +64,7 @@ practicals 0–6, or is documented in `docs/concepts/` as an explicitly-justifie
 ## 3. Architecture
 
 ```
-D:\Q_project\meridian\
+D:/Q_project/projects/meridian\
 ├── backend/
 │   ├── app.py          Flask routes only, no business logic
 │   ├── store.py        CSV read/write, timestamped backup

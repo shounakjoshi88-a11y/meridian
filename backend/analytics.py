@@ -17,9 +17,12 @@ import os
 
 import pandas as pd
 
-DATA_DIR = os.path.join("data", "datasets")
+# Both directories default to the plain relative paths a local run uses.
+# On Vercel the api/ entrypoint points them at writable copies in /tmp,
+# because the deployment bundle itself is read-only.
+DATA_DIR = os.environ.get("MERIDIAN_DATASET_DIR", os.path.join("data", "datasets"))
 REPORT_PATH = os.path.join(DATA_DIR, "profile_report.csv")
-CHART_DIR = os.path.join("static", "charts")
+CHART_DIR = os.environ.get("MERIDIAN_CHART_DIR", os.path.join("static", "charts"))
 
 # UCI files mark unknown values with ? and not-applicable with -9. Without
 # these markers pandas reads the whole column as text and every numeric
@@ -382,6 +385,264 @@ def unreachable_bands(series, thresholds):
 def available_risk_bands(name):
     """Return which columns have thresholds defined for this dataset."""
     return sorted(RISK_THRESHOLDS.get(name, {}).keys())
+
+
+# ------------------------------------------------------------- graphs
+#
+# save_charts renders the three figures every profile automatically gets.
+# A reader often wants to look at a different column than the one the
+# separator ranking happened to pick, so the same figures are exposed as
+# buildable graphs: one endpoint, a choice of kind, the dataset's own
+# columns as inputs. Each kind states which columns it needs in the spec
+# below; the endpoint validates against that before touching matplotlib,
+# so a bad pick is a 400 naming the usable columns, never a half-rendered
+# file.
+#
+# Explicit plt calls rather than df.plot() everywhere possible, same rule
+# as save_charts: every parameter stays explicable.
+
+GRAPH_SPECS = {
+    "histogram": {
+        "label": "Histogram",
+        "needs": ["x"],
+        "note": "How one numeric column is distributed, split by the target.",
+    },
+    "bar_groupmeans": {
+        "label": "Mean by target",
+        "needs": ["x"],
+        "note": "Group means of one column, shown as a fraction of its own "
+                "overall mean so different scales stay comparable.",
+    },
+    "box": {
+        "label": "Box plot",
+        "needs": ["x"],
+        "note": "Spread and outliers of one numeric column, per target group.",
+    },
+    "scatter": {
+        "label": "Scatter",
+        "needs": ["x", "y"],
+        "note": "Two numeric columns against each other, split by target.",
+    },
+    "line": {
+        "label": "Line",
+        "needs": ["x"],
+        "y-optional": True,
+        "note": "A trend across one numeric axis: counts along it, or the "
+                "mean of a second column if one is given.",
+    },
+}
+
+DEFAULT_GRAPH_KINDS = ("histogram", "bar_groupmeans", "box", "scatter", "line")
+
+
+def graph_kinds():
+    """Return the kind registry as plain dicts for the API and the UI."""
+    cards = []
+
+    for kind in DEFAULT_GRAPH_KINDS:
+        spec = GRAPH_SPECS[kind]
+        cards.append({
+            "kind": kind,
+            "label": spec["label"],
+            "needs": spec["needs"],
+            "y_optional": bool(spec.get("y-optional")),
+            "note": spec["note"],
+        })
+
+    return cards
+
+
+def categorical_columns(df):
+    """Return text column names. The target rides along: it is the one
+    grouping a graph is usually drawn by."""
+    target = find_target(df)
+    cols = [c for c in df.select_dtypes(exclude="number").columns
+            if c != target]
+
+    if target:
+        cols.append(target)
+
+    return cols
+
+
+def graph_columns(name):
+    """Return the dataset's usable columns, sorted for stable pickers."""
+    df = read_dataset(name)
+
+    return {
+        "numeric": sorted(numeric_columns(df)),
+        "categorical": sorted(categorical_columns(df)),
+        "target": find_target(df),
+    }
+
+
+def _plt():
+    """Import matplotlib lazily and force the headless Agg backend.
+
+    A server has no display, and importing matplotlib at module top would
+    pull ~30 MB into every process that only wanted a profile dict.
+    """
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+
+    return plt
+
+
+def _graph_slug(text):
+    """Turn a column name into a filename-safe fragment.
+
+    Keep letters, digits and underscores and fold everything else to a
+    dash, because a filename carries kind and columns and must not grow a
+    slash or a space from whatever a header happened to hold.
+    """
+    return "".join(c if c.isalnum() or c == "_" else "-"
+                   for c in text.strip().replace(" ", "_"))
+
+
+def _graph_file(kind, name, x, y):
+    """Build the PNG path for one graph, newest-safe under CHART_DIR."""
+    slug = name.replace(".csv", "")
+    parts = [_graph_slug(kind), _graph_slug(x)]
+
+    if y is not None:
+        parts.append(_graph_slug(y))
+
+    return os.path.join(CHART_DIR,
+                        f"{slug}_{'_'.join(p.lower() for p in parts)}.png")
+
+
+def _split_by_target(df, column):
+    """Yield (label, values) for the column, one series per target group.
+
+    A dataset with no target column yields the single whole-column series.
+    The graph code does not need to know which case it is rendering: one
+    loop over these pairs draws both.
+    """
+    target = find_target(df)
+
+    if target is None:
+        yield "value", df[column].dropna()
+        return
+
+    for label, group in df.groupby(target):
+        yield f"{target}={label}", group[column].dropna()
+
+
+def render_graph(name, kind, x=None, y=None):
+    """Render one graph of the requested kind and return its metadata.
+
+    Validation raises KeyError for an unknown dataset or kind (the route
+    answers those with a 400 listing what is available, the same contract
+    as risk_bands) and ValueError when the chosen columns do not fit the
+    kind. Returns {"file": basename, "title", "kind", "dataset",
+    "columns"}; the file lands in CHART_DIR and is served by /charts/.
+    """
+    if name not in passing_datasets():
+        raise KeyError(f"unknown dataset {name}")
+
+    if kind not in GRAPH_SPECS:
+        raise KeyError(f"unknown graph kind {kind!r}, "
+                       f"available: {', '.join(DEFAULT_GRAPH_KINDS)}")
+
+    df = read_dataset(name)
+    numeric = numeric_columns(df)
+    categorical = categorical_columns(df)
+    columns = {"x": x, "y": y}
+
+    if x is None:
+        raise ValueError("x column is required")
+    if x not in numeric:
+        raise ValueError(f"x must be a numeric column of {name}, "
+                         f"available: {', '.join(numeric)}")
+
+    if y is not None and y not in numeric:
+        raise ValueError(f"y must be a numeric column of {name}, "
+                         f"available: {', '.join(numeric)}")
+    if kind == "scatter" and y is None:
+        raise ValueError("scatter needs a y column")
+
+    if not os.path.exists(CHART_DIR):
+        os.makedirs(CHART_DIR)
+
+    plt = _plt()
+    path = _graph_file(kind, name, x, y)
+    title, x_label, y_label = {
+        "histogram": (f"{name}: distribution of {x}", x, "patients"),
+        "bar_groupmeans": (f"{name}: mean {x} as a fraction of its overall "
+                           "mean", x, "x average"),
+        "box": (f"{name}: spread of {x}", x, x),
+        "scatter": (f"{name}: {y} against {x}", x, y),
+        "line": (f"{name}: {'mean ' + y + ' by ' + x if y else 'count by ' + x}",
+                 x, f"mean {y}" if y else "rows"),
+    }[kind]
+
+    fig, ax = plt.subplots(figsize=(7.5, 4.2))
+
+    if kind == "histogram":
+        for label, values in _split_by_target(df, x):
+            ax.hist(values, bins=30, alpha=0.6, label=label)
+
+        if find_target(df) is not None:
+            ax.legend()
+
+    elif kind == "bar_groupmeans":
+        target = find_target(df)
+
+        if target is None:
+            means = df[[x]].mean()
+            relative = means / means.mean()
+            ax.bar(relative.index, relative[x])
+        else:
+            means = df.groupby(target)[x].mean()
+            relative = means / means.mean()
+            ax.bar(relative.index.astype(str), relative.values)
+
+        ax.axhline(1.0, color="#888", linewidth=0.8, linestyle="--")
+
+    elif kind == "box":
+        pairs, labels = [], []
+
+        for label, values in _split_by_target(df, x):
+            pairs.append(values)
+            labels.append(label)
+
+        ax.boxplot(pairs, tick_labels=labels, vert=True)
+
+    elif kind == "scatter":
+        target = find_target(df)
+
+        if target is None:
+            ax.scatter(df[x], df[y], s=14, alpha=0.55)
+        else:
+            for label, group in df.groupby(target):
+                ax.scatter(group[x], group[y], s=14, alpha=0.55,
+                           label=f"{target}={label}")
+            ax.legend()
+
+    elif kind == "line":
+        frame = df[[x]] if y is None else df.dropna(subset=[x, y])
+
+        if y is None:
+            counts = frame.groupby(x).size()
+            ax.plot(counts.index, counts.values, marker="o", linewidth=1.2)
+        else:
+            means = frame.groupby(x)[y].mean()
+            ax.plot(means.index, means.values, marker="o", linewidth=1.2)
+
+    ax.set_title(title)
+    ax.set_xlabel(x_label)
+    ax.set_ylabel(y_label)
+    fig.savefig(path, dpi=100, bbox_inches="tight")
+    plt.close(fig)
+
+    return {
+        "dataset": name,
+        "kind": kind,
+        "columns": columns,
+        "title": title,
+        "file": os.path.basename(path),
+    }
 
 
 def save_charts(name):

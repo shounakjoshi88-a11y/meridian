@@ -668,6 +668,27 @@ textarea.input {
   padding: var(--s-2) var(--s-2) var(--s-1);
 }
 
+/* ------------------------------------------------------------- graphs */
+
+/* The builder row holds one select per choice plus the render button.
+ * They sit side by side while there is room and wrap on narrow screens;
+ * the button keeps its natural size because a stretched Build reads like
+ * a banner rather than an action. */
+.graph-builder__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  align-items: center;
+  margin-top: var(--s-3);
+}
+
+.graph-builder__row select.input {
+  flex: 1 1 150px;
+  width: auto;
+}
+
+.graph-builder__note { margin-top: var(--s-2); }
+
 /* ------------------------------------------------------------ tables */
 
 .kv { width: 100%; border-collapse: collapse; }

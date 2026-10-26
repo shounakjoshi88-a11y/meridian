@@ -369,6 +369,71 @@ def test_save_charts_writes_pngs():
     print("  ok  every dataset writes real PNG charts")
 
 
+def test_graph_kinds_registry():
+    """Every kind the endpoint offers is specified in the registry."""
+    cards = analytics.graph_kinds()
+
+    assert len(cards) >= 5, len(cards)
+
+    for card in cards:
+        assert card["kind"], card
+        assert card["label"], card
+        assert "x" in card["needs"], card
+
+    scatter = [c for c in cards if c["kind"] == "scatter"][0]
+
+    assert "y" in scatter["needs"], scatter
+    print(f"  ok  graph registry holds {len(cards)} kinds, scatter needs y")
+
+
+def test_render_graph_draws_every_kind():
+    """Each kind renders for one column pick and writes a PNG."""
+    import os as _os
+
+    for kind in [c["kind"] for c in analytics.graph_kinds()]:
+        built = analytics.render_graph("pima_diabetes.csv", kind,
+                                       x="Glucose",
+                                       y="BMI" if kind == "scatter" else None)
+
+        assert built["file"].endswith(".png"), built
+        assert "/" not in built["file"], built
+        assert built["title"], built
+
+        path = _os.path.join(analytics.CHART_DIR, built["file"])
+
+        assert _os.path.exists(path), path
+        assert _os.path.getsize(path) > 1000, (path, _os.path.getsize(path))
+    print("  ok  all graph kinds render and write real PNGs")
+
+
+def test_render_graph_rejects_unusable_input():
+    """A wrong kind or dataset is a KeyError; wrong columns a ValueError."""
+    try:
+        analytics.render_graph("pima_diabetes.csv", "pineapple", x="BMI")
+        raise AssertionError("unknown kind did not raise")
+    except KeyError:
+        pass
+
+    try:
+        analytics.render_graph("not_a_dataset.csv", "histogram", x="Glucose")
+        raise AssertionError("unknown dataset did not raise")
+    except KeyError:
+        pass
+
+    try:
+        analytics.render_graph("pima_diabetes.csv", "histogram", x="Nope")
+        raise AssertionError("unknown column did not raise")
+    except ValueError:
+        pass
+
+    try:
+        analytics.render_graph("pima_diabetes.csv", "scatter", x="Glucose")
+        raise AssertionError("scatter without y did not raise")
+    except ValueError:
+        pass
+    print("  ok  bad kind/dataset raise KeyError, bad columns ValueError")
+
+
 def test_value_counts_and_describe_present():
     """The describe and value_counts blocks are populated."""
     p = analytics.profile("pima_diabetes.csv")

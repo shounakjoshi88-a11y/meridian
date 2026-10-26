@@ -199,7 +199,6 @@ def registry_page(record_type, key, after=None):
     return body
 
 
-
 def attach_visit_counts(records):
     """Add visit_count to each patient row, in place.
 
@@ -217,6 +216,18 @@ def attach_visit_counts(records):
 
     for record in records:
         record["visit_count"] = counts.get(record["patient_id"], 0)
+
+
+def attach_symptom_sets(records):
+    """Parse each condition's symptom string into a sorted list, in place.
+
+    The triage engine stores symptoms pipe-delimited; the condition browser
+    wants chips it can sort and compare. Done on the way out so the raw
+    column keeps the storage shape the CSV requires.
+    """
+    for record in records:
+        record["symptom_set"] = sorted(
+            triage.normalise_symptoms(record["symptoms"]))
 
 
 @app.get("/api/health")
@@ -734,15 +745,128 @@ def search(record_type):
 
 # ---------------------------------------------------------------- triage
 
+# ------------------------------------------------------- disease articles
+#
+# A condition page is one written article plus four things that are computed
+# rather than typed: what else it could be, who has had it, what treats it,
+# and where to get it. That is the whole point of the page. A summary on its
+# own is a paragraph; a summary with the differentials and the pharmacy
+# counter attached is something a person can act on.
+
+def article_for(disease_id):
+    """The written article, or None if this condition has not been written up."""
+    record = store.get_by_id("disease_articles", disease_id)
+
+    if record is None:
+        return None
+
+    return {
+        "disease_id": record["disease_id"],
+        "summary": record["summary"],
+        # The columns are pipe delimited and empty means none, not the word
+        # none. Saying "Red flags: none" reads like reassurance; leaving the
+        # list empty reads like the absence of a list.
+        "red_flags": [f for f in record["red_flags"].split("|") if f],
+        "refer_when": [f for f in record["refer_when"].split("|") if f],
+        "medicine_ids": [m for m in record["medicine_ids"].split("|") if m],
+        "provenance": record["provenance"],
+    }
+
+
+def condition_detail(disease_id):
+    """One condition with everything a reader needs to act on it.
+
+    Returns None for an unknown id so the route can decide the status code,
+    rather than the helper returning a 404-shaped body.
+    """
+    disease = store.get_by_id("diseases", disease_id)
+
+    if disease is None:
+        return None
+
+    enriched = dict(disease)
+    enriched["symptom_set"] = sorted(
+        triage.normalise_symptoms(disease["symptoms"]))
+    enriched["article"] = article_for(disease_id)
+
+    # What else it could be, from the same set algebra the triage engine
+    # runs. The condition's own symptom list is used as the query, so the
+    # answer is "conditions whose symptoms overlap most with this one",
+    # which is the question a reader actually has after reading the summary.
+    differentials = []
+
+    for other in triage.rank_diseases(
+            disease["symptoms"], limit=triage.MAX_RESULTS + 1):
+        if other["disease_id"] != disease_id:
+            differentials.append(other)
+
+    enriched["differentials"] = differentials[:6]
+
+    # Where to get the treatment. The article carries explicit catalogue ids
+    # rather than prose that has to be matched, so this is a lookup and not a
+    # guess. Most conditions have none, because the catalogue holds twenty
+    # medicines and the registry covers ninety-six conditions, and the page
+    # says the clinic does not dispense it rather than implying otherwise.
+    medicines, _ = store.read_all("medicines")
+    stores, _ = store.read_all("stores")
+    by_id = {m["medicine_id"]: m for m in medicines}
+
+    ids = (enriched.get("article") or {}).get("medicine_ids") or []
+    counters = [by_id[i] for i in ids if i in by_id]
+
+    enriched["medicines"] = counters
+    enriched["in_catalogue"] = bool(counters)
+
+    if counters:
+        enriched["medicine_id"] = counters[0]["medicine_id"]
+        enriched["medicine"] = counters[0]
+
+    stocked_ids = set()
+
+    for counter in counters:
+        for shop in registry.stores_with_medicine(counter["name"], medicines,
+                                                   stores):
+            stocked_ids.add(shop["store_id"])
+
+    pharmacies = [shop for shop in stores if shop["store_id"] in stocked_ids]
+
+    enriched["pharmacies"] = pharmacies
+    enriched["pharmacy_count"] = len(pharmacies)
+
+    # Who has had it. A count, not a list of names: this is a front desk,
+    # and the useful question is "is this common here", not "who".
+    visits, _ = store.read_all("visits")
+    seen = [v for v in visits if v["diagnosis"] == disease["name"]]
+
+    enriched["case_count"] = len(seen)
+    enriched["last_seen"] = max((v["scheduled_date"] for v in seen), default="")
+    enriched["severity_seen"] = sorted({v["severity"] for v in seen if v["severity"]})
+
+    return enriched
+
+
+@app.get("/api/diseases/<disease_id>")
+def get_disease(disease_id):
+    """One condition, as a readable article with live cross-links."""
+    detail = condition_detail(disease_id)
+
+    if detail is None:
+        return error(f"no condition with id {disease_id}", 404)
+
+    return jsonify({"condition": detail})
+
+
 @app.get("/api/diseases")
 def list_diseases():
-    """Return the triage knowledge base."""
-    records, _ = store.read_all("diseases")
+    """Return one page of the triage knowledge base.
 
-    for row in records:
-        row["symptom_set"] = sorted(triage.normalise_symptoms(row["symptoms"]))
-
-    return jsonify({"count": len(records), "diseases": records})
+    This endpoint used to hand back the whole 96-condition list in a body
+    with no total, offset or has_more. The shared browse component reads
+    those fields to state its count line, so the conditions view crashed
+    formatting a number that was never sent. Paged like every other
+    registry now, through the same helper.
+    """
+    return registry_page("diseases", "diseases", after=attach_symptom_sets)
 
 
 @app.post("/api/triage")
@@ -873,12 +997,58 @@ def dataset_charts(name):
 @app.get("/charts/<path:filename>")
 def serve_chart(filename):
     """Serve a generated chart PNG."""
-    directory = os.path.join(os.getcwd(), "static", "charts")
+    directory = (os.environ.get("MERIDIAN_CHART_DIR")
+                 or os.path.join(os.getcwd(), "static", "charts"))
 
     if not os.path.exists(os.path.join(directory, filename)):
         return error(f"no chart named {filename}", 404)
 
     return send_from_directory(directory, filename)
+
+
+# ------------------------------------------------------------- graphs
+
+@app.get("/api/graphs")
+def graph_catalog():
+    """Return the graph kinds and, per dataset, the columns they take.
+
+    The browser builds its drop-downs from this one call instead of
+    guessing column names, so a kind the dataset cannot feed is never
+    offered in the first place.
+    """
+    return jsonify({
+        "kinds": analytics.graph_kinds(),
+        "datasets": {name: analytics.graph_columns(name)
+                     for name in analytics.passing_datasets()},
+    })
+
+
+@app.get("/api/graphs/<name>/<kind>")
+def build_graph(name, kind):
+    """Render one graph of <kind> from dataset <name>.
+
+    Columns arrive as ?x= and, for scatter and line, ?y=. A bad kind or an
+    unsuitable column is a 400 whose message names what would have worked,
+    following the same contract as the risk-bands route.
+    """
+    valid, failure = dataset_or_404(name)
+
+    if failure:
+        return failure
+
+    try:
+        built = analytics.render_graph(valid, kind,
+                                       x=request.args.get("x"),
+                                       y=request.args.get("y"))
+    except KeyError as e:
+        return error(str(e), 400,
+                     available=[{"kind": k["kind"], "label": k["label"]}
+                                for k in analytics.graph_kinds()])
+    except ValueError as e:
+        columns = analytics.graph_columns(valid)
+        return error(str(e), 400, columns=columns)
+
+    return jsonify({"graph": built})
 
 
 # ---------------------------------------------------------------- backup

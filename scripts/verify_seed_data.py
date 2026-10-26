@@ -21,6 +21,8 @@ EXPECTED = {
     "diseases.csv": ["disease_id", "icd10_code", "name", "severity", "symptoms",
                      "medication", "dosage", "age_range", "contraindications",
                      "symptom_source"],
+    "disease_articles.csv": ["disease_id", "summary", "red_flags",
+                            "refer_when", "medicine_ids", "provenance"],
     "medicines.csv": ["medicine_id", "name", "generic", "category", "form",
                       "strength", "otc", "rx_required", "storage", "price",
                       "manufacturer"],
@@ -484,6 +486,60 @@ def check_rare_conditions():
     return problems
 
 
+def check_disease_articles():
+    """Every condition has a written article, and its claims are true.
+
+    An article is the thing a reader trusts, so the links out of it are
+    checked rather than assumed: every disease_id must exist in the triage
+    knowledge base, and every medicine id must exist in the catalogue. A
+    dangling id would render as a dead cross-link that looks fine.
+    """
+    problems = []
+
+    diseases = {d["disease_id"]: d for d in load("diseases.csv")}
+    articles = load("disease_articles.csv")
+    stocked = {m["medicine_id"] for m in load("medicines.csv")}
+
+    if len(articles) != len(diseases):
+        problems.append(
+            f"disease_articles has {len(articles)} rows but diseases.csv has "
+            f"{len(diseases)}")
+
+    seen = set()
+
+    for row in articles:
+        did = row["disease_id"]
+
+        if did in seen:
+            problems.append(f"articles {did}: duplicate article")
+        seen.add(did)
+
+        if did not in diseases:
+            problems.append(f"articles {did}: no such condition in diseases.csv")
+
+        if not row["summary"].strip():
+            problems.append(f"articles {did}: empty summary")
+
+        # Commas are fine here. An earlier version of this check rejected
+        # them, copied from the symptoms rule in visits, where a comma
+        # genuinely splits one value into two because that column is split
+        # on something other than the CSV quoting. These columns are pipe
+        # delimited and the csv module handles a quoted comma correctly, so
+        # "All cases, immediately to hospital" is a valid referral criterion
+        # and rejecting it was the bug.
+
+        for medicine_id in [m for m in row["medicine_ids"].split("|") if m]:
+            if medicine_id not in stocked:
+                problems.append(
+                    f"articles {did}: medicine {medicine_id} is not in "
+                    f"medicines.csv")
+
+    for missing in sorted(set(diseases) - seen):
+        problems.append(f"conditions {missing}: no article written")
+
+    return problems
+
+
 def main():
     checks = [
         ("file shapes", lambda: [p for n in EXPECTED for p in check(n)]),
@@ -498,6 +554,7 @@ def main():
                                            "condition_id")
                                + check_ids("hpo_symptoms.csv", "hpo_id")),
         ("disease fields", check_diseases),
+    ("condition articles", check_disease_articles),
         ("rare conditions", check_rare_conditions),
         ("store -> medicine", check_stores_refer_to_medicines),
         ("doctor -> hospital", check_doctors_refer_to_hospitals),

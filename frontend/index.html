@@ -22,6 +22,7 @@
       <a class="nav__link" href="#doctors" data-view="doctors">Doctors</a>
       <a class="nav__link" href="#medicines" data-view="medicines">Medicines</a>
       <a class="nav__link" href="#stores" data-view="stores">Stores</a>
+      <a class="nav__link" href="#conditions" data-view="conditions">Conditions</a>
       <a class="nav__link" href="#rare-conditions" data-view="rare_conditions">Rare</a>
       <a class="nav__link" href="#analytics" data-view="analytics">Cohorts</a>
     </nav>
@@ -74,6 +75,87 @@
   <!-- The companion. Placed last so it paints over the rows,
        and positioned against .page so it can walk their edges. -->
   <div class="cr" id="critter" data-x="n" aria-hidden="true" hidden></div>
+
+  <!-- ---------------------------------------------------- conditions -->
+  <!-- Reached from a triage result, but browsable on its own. Each entry
+       opens the written article with its differentials, its treatment and
+       where to get it. -->
+  <section id="view-conditions" hidden>
+    <div class="page__head page__head--split">
+      <div>
+        <h1 class="page__title">Conditions</h1>
+        <p class="page__lead">
+          The <span id="conditions-count">96</span> outpatient conditions the
+          triage engine knows, each with a written summary, the symptoms it
+          accounts for, its treatment, and where to get it.
+        </p>
+      </div>
+      <button class="btn btn--secondary about-btn" id="conditions-about"
+              type="button" aria-haspopup="dialog">
+        How this is built
+      </button>
+    </div>
+
+    <div class="field field--search">
+      <label class="field__label" for="condition-search">Search conditions</label>
+      <input class="input" id="condition-search"
+             placeholder="condition, symptom, medicine" autocomplete="off">
+      <p class="field__hint">
+        Leave this empty to browse the list. Search matches the condition
+        name, its symptoms and its treatment.
+      </p>
+    </div>
+
+    <dialog class="about" id="conditions-about-dialog"
+            aria-labelledby="conditions-about-title">
+      <div class="about__inner">
+        <div class="about__bar">
+          <h2 class="about__title" id="conditions-about-title">
+            How this is built
+          </h2>
+          <button class="iconbtn" id="conditions-about-close" type="button"
+                  aria-label="Close">
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"
+                 fill="none" stroke="currentColor" stroke-width="1.6"
+                 stroke-linecap="round">
+              <path d="M6 6l12 12M18 6L6 18"/>
+            </svg>
+          </button>
+        </div>
+        <div class="about__body">
+          <div class="facts">
+            <div class="facts__group">
+              <p class="section-label">Where each part comes from</p>
+              <dl class="kv">
+                <dt>Names and codes</dt>
+                <dd>ICD-10-CM FY2027 from the CDC. Official, not written here.</dd>
+                <dt>Symptoms, medicine, dose, age range</dt>
+                <dd>A hand-curated knowledge base. No open dataset publishes
+                    these links for common outpatient conditions.</dd>
+                <dt>Summaries, red flags, referral criteria</dt>
+                <dd>Written for this project from general clinical knowledge.
+                    An educational summary to explain a term, not clinical
+                    guidance, and not to be used to treat anyone.</dd>
+                <dt>Which conditions it could be</dt>
+                <dd>Computed. The same set algebra the triage engine runs,
+                    with this condition's own symptoms as the query.</dd>
+                <dt>Who has had it</dt>
+                <dd>Computed from the synthetic visit records.</dd>
+              </dl>
+            </div>
+          </div>
+          <p class="note note--quiet">
+            Most conditions have no entry in the twenty-medicine catalogue,
+            so for most of them the honest answer is that this clinic does
+            not dispense them. Where one is stocked, the article says which
+            pharmacies hold it.
+          </p>
+        </div>
+      </div>
+    </dialog>
+
+    <div id="conditions-results" aria-live="polite"></div>
+  </section>
 
   <!-- ------------------------------------------------------- triage -->
   <section id="view-triage" hidden>

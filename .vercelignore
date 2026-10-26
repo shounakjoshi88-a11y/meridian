@@ -1,0 +1,12 @@
+# Only backend/, frontend/, data/ and static/ are used at run time.
+# Everything below is research material, tooling or local artefacts and
+# would only bloat the upload and the lambda bundle.
+.agents
+.git
+backend/static
+claude made page demo
+docs
+research
+scripts
+tests
+ui-review

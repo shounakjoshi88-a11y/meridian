@@ -28,6 +28,9 @@ server.log
 server.err
 *.pid
 
+# Vercel CLI link created by `vercel deploy`
+.vercel/
+
 # Disposable verification caches written by research/scripts/*.py
 # (re-downloadable; the extracted reference data lives in research/raw/)
 research/tmp/
@@ -48,3 +51,4 @@ __pycache__/
 # JavaScript, so committing it would put a second, fictional copy of the
 # registry in the repository next to the real one.
 claude made page demo/
+.vercel

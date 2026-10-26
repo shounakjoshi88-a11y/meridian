@@ -13,7 +13,7 @@ import os
 import shutil
 from datetime import datetime
 
-DATA_DIR = "data"
+DATA_DIR = os.environ.get("MERIDIAN_DATA_DIR", "data")
 BACKUP_DIR = os.path.join(DATA_DIR, "backups")
 
 PATIENT_FIELDS = [
@@ -69,6 +69,12 @@ HPO_SYMPTOM_FIELDS = [
     "hpo_id", "term", "lay_term", "has_lay_wording",
 ]
 
+# The written half of a condition, kept apart from diseases.csv so that
+# editing prose cannot change how triage ranks. See
+# scripts/build_disease_articles.py.
+DISEASE_ARTICLE_FIELDS = ["disease_id", "summary", "red_flags",
+                          "refer_when", "medicine_ids", "provenance"]
+
 RECORDS = {
     "patients": ("patients.csv", PATIENT_FIELDS, "patient_id"),
     "visits": ("visits.csv", VISIT_FIELDS, "visit_id"),
@@ -80,6 +86,8 @@ RECORDS = {
     "rare_conditions": ("rare_conditions.csv", RARE_CONDITION_FIELDS,
                         "condition_id"),
     "hpo_symptoms": ("hpo_symptoms.csv", HPO_SYMPTOM_FIELDS, "hpo_id"),
+    "disease_articles": ("disease_articles.csv", DISEASE_ARTICLE_FIELDS,
+                         "disease_id"),
 }
 
 
