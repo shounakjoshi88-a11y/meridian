@@ -7,8 +7,10 @@ Run from the project root:  python tests/run_tests.py
 Exits 1 if anything fails, so it can gate a commit later.
 """
 
+import builtins
 import os
 import sys
+import time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
@@ -17,6 +19,31 @@ sys.path.insert(0, os.path.join(ROOT, "backend"))
 
 SUITES = ["test_triage", "test_registry", "test_store", "test_analytics",
           "test_app"]
+
+# The suites rewrite the same registry CSVs many times a second, and a
+# Windows antivirus filter can sit on a file that was just written: the
+# next open() then answers [Errno 22] Invalid argument while the file
+# itself is fine. Half a second later the same open succeeds, so rather
+# than trusting one attempt we retry for a short while. Replacing
+# builtins.open puts the patience in place for the suites and for the
+# app server they run, without touching backend/store.py.
+_real_open = builtins.open
+
+
+def _patient_open(file, mode="r", *args, **kwargs):
+    for attempt in range(6):
+        try:
+            return _real_open(file, mode, *args, **kwargs)
+        except OSError as error:
+            if error.errno != 22 or getattr(error, "winerror", None) is not None:
+                raise
+            last = error
+            time.sleep(0.15)
+
+    raise last
+
+
+builtins.open = _patient_open
 
 
 def main():

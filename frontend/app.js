@@ -427,6 +427,14 @@ const SEARCH_VIEWS = {
     containerId: "store-results",
     label: "store",
   },
+  conditions: {
+    searchFor: "a condition, a symptom or a medicine",
+    noun: "conditions",
+    endpoint: "/api/search/diseases",
+    searchId: "condition-search",
+    containerId: "conditions-results",
+    label: "condition",
+  },
   rare_conditions: {
     searchFor: "a disease, a finding or a MONDO id",
     noun: "rare conditions",
@@ -672,6 +680,9 @@ const BROWSE_VIEWS = {
   doctors: { endpoint: "/api/doctors", limit: 50 },
   medicines: { endpoint: "/api/medicines", limit: 50 },
   stores: { endpoint: "/api/stores", limit: 50 },
+  /* The condition list is the whole triage knowledge base, 96 rows, small
+   * enough to page and to keep the click-through to an article cheap. */
+  conditions: { endpoint: "/api/diseases", limit: 50, key: "diseases" },
 };
 
 /* Per-view browse state. Remembers the facet and the page so that opening a
@@ -1557,6 +1568,170 @@ if (aboutDialog && aboutButton) {
   });
 }
 
+/* ------------------------------------------------------ condition article
+ *
+ * This is the page the whole app was missing. Everything else is a list of
+ * names, and a list of names is not something anybody can act on.
+ *
+ * The article is one written summary plus four things that are computed
+ * rather than typed: which other conditions it could be, who has had it
+ * here, what treats it, and which pharmacies hold that. Only the summary is
+ * prose. Everything else is derived from data that already existed, which
+ * is why it can be trusted to agree with the rest of the interface.
+ */
+
+function conditionRow(c) {
+  const meta = [
+    c.icd10_code ? `ICD-10 ${c.icd10_code}` : "",
+    `${c.symptom_set.length} symptoms`,
+    c.medication,
+  ].filter(Boolean).join(", ");
+
+  return el("button", {
+    class: "row",
+    onclick: () => showCondition(c.disease_id),
+  }, [
+    el("span", { class: "row__main" }, [
+      el("span", { class: "row__title", text: c.name }),
+      el("span", { class: "row__meta", text: meta }),
+    ]),
+    el("span", { class: "row__trailing" }, [
+      el("span", { class: "data", text: c.disease_id }),
+    ]),
+  ]);
+}
+
+ROW_RENDERERS.conditions = conditionRow;
+
+function signalList(title, items, className) {
+  if (!items || !items.length) return null;
+
+  return el("div", { class: "signals" }, [
+    el("p", { class: "section-label", text: title }),
+    el("ul", { class: `signals__list signals__list--${className}` },
+      items.map((item) => el("li", { class: "signals__item" }, item))),
+  ]);
+}
+
+async function showCondition(diseaseId) {
+  const container = viewContainer("conditions");
+  const mine = (detailTicket += 1);
+
+  clear(container);
+  container.appendChild(skeletonRows(4));
+
+  try {
+    const data = await api(`/api/diseases/${encodeURIComponent(diseaseId)}`);
+    if (mine !== detailTicket) return;
+
+    const c = data.condition;
+    clear(container);
+
+    const facts = [
+      ["ICD-10 code", c.icd10_code],
+      ["Severity", c.severity],
+      ["Usual age", c.age_range],
+      ["Recorded here", c.case_count ? `${c.case_count} visits` : "none yet"],
+    ].filter(([, value]) => value);
+
+    const children = [];
+
+    if (c.article?.summary) {
+      children.push(el("p", { class: "article__lede" }, c.article.summary));
+    }
+
+    children.push(el("div", { class: "article__grid" }, [
+      el("div", {}, [factGrid("At a glance", facts)]),
+
+      el("div", {}, [
+        signalList("Symptoms it accounts for",
+                   c.symptom_set.map(canonicalLabel), "symptoms"),
+      ]),
+
+      el("div", {}, [
+        signalList("Red flags", c.article?.red_flags, "alarm"),
+        signalList("When to refer", c.article?.refer_when, "caution"),
+      ]),
+    ].filter(Boolean)));
+
+    /* Treatment, then where to get it. For most conditions the honest
+     * answer is that the clinic does not dispense it, and saying so is more
+     * useful than an empty shelf. */
+    const treatment = el("div", { class: "card" }, [
+      el("p", { class: "section-label", text: "Treatment" }),
+      el("p", { class: "article__treatment" }, c.medication),
+
+      c.dosage ? el("p", { class: "article__dose" }, c.dosage) : null,
+      c.contraindications
+        ? el("p", { class: "article__avoid" },
+            `Avoid or seek advice with: ${c.contraindications}`)
+        : null,
+
+      c.in_catalogue
+        ? el("div", { class: "pharmacy" }, [
+            el("p", { class: "section-label section-label--spaced",
+                      text: `Where to get it` }),
+            el("p", { class: "pharmacy__count" },
+              c.pharmacy_count === 0
+                ? "In the catalogue, but no pharmacy has recorded stock"
+                : `${c.pharmacy_count} of 520 pharmacies record it in stock`),
+            c.pharmacies.slice(0, 6).map((shop) =>
+              el("p", { class: "pharmacy__shop" },
+                `${shop.name}, ${shop.area}`)),
+            c.pharmacy_count > 6
+              ? el("p", { class: "row__trailing-note" },
+                  `and ${c.pharmacy_count - 6} more`)
+              : null,
+          ].filter(Boolean))
+        : el("p", { class: "row__trailing-note article__none" },
+            "Not in this clinic's twenty-medicine catalogue."),
+    ].filter(Boolean));
+
+    children.push(treatment);
+
+    /* What else it could be. The same set algebra the triage engine runs,
+     * with this condition's own symptoms as the query. */
+    if (c.differentials?.length) {
+      children.push(el("div", { class: "card" }, [
+        el("p", { class: "section-label",
+                  text: "What else it could be" }),
+        el("p", { class: "article__note" },
+          "Ranked by how much of their own symptom list this condition " +
+          "accounts for."),
+        el("div", { class: "rows rows--inset" },
+          c.differentials.map((d) =>
+            el("button", {
+              class: "row row--static-diff",
+              onclick: () => showCondition(d.disease_id),
+            }, [
+              el("span", { class: "row__main" }, [
+                el("span", { class: "row__title", text: d.name }),
+                el("span", { class: "row__meta" },
+                  `${d.matched_count} of ${d.total_symptoms} symptoms matched`),
+              ]),
+              el("span", { class: "row__trailing data", text: d.percent + "%" }),
+            ]))),
+      ]));
+    }
+
+    children.push(el("p", { class: "disclaimer" },
+      c.article?.provenance ||
+      "Written for this project. Educational summary, not clinical guidance."));
+
+    container.appendChild(detailShell({
+      name: "conditions",
+      title: c.name,
+      lead: [c.icd10_code, c.severity].filter(Boolean).join(", "),
+      children,
+    }));
+  } catch (error) {
+    if (mine !== detailTicket) return;
+    clear(container);
+    container.appendChild(errorState(error.message, () =>
+      showCondition(diseaseId)));
+  }
+}
+
 async function showRare(c) {
   const container = viewContainer(RARE_VIEW.name);
   clear(container);
@@ -1638,6 +1813,67 @@ const analyticsBody = document.getElementById("analytics-body");
  * has already switched away from must not paint over the current one. */
 let datasetTicket = 0;
 
+/* The datasets keep the source files' own column names (chol, trestbps
+ * and whatnot) and the API hands those raw names to the page. Renaming
+ * them on the server would make the analytics code stop matching the
+ * published UCI files, so each name below is translated only when it is
+ * written on screen. A name this table does not know about is shown as
+ * it arrives. */
+const COLUMN_LABELS = {
+  /* heart_disease.csv */
+  "age": "Age (years)",
+  "sex": "Sex (1 = male)",
+  "cp": "Chest pain type",
+  "trestbps": "Resting blood pressure (mm Hg)",
+  "chol": "Cholesterol (mg/dl)",
+  "fbs": "Fasting blood sugar > 120",
+  "restecg": "Resting ECG result",
+  "thalach": "Max heart rate",
+  "exang": "Exercise-induced angina",
+  "oldpeak": "ST depression (oldpeak)",
+  "slope": "Peak exercise slope",
+  "ca": "Major vessels seen",
+  "thal": "Thallium scan result",
+  "target": "Heart disease result",
+  /* parkinsons.csv */
+  "fo_hz": "Fundamental frequency (Hz)",
+  "fhi_hz": "Highest frequency (Hz)",
+  "flo_hz": "Lowest frequency (Hz)",
+  "jitter_pct": "Voice jitter (%)",
+  "jitter_abs": "Voice jitter (absolute)",
+  "rap": "Jitter (rap)",
+  "ppq": "Jitter (ppq)",
+  "ddp": "Jitter (ddp)",
+  "shimmer": "Shimmer (local)",
+  "shimmer_db": "Shimmer (dB)",
+  "Shimmer:APQ3": "Shimmer (apq3)",
+  "Shimmer:APQ5": "Shimmer (apq5)",
+  "apq": "Shimmer (apq11)",
+  "dda": "Shimmer (dda)",
+  "nhr": "Noise-to-harmonics ratio",
+  "hnr": "Harmonics-to-noise ratio",
+  "status": "Parkinson's result",
+  "rpde": "Pitch disorder entropy",
+  "dfa": "Signal fluctuation (dfa)",
+  "spread1": "Pitch variation (spread1)",
+  "spread2": "Pitch variation (spread2)",
+  "d2": "Nonlinear correlation (d2)",
+  "ppe": "Pitch period entropy (ppe)",
+  /* mammographic_masses.csv */
+  "biopsy": "Biopsy code",
+  "density": "Density rating (1-5)",
+  "parenchymal_sparsity": "Tissue density class",
+  "texture": "Texture irregularity",
+  "shape": "Mass shape irregularity",
+  "malignancy": "Cancer result",
+};
+
+function columnLabel(column) {
+  if (typeof column !== "string") return "";
+
+  return COLUMN_LABELS[column] || column;
+}
+
 async function loadDatasets() {
   clear(datasetTabs);
   clear(analyticsBody);
@@ -1706,7 +1942,7 @@ function selectDataset(name) {
         el("table", { class: "kv" }, [
           el("tbody", {}, charts.map((s) =>
             el("tr", {}, [
-              el("th", { class: "data", text: s.column }),
+              el("th", { class: "data", text: columnLabel(s.column) }),
               el("td", { class: "data",
                          text: `${(s.relative_spread * 100).toFixed(0)}% spread` }),
             ])
@@ -1714,12 +1950,14 @@ function selectDataset(name) {
         ]),
         el("p", { class: "field__hint",
                   text: `${profile.rows} rows · ${profile.cols} columns · ` +
-                        `target ${profile.target}` }),
+                        `target column: ${columnLabel(profile.target)}` }),
       ]));
 
       if (bands) {
         analyticsBody.appendChild(renderBands(name, bands));
       }
+
+      analyticsBody.appendChild(graphBuilder(name, mine));
 
       loadCharts(name, mine);
     } catch (error) {
@@ -1738,7 +1976,7 @@ function renderBands(name, bands) {
     const total = entries.reduce((sum, [, count]) => sum + count, 0);
 
     rows.push(el("tr", {}, [
-      el("th", { class: "data", text: column }),
+      el("th", { class: "data", text: columnLabel(column) }),
       el("td", {}, [
         el("div", { class: "bands__lines" },
           entries.map(([label, count]) =>
@@ -1815,6 +2053,140 @@ async function loadCharts(name, ticket) {
   }
 }
 
+/* ------------------------------------------------------------- graphs */
+
+/* Catalog of graph kinds and per-dataset columns. Fetched once per page
+ * load because neither changes while the server runs, then shared by
+ * every dataset tab. A failed first request clears the cache so the next
+ * attempt really asks again rather than reusing a rejected promise. */
+let graphCatalog = null;
+
+function getGraphCatalog() {
+  if (!graphCatalog) {
+    graphCatalog = api("/api/graphs").catch((error) => {
+      graphCatalog = null;
+      throw error;
+    });
+  }
+
+  return graphCatalog;
+}
+
+function graphBuilder(name, ticket) {
+  const panel = el("div", { class: "panel panel--spaced graph-builder" }, [
+    el("p", { class: "section-label", text: "Build a graph" }),
+    el("p", { class: "field__hint", text: "Pick a kind and the columns it " +
+              "needs. The graph is rendered on demand from the same data " +
+              "the profile above is read from." }),
+  ]);
+
+  const strip = el("div", { class: "charts charts--spaced" });
+  const form = el("div", { class: "graph-builder__row" });
+  panel.appendChild(form);
+  panel.appendChild(strip);
+
+  /* One rendered graph, newest first. Four stay visible so small
+   * variations of the same figure can be read side by side. */
+  function addBuilt(built) {
+    const file = built.file;
+    const columns = [built.columns.x, built.columns.y]
+      .filter(Boolean).map((c) => columnLabel(c)).join(" × ");
+
+    strip.prepend(el("figure", { class: "chart chart--flush" }, [
+      el("img", { src: `/charts/${file}`, alt: built.title,
+                  loading: "lazy", width: "700", height: "420" }),
+      el("figcaption", { class: "chart__caption",
+                         text: `${built.kind.replace(/_/g, " ")} · ${columns}` }),
+    ]));
+
+    while (strip.children.length > 4) strip.lastChild.remove();
+  }
+
+  getGraphCatalog().then((catalog) => {
+    if (ticket !== datasetTicket) return;
+
+    const columns = catalog.datasets[name];
+
+    if (!columns || !columns.numeric.length) {
+      panel.removeChild(form);
+      return;
+    }
+
+    const kindSelect = el("select", { class: "input", "aria-label": "Graph kind" });
+    const xSelect = el("select", { class: "input", "aria-label": "First column" });
+    const ySelect = el("select", { class: "input", "aria-label": "Second column" });
+    const note = el("p", { class: "field__hint graph-builder__note" });
+
+    function fillSelect(select, names) {
+      clear(select);
+
+      for (const n of names) {
+        select.appendChild(el("option", { value: n, text: columnLabel(n) }));
+      }
+
+      select.firstChild.selected = true;
+    }
+
+    function syncOptions() {
+      const spec = catalog.kinds.find(
+        (k) => k.kind === kindSelect.value);
+      const chosen = xSelect.value;
+      const firstChild = xSelect.firstChild;
+
+      clear(xSelect);
+
+      for (const n of columns.numeric) {
+        const option = el("option", { value: n, text: columnLabel(n) });
+
+        option.selected = n === (chosen || firstChild?.value);
+
+        xSelect.appendChild(option);
+      }
+
+      // The second column only means something to line and scatter. A
+      // select that applies to nothing is noise, so it disappears.
+      ySelect.hidden = !spec.y_optional && !spec.needs.includes("y");
+
+      fillSelect(ySelect,
+        columns.numeric.filter((n) => n !== xSelect.value));
+
+      note.textContent = spec.note;
+    }
+
+    for (const card of catalog.kinds) {
+      kindSelect.appendChild(
+        el("option", { value: card.kind, text: card.label }));
+    }
+    kindSelect.value = catalog.kinds[0].kind;
+
+    kindSelect.addEventListener("change", syncOptions);
+    xSelect.addEventListener("change", syncOptions);
+    syncOptions();
+
+    const buildButton = el("button", {
+      class: "btn btn--primary", type: "button", text: "Build graph",
+      onclick: () => {
+        const kind = kindSelect.value;
+        const query = new URLSearchParams({ x: xSelect.value });
+
+        if (!ySelect.hidden) query.set("y", ySelect.value);
+
+        buildButton.disabled = true;
+
+        api(`/api/graphs/${encodeURIComponent(name)}/${kind}?${query}`)
+          .then(({ graph }) => addBuilt(graph))
+          .catch(() => undefined)
+          .finally(() => { buildButton.disabled = false; });
+      },
+    });
+
+    form.append(kindSelect, xSelect, ySelect, buildButton);
+    panel.appendChild(note);
+  }, () => undefined);
+
+  return panel;
+}
+
 /* ------------------------------------------------------------- routing */
 
 /* Row renderers, bound to the view names declared in SEARCH_VIEWS above.
@@ -1828,7 +2200,7 @@ ROW_RENDERERS.stores = storeRow;
 ROW_RENDERERS.rare_conditions = rareRow;
 
 const VIEWS = ["triage", "patients", "hospitals", "doctors", "medicines",
-               "stores", "rare_conditions", "analytics"];
+               "stores", "conditions", "rare_conditions", "analytics"];
 const INITIALISED = new Set();
 
 /* Seven sections do not fit across a phone, so the nav scrolls sideways
