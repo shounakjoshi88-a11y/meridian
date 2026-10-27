@@ -1644,8 +1644,7 @@ async function showCondition(diseaseId) {
       el("div", {}, [factGrid("At a glance", facts)]),
 
       el("div", {}, [
-        signalList("Symptoms it accounts for",
-                   c.symptom_set.map(canonicalLabel), "symptoms"),
+        signalList("Symptoms it accounts for", c.symptom_set, "symptoms"),
       ]),
 
       el("div", {}, [
