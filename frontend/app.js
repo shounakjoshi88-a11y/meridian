@@ -1616,6 +1616,31 @@ if (conditionsAbout && conditionsDialog) {
   conditionsDialog.addEventListener("close", () => conditionsAbout.focus());
 }
 
+/* Same dialog pattern for the header's sources card. Provenance serves
+ * every view at once, so the button lives with the global controls; the
+ * card is written into the page itself, so opening it is again one
+ * showModal and the focus dance, nothing fetched. */
+const sourcesOpen = document.getElementById("sources-open");
+const sourcesDialog = document.getElementById("sources-dialog");
+const sourcesClose = document.getElementById("sources-close");
+
+if (sourcesOpen && sourcesDialog) {
+  sourcesOpen.addEventListener("click", () => {
+    if (sourcesDialog.open) return;
+
+    sourcesDialog.showModal();
+    sourcesClose?.focus();
+  });
+
+  sourcesClose?.addEventListener("click", () => sourcesDialog.close());
+
+  sourcesDialog.addEventListener("click", (event) => {
+    if (event.target === sourcesDialog) sourcesDialog.close();
+  });
+
+  sourcesDialog.addEventListener("close", () => sourcesOpen.focus());
+}
+
 /* ---------------------------------------------------------------- writes
  *
  * POST /api/patients and POST /api/visits have existed in the backend

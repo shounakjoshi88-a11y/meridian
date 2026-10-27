@@ -197,6 +197,7 @@ backend does the joining:
 | Rare view · press "How this is built" | the button's listener calls `loadRareOverview()` on first open, then `showModal()` | `GET /api/rare-conditions` | the rare list handler (the same call the browse uses; it carries the overview figures) |
 | Rare overview · click a "most common finding" chip | the chip's onclick puts the word into the rare search box and runs `load()` | `GET /api/search/rare_conditions?q=…` | `search_records()` |
 | Conditions view · press "How this is built" | the button opens `#conditions-about-dialog` with `showModal()` — the card is written in the HTML, so nothing is fetched | none | none |
+| Header · press the sources button (the database icon next to the theme switch) | the button opens `#sources-dialog` with `showModal()` — the card and every link on it are written in the HTML | none | none |
 | Any dialog · close button, backdrop click, or Escape | the `close()` listeners restore focus to the button that opened it | none | none |
 | Theme button in the header | `theme.js` toggles a class and saves the choice in `localStorage` | none | none |
 | The buddy button | `companion.js` shows and hides the mascot | none | none |
@@ -205,6 +206,14 @@ The conditions dialog being static is worth one sentence: its card
 describes how the article pages are assembled, and everything it claims
 happens inside `condition_detail()` — verified numbers rather than a live
 count.
+
+The sources card in the header is static for the same reason. It answers
+"where do these registries and datasets come from" with the five groups of
+provenance the research folder established — the CDC's ICD-10-CM download,
+the four open files behind the rare registry, what is real in the
+otherwise synthetic registries, the three UCI/Plotly cohort links, and
+what was written by hand. Each link on it was fetched and recorded before
+it was allowed onto the card.
 
 ## The two write dialogs
 

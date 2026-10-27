@@ -1717,6 +1717,23 @@ textarea.input {
   gap: var(--s-3);
 }
 
+/* ------------------------------------------------------------------ links
+ *
+ * Every interactive thing on the page is a button except the links on
+ * the explainer cards, and the browser's default anchor colour is tuned
+ * for the UA's own page, not for this theme. Accent carries, underline
+ * stays, because these are the only real URL invitations. */
+
+.about__body a {
+  color: var(--accent);
+  text-underline-offset: 2px;
+}
+
+.about__body a:hover {
+  color: var(--accent-hover);
+  text-decoration-thickness: 2px;
+}
+
 /* The companion does not travel on a phone.
  *
  * It is positioned 40px above the row it stands on, which is deliberate on a
