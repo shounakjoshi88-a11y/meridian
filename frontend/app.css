@@ -1667,6 +1667,56 @@ textarea.input {
   .about__body .figures { grid-template-columns: minmax(0, 1fr); }
 }
 
+/* -------------------------------------------------------- write dialogs
+ *
+ * The register and record dialogs share the about card's frame; what they
+ * add is a compact grid for the short fields, one error panel that only
+ * exists while validation has something to say, and a small button for
+ * sitting beside a section label. */
+
+.write-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0 var(--s-4);
+}
+
+.write-grid--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+@media (max-width: 480px) {
+  .write-grid,
+  .write-grid--2 { grid-template-columns: minmax(0, 1fr); }
+}
+
+.write-errors {
+  margin-bottom: var(--s-4);
+  padding: var(--s-3) var(--s-4);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
+
+.write-errors ul { margin: 0; padding-left: 1.1em; }
+
+.write-errors li + li { margin-top: 3px; }
+
+.write-who { color: var(--text-muted); font-weight: 400; }
+
+.btn--small {
+  min-height: 34px;
+  padding: 0 var(--s-3);
+  font-size: var(--fs-sm);
+}
+
+.section-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-3);
+}
+
 /* The companion does not travel on a phone.
  *
  * It is positioned 40px above the row it stands on, which is deliberate on a

@@ -72,7 +72,13 @@ async function api(path, options = {}) {
   }
 
   if (!response.ok) {
-    throw new Error(payload.error || `Request failed with HTTP ${response.status}.`);
+    const failure = new Error(payload.error ||
+                              `Request failed with HTTP ${response.status}.`);
+
+    /* Write dialogs read the field-level error list the backend attaches. */
+    failure.details = payload;
+
+    throw failure;
   }
 
   return payload;
@@ -450,6 +456,11 @@ const SEARCH_VIEWS = {
  * the detail view is a dead end. */
 const lastResults = {};
 
+/* Views can be refreshed from outside the factory's closure — the write
+ * dialogs do it after a successful create — through this map, filled by
+ * searchView. */
+const VIEW_REFRESH = {};
+
 /* Renderers for the list views, looked up by view name. Assigned once the
  * renderers are defined, further down. */
 const ROW_RENDERERS = {};
@@ -630,6 +641,10 @@ function searchView(name) {
       container.appendChild(errorState(error.message, () => load(query)));
     }
   }
+
+  /* The write dialogs refresh a view from outside this closure after a
+   * successful create, through the same load every keystroke uses. */
+  VIEW_REFRESH[name] = (query) => load(query);
 
   input.addEventListener("input", () => {
     clearTimeout(timer);
@@ -1059,15 +1074,20 @@ async function showPatient(p) {
           ]),
         ]),
 
-        el("p", { class: "section-label section-label--spaced",
-                  text: "Consultation history" }),
+        el("div", { class: "section-actions" }, [
+          el("p", { class: "section-label section-label--spaced",
+                    text: "Consultation history" }),
+          el("button", { class: "btn btn--secondary btn--small",
+                         type: "button", onclick: () => openVisitForm(who),
+                         text: "Record a visit" }),
+        ]),
 
         data.visits.length
           ? el("div", { class: "visits" }, data.visits.map(visitCard))
           : emptyState({
               title: "No consultations yet",
-              body: "This patient has no visits on file. Search another name, " +
-                    "or add a visit through the API.",
+              body: "This patient has no visits on file yet. The record " +
+                    "button above adds the first consultation.",
               art: "doc",
             }),
       ],
@@ -1594,6 +1614,221 @@ if (conditionsAbout && conditionsDialog) {
   });
 
   conditionsDialog.addEventListener("close", () => conditionsAbout.focus());
+}
+
+/* ---------------------------------------------------------------- writes
+ *
+ * POST /api/patients and POST /api/visits have existed in the backend
+ * since the registries became writable, with validation, id numbering
+ * and their own tests. Until now the interface only ever read from it,
+ * and a front desk that cannot record anything is not a front desk, so
+ * these two dialogs wire those tested endpoints to two buttons.
+ *
+ * The browser never decides what is valid: it sends what was typed, and
+ * registry.validate_record on the backend is the one place the rules
+ * live. What these handlers do themselves is keep the button quiet while
+ * a request is in flight, and turn the returned field-error list into
+ * visible sentences inside the dialog instead of an empty shrug.
+ */
+
+const PW_FIELDS = [
+  ["pw-name", "name"], ["pw-age", "age"], ["pw-gender", "gender"],
+  ["pw-blood", "blood_group"], ["pw-area", "area"], ["pw-city", "city"],
+  ["pw-phone", "phone"],
+];
+
+const VW_FIELDS = [
+  ["vw-date", "visit_date"], ["vw-symptoms", "symptoms"],
+  ["vw-severity", "severity"], ["vw-diagnosis", "diagnosis"],
+  ["vw-notes", "notes"],
+];
+
+const patientWriteDialog = document.getElementById("patient-write-dialog");
+const patientWriteForm = document.getElementById("patient-write-form");
+const patientWriteErrors = document.getElementById("patient-write-errors");
+const patientsNewButton = document.getElementById("patients-new");
+
+const visitWriteDialog = document.getElementById("visit-write-dialog");
+const visitWriteForm = document.getElementById("visit-write-form");
+const visitWriteErrors = document.getElementById("visit-write-errors");
+
+/* One open patient owns the visit dialog at a time. */
+let visitPatient = null;
+
+function writeErrors(panel, messages) {
+  clear(panel);
+  panel.hidden = false;
+  panel.appendChild(el("ul", {}, messages.map((m) => el("li", { text: m }))));
+}
+
+function clearWriteErrors(panel) {
+  clear(panel);
+  panel.hidden = true;
+}
+
+/* Every field problem the backend reports arrives as a sentence; the
+ * dialogs' only job is to show the list. A throw without one still
+ * deserves a readable line rather than nothing. */
+function errorMessages(error) {
+  const listed = error.details?.errors;
+
+  if (Array.isArray(listed) && listed.length) return listed;
+
+  return error.message ? [error.message]
+    : ["The server refused the write without naming a reason."];
+}
+
+function localDate() {
+  const now = new Date();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const day = String(now.getDate()).padStart(2, "0");
+  return `${now.getFullYear()}-${month}-${day}`;
+}
+
+/* Only non-empty fields travel: an omitted optional field and a blank one
+ * mean the same thing to the registries. */
+function bodyFrom(fields) {
+  const body = {};
+
+  for (const [id, field] of fields) {
+    const value = document.getElementById(id)?.value.trim() ?? "";
+
+    if (value) body[field] = value;
+  }
+
+  return body;
+}
+
+/* ------------------------------------------------------------ register */
+
+if (patientsNewButton && patientWriteDialog) {
+  patientsNewButton.addEventListener("click", () => {
+    if (patientWriteDialog.open) return;
+
+    patientWriteForm.reset();
+    clearWriteErrors(patientWriteErrors);
+    patientWriteDialog.showModal();
+    document.getElementById("pw-name")?.focus();
+  });
+
+  document.getElementById("patient-write-close")?.addEventListener("click",
+    () => patientWriteDialog.close());
+
+  /* A click on the backdrop closes, exactly as in the about dialogs. */
+  patientWriteDialog.addEventListener("click", (event) => {
+    if (event.target === patientWriteDialog) patientWriteDialog.close();
+  });
+
+  patientWriteDialog.addEventListener("close", () => patientsNewButton.focus());
+
+  patientWriteForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const submit = document.getElementById("patient-write-submit");
+
+    submit.disabled = true;
+
+    try {
+      const body = bodyFrom(PW_FIELDS);
+      body.registered_on = localDate();
+
+      const data = await api("/api/patients", {
+        method: "POST",
+        body: JSON.stringify(body),
+      });
+
+      patientWriteDialog.close();
+
+      /* A fresh row sits at the far end of six hundred, so hunting for it
+       * by hand in the browse list is unfair. Searching the name brings
+       * it up at once, and the note says which id it was handed. */
+      const created = data.created;
+      const input = viewSearchInput("patients");
+
+      input.value = created.name;
+
+      try {
+        await (VIEW_REFRESH.patients ? VIEW_REFRESH.patients(created.name)
+                                     : null);
+      } catch {
+        /* The refresh failing must not undo the registration itself. */
+      }
+
+      if (state.view === "patients") {
+        viewContainer("patients").prepend(el("p", { class: "result-note",
+          text: `Registered ${created.patient_id}, showing every match for the name.` }));
+      }
+    } catch (error) {
+      writeErrors(patientWriteErrors, errorMessages(error));
+    } finally {
+      submit.disabled = false;
+    }
+  });
+}
+
+/* ------------------------------------------------------- record a visit */
+
+function openVisitForm(patient) {
+  if (!visitWriteDialog || visitWriteDialog.open) return;
+
+  visitPatient = patient;
+
+  const who = document.getElementById("visit-write-patient");
+  if (who) who.textContent = patient.name;
+
+  visitWriteForm.reset();
+  clearWriteErrors(visitWriteErrors);
+
+  const date = document.getElementById("vw-date");
+  if (date) date.value = localDate();
+
+  visitWriteDialog.showModal();
+  document.getElementById("vw-symptoms")?.focus();
+}
+
+if (visitWriteDialog) {
+  document.getElementById("visit-write-close")?.addEventListener("click",
+    () => visitWriteDialog.close());
+
+  visitWriteDialog.addEventListener("click", (event) => {
+    if (event.target === visitWriteDialog) visitWriteDialog.close();
+  });
+
+  visitWriteForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    if (!visitPatient) return;
+
+    const submit = document.getElementById("visit-write-submit");
+
+    submit.disabled = true;
+
+    try {
+      const body = bodyFrom(VW_FIELDS);
+      body.patient_id = visitPatient.patient_id;
+
+      const data = await api("/api/visits", {
+        method: "POST",
+        body: JSON.stringify(body),
+      });
+
+      visitWriteDialog.close();
+
+      /* Reopening the patient refetches the whole detail, which now
+       * carries the visit just recorded; the note sits above it. */
+      const created = data.created;
+
+      await showPatient(visitPatient);
+
+      if (state.view === "patients") {
+        viewContainer("patients").prepend(el("p", { class: "result-note",
+          text: `Recorded visit ${created.visit_id}.` }));
+      }
+    } catch (error) {
+      writeErrors(visitWriteErrors, errorMessages(error));
+    } finally {
+      submit.disabled = false;
+    }
+  });
 }
 
 /* ------------------------------------------------------ condition article

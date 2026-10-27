@@ -206,6 +206,26 @@ describes how the article pages are assembled, and everything it claims
 happens inside `condition_detail()` — verified numbers rather than a live
 count.
 
+## The two write dialogs
+
+The registries have been writable at the API all along, with validation,
+id numbering and their own tests. Two dialogs give that half a front:
+
+| You do | `app.js` | URL called | `app.py` function |
+|--------|----------|------------|-------------------|
+| Patients view · press "New patient" | the button's listener resets the form, opens the dialog, focuses the name field | none | none |
+| Press "Register patient" | the submit handler packs the typed fields (date `registered_on` filled with today), disables the button | `POST /api/patients` | `create_patient()` |
+| The answer arrives | dialog closes, the view re-runs the search on the new name, and a note reads "Registered P-0601 …" | `GET /api/search/patients?q=…` | `search()` (same door as typing) |
+| Patient detail · press "Record a visit" | `openVisitForm(patient)` stamps the dialog with the patient's name and today's date | none | none |
+| Press "Record visit" | submit includesthe invisible `patient_id` | `POST /api/visits` | `create_visit()` |
+| The answer arrives | dialog closes, `showPatient()` reruns, and the new visit sits in the history | `GET /api/patients/<id>` | `get_patient()` |
+
+Nothing is validated in the browser. Whatever was typed travels to
+`registry.validate_record`, which answers with one list of field
+sentences; `api()` now carries that list on the thrown error, and the
+dialog paints it inside its own alert panel. A rejected field is
+therefore fixable without leaving the form.
+
 ## Cohorts: the dataset pages
 
 | You do | `app.js` | URL called | `app.py` function |
@@ -248,10 +268,9 @@ for a write operation documented by the route.
 
 | Route | `app.py` function | Why it exists anyway |
 |-------|-------------------|----------------------|
-| `POST /api/patients` | `create_patient()` | the write half of the registry, exercised by tests and curl |
-| `PATCH /api/patients/<id>` | `update_patient()` | same; partial-update contract |
-| `DELETE /api/patients/<id>` | `delete_patient()` | same |
-| `GET /api/visits` and `POST /api/visits` | `list_visits()`, `create_visit()` | visits reach the page pre-joined inside the patient detail |
+| `PATCH /api/patients/<id>` | `update_patient()` | same; partial-update contract, curl |
+| `DELETE /api/patients/<id>` | `delete_patient()` | the write half of the registry, exercised by tests and curl |
+| `GET /api/visits` | `list_visits()` | visits reach the page pre-joined inside the patient detail |
 | `POST /api/medicines` | `create_medicine()` | registry write, curl |
 | `POST /api/stores` | `create_store()` | registry write, curl |
 | `POST /api/hospitals` | `create_hospital()` | registry write, curl |
@@ -270,12 +289,12 @@ for a write operation documented by the route.
 | `GET /<path:filename>` | `frontend_assets()` | every page load |
 | `GET /api/health` | `health()` | no |
 | `GET /api/patients` | `list_patients()` | yes — patients browse |
-| `POST /api/patients` | `create_patient()` | no |
+| `POST /api/patients` | `create_patient()` | yes — the Register a patient dialog |
 | `GET /api/patients/<id>` | `get_patient()` | yes — patient row click |
 | `PATCH /api/patients/<id>` | `update_patient()` | no |
 | `DELETE /api/patients/<id>` | `delete_patient()` | no |
 | `GET /api/visits` | `list_visits()` | no |
-| `POST /api/visits` | `create_visit()` | no |
+| `POST /api/visits` | `create_visit()` | yes — the Record a visit dialog |
 | `GET /api/medicines` | `list_medicines()` | yes — medicines browse |
 | `POST /api/medicines` | `create_medicine()` | no |
 | `GET /api/medicines/<id>` | `get_medicine()` | yes — medicine row click |

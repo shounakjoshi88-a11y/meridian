@@ -212,11 +212,17 @@
 
   <!-- ----------------------------------------------------- patients -->
   <section id="view-patients" hidden>
-    <div class="page__head">
-      <h1 class="page__title">Patients</h1>
-      <p class="page__lead">
-        Every registered patient. Open a record for its consultation history, or search to narrow the list.
-      </p>
+    <div class="page__head page__head--split">
+      <div>
+        <h1 class="page__title">Patients</h1>
+        <p class="page__lead">
+          Every registered patient. Open a record for its consultation history, or search to narrow the list.
+        </p>
+      </div>
+      <button class="btn btn--secondary about-btn" id="patients-new"
+              type="button">
+        New patient
+      </button>
     </div>
 
     <div class="field field--search">
@@ -229,6 +235,153 @@
     </div>
 
     <div id="patient-results" aria-live="polite"></div>
+
+    <dialog class="about write" id="patient-write-dialog"
+            aria-labelledby="patient-write-title">
+      <div class="about__inner">
+        <div class="about__bar">
+          <h2 class="about__title" id="patient-write-title">
+            Register a patient
+          </h2>
+          <button class="iconbtn" id="patient-write-close" type="button"
+                  aria-label="Close">
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"
+                 fill="none" stroke="currentColor" stroke-width="1.6"
+                 stroke-linecap="round">
+              <path d="M6 6l12 12M18 6L6 18"/>
+            </svg>
+          </button>
+        </div>
+        <div class="about__body">
+          <form id="patient-write-form" novalidate>
+            <div class="field">
+              <label class="field__label" for="pw-name">Name</label>
+              <input class="input" id="pw-name" autocomplete="off">
+              <p class="field__hint">
+                The only required field. Everything else can wait until it
+                is known.
+              </p>
+            </div>
+            <div class="write-grid">
+              <div class="field">
+                <label class="field__label" for="pw-age">Age</label>
+                <input class="input" id="pw-age" inputmode="numeric"
+                       autocomplete="off">
+              </div>
+              <div class="field">
+                <label class="field__label" for="pw-gender">Gender</label>
+                <select class="input" id="pw-gender">
+                  <option value="">Not recorded</option>
+                  <option value="male">male</option>
+                  <option value="female">female</option>
+                  <option value="other">other</option>
+                </select>
+              </div>
+              <div class="field">
+                <label class="field__label" for="pw-blood">Blood group</label>
+                <select class="input" id="pw-blood">
+                  <option value="">Not recorded</option>
+                  <option value="A+">A+</option>
+                  <option value="A-">A-</option>
+                  <option value="B+">B+</option>
+                  <option value="B-">B-</option>
+                  <option value="AB+">AB+</option>
+                  <option value="AB-">AB-</option>
+                  <option value="O+">O+</option>
+                  <option value="O-">O-</option>
+                </select>
+              </div>
+            </div>
+            <div class="write-grid write-grid--2">
+              <div class="field">
+                <label class="field__label" for="pw-area">Area</label>
+                <input class="input" id="pw-area" autocomplete="off">
+              </div>
+              <div class="field">
+                <label class="field__label" for="pw-city">City</label>
+                <input class="input" id="pw-city" autocomplete="off">
+              </div>
+            </div>
+            <div class="field">
+              <label class="field__label" for="pw-phone">Phone</label>
+              <input class="input" id="pw-phone" inputmode="tel"
+                     autocomplete="off">
+            </div>
+            <div class="write-errors" id="patient-write-errors"
+                 role="alert" hidden></div>
+            <button class="btn btn--primary" type="submit"
+                    id="patient-write-submit">
+              Register patient
+            </button>
+          </form>
+        </div>
+      </div>
+    </dialog>
+
+    <dialog class="about write" id="visit-write-dialog"
+            aria-labelledby="visit-write-title">
+      <div class="about__inner">
+        <div class="about__bar">
+          <h2 class="about__title" id="visit-write-title">
+            Record a visit for <span class="write-who"
+            id="visit-write-patient"></span>
+          </h2>
+          <button class="iconbtn" id="visit-write-close" type="button"
+                  aria-label="Close">
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"
+                 fill="none" stroke="currentColor" stroke-width="1.6"
+                 stroke-linecap="round">
+              <path d="M6 6l12 12M18 6L6 18"/>
+            </svg>
+          </button>
+        </div>
+        <div class="about__body">
+          <form id="visit-write-form" novalidate>
+            <div class="field">
+              <label class="field__label" for="vw-date">Visit date</label>
+              <input class="input" id="vw-date" type="date">
+              <p class="field__hint">Prefilled with today.</p>
+            </div>
+            <div class="field">
+              <label class="field__label" for="vw-symptoms">
+                Reported symptoms
+              </label>
+              <textarea class="input" id="vw-symptoms" rows="2"
+                        autocomplete="off"></textarea>
+              <p class="field__hint">
+                Comma separated. The same symptom words the triage box takes.
+              </p>
+            </div>
+            <div class="write-grid write-grid--2">
+              <div class="field">
+                <label class="field__label" for="vw-severity">Severity</label>
+                <select class="input" id="vw-severity">
+                  <option value="">Not recorded</option>
+                  <option value="low">low</option>
+                  <option value="moderate">moderate</option>
+                  <option value="high">high</option>
+                  <option value="severe">severe</option>
+                </select>
+              </div>
+              <div class="field">
+                <label class="field__label" for="vw-diagnosis">Diagnosis</label>
+                <input class="input" id="vw-diagnosis" autocomplete="off">
+              </div>
+            </div>
+            <div class="field">
+              <label class="field__label" for="vw-notes">Notes</label>
+              <input class="input" id="vw-notes" autocomplete="off">
+            </div>
+            <div class="write-errors" id="visit-write-errors"
+                 role="alert" hidden></div>
+            <button class="btn btn--primary" type="submit"
+                    id="visit-write-submit">
+              Record visit
+            </button>
+          </form>
+        </div>
+      </div>
+    </dialog>
   </section>
 
   <!-- ------------------------------------------------------ hospitals -->
