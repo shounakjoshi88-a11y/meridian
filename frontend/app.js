@@ -1958,8 +1958,6 @@ function selectDataset(name) {
       }
 
       analyticsBody.appendChild(graphBuilder(name, mine));
-
-      loadCharts(name, mine);
     } catch (error) {
       if (mine !== datasetTicket) return;
       clear(analyticsBody);
@@ -2024,34 +2022,7 @@ function revealTab(name) {
   }
 }
 
-async function loadCharts(name, ticket) {
-  try {
-    const data = await api(`/api/analytics/${name}/charts`);
-
-    // Charts land last and slowest, so they need the same ticket check as
-    // the rest. Without it, flipping between tabs leaves a grid of images
-    // from every tab visited, stacked under whichever one loaded last.
-    if (ticket !== datasetTicket) return;
-
-    const target = document.getElementById("analytics-body");
-    if (!target) return;
-
-    const grid = el("div", { class: "charts charts--spaced" },
-      data.charts.map((path) => {
-        const file = path.split(/[\\/]/).pop();
-        return el("figure", { class: "chart chart--flush" }, [
-          el("img", { src: `/charts/${file}`, alt: `Chart for ${name}`,
-                      loading: "lazy", width: "700", height: "420" }),
-          el("figcaption", { class: "chart__caption",
-                             text: file.replace(".png", "").replace(/_/g, " ") }),
-        ]);
-      }));
-
-    target.appendChild(grid);
-  } catch {
-    /* Charts are supplementary. A failure here must not blank the page. */
-  }
-}
+/* ------------------------------------------------------------- graphs */
 
 /* ------------------------------------------------------------- graphs */
 
