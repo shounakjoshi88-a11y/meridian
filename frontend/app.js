@@ -1568,6 +1568,34 @@ if (aboutDialog && aboutButton) {
   });
 }
 
+/* Same dialog pattern for the Conditions view's explainer. Its card is
+ * written out in the page itself rather than fetched, so there is no
+ * loading step; opening it is one showModal and the focus dance. */
+const conditionsAbout = document.getElementById("conditions-about");
+const conditionsDialog =
+  document.getElementById("conditions-about-dialog");
+const conditionsAboutClose =
+  document.getElementById("conditions-about-close");
+
+if (conditionsAbout && conditionsDialog) {
+  conditionsAbout.addEventListener("click", () => {
+    if (conditionsDialog.open) return;
+
+    conditionsDialog.showModal();
+    conditionsAboutClose?.focus();
+  });
+
+  conditionsAboutClose?.addEventListener("click",
+    () => conditionsDialog.close());
+
+  /* Clicking the backdrop closes, exactly as in the rare dialog. */
+  conditionsDialog.addEventListener("click", (event) => {
+    if (event.target === conditionsDialog) conditionsDialog.close();
+  });
+
+  conditionsDialog.addEventListener("close", () => conditionsAbout.focus());
+}
+
 /* ------------------------------------------------------ condition article
  *
  * This is the page the whole app was missing. Everything else is a list of
