@@ -6,6 +6,7 @@ project. Python backend, CSV storage, plain HTML/CSS/JS frontend.
 ![status](https://img.shields.io/badge/tests-135%20passing-4c9a6a)
 ![python](https://img.shields.io/badge/python-3.11%2B-4c9a6a)
 ![flask](https://img.shields.io/badge/API-Flask-4c9a6a)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 ---
 
